@@ -1,0 +1,45 @@
+[submodule "mruby"]
+	path = mruby
+	url = https://github.com/fundamental/mruby
+[submodule "deps/nanovg"]
+	path = deps/nanovg
+	url = https://github.com/memononen/nanovg
+[submodule "deps/mruby-sleep"]
+	path = deps/mruby-sleep
+	url = https://github.com/matsumoto-r/mruby-sleep
+[submodule "deps/mruby-dir-glob"]
+	path = deps/mruby-dir-glob
+	url = https://github.com/gromnitsky/mruby-dir-glob
+[submodule "deps/mruby-regexp-pcre"]
+	path = deps/mruby-regexp-pcre
+	url = https://github.com/iij/mruby-regexp-pcre
+[submodule "deps/mruby-set"]
+	path = deps/mruby-set
+	url = https://github.com/yui-knk/mruby-set
+[submodule "deps/rtosc"]
+	path = deps/rtosc
+	url = https://github.com/fundamental/rtosc
+[submodule "deps/mruby-io"]
+	path = deps/mruby-io
+	url = https://github.com/iij/mruby-io
+[submodule "deps/mruby-glew"]
+	path = deps/mruby-glew
+	url = https://github.com/IceDragon200/mruby-glew
+[submodule "deps/mruby-glfw3"]
+	path = deps/mruby-glfw3
+	url = https://github.com/IceDragon200/mruby-glfw3
+[submodule "deps/mruby-nanovg"]
+	path = deps/mruby-nanovg
+	url = https://github.com/IceDragon200/mruby-nanovg
+[submodule "src/mruby-qml-spawn"]
+	path = src/mruby-qml-spawn
+	url = git@fundamental-code.com:mruby-qml-spawn
+[submodule "src/mruby-layout"]
+	path = src/mruby-layout
+	url = git@fundamental-code.com:mruby-layout
+[submodule "src/mruby-zest"]
+	path = src/mruby-zest
+	url = git@fundamental-code.com:mruby-zest
+[submodule "src/mruby-qml-parse"]
+	path = src/mruby-qml-parse
+	url = git@fundamental-code.com:mruby-qml-parse
