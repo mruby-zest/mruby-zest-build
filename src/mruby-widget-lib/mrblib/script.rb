@@ -3,7 +3,7 @@ class ZRunner
 
     def initialize
         if(@@first)
-            GLFW.init
+            #GLFW.init
             @@first = false
         end
         @events = UiEventSeq.new
@@ -38,6 +38,7 @@ class ZRunner
     end
 
     def run_draw_sequence(vg,w,h)
+        puts "running draw sequence on #{w}x#{h} window"
         GL::gl_viewport(0, 0, w, h);
         GL::gl_clear_color(0, 0, 0, 1.0);
         GL::gl_clear(GL_COLOR_BUFFER_BIT|GL_DEPTH_BUFFER_BIT|GL_STENCIL_BUFFER_BIT);
@@ -119,6 +120,27 @@ class ZRunner
         end
     end
 
+    def quit
+        @keep_running = false
+    end
+
+    def resize(w,h)
+        @events.record([:windowResize, {:w => w, :h => h}])
+    end
+
+    def cursor(x,y)
+        @events.record([:mouseMove, {:x => x, :y => y}])
+    end
+
+    def mouse(button, action, x, y)
+        mod = nil
+        if(action == 1)
+            @events.record([:mousePress,   {:button => button, :action => action, :mod => mod}])
+        else
+            @events.record([:mouseRelease, {:button => button, :action => action, :mod => mod}])
+        end
+    end
+
     def init_glfw_callbacks
         puts "init glfw"
         @window.set_mouse_button_callback do |mouse, button, action, mod|
@@ -142,15 +164,22 @@ class ZRunner
         end
     end
 
+    def init_pugl
+        puts "init pugl"
+        @window = GL::PUGL.new self
+        init_gl
+        @window.impl = self
+    end
+
     def init_gl
         puts "init gl"
-        @window=GLFW::Window.new(100,600,"Test",nil,nil)
+        #@window=GLFW::Window.new(100,600,"Test",nil,nil)
         @window.make_current
-        GLEW.init
-        @window.swap_buffers
-        @w,@h=*@window.framebuffer_size
+        #GLEW.init
+        #@window.swap_buffers
+        @w,@h=*@window.size
 
-        GLEW.init
+        #GLEW.init
         @vg=NVG::Context.new(NVG::ANTIALIAS | NVG::STENCIL_STROKES | NVG::DEBUG)
         $vg = @vg
 
@@ -161,6 +190,37 @@ class ZRunner
         @vg.create_font('bold', bold)
         @backdrop = @vg.create_image('../template.png', 0)
     end
+
+    def draw
+        #Setup Profilers
+        p_total = TimeProfile.new
+        p_draw  = TimeProfile.new
+
+        print '.'
+        STDOUT.flush
+
+        p_total.start
+
+        w = @window.w
+        h = @window.h
+        puts "window.w = <#{w}>"
+
+        #Draw the widget tree
+        p_draw.time do
+            run_draw_sequence(@vg, w, h)
+        end
+
+        #Draw Overlay
+        #draw_overlay(w,h,frames)
+
+        p_total.stop
+
+        #puts ObjectSpace.count_objects.keys
+        #puts ObjectSpace.count_objects.values
+        #puts "#{frames}, #{p_total.avg_hz.to_i}Hz, #{p_total.avg}, #{p_draw.avg}, #{p_code.avg}, #{1000.0/60.0}"
+        puts "the draw should be done, shoudn't it???"
+    end
+
 
     def draw_overlay(w,h,frames)
         #GL::glViewport(0,0,w,h)
@@ -223,8 +283,6 @@ class ZRunner
     end
 
     def handle_events
-        GLFW::poll_events
-
         @events.ev.each do |ev|
             #puts "handling #{ev}"
             if(ev[0] == :mousePress)
@@ -237,7 +295,16 @@ class ZRunner
                 handleCursorPos(ev[1][:x],ev[1][:y])
             elsif(ev[0] == :windowResize)
                 @events.ignore
-                @window.window_size = [ev[1][:w], ev[1][:h]]
+                @window.size = [ev[1][:w], ev[1][:h]]
+                puts "doing a resize to #{[ev[1][:w], ev[1][:h]]}"
+
+                @widget.w  = ev[1][:w]
+                @widget.h  = ev[1][:h]
+
+                #Layout Widgets again
+                #Build Draw order
+                perform_layout
+                make_draw_sequence(@widget)
             end
         end
 
@@ -247,25 +314,27 @@ class ZRunner
     def setup
         puts "setup..."
         if(!@widget)
+            puts "No Widget was allocated"
+            puts "This is typically a problem with running the code from the wrong subdirectory"
+            puts "If mruby-zest cannot find the qml source files, then the UI cannot be created"
             raise "Impossible Widget"
         end
 
-        #Setup OpenGL Interface
-        init_gl
 
-        #Setup Callbacks
-        init_glfw_callbacks
+        #Setup OpenGL Interface
+        init_pugl
 
         if(@widget.label)
             @window.title = @widget.label
         end
 
         #Initial sizing
-        if(@widget.w && @widget.h)
-            @window.window_size = [@widget.w, @widget.h]
-        else
-            @widget.w,@widget.h = @window.window_size
-        end
+        #if(@widget.w && @widget.h)
+        #    #resize(@widget.w, @widget.h)
+        #    #@window.size = [@widget.w, @widget.h]
+        #else
+            @widget.w,@widget.h = [512, 512]#@window.size
+        #end
 
         doSetup(nil, @widget)
 
@@ -279,20 +348,20 @@ class ZRunner
 
     def doRun(&block)
         @widget = block.call
+        @keep_running = true
         puts "widget = <#{@widget}>"
         setup
 
         #Setup Profilers
         p_total = TimeProfile.new
         p_code  = TimeProfile.new
-        p_draw  = TimeProfile.new
         p_swap  = TimeProfile.new
         p_poll  = TimeProfile.new
         print '..'
 
         frames = 0
-        while(frames < 100000 && @window != nil && !@window.should_close)
-            #sleep 0.02
+        while(frames < 100000 && @window != nil && @keep_running)
+            sleep 0.01
             print '.'
             STDOUT.flush
 
@@ -319,18 +388,18 @@ class ZRunner
             end
             t_setup = Time.new
 
-            sizeChange = @window.framebuffer_size != [@widget.w, @widget.h]
-            locsChange = nwidget || sizeChange
+            #sizeChange = @window.size != [@widget.w, @widget.h]
+            #locsChange = nwidget || sizeChange
 
-            #Update main window size
-            if(sizeChange)
-                @widget.w, @widget.h  = @window.framebuffer_size
-            end
+            ##Update main window size
+            #if(sizeChange)
+            #    @widget.w, @widget.h  = @window.size
+            #end
 
             #Layout Widgets again
             #Build Draw order
             t_layout_before = Time.new
-            if(locsChange)
+            if(nwidget)
                 perform_layout
                 make_draw_sequence(@widget)
             end
@@ -343,26 +412,15 @@ class ZRunner
                 puts "layout time #{1000*(t_layout_after-t_layout_before)}ms"
             end
 
-            w = @widget.w
-            h = @widget.h
-
-            #Draw the widget tree
-            p_draw.time do
-                run_draw_sequence(@vg, w, h)
-            end
-
-            #Draw Overlay
-            draw_overlay(w,h,frames)
-
             p_swap.time do
-                @window.swap_buffers
+                @window.poll
             end
 
             p_total.stop
 
             #puts ObjectSpace.count_objects.keys
             #puts ObjectSpace.count_objects.values
-            puts "#{frames}, #{p_total.avg_hz.to_i}Hz, #{p_total.avg}, #{p_draw.avg}, #{p_code.avg}, #{1000.0/60.0}"
+            #puts "#{frames}, #{p_total.avg_hz.to_i}Hz, #{p_total.avg}, #{p_draw.avg}, #{p_code.avg}, #{1000.0/60.0}"
         end
 
         if(@window.should_close || true)
@@ -374,3 +432,9 @@ class ZRunner
     end
 end
 
+
+module GL
+    class PUGL
+        attr_accessor :w, :h
+    end
+end

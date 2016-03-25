@@ -30,7 +30,7 @@
 	url = https://github.com/IceDragon200/mruby-glfw3
 [submodule "deps/mruby-nanovg"]
 	path = deps/mruby-nanovg
-	url = https://github.com/IceDragon200/mruby-nanovg
+	url = git@fundamental-code.com:mruby-nanovg
 [submodule "src/mruby-qml-spawn"]
 	path = src/mruby-qml-spawn
 	url = git@fundamental-code.com:mruby-qml-spawn
@@ -43,3 +43,6 @@
 [submodule "src/mruby-qml-parse"]
 	path = src/mruby-qml-parse
 	url = git@fundamental-code.com:mruby-qml-parse
+[submodule "deps/pugl"]
+	path = deps/pugl
+	url = git@fundamental-code.com:pugl
