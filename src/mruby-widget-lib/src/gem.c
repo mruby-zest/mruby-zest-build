@@ -102,8 +102,11 @@ static void
 onMotion(PuglView* view, int x, int y)
 {
 	fprintf(stderr, "Mouse Move %d %d\n", x, y);
-	//xAngle = x % 360;
-	//yAngle = y % 360;
+    void **v = (void**)puglGetHandle(view);
+    if(v) {
+        mrb_value obj = mrb_obj_value(v[1]);
+        mrb_funcall(v[0], obj, "cursor", 2, mrb_fixnum_value(x), mrb_fixnum_value(y));
+    }
 	puglPostRedisplay(view);
 }
 
@@ -122,6 +125,7 @@ onMouse(PuglView* view, int button, bool press, int x, int y)
                 mrb_fixnum_value(x),
                 mrb_fixnum_value(y));
     }
+	puglPostRedisplay(view);
 }
 
 static void

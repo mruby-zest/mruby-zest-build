@@ -218,7 +218,6 @@ class ZRunner
         #puts ObjectSpace.count_objects.keys
         #puts ObjectSpace.count_objects.values
         #puts "#{frames}, #{p_total.avg_hz.to_i}Hz, #{p_total.avg}, #{p_draw.avg}, #{p_code.avg}, #{1000.0/60.0}"
-        puts "the draw should be done, shoudn't it???"
     end
 
 
@@ -361,7 +360,7 @@ class ZRunner
 
         frames = 0
         while(frames < 100000 && @window != nil && @keep_running)
-            sleep 0.01
+            sleep 0.02
             print '.'
             STDOUT.flush
 
@@ -372,44 +371,46 @@ class ZRunner
             end
             frames += 1
 
-            nwidget = nil
+            if(true)
+                nwidget = nil
 
-            #Attempt A code hot swap
-            p_code.time do
-                nwidget = block.call
-            end
+                #Attempt A code hot swap
+                p_code.time do
+                    nwidget = block.call
+                end
 
-            #Attempt to merge old widget's runtime values into new widget tree
-            tic = Time.new
-            if(nwidget)
-                doSetup(@widget, nwidget)
-                doMerge(@widget, nwidget)
-                @widget = nwidget
-            end
-            t_setup = Time.new
+                #Attempt to merge old widget's runtime values into new widget tree
+                tic = Time.new
+                if(nwidget)
+                    doSetup(@widget, nwidget)
+                    doMerge(@widget, nwidget)
+                    @widget = nwidget
+                end
+                t_setup = Time.new
 
-            #sizeChange = @window.size != [@widget.w, @widget.h]
-            #locsChange = nwidget || sizeChange
+                #sizeChange = @window.size != [@widget.w, @widget.h]
+                #locsChange = nwidget || sizeChange
 
-            ##Update main window size
-            #if(sizeChange)
-            #    @widget.w, @widget.h  = @window.size
-            #end
+                ##Update main window size
+                #if(sizeChange)
+                #    @widget.w, @widget.h  = @window.size
+                #end
 
-            #Layout Widgets again
-            #Build Draw order
-            t_layout_before = Time.new
-            if(nwidget)
-                perform_layout
-                make_draw_sequence(@widget)
-            end
-            t_layout_after = Time.new
+                #Layout Widgets again
+                #Build Draw order
+                t_layout_before = Time.new
+                if(nwidget)
+                    perform_layout
+                    make_draw_sequence(@widget)
+                end
+                t_layout_after = Time.new
 
-            if(nwidget)
-                toc = Time.new
-                puts "reload time #{1000*(toc-tic)}ms"
-                puts "setup time #{1000*(t_setup-tic)}ms"
-                puts "layout time #{1000*(t_layout_after-t_layout_before)}ms"
+                if(nwidget)
+                    toc = Time.new
+                    puts "reload time #{1000*(toc-tic)}ms"
+                    puts "setup time #{1000*(t_setup-tic)}ms"
+                    puts "layout time #{1000*(t_layout_after-t_layout_before)}ms"
+                end
             end
 
             p_swap.time do
