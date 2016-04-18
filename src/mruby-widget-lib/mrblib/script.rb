@@ -38,7 +38,7 @@ class ZRunner
     end
 
     def run_draw_sequence(vg,w,h)
-        puts "running draw sequence on #{w}x#{h} window"
+        #puts "running draw sequence on #{w}x#{h} window"
         GL::gl_viewport(0, 0, w, h);
         GL::gl_clear_color(0, 0, 0, 1.0);
         GL::gl_clear(GL_COLOR_BUFFER_BIT|GL_DEPTH_BUFFER_BIT|GL_STENCIL_BUFFER_BIT);
@@ -203,7 +203,7 @@ class ZRunner
 
         w = @window.w
         h = @window.h
-        puts "window.w = <#{w}>"
+        #puts "window.w = <#{w}>"
 
         #Draw the widget tree
         p_draw.time do
@@ -281,8 +281,11 @@ class ZRunner
         @events.reload File.open("/tmp/zest-event-log.txt", "r")
     end
 
+    $resize_count = 0
     def handle_events
+        cnt = 0 
         @events.ev.each do |ev|
+            cnt += 1
             #puts "handling #{ev}"
             if(ev[0] == :mousePress)
                 mouse = MouseButton.new(ev[1][:button], Pos.new(@mx, @my))
@@ -293,6 +296,8 @@ class ZRunner
             elsif(ev[0] == :mouseMove)
                 handleCursorPos(ev[1][:x],ev[1][:y])
             elsif(ev[0] == :windowResize)
+                $resize_count += 1
+                #if($resize_count < 10)
                 @events.ignore
                 @window.size = [ev[1][:w], ev[1][:h]]
                 puts "doing a resize to #{[ev[1][:w], ev[1][:h]]}"
@@ -304,10 +309,12 @@ class ZRunner
                 #Build Draw order
                 perform_layout
                 make_draw_sequence(@widget)
+                #end
             end
         end
 
         @events.next_frame
+        cnt
     end
 
     def setup
@@ -347,9 +354,12 @@ class ZRunner
 
     def doRun(&block)
         @widget = block.call
+        @widget.parent = self
         @keep_running = true
         puts "widget = <#{@widget}>"
         setup
+
+        puts @widget.root
 
         #Setup Profilers
         p_total = TimeProfile.new
@@ -360,14 +370,15 @@ class ZRunner
 
         frames = 0
         while(frames < 100000 && @window != nil && @keep_running)
-            sleep 0.02
             print '.'
             STDOUT.flush
 
             p_total.start
 
             p_poll.time do
-                handle_events
+                if(handle_events == 0)
+                    sleep 0.02
+                end
             end
             frames += 1
 
@@ -384,6 +395,9 @@ class ZRunner
                 if(nwidget)
                     doSetup(@widget, nwidget)
                     doMerge(@widget, nwidget)
+                    nwidget.parent = self
+                    nwidget.w = @widget.w
+                    nwidget.h = @widget.h
                     @widget = nwidget
                 end
                 t_setup = Time.new
@@ -411,6 +425,7 @@ class ZRunner
                     puts "setup time #{1000*(t_setup-tic)}ms"
                     puts "layout time #{1000*(t_layout_after-t_layout_before)}ms"
                 end
+                @window.refresh
             end
 
             p_swap.time do
