@@ -46,3 +46,6 @@
 [submodule "deps/pugl"]
 	path = deps/pugl
 	url = git@fundamental-code.com:pugl
+[submodule "deps/osc-bridge"]
+	path = deps/osc-bridge
+	url = git@fundamental-code.com:osc-bridge.git
