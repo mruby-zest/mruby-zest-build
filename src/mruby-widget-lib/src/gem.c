@@ -42,7 +42,7 @@ static void
 onReshape(PuglView* view, int width, int height)
 {
     void **v = (void**)puglGetHandle(view);
-    printf("reshape to %dx%d\n", width, height);
+    //printf("reshape to %dx%d\n", width, height);
     if(v) {
         mrb_value obj = mrb_obj_value(v[1]);
         mrb_funcall(v[0], obj, "resize", 2, mrb_fixnum_value(width), mrb_fixnum_value(height));
@@ -62,22 +62,22 @@ static void
 onDisplay(PuglView* view)
 {
     void **v = (void**)puglGetHandle(view);
-    printf("on-display...\n");
     if(v) {
         mrb_value obj = mrb_obj_value(v[1]);
         mrb_funcall(v[0], obj, "draw", 0);
     }
+	puglPostRedisplay(view);
 }
 
 static void
 printModifiers(PuglView* view)
 {
 	int mods = puglGetModifiers(view);
-	fprintf(stderr, "Modifiers:%s%s%s%s\n",
-	        (mods & PUGL_MOD_SHIFT) ? " Shift"   : "",
-	        (mods & PUGL_MOD_CTRL)  ? " Ctrl"    : "",
-	        (mods & PUGL_MOD_ALT)   ? " Alt"     : "",
-	        (mods & PUGL_MOD_SUPER) ? " Super" : "");
+	//fprintf(stderr, "Modifiers:%s%s%s%s\n",
+	//        (mods & PUGL_MOD_SHIFT) ? " Shift"   : "",
+	//        (mods & PUGL_MOD_CTRL)  ? " Ctrl"    : "",
+	//        (mods & PUGL_MOD_ALT)   ? " Alt"     : "",
+	//        (mods & PUGL_MOD_SUPER) ? " Super" : "");
 }
 
 static void
@@ -85,23 +85,23 @@ onEvent(PuglView* view, const PuglEvent* event)
 {
 	if (event->type == PUGL_KEY_PRESS) {
 		const uint32_t ucode = event->key.character;
-		fprintf(stderr, "Key %u (char %u) down (%s)%s\n",
-		        event->key.keycode, ucode, event->key.utf8,
-		        event->key.filter ? " (filtered)" : "");
+		//fprintf(stderr, "Key %u (char %u) down (%s)%s\n",
+		//        event->key.keycode, ucode, event->key.utf8,
+		//        event->key.filter ? " (filtered)" : "");
 	}
 }
 
 static void
 onSpecial(PuglView* view, bool press, PuglKey key)
 {
-	fprintf(stderr, "Special key %d %s ", key, press ? "down" : "up");
-	printModifiers(view);
+	//fprintf(stderr, "Special key %d %s ", key, press ? "down" : "up");
+	//printModifiers(view);
 }
 
 static void
 onMotion(PuglView* view, int x, int y)
 {
-	fprintf(stderr, "Mouse Move %d %d\n", x, y);
+	//fprintf(stderr, "Mouse Move %d %d\n", x, y);
     void **v = (void**)puglGetHandle(view);
     if(v) {
         mrb_value obj = mrb_obj_value(v[1]);
@@ -114,9 +114,9 @@ static void
 onMouse(PuglView* view, int button, bool press, int x, int y)
 {
     void **v = (void**)puglGetHandle(view);
-	fprintf(stderr, "Mouse %d %s at %d,%d ",
-	        button, press ? "down" : "up", x, y);
-	printModifiers(view);
+	//fprintf(stderr, "Mouse %d %s at %d,%d ",
+	//        button, press ? "down" : "up", x, y);
+	//printModifiers(view);
     if(v) {
         mrb_value obj = mrb_obj_value(v[1]);
         mrb_funcall(v[0], obj, "mouse", 4, 
@@ -131,7 +131,7 @@ onMouse(PuglView* view, int button, bool press, int x, int y)
 static void
 onScroll(PuglView* view, int x, int y, float dx, float dy)
 {
-	fprintf(stderr, "Scroll %d %d %f %f ", x, y, dx, dy);
+	//fprintf(stderr, "Scroll %d %d %f %f ", x, y, dx, dy);
 	printModifiers(view);
 	//dist += dy / 4.0f;
 	puglPostRedisplay(view);
@@ -263,6 +263,14 @@ mrb_pugl_dummy(mrb_state *mrb, mrb_value self)
     return self;
 }
 
+static mrb_value
+mrb_pugl_refresh(mrb_state *mrb, mrb_value self)
+{
+    PuglView *view = (PuglView*)mrb_data_get_ptr(mrb, self, &mrb_pugl_type);
+	puglPostRedisplay(view);
+    return self;
+}
+
 
 
 void
@@ -283,6 +291,8 @@ mrb_mruby_widget_lib_gem_init(mrb_state* mrb) {
     mrb_define_method(mrb, pugl, "title=",       mrb_pugl_dummy,        MRB_ARGS_REQ(1));
     mrb_define_method(mrb, pugl, "poll",         mrb_pugl_poll,         MRB_ARGS_NONE());
     mrb_define_method(mrb, pugl, "impl=",        mrb_pugl_impl,         MRB_ARGS_REQ(1));
+    mrb_define_method(mrb, pugl, "refresh",      mrb_pugl_refresh,      MRB_ARGS_NONE());
+    mrb_define_method(mrb, pugl, "destroy",       mrb_pugl_dummy,        MRB_ARGS_NONE());
 
 }
 
