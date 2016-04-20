@@ -1,15 +1,34 @@
-class ZRunner
-    @@first = true
+#Layers
+#0 - merged     layer
+#1 - background layer
+#2 - animation  layer
+#3 - overlay    layer
 
+class ZRunner
     def initialize
-        if(@@first)
-            #GLFW.init
-            @@first = false
+        @events  = UiEventSeq.new
+        @mx      = 0
+        @my      = 0
+        @clicked = nil
+        @damage  = []
+
+        #Framebuffers
+        @background_fbo = nil
+        @animation_fbo  = nil
+        @overlay_fbo    = nil
+        @redraw_fbo     = nil
+
+        @background_img = nil
+        @animation_img  = nil
+        @overlay_img    = nil
+        @redraw_img     = nil
+    end
+
+    def draw_damage(region, layer)
+        if(@damage != :everything)
+            @damage << [region, layer]
         end
-        @events = UiEventSeq.new
-        @mx=0
-        @my=0
-        @clicked=nil
+        @window.refresh
     end
 
     def draw_seq_add(item, xoff, yoff)
@@ -38,6 +57,13 @@ class ZRunner
     end
 
     def run_draw_sequence(vg,w,h)
+        #[@background_fbo, @animation_fbo, @overlay_fbo, @redraw_fbo].each do |fbo|
+        #    fbo.select
+        #    GL::gl_viewport(0, 0, w, h);
+        #    GL::gl_clear_color(0, 0, 0, 1.0);
+        #    GL::gl_clear(GL_COLOR_BUFFER_BIT|GL_DEPTH_BUFFER_BIT|GL_STENCIL_BUFFER_BIT);
+        #end
+        @redraw_fbo.select
         #puts "running draw sequence on #{w}x#{h} window"
         GL::gl_viewport(0, 0, w, h);
         GL::gl_clear_color(0, 0, 0, 1.0);
@@ -52,6 +78,36 @@ class ZRunner
                 end
             end
         end
+        @redraw_fbo.deselect
+
+        #puts @damage
+        @damage.each do |dmg|
+            d = dmg[0]
+            GL::gl_viewport(0,0,w,h)
+            GL::gl_scissor(d.x, @h-(d.y+d.h), d.w, d.h)
+            GL::gl_clear_color(0, 0, 0, 1.0)
+            GL::gl_clear(GL_COLOR_BUFFER_BIT|GL_DEPTH_BUFFER_BIT|GL_STENCIL_BUFFER_BIT);
+            GL::gl_scissor_end
+        end
+
+
+        @redraw_img = get_image(@redraw_fbo)
+        #@damage = [[Rect.new(0, 0, 512,512)]]
+
+        GL::gl_viewport(0, 0, w, h);
+        vg.draw(w, h, 1.0) do |v|
+            @damage.each do |dmg|
+                d = dmg[0]
+                pat = vg.image_pattern(0,h,w,h,0,@redraw_img.image, 1.0)
+                vg.path do |p|
+                    p.rect(d.x,d.y,d.w,d.h)
+                    v.fill_paint pat
+                    v.fill
+                end
+            end
+        end
+
+        @damage = []
     end
 
     #holds true only in cases of a spacial partitioning
@@ -74,7 +130,10 @@ class ZRunner
         if(aw.respond_to? :onMousePress)
             puts "mouse press = #{mouse.pos}"
             aw.onMousePress mouse
+        else
+            puts "no mouse press option..."
         end
+        @window.refresh
         @clicked = Pos.new(@mx,@my)
     end
 
@@ -90,9 +149,14 @@ class ZRunner
             if(aw.respond_to? :onMouseMove)
                 aw.onMouseMove MouseButton.new(0,Pos.new(x,y))
             end
+        else
+            aw = activeWidget(x, y)
+            if(aw.respond_to? :onMouseHover)
+                aw.onMouseHover MouseButton.new(0,Pos.new(x,y))
+            end
         end
     end
-    
+
     #Setup widget graph
     def doSetup(wOld, wNew)
         if(wNew.respond_to? :onSetup)
@@ -105,11 +169,11 @@ class ZRunner
                 doSetup(wOld.children[i], wNew.children[i])
             else
                 doSetup(nil, wNew.children[i])
-            end 
+            end
         end
     end
 
-    #Merge old widget 
+    #Merge old widget
     def doMerge(wOld, wNew)
         if(wNew.respond_to? :onMerge)
             wNew.onMerge(wOld)
@@ -175,9 +239,12 @@ class ZRunner
         puts "init gl"
         #@window=GLFW::Window.new(100,600,"Test",nil,nil)
         @window.make_current
+        @window.size = [512,512]
         #GLEW.init
         #@window.swap_buffers
         @w,@h=*@window.size
+        @w = 512
+        @h = 512
 
         #GLEW.init
         @vg=NVG::Context.new(NVG::ANTIALIAS | NVG::STENCIL_STROKES | NVG::DEBUG)
@@ -189,6 +256,27 @@ class ZRunner
         bold = `find . -type f | grep Bold.ttf`.split[0]
         @vg.create_font('bold', bold)
         @backdrop = @vg.create_image('../template.png', 0)
+        puts "window width=#{@w}"
+        puts "window height=#{@h}"
+
+        build_fbo
+
+    end
+
+    def build_fbo
+        @background_fbo = GL::FBO.new(@w, @h)
+        @animation_fbo  = GL::FBO.new(@w, @h)
+        @overlay_fbo    = GL::FBO.new(@w, @h)
+        @redraw_fbo     = GL::FBO.new(@w, @h)
+        #@background_img = get_image(@background_fbo)
+        #@animation_img  = get_image(@animation_fbo)
+        #@overlay_img    = get_image(@overlay_fbo)
+        #@redraw_img     = get_image(@redraw_fbo)
+    end
+
+    def get_image(fbo)
+        im = fbo.image $vg
+        Nanovg::ImageHandle.new($vg, im)
     end
 
     def draw
@@ -283,7 +371,7 @@ class ZRunner
 
     $resize_count = 0
     def handle_events
-        cnt = 0 
+        cnt = 0
         @events.ev.each do |ev|
             cnt += 1
             #puts "handling #{ev}"
@@ -302,14 +390,17 @@ class ZRunner
                 @window.size = [ev[1][:w], ev[1][:h]]
                 puts "doing a resize to #{[ev[1][:w], ev[1][:h]]}"
 
-                @widget.w  = ev[1][:w]
-                @widget.h  = ev[1][:h]
+                @w = @widget.w  = ev[1][:w]
+                @h = @widget.h  = ev[1][:h]
 
                 #Layout Widgets again
-                #Build Draw order
                 perform_layout
+                #Build Draw order
                 make_draw_sequence(@widget)
-                #end
+                #Reset textures
+                build_fbo
+
+                draw_damage(Rect.new(0,0,@widget.w, @widget.h), 0)
             end
         end
 
@@ -368,6 +459,9 @@ class ZRunner
         p_poll  = TimeProfile.new
         print '..'
 
+        #Do initial draw
+        draw_damage(Rect.new(0, 0, @w, @h), 0)
+
         frames = 0
         while(frames < 100000 && @window != nil && @keep_running)
             print '.'
@@ -386,8 +480,10 @@ class ZRunner
                 nwidget = nil
 
                 #Attempt A code hot swap
-                p_code.time do
-                    nwidget = block.call
+                if((frames%10) == 0)
+                    p_code.time do
+                        nwidget = block.call
+                    end
                 end
 
                 #Attempt to merge old widget's runtime values into new widget tree
@@ -424,8 +520,8 @@ class ZRunner
                     puts "reload time #{1000*(toc-tic)}ms"
                     puts "setup time #{1000*(t_setup-tic)}ms"
                     puts "layout time #{1000*(t_layout_after-t_layout_before)}ms"
+                    @window.refresh
                 end
-                @window.refresh
             end
 
             p_swap.time do

@@ -9,6 +9,8 @@ MRuby::Build.new do |conf|
   end
 
   enable_debug
+  
+  conf.cc.defines = %w(MRUBY_NANOVG_GL2)
 
   #No default gems
   # Use standard print/puts/p
@@ -55,6 +57,7 @@ MRuby::Build.new do |conf|
   conf.cc do |cc|
       cc.include_paths << "#{`pwd`.strip}/../deps/nanovg/src"
       cc.include_paths << "#{`pwd`.strip}/../deps/pugl/"
+      cc.flags << "-std=gnu99"
   end
 
   conf.linker do |linker|
@@ -92,7 +95,7 @@ MRuby::Build.new('host-debug') do |conf|
   conf.gembox 'default'
 
   # C compiler settings
-  conf.cc.defines = %w(MRB_ENABLE_DEBUG_HOOK)
+  conf.cc.defines = %w(MRB_ENABLE_DEBUG_HOOK MRUBY_NANOVG_GL2)
 
   # Generate mruby debugger command (require mruby-eval)
   conf.gem :core => "mruby-bin-debugger"

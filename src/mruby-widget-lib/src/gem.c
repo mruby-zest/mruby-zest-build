@@ -3,7 +3,9 @@
 #include <mruby/class.h>
 #include <mruby/data.h>
 #include <mruby/string.h>
+#define GL_GLEXT_PROTOTYPES
 #include <GL/gl.h>
+#include <GL/glext.h>
 #include "../../../deps/pugl/pugl/event.h"
 #include "../../../deps/pugl/pugl/common.h"
 #include "../../../deps/pugl/pugl/pugl.h"
@@ -31,6 +33,23 @@ mrb_gl_clear(mrb_state *mrb, mrb_value self)
     mrb_get_args(mrb, "i", &clear_mode);
     //glClear(clear_mode);
     glClear(GL_COLOR_BUFFER_BIT|GL_DEPTH_BUFFER_BIT|GL_STENCIL_BUFFER_BIT);
+    return self;
+}
+
+static mrb_value
+mrb_gl_scissor(mrb_state *mrb, mrb_value self)
+{
+    mrb_float x, y, w, h;
+    mrb_get_args(mrb, "ffff", &x, &y, &w, &h);
+    glEnable(GL_SCISSOR_TEST);
+    glScissor(x, y, w, h);
+    return self;
+}
+
+static mrb_value
+mrb_gl_scissor_end(mrb_state *mrb, mrb_value self)
+{
+    glDisable(GL_SCISSOR_TEST);
     return self;
 }
 
@@ -66,13 +85,14 @@ onDisplay(PuglView* view)
         mrb_value obj = mrb_obj_value(v[1]);
         mrb_funcall(v[0], obj, "draw", 0);
     }
-	puglPostRedisplay(view);
+	//puglPostRedisplay(view);
 }
 
 static void
 printModifiers(PuglView* view)
 {
 	int mods = puglGetModifiers(view);
+    (void) mods;
 	//fprintf(stderr, "Modifiers:%s%s%s%s\n",
 	//        (mods & PUGL_MOD_SHIFT) ? " Shift"   : "",
 	//        (mods & PUGL_MOD_CTRL)  ? " Ctrl"    : "",
@@ -85,6 +105,7 @@ onEvent(PuglView* view, const PuglEvent* event)
 {
 	if (event->type == PUGL_KEY_PRESS) {
 		const uint32_t ucode = event->key.character;
+        (void) ucode;
 		//fprintf(stderr, "Key %u (char %u) down (%s)%s\n",
 		//        event->key.keycode, ucode, event->key.utf8,
 		//        event->key.filter ? " (filtered)" : "");
@@ -107,7 +128,6 @@ onMotion(PuglView* view, int x, int y)
         mrb_value obj = mrb_obj_value(v[1]);
         mrb_funcall(v[0], obj, "cursor", 2, mrb_fixnum_value(x), mrb_fixnum_value(y));
     }
-	puglPostRedisplay(view);
 }
 
 static void
@@ -125,7 +145,6 @@ onMouse(PuglView* view, int button, bool press, int x, int y)
                 mrb_fixnum_value(x),
                 mrb_fixnum_value(y));
     }
-	puglPostRedisplay(view);
 }
 
 static void
@@ -134,7 +153,6 @@ onScroll(PuglView* view, int x, int y, float dx, float dy)
 	//fprintf(stderr, "Scroll %d %d %f %f ", x, y, dx, dy);
 	printModifiers(view);
 	//dist += dy / 4.0f;
-	puglPostRedisplay(view);
 }
 
 static void
@@ -271,14 +289,134 @@ mrb_pugl_refresh(mrb_state *mrb, mrb_value self)
     return self;
 }
 
+/*****************************************************************************
+ *                         GL Buffer Code                                    *
+ *****************************************************************************/
+
+typedef struct {
+    int w, h;
+	GLuint fbo;
+	GLuint rbo;
+	GLuint texture;
+} GLframebuffer;
+
+static int
+createFBO(int w, int h, GLframebuffer *fb)
+{
+    /* texture */
+    glGenTextures(1, &fb->texture);
+    glBindTexture(GL_TEXTURE_2D, fb->texture);
+    glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+    glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+    glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
+    glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
+    glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, w, h, 0, GL_RGBA,
+                 GL_UNSIGNED_BYTE, NULL);
+    glBindTexture(GL_TEXTURE_2D, 0);
+
+    /* frame buffer object */
+    glGenFramebuffers(1, &fb->fbo);
+    glBindFramebuffer(GL_FRAMEBUFFER, fb->fbo);
+
+    /* render buffer object */
+    glGenRenderbuffers(1, &fb->rbo);
+    glBindRenderbuffer(GL_RENDERBUFFER, fb->rbo);
+    glRenderbufferStorage(GL_RENDERBUFFER, GL_DEPTH24_STENCIL8, w, h);
+
+    /* combine all */
+    glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0,
+            GL_TEXTURE_2D, fb->texture, 0);
+    glFramebufferRenderbuffer(GL_FRAMEBUFFER, GL_STENCIL_ATTACHMENT,
+            GL_RENDERBUFFER, fb->rbo);
+
+    return glCheckFramebufferStatus(GL_FRAMEBUFFER) == GL_FRAMEBUFFER_COMPLETE;
+}
+
+const struct mrb_data_type mrb_fbo_type = {"FBO", mrb_pugl_free};
+static mrb_value
+mrb_fbo_initialize(mrb_state *mrb, mrb_value self)
+{
+    mrb_int w, h;
+    mrb_get_args(mrb, "ii", &w, &h);
+    GLframebuffer *fbo = mrb_malloc(mrb, sizeof(GLframebuffer));
+    fbo->w   = w;
+    fbo->h   = h;
+    fbo->fbo = 0;
+    fbo->rbo = 0;
+    fbo->texture = 0;
+    createFBO(w, h, fbo);
+    mrb_data_init(self, fbo, &mrb_fbo_type);
+    return self;
+}
+
+static mrb_value
+mrb_fbo_deselect(mrb_state *mrb, mrb_value self)
+{
+    glBindFramebuffer(GL_FRAMEBUFFER, 0);
+}
+
+//static mrb_value
+//mrb_fbo_copy_region(mrb_state *mrb, mrb_value self)
+//{
+//    //Disable rendering to the color buffer
+//    glColorMask( GL_FALSE, GL_FALSE, GL_FALSE, GL_FALSE );
+//    //Start using the stencil
+//    glEnable( GL_STENCIL_TEST );
+//
+//    //Place a 1 where rendered
+//    glStencilFunc( GL_ALWAYS, 1, 1 );
+//    //Replace where rendered
+//    glStencilOp( GL_REPLACE, GL_REPLACE, GL_REPLACE );
+//    //Render stencil triangle
+//    glTranslatef( gPolygonX, gPolygonY, 0.f );
+//    glRotatef( gPolygonAngle, 0.f, 0.f, 1.f );
+//    glBegin( GL_TRIANGLES );
+//    glVertex2f( -0.f / 4.f, -SCREEN_HEIGHT / 4.f );
+//    glVertex2f( SCREEN_WIDTH / 4.f, SCREEN_HEIGHT / 4.f );
+//    glVertex2f( -SCREEN_WIDTH / 4.f, SCREEN_HEIGHT / 4.f );
+//    glEnd();
+//    //Reenable color
+//    glColorMask( GL_TRUE, GL_TRUE, GL_TRUE, GL_TRUE );
+//    //Where a 1 was not rendered
+//    glStencilFunc(GL_NOTEQUAL, 1, 1 );
+//    //Keep the pixel
+//    glStencilOp( GL_KEEP, GL_KEEP, GL_KEEP );
+//}
+
+const struct mrb_data_type mrb_nvg_context_type;
+typedef void NVGcontext;
+int nvglCreateImageFromHandleGL2(NVGcontext* ctx, GLuint textureId, int w, int h, int imageFlags);
+
+static mrb_value
+mrb_fbo_image(mrb_state *mrb, mrb_value self)
+{
+    mrb_value      obj;
+    mrb_get_args(mrb, "o", &obj);
+    NVGcontext    *ctx = mrb_data_get_ptr(mrb, obj, &mrb_nvg_context_type);
+    GLframebuffer *fbo = (GLframebuffer*)mrb_data_get_ptr(mrb, self, &mrb_fbo_type);
+
+    return mrb_fixnum_value(nvglCreateImageFromHandleGL2(ctx, fbo->texture, fbo->w, fbo->h, (1<<2)|(1<<3)));
+}
+
+static mrb_value
+mrb_fbo_select(mrb_state *mrb, mrb_value self)
+{
+    GLframebuffer *fbo = (GLframebuffer*)mrb_data_get_ptr(mrb, self, &mrb_fbo_type);
+    glBindFramebuffer(GL_FRAMEBUFFER, fbo->fbo);
+}
 
 
+
+// Puting it all together
 void
 mrb_mruby_widget_lib_gem_init(mrb_state* mrb) {
     struct RClass *module = mrb_define_module(mrb, "GL");
     mrb_define_class_method(mrb, module, "gl_viewport",    mrb_gl_viewport,    MRB_ARGS_REQ(4));
     mrb_define_class_method(mrb, module, "gl_clear_color", mrb_gl_clear_color, MRB_ARGS_REQ(4));
     mrb_define_class_method(mrb, module, "gl_clear",       mrb_gl_clear,       MRB_ARGS_REQ(1));
+    mrb_define_class_method(mrb, module, "gl_scissor",     mrb_gl_scissor,     MRB_ARGS_REQ(4));
+    mrb_define_class_method(mrb, module, "gl_scissor_end", mrb_gl_scissor_end, MRB_ARGS_REQ(0));
+
 
     struct RClass *pugl = mrb_define_class_under(mrb, module, "PUGL", mrb->object_class);
     MRB_SET_INSTANCE_TT(pugl, MRB_TT_DATA);
@@ -293,6 +431,15 @@ mrb_mruby_widget_lib_gem_init(mrb_state* mrb) {
     mrb_define_method(mrb, pugl, "impl=",        mrb_pugl_impl,         MRB_ARGS_REQ(1));
     mrb_define_method(mrb, pugl, "refresh",      mrb_pugl_refresh,      MRB_ARGS_NONE());
     mrb_define_method(mrb, pugl, "destroy",       mrb_pugl_dummy,        MRB_ARGS_NONE());
+
+    struct RClass *fbo = mrb_define_class_under(mrb, module, "FBO",
+            mrb->object_class);
+    MRB_SET_INSTANCE_TT(fbo, MRB_TT_DATA);
+    mrb_define_method(mrb, fbo, "initialize",   mrb_fbo_initialize,   MRB_ARGS_REQ(2));
+    mrb_define_method(mrb, fbo, "select",       mrb_fbo_select,       MRB_ARGS_NONE());
+    mrb_define_method(mrb, fbo, "deselect",     mrb_fbo_deselect,     MRB_ARGS_NONE());
+    mrb_define_method(mrb, fbo, "image",        mrb_fbo_image,        MRB_ARGS_REQ(1));
+    mrb_define_method(mrb, fbo, "destroy",      mrb_pugl_dummy,       MRB_ARGS_NONE());
 
 }
 

@@ -36,8 +36,8 @@ class UiEventSeq
             if(ev[0] == :windowResize && event[0] == :windowResize)
                 ev[1][:w] = event[1][:w]
                 ev[1][:h] = event[1][:h]
+                return
             end
-            return
         end
         if(@ignore == 0)
             @ev << event
