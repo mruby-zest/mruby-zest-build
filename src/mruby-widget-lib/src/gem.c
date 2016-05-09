@@ -432,7 +432,7 @@ mrb_remote_metadata_initalize(mrb_state *mrb, mrb_value self)
 {
     mrb_value remote;
     mrb_value path;
-    mrb_get_args(mrb, "os", &remote, &path);
+    mrb_get_args(mrb, "oS", &remote, &path);
 
     //Obtain the schema handle
     bridge_t *br = (bridge_t *)mrb_data_get_ptr(mrb, remote, &mrb_remote_type);
@@ -490,7 +490,7 @@ mrb_mruby_widget_lib_gem_init(mrb_state* mrb) {
     mrb_define_method(mrb, remote, "initialize", mrb_remote_initalize, MRB_ARGS_NONE());
 
     struct RClass *metadata = mrb_define_class_under(mrb, osc, "RemoteMetadata", mrb->object_class);
-    mrb_define_method(mrb, remote, "initialize", mrb_remote_metadata_initalize, MRB_ARGS_REQ(2));
+    mrb_define_method(mrb, metadata, "initialize", mrb_remote_metadata_initalize, MRB_ARGS_REQ(2));
 }
 
 void

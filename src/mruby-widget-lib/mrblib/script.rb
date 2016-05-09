@@ -237,24 +237,25 @@ class ZRunner
 
     def init_gl
         puts "init gl"
-        #@window=GLFW::Window.new(100,600,"Test",nil,nil)
         @window.make_current
         @window.size = [512,512]
-        #GLEW.init
-        #@window.swap_buffers
         @w,@h=*@window.size
         @w = 512
         @h = 512
 
-        #GLEW.init
-        @vg=NVG::Context.new(NVG::ANTIALIAS | NVG::STENCIL_STROKES | NVG::DEBUG)
-        $vg = @vg
+        @vg     = NVG::Context.new(NVG::ANTIALIAS | NVG::STENCIL_STROKES | NVG::DEBUG)
+
+        #Global Initialize
+        $vg     = @vg
+        $remote = OSC::Remote.new
 
         #Load Fonts
         sans = `find . -type f | grep Regular.ttf`.split[0]
         @vg.create_font('sans', sans)
         bold = `find . -type f | grep Bold.ttf`.split[0]
         @vg.create_font('bold', bold)
+
+        #Load Overlay image
         @backdrop = @vg.create_image('../template.png', 0)
         puts "window width=#{@w}"
         puts "window height=#{@h}"

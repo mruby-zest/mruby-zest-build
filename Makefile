@@ -38,7 +38,7 @@ qtrace:
 	/work/mytmp/apitrace/build/qapitrace ./mruby.trace
 
 scratch:
-	 ./mruby/bin/mruby -e "begin;puts doFastLoad;rescue e;puts 'scratch exception';puts e;end ;puts 'scratch done'"
+	 ./mruby/bin/mruby scratch.rb
 
 clean: ## Clean Build Data
 	cd mruby             && MRUBY_CONFIG=../build_config.rb rake clean
