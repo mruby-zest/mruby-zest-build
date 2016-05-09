@@ -3,6 +3,7 @@ all:
 	cd deps/nanovg/build && make nanovg
 	cd deps/pugl         && ./waf configure --no-cairo --static
 	cd deps/pugl         && ./waf
+	cd deps/osc-bridge   && make
 	cd mruby             && MRUBY_CONFIG=../build_config.rb rake
 
 verbose: ## Compile mruby with --trace

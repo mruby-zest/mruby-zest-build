@@ -1,12 +1,7 @@
 MRuby::Build.new do |conf|
   # load specific toolchain settings
 
-  # Gets set by the VS command prompts.
-  if ENV['VisualStudioVersion'] || ENV['VSINSTALLDIR']
-    toolchain :visualcpp
-  else
-    toolchain :gcc
-  end
+  toolchain :clang
 
   enable_debug
   
@@ -62,9 +57,13 @@ MRuby::Build.new do |conf|
 
   conf.linker do |linker|
       linker.library_paths  << "#{`pwd`.strip}/../deps/nanovg/build/"
+      linker.library_paths  << "#{`pwd`.strip}/../deps/osc-bridge/"
       linker.libraries << 'GL'
       linker.libraries << 'nanovg'
       linker.libraries << 'X11'
+      linker.libraries << 'osc-bridge'
+      linker.libraries << 'rtosc'
+      linker.libraries << 'uv'
       linker.flags_after_libraries  << "#{`pwd`.strip}/../deps/pugl/build/libpugl-0.a"
   end
 
@@ -81,13 +80,7 @@ end
 
 MRuby::Build.new('host-debug') do |conf|
   # load specific toolchain settings
-
-  # Gets set by the VS command prompts.
-  if ENV['VisualStudioVersion'] || ENV['VSINSTALLDIR']
-    toolchain :visualcpp
-  else
-    toolchain :gcc
-  end
+  toolchain :clang
 
   enable_debug
 

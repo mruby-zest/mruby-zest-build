@@ -9,6 +9,7 @@
 #include "../../../deps/pugl/pugl/event.h"
 #include "../../../deps/pugl/pugl/common.h"
 #include "../../../deps/pugl/pugl/pugl.h"
+#include "../../../deps/osc-bridge/src/gem.h"
 
 static mrb_value
 mrb_gl_viewport(mrb_state *mrb, mrb_value self)
@@ -353,6 +354,7 @@ static mrb_value
 mrb_fbo_deselect(mrb_state *mrb, mrb_value self)
 {
     glBindFramebuffer(GL_FRAMEBUFFER, 0);
+    return self;
 }
 
 //static mrb_value
@@ -403,9 +405,49 @@ mrb_fbo_select(mrb_state *mrb, mrb_value self)
 {
     GLframebuffer *fbo = (GLframebuffer*)mrb_data_get_ptr(mrb, self, &mrb_fbo_type);
     glBindFramebuffer(GL_FRAMEBUFFER, fbo->fbo);
+    return self;
 }
 
 
+/*****************************************************************************
+ *                      Remote Parameter Code                                *
+ *****************************************************************************/
+
+const struct mrb_data_type mrb_remote_type          = {"Remote", mrb_pugl_free};
+const struct mrb_data_type mrb_remote_metadata_type = {"RemoteMetadata", mrb_pugl_free};
+const struct mrb_data_type mrb_remote_param_type    = {"RemoteParam", mrb_pugl_free};
+static mrb_value
+mrb_remote_initalize(mrb_state *mrb, mrb_value self)
+{
+    //mrb_int w, h;
+    //mrb_get_args(mrb, "ii", &w, &h);
+    bridge_t *br = br_create("localhost:1337");
+
+    mrb_data_init(self, br, &mrb_remote_type);
+    return self;
+}
+
+static mrb_value
+mrb_remote_metadata_initalize(mrb_state *mrb, mrb_value self)
+{
+    mrb_value remote;
+    mrb_value path;
+    mrb_get_args(mrb, "os", &remote, &path);
+
+    //Obtain the schema handle
+    bridge_t *br = (bridge_t *)mrb_data_get_ptr(mrb, remote, &mrb_remote_type);
+    schema_t sch = br_get_schema(br, "");
+    schema_handle_t handle = sm_get(sch, mrb_string_value_ptr(mrb, path));
+
+#define setfield(x, cstr) \
+    mrb_funcall(mrb, self, x, 1, \
+                      mrb_str_new_cstr(mrb, cstr))
+    setfield("name=",       sm_get_name(handle));
+    setfield("short_name=", sm_get_short(handle));
+    setfield("tooltip=",    sm_get_tooltip(handle));
+#undef setfield
+    return self;
+}
 
 // Puting it all together
 void
@@ -441,6 +483,14 @@ mrb_mruby_widget_lib_gem_init(mrb_state* mrb) {
     mrb_define_method(mrb, fbo, "image",        mrb_fbo_image,        MRB_ARGS_REQ(1));
     mrb_define_method(mrb, fbo, "destroy",      mrb_pugl_dummy,       MRB_ARGS_NONE());
 
+    //Define the remote API
+    struct RClass *osc = mrb_define_module(mrb, "OSC");
+    struct RClass *remote = mrb_define_class_under(mrb, osc, "Remote", mrb->object_class);
+    MRB_SET_INSTANCE_TT(remote, MRB_TT_DATA);
+    mrb_define_method(mrb, remote, "initialize", mrb_remote_initalize, MRB_ARGS_NONE());
+
+    struct RClass *metadata = mrb_define_class_under(mrb, osc, "RemoteMetadata", mrb->object_class);
+    mrb_define_method(mrb, remote, "initialize", mrb_remote_metadata_initalize, MRB_ARGS_REQ(2));
 }
 
 void
