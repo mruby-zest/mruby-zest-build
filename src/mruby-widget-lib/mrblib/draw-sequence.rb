@@ -1,11 +1,12 @@
 class DrawSeqNode
     attr_reader :x, :y, :w, :h, :item
-    def initialize(x,y,w,h,item)
-        @x    = x
-        @y    = y
-        @w    = w
-        @h    = h
-        @item = item
+    def initialize(x,y,item)
+        @x     = x
+        @y     = y
+        @w     = item.w
+        @h     = item.h
+        @item  = item
+        @layer = item.layer
     end
 end
 
@@ -27,7 +28,7 @@ class DrawSequence
     # Add a widget to the draw sequence
     def add(item, xoff, yoff)
         if(item.respond_to? :draw)
-            @seq << DrawSeqNode.new(xoff,yoff,item.w,item.h,item)
+            @seq << DrawSeqNode.new(xoff, yoff, item)
         end
     end
 

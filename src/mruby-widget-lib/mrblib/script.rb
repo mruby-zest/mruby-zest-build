@@ -1,8 +1,8 @@
 #Layers
-#0 - merged     layer
-#1 - background layer
-#2 - animation  layer
-#3 - overlay    layer
+#-1 - merged     layer
+# 0 - background layer
+# 1 - animation  layer
+# 2 - overlay    layer
 
 class ZRunner
     def initialize
@@ -420,6 +420,37 @@ class ZRunner
             #@events.dump File.open("/tmp/zest-event-log.txt", "w+")
         end
         nil
+    end
+
+    ############################################################################
+    #                 API For Running Widgets                                  #
+    ############################################################################
+
+    #Force a draw sequence regeneration
+    def smash_draw_seq()
+        @draw_seq.make_draw_sequence(@widget)
+    end
+
+    #Damage
+    def damage_item(item)
+        @draw_seq.seq.each do |dsn|
+            if(dsn.item == item)
+                @draw_seq.damage_region(Rect.new(dsn.x,dsn.y,dsn.w,dsn.h),item.layer)
+            end
+        end
+    end
+
+    def ego_death(item)
+        #Remove from parent's children list and perhaps mark properties as no
+        #longer in use?
+        #Regenerate the draw sequence as a result
+        par = item.parent
+        chd = par.children
+        chd = chd.delete_if {|i| i==item}
+        par.children = chd
+        damage_item(item)
+        smash_draw_seq
+        item.parent = nil
     end
 end
 
