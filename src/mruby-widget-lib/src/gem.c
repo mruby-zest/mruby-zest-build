@@ -6,9 +6,12 @@
 #define GL_GLEXT_PROTOTYPES
 #include <GL/gl.h>
 #include <GL/glext.h>
+#include <string.h>
+#include <stdlib.h>
 #include "../../../deps/pugl/pugl/event.h"
 #include "../../../deps/pugl/pugl/common.h"
 #include "../../../deps/pugl/pugl/pugl.h"
+#include "../../../deps/rtosc/include/rtosc/rtosc.h"
 #include "../../../deps/osc-bridge/src/gem.h"
 
 static mrb_value
@@ -169,6 +172,7 @@ onClose(PuglView* view)
 static void
 mrb_pugl_free(mrb_state *mrb, void *ptr)
 {
+    printf("================ FFFFFFFFFFFFFFRRRRRRRREEEEEEEEEEEE\n");
 }
 
 const struct mrb_data_type mrb_pugl_type = {"PUGL", mrb_pugl_free};
@@ -333,7 +337,13 @@ createFBO(int w, int h, GLframebuffer *fb)
     return glCheckFramebufferStatus(GL_FRAMEBUFFER) == GL_FRAMEBUFFER_COMPLETE;
 }
 
-const struct mrb_data_type mrb_fbo_type = {"FBO", mrb_pugl_free};
+static void
+mrb_fbo_free(mrb_state *mrb, void *ptr)
+{
+    printf("================ FBO FFFFFFFFFFFFFFRRRRRRRREEEEEEEEEEEE\n");
+}
+
+const struct mrb_data_type mrb_fbo_type = {"FBO", mrb_fbo_free};
 static mrb_value
 mrb_fbo_initialize(mrb_state *mrb, mrb_value self)
 {
@@ -413,17 +423,52 @@ mrb_fbo_select(mrb_state *mrb, mrb_value self)
  *                      Remote Parameter Code                                *
  *****************************************************************************/
 
-const struct mrb_data_type mrb_remote_type          = {"Remote", mrb_pugl_free};
-const struct mrb_data_type mrb_remote_metadata_type = {"RemoteMetadata", mrb_pugl_free};
-const struct mrb_data_type mrb_remote_param_type    = {"RemoteParam", mrb_pugl_free};
+void
+mrb_remote_metadata_free(mrb_state *mrb, void *ptr)
+{
+    printf("================ metadata FFFFFFFFFFFFFFRRRRRRRREEEEEEEEEEEE\n");
+}
+
+void
+mrb_remote_free(mrb_state *mrb, void *ptr)
+{
+    printf("================ remote FFFFFFFFFFFFFFRRRRRRRREEEEEEEEEEEE\n");
+}
+
+void
+mrb_remote_param_free(mrb_state *mrb, void *ptr)
+{
+    printf("================ param FFFFFFFFFFFFFFRRRRRRRREEEEEEEEEEEE\n");
+}
+
+const struct mrb_data_type mrb_remote_type          = {"Remote", mrb_remote_free};
+const struct mrb_data_type mrb_remote_metadata_type = {"RemoteMetadata", mrb_remote_metadata_free};
+const struct mrb_data_type mrb_remote_param_type    = {"RemoteParam", mrb_remote_param_free};
+
+typedef struct {
+    mrb_state *mrb;
+    mrb_value  cb;
+} remote_cb_data;
+
+typedef struct {
+    bridge_t *br;
+    uri_t     uri;
+} remote_param_data;
+
 static mrb_value
 mrb_remote_initalize(mrb_state *mrb, mrb_value self)
 {
-    //mrb_int w, h;
-    //mrb_get_args(mrb, "ii", &w, &h);
     bridge_t *br = br_create("localhost:1337");
 
     mrb_data_init(self, br, &mrb_remote_type);
+    return self;
+}
+
+static mrb_value
+mrb_remote_tick(mrb_state *mrb, mrb_value self)
+{
+    bridge_t *br = (bridge_t *)mrb_data_get_ptr(mrb, self, &mrb_remote_type);
+    br_tick(br);
     return self;
 }
 
@@ -448,6 +493,81 @@ mrb_remote_metadata_initalize(mrb_state *mrb, mrb_value self)
 #undef setfield
     return self;
 }
+
+static void
+remote_cb(const char *msg, void *data)
+{
+    //assume the 0..127 integer case for the input
+    //assume the 0..1   float   case for the output
+    
+    mrb_assert(!strcmp("i",rtosc_argument_string(msg)));
+    int arg = rtosc_argument(msg, 0).i;
+
+    mrb_assert(0 <= arg && arg <= 127);
+
+    mrb_float cb_val = arg/127.0;
+
+    remote_cb_data *cb = (remote_cb_data*) data;
+
+    mrb_funcall(cb->mrb, cb->cb, "call", 1, mrb_float_value(cb->mrb,cb_val));
+}
+
+
+static mrb_value
+mrb_remote_param_initalize(mrb_state *mrb, mrb_value self)
+{
+    mrb_value remote;
+    mrb_value uri;
+    mrb_get_args(mrb, "oS", &remote, &uri);
+    remote_param_data *data = mrb_malloc(mrb, sizeof(remote_param_data));
+    data->br  = (bridge_t*)mrb_data_get_ptr(mrb, remote, &mrb_remote_type);
+    data->uri = strdup(mrb_string_value_ptr(mrb, uri));
+
+    mrb_funcall(mrb, self, "remote=", 1, remote);
+    mrb_data_init(self, data, &mrb_remote_param_type);
+    return self;
+}
+
+static mrb_value
+mrb_remote_param_set_callback(mrb_state *mrb, mrb_value self)
+{
+    remote_param_data *param = (remote_param_data*)
+        mrb_data_get_ptr(mrb, self, &mrb_remote_param_type);
+
+    remote_cb_data *data = malloc(sizeof(remote_cb_data));
+    data->mrb = mrb;
+    mrb_get_args(mrb, "o", &data->cb);
+
+    mrb_value remote = mrb_funcall(mrb, self, "remote", 0);
+    mrb_funcall(mrb, remote, "add_cb", 1, data->cb);
+
+    mrb_assert(param->br);
+    mrb_assert(param->uri);
+    br_add_callback(param->br, param->uri, remote_cb, data);
+
+    param = (remote_param_data*) mrb_data_get_ptr(mrb, self, &mrb_remote_param_type);
+    return self;
+}
+
+static mrb_value
+mrb_remote_param_set_value(mrb_state *mrb, mrb_value self)
+{
+    remote_param_data *param;
+    param = (remote_param_data*) mrb_data_get_ptr(mrb, self, &mrb_remote_param_type);
+    mrb_assert(param);
+
+    mrb_float value = 0;
+    mrb_get_args(mrb, "f", &value);
+    mrb_assert(param);
+    mrb_assert(param->br);
+    mrb_assert(param->uri);
+
+    int next = (127.0*value);
+
+    br_set_value_int(param->br, param->uri, next);
+    return self;
+}
+
 
 // Puting it all together
 void
@@ -488,9 +608,17 @@ mrb_mruby_widget_lib_gem_init(mrb_state* mrb) {
     struct RClass *remote = mrb_define_class_under(mrb, osc, "Remote", mrb->object_class);
     MRB_SET_INSTANCE_TT(remote, MRB_TT_DATA);
     mrb_define_method(mrb, remote, "initialize", mrb_remote_initalize, MRB_ARGS_NONE());
+    mrb_define_method(mrb, remote, "tick",       mrb_remote_tick,      MRB_ARGS_NONE());
 
     struct RClass *metadata = mrb_define_class_under(mrb, osc, "RemoteMetadata", mrb->object_class);
+    MRB_SET_INSTANCE_TT(metadata, MRB_TT_DATA);
     mrb_define_method(mrb, metadata, "initialize", mrb_remote_metadata_initalize, MRB_ARGS_REQ(2));
+
+    struct RClass *param = mrb_define_class_under(mrb, osc, "RemoteParam", mrb->object_class);
+    MRB_SET_INSTANCE_TT(param, MRB_TT_DATA);
+    mrb_define_method(mrb, param, "initialize", mrb_remote_param_initalize, MRB_ARGS_REQ(2));
+    mrb_define_method(mrb, param, "set_callback", mrb_remote_param_set_callback, MRB_ARGS_REQ(1));
+    mrb_define_method(mrb, param, "set_value",    mrb_remote_param_set_value, MRB_ARGS_REQ(1));
 }
 
 void

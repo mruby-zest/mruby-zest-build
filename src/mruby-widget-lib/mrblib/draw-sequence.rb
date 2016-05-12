@@ -54,10 +54,12 @@ class DrawSequence
     #Run the full draw sequence
     def render(vg, w, h, fbo)
         (background_fbo, animation_fbo, overlay_fbo, redraw_fbo) = fbo
-        puts background_fbo
-        puts animation_fbo
-        puts overlay_fbo
-        puts redraw_fbo
+        if(false)
+            puts background_fbo
+            puts animation_fbo
+            puts overlay_fbo
+            puts redraw_fbo
+        end
         #[@background_fbo, @animation_fbo, @overlay_fbo, @redraw_fbo].each do |fbo|
         #    fbo.select
         #    GL::gl_viewport(0, 0, w, h);

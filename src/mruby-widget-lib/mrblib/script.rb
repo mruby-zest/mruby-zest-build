@@ -22,6 +22,11 @@ class ZRunner
         @animation_img  = nil
         @overlay_img    = nil
         @redraw_img     = nil
+        
+        #global stuff?
+        $remote = OSC::Remote.new
+        print "remote = "
+        puts $remote
     end
 
     ########################################
@@ -83,7 +88,6 @@ class ZRunner
 
         #Global Initialize
         $vg     = @vg
-        $remote = OSC::Remote.new
 
         #Load Fonts
         sans = `find . -type f | grep Regular.ttf`.split[0]
@@ -361,6 +365,7 @@ class ZRunner
             p_total.start
 
             p_poll.time do
+                $remote.tick
                 if(handle_events == 0)
                     sleep 0.02
                 end
