@@ -483,14 +483,29 @@ mrb_remote_metadata_initalize(mrb_state *mrb, mrb_value self)
     bridge_t *br = (bridge_t *)mrb_data_get_ptr(mrb, remote, &mrb_remote_type);
     schema_t sch = br_get_schema(br, "");
     schema_handle_t handle = sm_get(sch, mrb_string_value_ptr(mrb, path));
+    mrb_value opts = mrb_nil_value();
+    if(handle.opts) {
+        opts = mrb_ary_new(mrb);
+        for(int i=0; i<handle.opts->num_opts; ++i)
+        {
+            mrb_value opt = mrb_ary_new(mrb);
+            mrb_ary_push(mrb, opt, mrb_fixnum_value(handle.opts->ids[i]));
+            mrb_ary_push(mrb, opt, mrb_str_new_cstr(mrb, handle.opts->labels[i]));
+            mrb_ary_push(mrb, opts, opt);
+        }
+    }
 
 #define setfield(x, cstr) \
     mrb_funcall(mrb, self, x, 1, \
                       mrb_str_new_cstr(mrb, cstr))
+#define setfield2(x, value) \
+    mrb_funcall(mrb, self, x, 1, value)
     setfield("name=",       sm_get_name(handle));
     setfield("short_name=", sm_get_short(handle));
     setfield("tooltip=",    sm_get_tooltip(handle));
+    setfield2("options=",   opts);
 #undef setfield
+#undef setfield2
     return self;
 }
 
