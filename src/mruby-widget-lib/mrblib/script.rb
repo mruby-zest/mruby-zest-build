@@ -148,6 +148,7 @@ class ZRunner
     end
 
     def handleCursorPos(x,y)
+        old_aw = activeWidget(@mx, @my)
         @mx = x
         @my = y
         if(@clicked)
@@ -159,6 +160,9 @@ class ZRunner
             aw = activeWidget(x, y)
             if(aw.respond_to? :onMouseHover)
                 aw.onMouseHover MouseButton.new(0,Pos.new(x,y))
+            end
+            if(aw != old_aw && aw.respond_to?(:onMouseEnter))
+                aw.onMouseEnter MouseButton.new(0,Pos.new(x,y))
             end
         end
     end
@@ -404,6 +408,7 @@ class ZRunner
                 t_layout_after = Time.new
 
                 if(nwidget)
+                    damage_item nwidget
                     toc = Time.new
                     puts "reload time #{1000*(toc-tic)}ms"
                     puts "setup time #{1000*(t_setup-tic)}ms"
@@ -456,6 +461,14 @@ class ZRunner
         damage_item(item)
         smash_draw_seq
         item.parent = nil
+    end
+
+    def log(message_class, message, src=:unknown)
+        if(message_class == :user_value)
+            puts "[LOG#value] #{message.to_s}"
+        else
+            puts "[LOG#misc]  #{message.to_s}"
+        end
     end
 end
 

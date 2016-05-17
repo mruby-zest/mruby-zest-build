@@ -13,7 +13,15 @@ class MouseButton
     attr_reader :buttons
     def initialize(enum, pos)
         @pos = pos
-        @buttons = [:leftButton]
+        if(enum == 1)
+            @buttons = [:leftButton]
+        elsif(enum == 2)
+            @buttons = [:middleButton]
+        elsif(enum == 3)
+            @buttons = [:rightButton]
+        else
+            @buttons = []
+        end
     end
 end
 
