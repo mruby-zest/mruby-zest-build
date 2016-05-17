@@ -568,6 +568,26 @@ mrb_remote_param_set_value(mrb_state *mrb, mrb_value self)
     return self;
 }
 
+static mrb_value
+mrb_remote_param_display_value(mrb_state *mrb, mrb_value self)
+{
+    remote_param_data *param;
+    param = (remote_param_data*) mrb_data_get_ptr(mrb, self, &mrb_remote_param_type);
+    mrb_assert(param);
+
+    bridge_t *br = param->br;
+    //try to see if the value is already in the cache
+    for(int i=0; i<br->cache_len; ++i) {
+        if(!strcmp(br->cache[i].path, param->uri) &&
+                br->cache[i].valid) {
+            if(br->cache[i].type == 'i')
+                return mrb_fixnum_value(br->cache[i].val.i);
+        }
+    }
+
+    return mrb_nil_value();
+}
+
 
 // Puting it all together
 void
@@ -619,6 +639,7 @@ mrb_mruby_widget_lib_gem_init(mrb_state* mrb) {
     mrb_define_method(mrb, param, "initialize", mrb_remote_param_initalize, MRB_ARGS_REQ(2));
     mrb_define_method(mrb, param, "set_callback", mrb_remote_param_set_callback, MRB_ARGS_REQ(1));
     mrb_define_method(mrb, param, "set_value",    mrb_remote_param_set_value, MRB_ARGS_REQ(1));
+    mrb_define_method(mrb, param, "display_value",mrb_remote_param_display_value, MRB_ARGS_NONE());
 }
 
 void
