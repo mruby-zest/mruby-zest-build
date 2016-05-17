@@ -1,5 +1,5 @@
 class DrawSeqNode
-    attr_reader :x, :y, :w, :h, :item
+    attr_reader :x, :y, :w, :h, :item, :layer
     def initialize(x,y,item)
         @x     = x
         @y     = y
@@ -66,44 +66,79 @@ class DrawSequence
         #    GL::gl_clear_color(0, 0, 0, 1.0);
         #    GL::gl_clear(GL_COLOR_BUFFER_BIT|GL_DEPTH_BUFFER_BIT|GL_STENCIL_BUFFER_BIT);
         #end
-        redraw_fbo.select
-        #puts "running draw sequence on #{w}x#{h} window"
-        GL::gl_viewport(0, 0, w, h);
-        GL::gl_clear_color(0, 0, 0, 1.0);
-        GL::gl_clear(GL_COLOR_BUFFER_BIT|GL_DEPTH_BUFFER_BIT|GL_STENCIL_BUFFER_BIT);
+        (0..2).each do |layer_id|
+            selected_fbo = nil
+            if(layer_id == 0)
+                selected_fbo = background_fbo
+            elsif(layer_id == 1)
+                selected_fbo = animation_fbo
+            elsif(layer_id == 2)
+                selected_fbo = overlay_fbo
+            end
 
-        GL::gl_viewport(0, 0, w, h);
-        vg.draw(w,h,1.0) do |v|
-            @seq.each do |n|
-                v.spork do |vv|
-                    vv.translate(n.x,n.y)
-                    n.item.draw(vv)
+            redraw_fbo.select
+            #puts "running draw sequence on #{w}x#{h} window"
+            GL::gl_viewport(0, 0, w, h);
+            GL::gl_clear_color(0, 0, 0, 0.0);
+            GL::gl_clear(GL_COLOR_BUFFER_BIT|GL_DEPTH_BUFFER_BIT|GL_STENCIL_BUFFER_BIT);
+
+            GL::gl_viewport(0, 0, w, h);
+            vg.draw(w,h,1.0) do |v|
+                @seq.each do |n|
+                    if(n.layer == layer_id)
+                        v.spork do |vv|
+                            vv.translate(n.x,n.y)
+                            n.item.draw(vv)
+                        end
+                    end
+                end
+            end
+            selected_fbo.select
+
+            #puts @damage
+            @damage.each do |dmg|
+                d = dmg[0]
+                GL::gl_viewport(0,0,w,h)
+                GL::gl_scissor(d.x, h-(d.y+d.h), d.w, d.h)
+                GL::gl_clear_color(0, 0, 0, 0.0)
+                GL::gl_clear(GL_COLOR_BUFFER_BIT|GL_DEPTH_BUFFER_BIT|GL_STENCIL_BUFFER_BIT);
+                GL::gl_scissor_end
+            end
+
+
+            redraw_img = get_image(redraw_fbo)
+            #@damage = [[Rect.new(0, 0, 512,512)]]
+
+            GL::gl_viewport(0, 0, w, h);
+            vg.draw(w, h, 1.0) do |v|
+                @damage.each do |dmg|
+                    d = dmg[0]
+                    pat = vg.image_pattern(0,h,w,h,0,redraw_img.image, 1.0)
+                    vg.path do |p|
+                        p.rect(d.x-0.5,d.y+0.5,d.w,d.h)
+                        v.fill_paint pat
+                        v.fill
+                    end
                 end
             end
         end
+
+        # Composite the layers
+        layers = []
+        layers << get_image(background_fbo)
+        layers << get_image(animation_fbo)
+        layers << get_image(overlay_fbo)
         redraw_fbo.deselect
 
-        #puts @damage
-        @damage.each do |dmg|
-            d = dmg[0]
-            GL::gl_viewport(0,0,w,h)
-            GL::gl_scissor(d.x, h-(d.y+d.h), d.w, d.h)
-            GL::gl_clear_color(0, 0, 0, 1.0)
-            GL::gl_clear(GL_COLOR_BUFFER_BIT|GL_DEPTH_BUFFER_BIT|GL_STENCIL_BUFFER_BIT);
-            GL::gl_scissor_end
-        end
-
-
-        redraw_img = get_image(redraw_fbo)
-        #@damage = [[Rect.new(0, 0, 512,512)]]
-
         GL::gl_viewport(0, 0, w, h);
+        GL::gl_clear_color(0, 0, 0, 1.0)
+        GL::gl_clear(GL_COLOR_BUFFER_BIT|GL_DEPTH_BUFFER_BIT|GL_STENCIL_BUFFER_BIT);
+
         vg.draw(w, h, 1.0) do |v|
-            @damage.each do |dmg|
-                d = dmg[0]
-                pat = vg.image_pattern(0,h,w,h,0,redraw_img.image, 1.0)
+            layers.each do |img|
+                pat = vg.image_pattern(0,h,w,h,0,img.image, 1.0)
                 vg.path do |p|
-                    p.rect(d.x,d.y,d.w,d.h)
+                    p.rect(0, 0, w, h)
                     v.fill_paint pat
                     v.fill
                 end
