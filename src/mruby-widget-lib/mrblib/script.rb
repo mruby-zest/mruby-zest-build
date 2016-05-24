@@ -469,6 +469,18 @@ class ZRunner
         else
             puts "[LOG#misc]  #{message.to_s}"
         end
+        if(@log_widget)
+            @log_widget.display_log(message_class, message.to_s, src)
+        end
+    end
+
+    def log_widget=(widget)
+        puts "Setting logging widget to: "
+        puts widget
+        @log_widget = widget
+        if(!@log_widget.respond_to?(:display_log))
+            raise "Invalid logger widget provided to ZRunner"
+        end
     end
 end
 
