@@ -350,7 +350,6 @@ mrb_fbo_free(mrb_state *mrb, void *ptr)
     glDeleteTextures(1, &fbo->texture);
 }
 
-const struct mrb_data_type mrb_fbo_type = {"FBO", mrb_fbo_free};
 static mrb_value
 mrb_fbo_initialize(mrb_state *mrb, mrb_value self)
 {
