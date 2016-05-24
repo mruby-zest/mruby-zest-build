@@ -516,7 +516,7 @@ mrb_remote_metadata_initalize(mrb_state *mrb, mrb_value self)
 }
 
 static void
-remote_cb(const char *msg, void *data)
+remote_cb_127(const char *msg, remote_cb_data *cb)
 {
     //assume the 0..127 integer case for the input
     //assume the 0..1   float   case for the output
@@ -528,9 +528,32 @@ remote_cb(const char *msg, void *data)
 
     mrb_float cb_val = arg/127.0;
 
-    remote_cb_data *cb = (remote_cb_data*) data;
-
     mrb_funcall(cb->mrb, cb->cb, "call", 1, mrb_float_value(cb->mrb,cb_val));
+}
+
+static void
+remote_cb_fvec(const char *msg, remote_cb_data *cb)
+{
+    mrb_value ary = mrb_ary_new(cb->mrb);
+    for(rtosc_arg_itr_t itr = rtosc_itr_begin(msg); !rtosc_itr_end(itr);) {
+        rtosc_arg_val_t val = rtosc_itr_next(&itr);
+        if(val.type == 'f')
+            mrb_ary_push(cb->mrb, ary, mrb_float_value(cb->mrb, val.val.f));
+    }
+
+    mrb_funcall(cb->mrb, cb->cb, "call", 1, ary);
+}
+
+static void
+remote_cb(const char *msg, void *data)
+{
+    remote_cb_data *cb = (remote_cb_data*) data;
+    if(!strcmp("i", rtosc_argument_string(msg)))
+        remote_cb_127(msg, cb);
+    else if(!strcmp("f", rtosc_argument_string(msg)))
+        mrb_funcall(cb->mrb, cb->cb, "call", 1, mrb_float_value(cb->mrb,rtosc_argument(msg, 0).f));
+    else
+        remote_cb_fvec(msg, cb);
 }
 
 
