@@ -8,13 +8,31 @@ class DrawSeqNode
         @item  = item
         @layer = item.layer
     end
+
+    def intersect?(dmg)
+        (rect, layer) = dmg
+        if(layer == @layer)
+            left_in  = rect.x       >=@x && rect.x       <=@x+@w
+            right_in = rect.x+rect.w>=@x && rect.x+rect.w<=@x+@w
+            lr_in    = rect.x       <=@x && rect.x+rect.w>=@x+@w
+
+            top_in   = rect.y       >=@x && rect.y       <=@y+@h
+            bot_in   = rect.y+rect.h>=@x && rect.y+rect.h<=@y+@h
+            tb_in    = rect.y       <=@x && rect.y+rect.h>=@y+@h
+
+            (left_in || right_in || lr_in) && (top_in || bot_in || tb_in)
+        else
+            false
+        end
+    end
 end
 
 class DrawSequence
     attr_accessor :window, :damage, :seq
     def initialize
-        @damage   = []
-        @seq      = []
+        @damage        = []
+        @damage_layers = []
+        @seq           = []
     end
 
     # Force a redraw in the given region
@@ -22,6 +40,7 @@ class DrawSequence
         if(@damage != :everything)
             @damage << [region, layer]
         end
+        @damage_layers << layer
         @window.refresh
     end
 
@@ -67,6 +86,9 @@ class DrawSequence
         #    GL::gl_clear(GL_COLOR_BUFFER_BIT|GL_DEPTH_BUFFER_BIT|GL_STENCIL_BUFFER_BIT);
         #end
         (0..2).each do |layer_id|
+            updating_layer = @damage_layers.include?(layer_id)
+            next if !updating_layer
+
             selected_fbo = nil
             if(layer_id == 0)
                 selected_fbo = background_fbo
@@ -86,6 +108,13 @@ class DrawSequence
             vg.draw(w,h,1.0) do |v|
                 @seq.each do |n|
                     if(n.layer == layer_id)
+                        #Check if damage overlaps with widget
+                        is_clean = true
+                        @damage.each do |dmg|
+                            is_clean = false if n.intersect?(dmg)
+                        end
+                        next if is_clean
+
                         v.spork do |vv|
                             vv.translate(n.x,n.y)
                             n.item.draw(vv)
@@ -145,7 +174,8 @@ class DrawSequence
             end
         end
 
-        @damage = []
+        @damage_layers = []
+        @damage        = []
     end
 
     def get_image(fbo)
