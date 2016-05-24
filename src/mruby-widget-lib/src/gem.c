@@ -632,6 +632,17 @@ mrb_remote_param_display_value(mrb_state *mrb, mrb_value self)
     return mrb_nil_value();
 }
 
+static mrb_value
+mrb_remote_param_watch(mrb_state *mrb, mrb_value self)
+{
+    remote_param_data *param;
+    param = (remote_param_data*) mrb_data_get_ptr(mrb, self, &mrb_remote_param_type);
+    mrb_assert(param);
+
+    br_watch(param->br, param->uri);
+    return self;
+}
+
 
 // Puting it all together
 void
@@ -684,6 +695,7 @@ mrb_mruby_widget_lib_gem_init(mrb_state* mrb) {
     mrb_define_method(mrb, param, "set_callback", mrb_remote_param_set_callback, MRB_ARGS_REQ(1));
     mrb_define_method(mrb, param, "set_value",    mrb_remote_param_set_value, MRB_ARGS_REQ(1));
     mrb_define_method(mrb, param, "display_value",mrb_remote_param_display_value, MRB_ARGS_NONE());
+    mrb_define_method(mrb, param, "watch",        mrb_remote_param_watch, MRB_ARGS_NONE());
 }
 
 void
