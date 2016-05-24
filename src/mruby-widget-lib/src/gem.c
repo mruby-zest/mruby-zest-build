@@ -337,10 +337,17 @@ createFBO(int w, int h, GLframebuffer *fb)
     return glCheckFramebufferStatus(GL_FRAMEBUFFER) == GL_FRAMEBUFFER_COMPLETE;
 }
 
+static void mrb_fbo_free(mrb_state *mrb, void *ptr);
+const struct mrb_data_type mrb_fbo_type = {"FBO", mrb_fbo_free};
 static void
 mrb_fbo_free(mrb_state *mrb, void *ptr)
 {
     printf("================ FBO FFFFFFFFFFFFFFRRRRRRRREEEEEEEEEEEE\n");
+    mrb_assert(mrb && false);
+    GLframebuffer *fbo = (GLframebuffer *)ptr;
+    glDeleteRenderbuffers(1, &fbo->rbo);
+    glDeleteFramebuffers(1, &fbo->fbo);
+    glDeleteTextures(1, &fbo->texture);
 }
 
 const struct mrb_data_type mrb_fbo_type = {"FBO", mrb_fbo_free};
