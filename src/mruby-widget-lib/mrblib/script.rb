@@ -22,7 +22,7 @@ class ZRunner
         @animation_img  = nil
         @overlay_img    = nil
         @redraw_img     = nil
-        
+
         #global stuff?
         $remote = OSC::Remote.new
         print "remote = "
@@ -55,7 +55,7 @@ class ZRunner
         #    #resize(@widget.w, @widget.h)
         #    #@window.size = [@widget.w, @widget.h]
         #else
-            @widget.w,@widget.h = [512, 512]#@window.size
+            @widget.w,@widget.h = [1181, 659]#@window.size
         #end
             @widget.parent = self
 
@@ -80,10 +80,10 @@ class ZRunner
     def init_gl
         puts "init gl"
         @window.make_current
-        @window.size = [512,512]
+        @window.size = [1181,659]
         @w,@h=*@window.size
-        @w = 512
-        @h = 512
+        @w = 1181
+        @h = 659
 
         @vg     = NVG::Context.new(NVG::ANTIALIAS | NVG::STENCIL_STROKES | NVG::DEBUG)
 

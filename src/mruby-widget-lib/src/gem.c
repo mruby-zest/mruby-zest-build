@@ -191,7 +191,7 @@ mrb_pugl_initialize(mrb_state *mrb, mrb_value self)
 {
     PuglView *view = puglInit(0,0);
     //puglInitWindowClass(view, "PuglWindow");
-	puglInitWindowSize(view, 512, 512);
+	puglInitWindowSize(view, 1181, 659);
     puglInitResizable(view, true);
 
 	puglSetEventFunc(view, onEvent);
@@ -208,8 +208,8 @@ mrb_pugl_initialize(mrb_state *mrb, mrb_value self)
     puglProcessEvents(view);
 
     mrb_data_init(self, view, &mrb_pugl_type);
-    mrb_funcall(mrb, self, "w=", 1, mrb_fixnum_value(512));
-    mrb_funcall(mrb, self, "h=", 1, mrb_fixnum_value(512));
+    mrb_funcall(mrb, self, "w=", 1, mrb_fixnum_value(1181));
+    mrb_funcall(mrb, self, "h=", 1, mrb_fixnum_value(659));
 
     return self;
 }
