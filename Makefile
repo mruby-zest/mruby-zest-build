@@ -6,6 +6,23 @@ all:
 	cd deps/osc-bridge   && make
 	cd mruby             && MRUBY_CONFIG=../build_config.rb rake
 
+push:
+	cd deps/osc-bridge      && git push
+	cd src/mruby-layout     && git push
+	cd src/mruby-qml-parse  && git push
+	cd src/mruby-qml-spawn  && git push
+	cd src/mruby-zest       && git push
+	git push
+
+status:
+	cd deps/osc-bridge      && git status
+	cd src/mruby-layout     && git status
+	cd src/mruby-qml-parse  && git status
+	cd src/mruby-qml-spawn  && git status
+	cd src/mruby-zest       && git status
+	git status
+
+
 verbose: ## Compile mruby with --trace
 	cd mruby             && MRUBY_CONFIG=../build_config.rb rake --trace
 
