@@ -16,14 +16,18 @@ class DrawSeqNode
             right_in = rect.x+rect.w>=@x && rect.x+rect.w<=@x+@w
             lr_in    = rect.x       <=@x && rect.x+rect.w>=@x+@w
 
-            top_in   = rect.y       >=@x && rect.y       <=@y+@h
-            bot_in   = rect.y+rect.h>=@x && rect.y+rect.h<=@y+@h
-            tb_in    = rect.y       <=@x && rect.y+rect.h>=@y+@h
+            top_in   = rect.y       >=@y && rect.y       <=@y+@h
+            bot_in   = rect.y+rect.h>=@y && rect.y+rect.h<=@y+@h
+            tb_in    = rect.y       <=@y && rect.y+rect.h>=@y+@h
 
             (left_in || right_in || lr_in) && (top_in || bot_in || tb_in)
         else
             false
         end
+    end
+
+    def to_s
+        "<DrawSeqNode x:#{@x} y:#{@y} w:#{@w} h:#{@h} layer:#{@layer}>"
     end
 end
 
