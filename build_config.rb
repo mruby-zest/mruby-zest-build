@@ -4,7 +4,7 @@ MRuby::Build.new do |conf|
   toolchain :clang
 
   enable_debug
-  
+
   conf.cc.defines = %w(MRUBY_NANOVG_GL2)
   conf.cc.flags << '-O0 -g'
 
@@ -17,7 +17,7 @@ MRuby::Build.new do |conf|
 
   # Use standard Time class
   conf.gem :core => "mruby-time"
-  
+
   # Use String class extension
   conf.gem :core => "mruby-string-ext"
 
@@ -43,6 +43,7 @@ MRuby::Build.new do |conf|
   conf.gem :core => "mruby-eval"
 
   #Non-STD lib gems
+  conf.gem 'deps/mruby-complex'
   conf.gem 'deps/mruby-io'
   conf.gem 'deps/mruby-nanovg'
   conf.gem 'deps/mruby-sleep'

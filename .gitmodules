@@ -49,3 +49,6 @@
 [submodule "deps/osc-bridge"]
 	path = deps/osc-bridge
 	url = git@fundamental-code.com:osc-bridge.git
+[submodule "deps/mruby-complex"]
+	path = deps/mruby-complex
+	url = https://github.com/pbosetti/mruby-complex
