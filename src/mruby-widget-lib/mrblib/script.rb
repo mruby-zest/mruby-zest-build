@@ -386,6 +386,16 @@ class ZRunner
                 if((frames%10) == 0)
                     p_code.time do
                         nwidget = block.call
+
+                        #Try to hotswap common draw routines
+                        draw_id = `md5sum src/mruby-zest/mrblib/draw-common.rb`
+                        @common_draw_id ||= draw_id
+                        if(draw_id != @common_draw_id)
+                            f = `cat src/mruby-zest/mrblib/draw-common.rb`
+                            eval(f)
+                            @draw_seq.damage_region(Rect.new(0, 0, @w, @h), 0)
+                            @common_draw_id = draw_id
+                        end
                     end
                 end
 
@@ -441,6 +451,12 @@ class ZRunner
 
     #Force a draw sequence regeneration
     def smash_draw_seq()
+        @draw_seq.make_draw_sequence(@widget)
+    end
+
+    #Force a layout regeneration
+    def smash_layout()
+        perform_layout
         @draw_seq.make_draw_sequence(@widget)
     end
 

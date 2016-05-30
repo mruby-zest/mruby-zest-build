@@ -130,6 +130,7 @@ class DrawSequence
 
             #puts @damage
             @damage.each do |dmg|
+                next if(dmg[1] != layer_id)
                 d = dmg[0]
                 GL::gl_viewport(0,0,w,h)
                 GL::gl_scissor(d.x, h-(d.y+d.h), d.w, d.h)
@@ -145,6 +146,7 @@ class DrawSequence
             GL::gl_viewport(0, 0, w, h);
             vg.draw(w, h, 1.0) do |v|
                 @damage.each do |dmg|
+                    next if(dmg[1] != layer_id)
                     d = dmg[0]
                     pat = vg.image_pattern(0,h,w,h,0,redraw_img.image, 1.0)
                     vg.path do |p|

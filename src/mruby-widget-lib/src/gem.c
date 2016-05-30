@@ -459,6 +459,7 @@ typedef struct {
 typedef struct {
     bridge_t *br;
     uri_t     uri;
+    char      type;
 } remote_param_data;
 
 static mrb_value
@@ -566,6 +567,9 @@ mrb_remote_param_initalize(mrb_state *mrb, mrb_value self)
     remote_param_data *data = mrb_malloc(mrb, sizeof(remote_param_data));
     data->br  = (bridge_t*)mrb_data_get_ptr(mrb, remote, &mrb_remote_type);
     data->uri = strdup(mrb_string_value_ptr(mrb, uri));
+    data->type = 'i';
+    if(strstr(data->uri, "Pfreq"))
+        data->type = 'f';
 
     mrb_funcall(mrb, self, "remote=", 1, remote);
     mrb_data_init(self, data, &mrb_remote_param_type);
@@ -606,9 +610,12 @@ mrb_remote_param_set_value(mrb_state *mrb, mrb_value self)
     mrb_assert(param->br);
     mrb_assert(param->uri);
 
-    int next = (127.0*value);
-
-    br_set_value_int(param->br, param->uri, next);
+    if(param->type == 'i') {
+        int next = (127.0*value);
+        br_set_value_int(param->br, param->uri, next);
+    } else if(param->type == 'f') {
+        br_set_value_float(param->br, param->uri, value);
+    }
     return self;
 }
 
@@ -630,6 +637,17 @@ mrb_remote_param_display_value(mrb_state *mrb, mrb_value self)
     }
 
     return mrb_nil_value();
+}
+
+static mrb_value
+mrb_remote_param_refresh(mrb_state *mrb, mrb_value self)
+{
+    remote_param_data *param;
+    param = (remote_param_data*) mrb_data_get_ptr(mrb, self, &mrb_remote_param_type);
+    mrb_assert(param);
+
+    br_refresh(param->br, param->uri);
+    return self;
 }
 
 static mrb_value
@@ -695,6 +713,7 @@ mrb_mruby_widget_lib_gem_init(mrb_state* mrb) {
     mrb_define_method(mrb, param, "set_callback", mrb_remote_param_set_callback, MRB_ARGS_REQ(1));
     mrb_define_method(mrb, param, "set_value",    mrb_remote_param_set_value, MRB_ARGS_REQ(1));
     mrb_define_method(mrb, param, "display_value",mrb_remote_param_display_value, MRB_ARGS_NONE());
+    mrb_define_method(mrb, param, "refresh",      mrb_remote_param_refresh, MRB_ARGS_NONE());
     mrb_define_method(mrb, param, "watch",        mrb_remote_param_watch, MRB_ARGS_NONE());
 }
 
