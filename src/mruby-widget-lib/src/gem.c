@@ -428,6 +428,19 @@ mrb_fbo_select(mrb_state *mrb, mrb_value self)
 /*****************************************************************************
  *                      Remote Parameter Code                                *
  *****************************************************************************/
+typedef struct {
+    mrb_state *mrb;
+    mrb_value  cb;
+} remote_cb_data;
+
+typedef struct {
+    bridge_t        *br;
+    uri_t            uri;
+    char             type;
+    int              cbs;
+    remote_cb_data **cb_refs;
+} remote_param_data;
+
 
 void
 mrb_remote_metadata_free(mrb_state *mrb, void *ptr)
@@ -441,26 +454,22 @@ mrb_remote_free(mrb_state *mrb, void *ptr)
     printf("================ remote FFFFFFFFFFFFFFRRRRRRRREEEEEEEEEEEE\n");
 }
 
+static void remote_cb(const char *msg, void *data);
+
 void
 mrb_remote_param_free(mrb_state *mrb, void *ptr)
 {
     printf("================ param FFFFFFFFFFFFFFRRRRRRRREEEEEEEEEEEE\n");
+    remote_param_data *data = (remote_param_data*)ptr;
+    for(int i=0; i<data->cbs; ++i) {
+        remote_cb_data *ref = data->cb_refs[i];
+        br_del_callback(data->br, data->uri, remote_cb, ref);
+    }
 }
 
 const struct mrb_data_type mrb_remote_type          = {"Remote", mrb_remote_free};
 const struct mrb_data_type mrb_remote_metadata_type = {"RemoteMetadata", mrb_remote_metadata_free};
 const struct mrb_data_type mrb_remote_param_type    = {"RemoteParam", mrb_remote_param_free};
-
-typedef struct {
-    mrb_state *mrb;
-    mrb_value  cb;
-} remote_cb_data;
-
-typedef struct {
-    bridge_t *br;
-    uri_t     uri;
-    char      type;
-} remote_param_data;
 
 static mrb_value
 mrb_remote_initalize(mrb_state *mrb, mrb_value self)
@@ -568,6 +577,8 @@ mrb_remote_param_initalize(mrb_state *mrb, mrb_value self)
     data->br  = (bridge_t*)mrb_data_get_ptr(mrb, remote, &mrb_remote_type);
     data->uri = strdup(mrb_string_value_ptr(mrb, uri));
     data->type = 'i';
+    data->cb_refs = NULL;
+    data->cbs     = 0;
     if(strstr(data->uri, "Pfreq"))
         data->type = 'f';
 
@@ -586,12 +597,15 @@ mrb_remote_param_set_callback(mrb_state *mrb, mrb_value self)
     data->mrb = mrb;
     mrb_get_args(mrb, "o", &data->cb);
 
-    mrb_value remote = mrb_funcall(mrb, self, "remote", 0);
-    mrb_funcall(mrb, remote, "add_cb", 1, data->cb);
+    mrb_funcall(mrb, self, "add_cb", 1, data->cb);
 
     mrb_assert(param->br);
     mrb_assert(param->uri);
     br_add_callback(param->br, param->uri, remote_cb, data);
+    param->cbs += 1;
+    param->cb_refs = realloc(param->cb_refs, param->cbs*sizeof(void*));
+    param->cb_refs[param->cbs-1] = data;
+
 
     param = (remote_param_data*) mrb_data_get_ptr(mrb, self, &mrb_remote_param_type);
     return self;

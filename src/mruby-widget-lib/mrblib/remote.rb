@@ -33,6 +33,15 @@ module OSC
 
         def invalidate()
         end
+        def add_cb(cb)
+            if(@cb_list.nil?)
+                @cb_list = [cb]
+            else
+                @cb_list << cb
+            end
+            puts "list of callbacks include "
+            puts @cb_list
+        end
     end
 end
 
