@@ -63,21 +63,29 @@ clean: ## Clean Build Data
 pack:
 	rm -rf package
 	mkdir package
+	mkdir package/schema
 	mkdir package/qml
 	mkdir package/font
 	cp src/mruby-zest/qml/* package/qml/
 	cp src/mruby-zest/example/* package/qml/
+	cp deps/osc-bridge/schema/test.json package/schema/
 	cp mruby/bin/mruby package/
 	cp deps/nanovg/example/*.ttf package/font/
 	cp /usr/bin/glpsol package/
-	cp /usr/lib64/libglpk.so.36.0.1 package/
+	cp /usr/lib/libglpk.so.36.1.2 package/
+	#cp /usr/lib64/libglpk.so.36.0.1 package/
 	echo './mruby -e "zr=ZRunner.new;zr.doRun{doFastLoad}"' > package/run.sh
 	chmod +x package/run.sh
 	tar cf zest-dist.tar package/
+	bzip2 zest-dist.tar
+
+pack32: ## Create 64bit Linux Package
+	make pack
+	mv zest-dist.tar.bz2 zest-dist-x86.tar.bz2
 
 pack64: ## Create 64bit Linux Package
 	make pack
-	mv zest-dist.tar zest-dist-x86_64.tar
+	mv zest-dist.tar.bz2 zest-dist-x86_64.tar.bz2
 
 .PHONY: help
 
