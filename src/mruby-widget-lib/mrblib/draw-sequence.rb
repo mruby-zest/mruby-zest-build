@@ -77,6 +77,7 @@ class DrawSequence
     #Run the full draw sequence
     def render(vg, w, h, fbo)
         (background_fbo, animation_fbo, overlay_fbo, redraw_fbo) = fbo
+        drawn_widgets = 0
         if(false)
             puts background_fbo
             puts animation_fbo
@@ -119,6 +120,7 @@ class DrawSequence
                         end
                         next if is_clean
 
+                        drawn_widgets += 1
                         v.spork do |vv|
                             vv.translate(n.x,n.y)
                             n.item.draw(vv)
@@ -180,6 +182,7 @@ class DrawSequence
             end
         end
 
+        print drawn_widgets
         @damage_layers = []
         @damage        = []
     end
