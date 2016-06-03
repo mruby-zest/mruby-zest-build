@@ -118,17 +118,8 @@ class ZRunner
     ########################################
 
     #holds true only in cases of a spacial partitioning
-    def activeWidget(mx=@mx, my=@my, xoff=0,yoff=0,scope=@widget)
-        if(scope && scope.layer != 1)
-            scope.children.each do |ch|
-                if(Rect.new(xoff+ch.x, yoff+ch.y, ch.w, ch.h).include(mx, my) && ch.layer != 1)
-                    out = activeWidget(mx, my, xoff+ch.x, yoff+ch.y, ch);
-                    return out if out
-                end
-            end
-            return scope
-        end
-        nil
+    def activeWidget(mx=@mx, my=@my)
+        @draw_seq.event_widget(mx, my)
     end
 
     def handleMousePress(mouse)
@@ -146,6 +137,10 @@ class ZRunner
 
     def handleMouseRelease(mouse)
         @clicked = nil
+        aw = activeWidget
+        if(aw.respond_to? :onMouseRelease)
+            aw.onMouseRelease mouse
+        end
     end
 
     def handleCursorPos(x,y)

@@ -42,6 +42,22 @@ module OSC
             puts "list of callbacks include "
             puts @cb_list
         end
+
+        def midi_learn()
+            puts "MIDI Learn Action"
+            puts "/midi/learn :s "
+        end
+
+        def rand()
+        end
+
+        def midi_unlearn()
+            puts "MIDI Learn Action"
+            puts "/midi/unlearn :s "
+        end
+
+        def default()
+        end
     end
 end
 

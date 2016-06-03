@@ -9,6 +9,12 @@ class DrawSeqNode
         @layer = item.layer
     end
 
+    def hit?(x,y)
+        hx = @x <= x && x <= @x+@w
+        hy = @y <= y && y <= @y+@h
+        hx && hy
+    end
+
     def intersect?(dmg)
         (rect, layer) = dmg
         if(layer == @layer)
@@ -192,6 +198,30 @@ class DrawSequence
         Nanovg::ImageHandle.new($vg, im)
     end
 
+
+    #Find a widget which should accept a particular event
+    # - Widgets which are drawn later take higher precedence
+    # - Widgets drawn on the animation layer cannot receive events
+    # - Widgets drawn on the overlay layer take precedence over the ground layer
+    #
+    # inputs:
+    # - x location relative to the root of the window
+    # - y location relative to the root of the window
+    # - optional method which widget must respond to
+    #  (filters out decoration widgets)
+    def event_widget(x, y, method=nil)
+        selected_item  = nil
+        selected_layer = 0
+        @seq.each do |elm|
+            next if elm.layer == 1
+            next if selected_layer == 2 && elm.layer != 2
+            if(elm.hit?(x,y))
+                selected_item  = elm.item
+                selected_layer = elm.layer
+            end
+        end
+        selected_item
+    end
 
     private :make_draw_sequence_recur
 
