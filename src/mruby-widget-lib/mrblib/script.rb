@@ -258,6 +258,12 @@ class ZRunner
     end
 
     def draw
+        if(@pending_layout)
+            perform_layout
+            @draw_seq.make_draw_sequence(@widget)
+            @draw_seq.damage_region(Rect.new(0, 0, @w, @h), 0)
+            @pending_layout = false
+        end
         #Setup Profilers
         p_total = TimeProfile.new
         p_draw  = TimeProfile.new
@@ -451,8 +457,8 @@ class ZRunner
 
     #Force a layout regeneration
     def smash_layout()
-        perform_layout
-        @draw_seq.make_draw_sequence(@widget)
+        @pending_layout = true
+        @window.refresh
     end
 
     #Damage

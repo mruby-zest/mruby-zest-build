@@ -37,19 +37,19 @@ rtest:
 	cd src/mruby-qml-spawn && ruby test-non-mruby.rb
 
 run: ## Run the toolkit
-	 ./mruby/bin/mruby -e "zr=ZRunner.new;zr.doRun{doFastLoad}"
+	 ./mruby/bin/mruby -e "zr=ZRunner.new;zr.doRun lambda{doFastLoad}"
 
 valgrind: ## Launch with valgrind
-	 valgrind ./mruby/bin/mruby -e "zr=ZRunner.new;zr.doRun{doFastLoad}"
+	 valgrind ./mruby/bin/mruby -e "zr=ZRunner.new;zr.doRun lambda{doFastLoad}"
 
 callgrind: ## Launch with callgrind
-	 valgrind --tool=callgrind --dump-instr=yes --collect-jumps=yes ./mruby/bin/mruby -e "zr=ZRunner.new;zr.doRun{doFastLoad}"
+	 valgrind --tool=callgrind --dump-instr=yes --collect-jumps=yes ./mruby/bin/mruby -e "zr=ZRunner.new;zr.doRun lambda{doFastLoad}"
 
 gdb:
-	 gdb --args ./mruby/bin/mruby -e "zr=ZRunner.new;zr.doRun{doFastLoad}"
+	 gdb --args ./mruby/bin/mruby -e "zr=ZRunner.new;zr.doRun lambda{doFastLoad}"
 
 gltrace: ## Launch with apitrace
-	/work/mytmp/apitrace/build/apitrace trace ./mruby/bin/mruby -e "zr=ZRunner.new;zr.doRun{doFastLoad}"
+	/work/mytmp/apitrace/build/apitrace trace ./mruby/bin/mruby -e "zr=ZRunner.new;zr.doRun lambda{doFastLoad}"
 
 qtrace:
 	/work/mytmp/apitrace/build/qapitrace ./mruby.trace

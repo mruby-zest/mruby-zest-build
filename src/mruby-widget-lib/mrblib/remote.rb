@@ -7,8 +7,8 @@ module OSC
             else
                 @cb_list << cb
             end
-            puts "list of callbacks include "
-            puts @cb_list
+            #puts "list of callbacks include "
+            #puts @cb_list
         end
     end
     class RemoteMetadata
@@ -39,8 +39,8 @@ module OSC
             else
                 @cb_list << cb
             end
-            puts "list of callbacks include "
-            puts @cb_list
+            #puts "list of callbacks include "
+            #puts @cb_list
         end
 
         def midi_learn()

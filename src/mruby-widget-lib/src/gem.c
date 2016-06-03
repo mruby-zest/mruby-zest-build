@@ -441,6 +441,11 @@ typedef struct {
     remote_cb_data **cb_refs;
 } remote_param_data;
 
+typedef struct {
+    bridge_t *br;
+    schema_t  sch;
+} remote_data;
+
 
 void
 mrb_remote_metadata_free(mrb_state *mrb, void *ptr)
@@ -474,17 +479,19 @@ const struct mrb_data_type mrb_remote_param_type    = {"RemoteParam", mrb_remote
 static mrb_value
 mrb_remote_initalize(mrb_state *mrb, mrb_value self)
 {
-    bridge_t *br = br_create("localhost:1337");
+    remote_data *data = mrb_malloc(mrb, sizeof(remote_data));
+    data->br  = br_create("localhost:1337");
+    data->sch = br_get_schema(data->br, "");
 
-    mrb_data_init(self, br, &mrb_remote_type);
+    mrb_data_init(self, data, &mrb_remote_type);
     return self;
 }
 
 static mrb_value
 mrb_remote_tick(mrb_state *mrb, mrb_value self)
 {
-    bridge_t *br = (bridge_t *)mrb_data_get_ptr(mrb, self, &mrb_remote_type);
-    br_tick(br);
+    remote_data *data = (remote_data*)mrb_data_get_ptr(mrb, self, &mrb_remote_type);
+    br_tick(data->br);
     return self;
 }
 
@@ -496,8 +503,9 @@ mrb_remote_metadata_initalize(mrb_state *mrb, mrb_value self)
     mrb_get_args(mrb, "oS", &remote, &path);
 
     //Obtain the schema handle
-    bridge_t *br = (bridge_t *)mrb_data_get_ptr(mrb, remote, &mrb_remote_type);
-    schema_t sch = br_get_schema(br, "");
+    remote_data *data = (remote_data*)mrb_data_get_ptr(mrb, remote, &mrb_remote_type);
+    bridge_t *br = data->br;
+    schema_t sch = data->sch;
     schema_handle_t handle = sm_get(sch, mrb_string_value_ptr(mrb, path));
     mrb_value opts = mrb_nil_value();
     if(handle.opts) {
@@ -574,7 +582,8 @@ mrb_remote_param_initalize(mrb_state *mrb, mrb_value self)
     mrb_value uri;
     mrb_get_args(mrb, "oS", &remote, &uri);
     remote_param_data *data = mrb_malloc(mrb, sizeof(remote_param_data));
-    data->br  = (bridge_t*)mrb_data_get_ptr(mrb, remote, &mrb_remote_type);
+    remote_data *rdata = (remote_data*)mrb_data_get_ptr(mrb, remote, &mrb_remote_type);
+    data->br  = rdata->br;
     data->uri = strdup(mrb_string_value_ptr(mrb, uri));
     data->type = 'i';
     data->cb_refs = NULL;
