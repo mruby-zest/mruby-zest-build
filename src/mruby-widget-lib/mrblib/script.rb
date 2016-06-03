@@ -342,7 +342,7 @@ class ZRunner
         end
     end
 
-    def doRun(&block)
+    def doRun(block)
         @widget = block.call
         if(@widget.nil?)
             puts "invalid widget creation, try checking those .qml files for a bug"

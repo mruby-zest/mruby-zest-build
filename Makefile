@@ -70,12 +70,18 @@ pack:
 	cp src/mruby-zest/example/* package/qml/
 	cp deps/osc-bridge/schema/test.json package/schema/
 	cp mruby/bin/mruby package/
+	cp mruby/bin/zest package/
 	cp deps/nanovg/example/*.ttf package/font/
 	cp /usr/bin/glpsol package/
 	cp /usr/lib/libglpk.so.36.1.2 package/
+	cd package && ln -sf libglpk.so.36.1.2 libglpk.so.36
 	#cp /usr/lib64/libglpk.so.36.0.1 package/
-	echo './mruby -e "zr=ZRunner.new;zr.doRun{doFastLoad}"' > package/run.sh
+	echo `date` > package/VERSION
+	echo '#!/bin/sh' > package/run.sh
+	echo 'LD_LIBRARY_PATH="." ./zest' >> package/run.sh
 	chmod +x package/run.sh
+	rm -f zest-dist.tar
+	rm -f zest-dist.tar.bz2
 	tar cf zest-dist.tar package/
 	bzip2 zest-dist.tar
 

@@ -78,6 +78,9 @@ MRuby::Build.new do |conf|
   #Scrap Code Gem
   conf.gem 'src/mruby-widget-lib'
 
+  #Binary Launcher
+  conf.gem 'src/mruby-bin-zest'
+
 end
 
 MRuby::Build.new('host-debug') do |conf|
