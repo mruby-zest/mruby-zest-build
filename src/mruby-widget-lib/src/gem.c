@@ -342,7 +342,6 @@ const struct mrb_data_type mrb_fbo_type = {"FBO", mrb_fbo_free};
 static void
 mrb_fbo_free(mrb_state *mrb, void *ptr)
 {
-    printf("================ FBO FFFFFFFFFFFFFFRRRRRRRREEEEEEEEEEEE\n");
     mrb_assert(mrb && false);
     GLframebuffer *fbo = (GLframebuffer *)ptr;
     glDeleteRenderbuffers(1, &fbo->rbo);
@@ -464,7 +463,6 @@ static void remote_cb(const char *msg, void *data);
 void
 mrb_remote_param_free(mrb_state *mrb, void *ptr)
 {
-    printf("================ param FFFFFFFFFFFFFFRRRRRRRREEEEEEEEEEEE\n");
     remote_param_data *data = (remote_param_data*)ptr;
     for(int i=0; i<data->cbs; ++i) {
         remote_cb_data *ref = data->cb_refs[i];
