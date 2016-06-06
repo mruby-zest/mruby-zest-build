@@ -12,6 +12,9 @@ class ZRunner
         @my       = 0
         @clicked  = nil
 
+        @animate_frame_dt   = 30e-3
+        @animate_frame_next = Time.new
+
         #Framebuffers
         @background_fbo = nil
         @animation_fbo  = nil
@@ -343,6 +346,11 @@ class ZRunner
         end
     end
 
+    def animate_frame(widget)
+        widget.animate if widget.respond_to? :animate
+        widget.children.map {|x| animate_frame x}
+    end
+
     def doRun(block)
         @widget = block.call
         if(@widget.nil?)
@@ -374,7 +382,16 @@ class ZRunner
 
             p_poll.time do
                 $remote.tick
-                if(handle_events == 0)
+
+                now = Time.new
+                ani = false
+                if(now > @animate_frame_next)
+                    ani = true
+                    @animate_frame_next += @animate_frame_dt
+                    animate_frame @widget
+                end
+
+                if(!ani && handle_events == 0)
                     sleep 0.02
                 end
             end

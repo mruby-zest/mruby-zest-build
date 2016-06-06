@@ -430,6 +430,7 @@ mrb_fbo_select(mrb_state *mrb, mrb_value self)
 typedef struct {
     mrb_state *mrb;
     mrb_value  cb;
+    mrb_value  mode;
 } remote_cb_data;
 
 typedef struct {
@@ -548,6 +549,16 @@ remote_cb_127(const char *msg, remote_cb_data *cb)
 }
 
 static void
+remote_cb_int(const char *msg, remote_cb_data *cb)
+{
+    mrb_assert(!strcmp("i",rtosc_argument_string(msg)));
+
+    mrb_float cb_val = rtosc_argument(msg, 0).i;
+
+    mrb_funcall(cb->mrb, cb->cb, "call", 1, mrb_float_value(cb->mrb,cb_val));
+}
+
+static void
 remote_cb_fvec(const char *msg, remote_cb_data *cb)
 {
     mrb_value ary = mrb_ary_new(cb->mrb);
@@ -555,6 +566,10 @@ remote_cb_fvec(const char *msg, remote_cb_data *cb)
         rtosc_arg_val_t val = rtosc_itr_next(&itr);
         if(val.type == 'f')
             mrb_ary_push(cb->mrb, ary, mrb_float_value(cb->mrb, val.val.f));
+        else if(val.type == 'T')
+            mrb_ary_push(cb->mrb, ary, mrb_true_value());
+        else if(val.type == 'F')
+            mrb_ary_push(cb->mrb, ary, mrb_false_value());
     }
 
     mrb_funcall(cb->mrb, cb->cb, "call", 1, ary);
@@ -564,8 +579,11 @@ static void
 remote_cb(const char *msg, void *data)
 {
     remote_cb_data *cb = (remote_cb_data*) data;
-    if(!strcmp("i", rtosc_argument_string(msg)))
+    int nil = mrb_obj_equal(cb->mrb, mrb_nil_value(), cb->mode);
+    if(!strcmp("i", rtosc_argument_string(msg)) && nil)
         remote_cb_127(msg, cb);
+    else if(!strcmp("i", rtosc_argument_string(msg)))
+        remote_cb_int(msg, cb);
     else if(!strcmp("f", rtosc_argument_string(msg)))
         mrb_funcall(cb->mrb, cb->cb, "call", 1, mrb_float_value(cb->mrb,rtosc_argument(msg, 0).f));
     else
@@ -602,6 +620,7 @@ mrb_remote_param_set_callback(mrb_state *mrb, mrb_value self)
 
     remote_cb_data *data = malloc(sizeof(remote_cb_data));
     data->mrb = mrb;
+    data->mode = mrb_funcall(mrb, self, "mode", 0);
     mrb_get_args(mrb, "o", &data->cb);
 
     mrb_funcall(mrb, self, "add_cb", 1, data->cb);
@@ -625,14 +644,17 @@ mrb_remote_param_set_value(mrb_state *mrb, mrb_value self)
     param = (remote_param_data*) mrb_data_get_ptr(mrb, self, &mrb_remote_param_type);
     mrb_assert(param);
 
+    mrb_value mode;
     mrb_float value = 0;
-    mrb_get_args(mrb, "f", &value);
+    mrb_get_args(mrb, "fo", &value, &mode);
     mrb_assert(param);
     mrb_assert(param->br);
     mrb_assert(param->uri);
 
     if(param->type == 'i') {
-        int next = (127.0*value);
+        int next = value;
+        if(mrb_obj_equal(mrb, mrb_nil_value(), mode))
+            next = (127.0*value);
         br_set_value_int(param->br, param->uri, next);
     } else if(param->type == 'f') {
         br_set_value_float(param->br, param->uri, value);

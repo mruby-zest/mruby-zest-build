@@ -20,11 +20,10 @@ module OSC
         attr_accessor :remote
 
         # :norm - 0..1 continious valued knob
-        def mode=(mode)
-        end
+        attr_accessor :mode
 
         def value=(val)
-            set_value(val)
+            set_value(val*1.0, @mode)
         end
 
         def callback=(cb)

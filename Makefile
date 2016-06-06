@@ -22,6 +22,14 @@ status:
 	cd src/mruby-zest       && git status
 	git status
 
+diff:
+	cd deps/osc-bridge      && git diff
+	cd src/mruby-layout     && git diff
+	cd src/mruby-qml-parse  && git diff
+	cd src/mruby-qml-spawn  && git diff
+	cd src/mruby-zest       && git diff
+	git diff
+
 
 verbose: ## Compile mruby with --trace
 	cd mruby             && MRUBY_CONFIG=../build_config.rb rake --trace
