@@ -23,6 +23,7 @@ module OSC
         attr_accessor :mode
 
         def value=(val)
+            val = 0 if val.nil?
             set_value(val*1.0, @mode)
         end
 
