@@ -2,9 +2,20 @@ UiEventTypes = [
     :mousePress,
     :mouseRelease,
     :mouseMove,
+    :mouseScroll,
     :windowResize,
     :keyPress
 ]
+
+class MouseScroll
+    attr_accessor :x, :y, :dx, :dy
+    def initialize(x,y,dx,dy)
+        @x  = x
+        @y  = y
+        @dx = dx
+        @dy = dy
+    end
+end
 
 class UiEventSeq
     attr_accessor :events, :ev, :frame

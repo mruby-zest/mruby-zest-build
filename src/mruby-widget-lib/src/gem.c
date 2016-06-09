@@ -8,6 +8,7 @@
 #include <GL/glext.h>
 #include <string.h>
 #include <stdlib.h>
+#include <assert.h>
 #include "../../../deps/pugl/pugl/event.h"
 #include "../../../deps/pugl/pugl/common.h"
 #include "../../../deps/pugl/pugl/pugl.h"
@@ -157,6 +158,15 @@ onScroll(PuglView* view, int x, int y, float dx, float dy)
 	//fprintf(stderr, "Scroll %d %d %f %f ", x, y, dx, dy);
 	printModifiers(view);
 	//dist += dy / 4.0f;
+    void **v = (void**)puglGetHandle(view);
+    if(v) {
+        mrb_value obj = mrb_obj_value(v[1]);
+        mrb_funcall(v[0], obj, "scroll", 4, 
+                mrb_fixnum_value(x),
+                mrb_fixnum_value(y),
+                mrb_fixnum_value(dx),
+                mrb_fixnum_value(dy));
+    }
 }
 
 static void
@@ -532,6 +542,32 @@ mrb_remote_metadata_initalize(mrb_state *mrb, mrb_value self)
     return self;
 }
 
+static int valid_type(char ch)
+{
+    switch(ch)
+    {
+        case 'i'://official types
+        case 's':
+        case 'b':
+        case 'f':
+
+        case 'h'://unofficial
+        case 't':
+        case 'd':
+        case 'S':
+        case 'r':
+        case 'm':
+        case 'c':
+        case 'T':
+        case 'F':
+        case 'N':
+        case 'I':
+            return 1;
+        default:
+            return 0;
+    }
+}
+
 static void
 remote_cb_127(const char *msg, remote_cb_data *cb)
 {
@@ -570,6 +606,13 @@ remote_cb_fvec(const char *msg, remote_cb_data *cb)
             mrb_ary_push(cb->mrb, ary, mrb_true_value());
         else if(val.type == 'F')
             mrb_ary_push(cb->mrb, ary, mrb_false_value());
+        else if(val.type == 'b') {
+            int    n   = val.val.b.len/4;
+            float *dat = (float*)val.val.b.data;
+            for(int i=0; i<n; ++i)
+                mrb_ary_push(cb->mrb, ary, mrb_float_value(cb->mrb, dat[i]));
+        }
+
     }
 
     mrb_funcall(cb->mrb, cb->cb, "call", 1, ary);
@@ -578,6 +621,10 @@ remote_cb_fvec(const char *msg, remote_cb_data *cb)
 static void
 remote_cb(const char *msg, void *data)
 {
+    assert(msg && *msg == '/');
+    const char *args = rtosc_argument_string(msg);
+    if(args && *args)
+        assert(valid_type(*args));
     remote_cb_data *cb = (remote_cb_data*) data;
     int nil = mrb_obj_equal(cb->mrb, mrb_nil_value(), cb->mode);
     if(!strcmp("i", rtosc_argument_string(msg)) && nil)
@@ -604,8 +651,8 @@ mrb_remote_param_initalize(mrb_state *mrb, mrb_value self)
     data->type = 'i';
     data->cb_refs = NULL;
     data->cbs     = 0;
-    if(strstr(data->uri, "Pfreq"))
-        data->type = 'f';
+    //if(strstr(data->uri, "Pfreq"))
+    //    data->type = 'f';
 
     mrb_funcall(mrb, self, "remote=", 1, remote);
     mrb_data_init(self, data, &mrb_remote_param_type);

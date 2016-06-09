@@ -12,7 +12,7 @@ class ZRunner
         @my       = 0
         @clicked  = nil
 
-        @animate_frame_dt   = 30e-3
+        @animate_frame_dt   = 100e-3
         @animate_frame_next = Time.new
 
         #Framebuffers
@@ -166,6 +166,11 @@ class ZRunner
         end
     end
 
+    def handleScroll(x, y, scroll)
+        aw = activeWidget(x,y)
+        aw.onScroll scroll if(aw.respond_to? :onScroll)
+    end
+
     def quit
         @keep_running = false
     end
@@ -187,6 +192,10 @@ class ZRunner
         end
     end
 
+    def scroll(x, y, dx, dy)
+        @events.record([:mouseScroll,   {:x => x, :y => y, :dx => dx, :dy => dy}])
+    end
+
     def load_event_seq
         @events.reload File.open("/tmp/zest-event-log.txt", "r")
     end
@@ -204,6 +213,9 @@ class ZRunner
                 handleMouseRelease(mouse)
             elsif(ev[0] == :mouseMove)
                 handleCursorPos(ev[1][:x],ev[1][:y])
+            elsif(ev[0] == :mouseScroll)
+                scroll = MouseScroll.new(ev[1][:x], ev[1][:y], ev[1][:dx], ev[1][:dy])
+                handleScroll(ev[1][:x],ev[1][:y], scroll)
             elsif(ev[0] == :windowResize)
                 @events.ignore
                 @window.size = [ev[1][:w], ev[1][:h]]
@@ -271,7 +283,7 @@ class ZRunner
         p_total = TimeProfile.new
         p_draw  = TimeProfile.new
 
-        print '.'
+        print 'D'
         STDOUT.flush
 
         p_total.start
@@ -373,8 +385,16 @@ class ZRunner
         #Do initial draw
         @draw_seq.damage_region(Rect.new(0, 0, @w, @h), 0)
 
+        last = Time.new
         frames = 0
         while(frames < 100000 && @window != nil && @keep_running)
+            now = Time.new
+            if(now > last+100e-3)
+                puts
+                puts("[WARNING] xrun #{1000*(now-last)} ms")
+            end
+            last = now
+
             print '.'
             STDOUT.flush
 
@@ -479,10 +499,12 @@ class ZRunner
     end
 
     #Damage
-    def damage_item(item)
+    def damage_item(item, all=nil)
         @draw_seq.seq.each do |dsn|
             if(dsn.item == item)
-                @draw_seq.damage_region(Rect.new(dsn.x,dsn.y,dsn.w,dsn.h),item.layer)
+                @draw_seq.damage_region(Rect.new(dsn.x,dsn.y,dsn.w,dsn.h),dsn.layer)
+                @draw_seq.damage_region(Rect.new(dsn.x,dsn.y,dsn.w,dsn.h),1) if all
+                @draw_seq.damage_region(Rect.new(dsn.x,dsn.y,dsn.w,dsn.h),2) if all
             end
         end
     end
@@ -501,11 +523,11 @@ class ZRunner
     end
 
     def log(message_class, message, src=:unknown)
-        if(message_class == :user_value)
-            puts "[LOG#value] #{message.to_s}"
-        else
-            puts "[LOG#misc]  #{message.to_s}"
-        end
+        #if(message_class == :user_value)
+        #    puts "[LOG#value] #{message.to_s}"
+        #else
+        #    puts "[LOG#misc]  #{message.to_s}"
+        #end
         if(@log_widget)
             @log_widget.display_log(message_class, message.to_s, src)
         end
