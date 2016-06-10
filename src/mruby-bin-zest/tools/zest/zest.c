@@ -9,11 +9,18 @@ struct {
     int package_mode;
     //Reloads code when a change is detected
     int hotload;
-}cmd_arg_t;
+} cmd_arg;
 
 void
 parse_arguments(int argc, char **argv)
 {
+    cmd_arg.remote_address   = "localhost:1337";
+    cmd_arg.widget_selection = "MainWindow";
+    cmd_arg.hotload          = 1;
+    for(int i=0; i<argc; ++i)
+        if(!strcmp("--no-hotload", argv[i]))
+            cmd_arg.hotload = 0;
+
     (void) argc;
     (void) argv;
 }
@@ -53,6 +60,9 @@ check_glpsol_sanity(void)
 int
 main(int argc, char **argv)
 {
+    //Parse arguments
+    parse_arguments(argc, argv);
+
     //Verify The System Can Run The Application
     check_glpsol_sanity();
 
@@ -69,6 +79,9 @@ main(int argc, char **argv)
     //Initialize Application Runner
     struct RClass *runner  = mrb_class_get(mrb, "ZRunner");
     mrb_value      run     = mrb_obj_new(mrb, runner, 0, NULL);
+
+    //Set Argument Values
+    mrb_funcall(mrb, run, "hotload=", 1, cmd_arg.hotload ? mrb_true_value() : mrb_false_value());
 
     //Launch the application
     printf("[INFO] Launching MRuby Application...\n");

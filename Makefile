@@ -86,7 +86,7 @@ pack:
 	#cp /usr/lib64/libglpk.so.36.0.1 package/
 	echo `date` > package/VERSION
 	echo '#!/bin/sh' > package/run.sh
-	echo 'LD_LIBRARY_PATH="." ./zest' >> package/run.sh
+	echo 'LD_LIBRARY_PATH="." ./zest --no-hotload' >> package/run.sh
 	chmod +x package/run.sh
 	rm -f zest-dist.tar
 	rm -f zest-dist.tar.bz2

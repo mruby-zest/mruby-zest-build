@@ -26,6 +26,9 @@ class ZRunner
         @overlay_img    = nil
         @redraw_img     = nil
 
+        #Misc
+        @hotload = true
+
         #global stuff?
         $remote = OSC::Remote.new
         print "remote = "
@@ -244,6 +247,9 @@ class ZRunner
     ########################################
     #      Widget Hotloading Support       #
     ########################################
+    def hotload=(val)
+        @hotload = val
+    end
 
     #Setup widget graph
     def doSetup(wOld, wNew)
@@ -421,7 +427,7 @@ class ZRunner
                 nwidget = nil
 
                 #Attempt A code hot swap
-                if((frames%10) == 0)
+                if((frames%10) == 0 && @hotload)
                     p_code.time do
                         nwidget = block.call
 

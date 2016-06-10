@@ -6,7 +6,7 @@ MRuby::Build.new do |conf|
   enable_debug
 
   conf.cc.defines = %w(MRUBY_NANOVG_GL2)
-  conf.cc.flags << '-O0 -g'
+  conf.cc.flags << '-O3'
 
   #No default gems
   # Use standard print/puts/p
