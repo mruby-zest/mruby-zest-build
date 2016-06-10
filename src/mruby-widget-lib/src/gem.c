@@ -213,7 +213,7 @@ mrb_pugl_initialize(mrb_state *mrb, mrb_value self)
 	puglSetReshapeFunc(view, onReshape);
 	puglSetCloseFunc(view, onClose);
 
-	puglCreateWindow(view, "Pugl Test");
+	puglCreateWindow(view, "Zyn The Overdue");
 	puglShowWindow(view);
     puglProcessEvents(view);
 
