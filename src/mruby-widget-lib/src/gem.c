@@ -9,6 +9,8 @@
 #include <string.h>
 #include <stdlib.h>
 #include <assert.h>
+#include <complex.h>
+#include <math.h>
 #include "../../../deps/pugl/pugl/event.h"
 #include "../../../deps/pugl/pugl/common.h"
 #include "../../../deps/pugl/pugl/pugl.h"
@@ -587,7 +589,7 @@ remote_cb_127(const char *msg, remote_cb_data *cb)
 static void
 remote_cb_int(const char *msg, remote_cb_data *cb)
 {
-    mrb_assert(!strcmp("i",rtosc_argument_string(msg)));
+    mrb_assert(!strcmp("i",rtosc_argument_string(msg)) || !strcmp("c",rtosc_argument_string(msg)));
 
     mrb_float cb_val = rtosc_argument(msg, 0).i;
 
@@ -602,6 +604,8 @@ remote_cb_fvec(const char *msg, remote_cb_data *cb)
         rtosc_arg_val_t val = rtosc_itr_next(&itr);
         if(val.type == 'f')
             mrb_ary_push(cb->mrb, ary, mrb_float_value(cb->mrb, val.val.f));
+        else if(val.type == 'i')
+            mrb_ary_push(cb->mrb, ary, mrb_fixnum_value(val.val.i));
         else if(val.type == 'T')
             mrb_ary_push(cb->mrb, ary, mrb_true_value());
         else if(val.type == 'F')
@@ -628,6 +632,8 @@ remote_cb(const char *msg, void *data)
     remote_cb_data *cb = (remote_cb_data*) data;
     int nil = mrb_obj_equal(cb->mrb, mrb_nil_value(), cb->mode);
     if(!strcmp("i", rtosc_argument_string(msg)) && nil)
+        remote_cb_127(msg, cb);
+    else if(!strcmp("c", rtosc_argument_string(msg)))
         remote_cb_127(msg, cb);
     else if(!strcmp("i", rtosc_argument_string(msg)))
         remote_cb_int(msg, cb);
@@ -766,6 +772,47 @@ mrb_remote_param_clean(mrb_state *mrb, mrb_value self)
     return self;
 }
 
+//Optimized DSP stuff
+mrb_value
+mrb_opt_magnitude(mrb_state *mrb, mrb_value self)
+{
+    mrb_value num, dem, freq, output;
+    mrb_int stages;
+    int args = mrb_get_args(mrb, "AAAi", &num, &dem, &freq, &stages);
+    assert(args == 4);
+
+    float b[3] = {0}, a[3] = {0};
+    int   order = mrb_ary_len(mrb, num);
+    assert(order == 3);
+
+    for(int i=0; i<order; ++i) {
+        b[i] = mrb_ary_ref(mrb, num, i).value.f;
+        a[i] = mrb_ary_ref(mrb, dem, i).value.f;
+    }
+
+    int n = mrb_ary_len(mrb, freq);
+
+    output = mrb_ary_new(mrb);
+
+    for(int i=0; i<n; ++i) {
+        const float fq = mrb_ary_ref(mrb, freq, i).value.f;
+        float complex nm = 0;
+        float complex dm = 1.0;
+        for(int j=0; j<order; ++j) {
+#ifndef M_PI
+# define M_PI		3.14159265358979323846f
+#endif
+            const float angle  = M_PI * fq * j;
+            float complex base = cosf(angle) + I*sinf(angle);
+            nm += b[j]*base;
+            dm -= a[j]*base;
+        }
+        const float rs = powf(cabs(nm/dm), stages);
+        mrb_ary_push(mrb, output, mrb_float_value(mrb, rs));
+    }
+
+    return output;
+}
 
 // Puting it all together
 void
@@ -821,6 +868,9 @@ mrb_mruby_widget_lib_gem_init(mrb_state* mrb) {
     mrb_define_method(mrb, param, "refresh",      mrb_remote_param_refresh, MRB_ARGS_NONE());
     mrb_define_method(mrb, param, "watch",        mrb_remote_param_watch, MRB_ARGS_NONE());
     mrb_define_method(mrb, param, "clean",        mrb_remote_param_clean, MRB_ARGS_NONE());
+
+    struct RClass *opt = mrb_define_module(mrb, "Draw");
+    mrb_define_class_method(mrb, opt, "opt_magnitude",    mrb_opt_magnitude,    MRB_ARGS_REQ(4));
 }
 
 void
