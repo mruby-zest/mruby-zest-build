@@ -508,9 +508,9 @@ class ZRunner
     def damage_item(item, all=nil)
         @draw_seq.seq.each do |dsn|
             if(dsn.item == item)
-                @draw_seq.damage_region(Rect.new(dsn.x,dsn.y,dsn.w,dsn.h),dsn.layer)
-                @draw_seq.damage_region(Rect.new(dsn.x,dsn.y,dsn.w,dsn.h),1) if all
-                @draw_seq.damage_region(Rect.new(dsn.x,dsn.y,dsn.w,dsn.h),2) if all
+                @draw_seq.damage_region(Rect.new(dsn.x.to_i,dsn.y.to_i-0.5,dsn.w.to_i+0.5,dsn.h.to_i),dsn.layer)
+                @draw_seq.damage_region(Rect.new(dsn.x.to_i,dsn.y.to_i-0.5,dsn.w.to_i+0.5,dsn.h.to_i),1) if all
+                @draw_seq.damage_region(Rect.new(dsn.x.to_i,dsn.y.to_i-0.5,dsn.w.to_i+0.5,dsn.h.to_i),2) if all
             end
         end
     end
