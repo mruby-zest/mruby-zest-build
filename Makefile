@@ -101,6 +101,10 @@ pack64: ## Create 64bit Linux Package
 	make pack
 	mv zest-dist.tar.bz2 zest-dist-x86_64.tar.bz2
 
+put32: ## Push to the server
+	scp zest-dist-x86.tar.bz2 mark@fundamental-code.com:/var/www/htdocs/zest/
+
+
 .PHONY: help
 
 help: ## This help
