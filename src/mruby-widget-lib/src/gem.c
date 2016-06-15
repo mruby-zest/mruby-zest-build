@@ -507,6 +507,32 @@ mrb_remote_tick(mrb_state *mrb, mrb_value self)
 }
 
 static mrb_value
+mrb_remote_action(mrb_state *mrb, mrb_value self)
+{
+    remote_data *data = (remote_data*)mrb_data_get_ptr(mrb, self, &mrb_remote_type);
+    mrb_value *argv;
+    mrb_int    argc;
+    mrb_get_args(mrb, "*", &argv, &argc);
+    if(argc < 1)
+        return self;
+
+    char *path = strdup(mrb_string_value_ptr(mrb, argv[0]));
+
+    if(argc == 2) {
+        char *arg = strdup(mrb_string_value_ptr(mrb, argv[1]));
+        rtosc_arg_t args[1];
+        args[0].s = arg;
+        br_action(data->br, path, "s", args);
+        free(arg);
+    } else {
+        br_action(data->br, path, "", NULL);
+    }
+    free(path);
+
+    return self;
+}
+
+static mrb_value
 mrb_remote_metadata_initalize(mrb_state *mrb, mrb_value self)
 {
     mrb_value remote;
@@ -854,6 +880,7 @@ mrb_mruby_widget_lib_gem_init(mrb_state* mrb) {
     MRB_SET_INSTANCE_TT(remote, MRB_TT_DATA);
     mrb_define_method(mrb, remote, "initialize", mrb_remote_initalize, MRB_ARGS_NONE());
     mrb_define_method(mrb, remote, "tick",       mrb_remote_tick,      MRB_ARGS_NONE());
+    mrb_define_method(mrb, remote, "action",     mrb_remote_action,    MRB_ARGS_ANY());
 
     struct RClass *metadata = mrb_define_class_under(mrb, osc, "RemoteMetadata", mrb->object_class);
     MRB_SET_INSTANCE_TT(metadata, MRB_TT_DATA);
