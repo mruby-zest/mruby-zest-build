@@ -3,11 +3,11 @@ all:
 	cd deps/nanovg/build && make nanovg
 	cd deps/pugl         && ./waf configure --no-cairo --static
 	cd deps/pugl         && ./waf
-	cd deps/osc-bridge   && make
+	cd src/osc-bridge   && make
 	cd mruby             && MRUBY_CONFIG=../build_config.rb rake
 
 push:
-	cd deps/osc-bridge      && git push
+	cd src/osc-bridge      && git push
 	cd src/mruby-layout     && git push
 	cd src/mruby-qml-parse  && git push
 	cd src/mruby-qml-spawn  && git push
@@ -15,7 +15,7 @@ push:
 	git push
 
 status:
-	cd deps/osc-bridge      && git status
+	cd src/osc-bridge      && git status
 	cd src/mruby-layout     && git status
 	cd src/mruby-qml-parse  && git status
 	cd src/mruby-qml-spawn  && git status
@@ -23,7 +23,7 @@ status:
 	git status
 
 diff:
-	cd deps/osc-bridge      && git diff
+	cd src/osc-bridge      && git diff
 	cd src/mruby-layout     && git diff
 	cd src/mruby-qml-parse  && git diff
 	cd src/mruby-qml-spawn  && git diff
@@ -76,7 +76,7 @@ pack:
 	mkdir package/font
 	cp src/mruby-zest/qml/* package/qml/
 	cp src/mruby-zest/example/* package/qml/
-	cp deps/osc-bridge/schema/test.json package/schema/
+	cp src/osc-bridge/schema/test.json package/schema/
 	cp mruby/bin/mruby package/
 	cp mruby/bin/zest package/
 	cp deps/nanovg/example/*.ttf package/font/

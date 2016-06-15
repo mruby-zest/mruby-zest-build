@@ -47,7 +47,7 @@
 	path = deps/pugl
 	url = git@fundamental-code.com:pugl
 [submodule "deps/osc-bridge"]
-	path = deps/osc-bridge
+	path = src/osc-bridge
 	url = git@fundamental-code.com:osc-bridge.git
 [submodule "deps/mruby-complex"]
 	path = deps/mruby-complex

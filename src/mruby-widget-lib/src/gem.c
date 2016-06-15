@@ -15,7 +15,7 @@
 #include "../../../deps/pugl/pugl/common.h"
 #include "../../../deps/pugl/pugl/pugl.h"
 #include "../../../deps/rtosc/include/rtosc/rtosc.h"
-#include "../../../deps/osc-bridge/src/gem.h"
+#include "../../../src/osc-bridge/src/gem.h"
 
 static mrb_value
 mrb_gl_viewport(mrb_state *mrb, mrb_value self)

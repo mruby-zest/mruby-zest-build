@@ -59,7 +59,7 @@ MRuby::Build.new do |conf|
 
   conf.linker do |linker|
       linker.library_paths  << "#{`pwd`.strip}/../deps/nanovg/build/"
-      linker.library_paths  << "#{`pwd`.strip}/../deps/osc-bridge/"
+      linker.library_paths  << "#{`pwd`.strip}/../src/osc-bridge/"
       linker.libraries << 'GL'
       linker.libraries << 'nanovg'
       linker.libraries << 'X11'
