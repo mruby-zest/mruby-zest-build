@@ -632,6 +632,8 @@ remote_cb_fvec(const char *msg, remote_cb_data *cb)
             mrb_ary_push(cb->mrb, ary, mrb_float_value(cb->mrb, val.val.f));
         else if(val.type == 'i')
             mrb_ary_push(cb->mrb, ary, mrb_fixnum_value(val.val.i));
+        else if(val.type == 's')
+            mrb_ary_push(cb->mrb, ary, mrb_str_new_cstr(cb->mrb, val.val.s));
         else if(val.type == 'T')
             mrb_ary_push(cb->mrb, ary, mrb_true_value());
         else if(val.type == 'F')
