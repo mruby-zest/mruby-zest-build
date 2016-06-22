@@ -35,6 +35,9 @@ class DrawSeqNode
     def to_s
         "<DrawSeqNode x:#{@x} y:#{@y} w:#{@w} h:#{@h} layer:#{@layer}>"
     end
+    def inspect
+        to_s
+    end
 end
 
 class DrawSequence

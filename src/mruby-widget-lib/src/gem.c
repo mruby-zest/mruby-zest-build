@@ -321,32 +321,32 @@ static int
 createFBO(int w, int h, GLframebuffer *fb)
 {
     /* texture */
-    glGenTextures(1, &fb->texture);
-    glBindTexture(GL_TEXTURE_2D, fb->texture);
+    glGenTexturesEXT(1, &fb->texture);
+    glBindTextureEXT(GL_TEXTURE_2D, fb->texture);
     glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
     glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
     glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
     glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
     glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, w, h, 0, GL_RGBA,
                  GL_UNSIGNED_BYTE, NULL);
-    glBindTexture(GL_TEXTURE_2D, 0);
+    glBindTextureEXT(GL_TEXTURE_2D, 0);
 
     /* frame buffer object */
-    glGenFramebuffers(1, &fb->fbo);
-    glBindFramebuffer(GL_FRAMEBUFFER, fb->fbo);
+    glGenFramebuffersEXT(1, &fb->fbo);
+    glBindFramebufferEXT(GL_FRAMEBUFFER, fb->fbo);
 
     /* render buffer object */
-    glGenRenderbuffers(1, &fb->rbo);
-    glBindRenderbuffer(GL_RENDERBUFFER, fb->rbo);
-    glRenderbufferStorage(GL_RENDERBUFFER, GL_DEPTH24_STENCIL8, w, h);
+    glGenRenderbuffersEXT(1, &fb->rbo);
+    glBindRenderbufferEXT(GL_RENDERBUFFER, fb->rbo);
+    glRenderbufferStorageEXT(GL_RENDERBUFFER, GL_DEPTH24_STENCIL8, w, h);
 
     /* combine all */
-    glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0,
+    glFramebufferTexture2DEXT(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0,
             GL_TEXTURE_2D, fb->texture, 0);
-    glFramebufferRenderbuffer(GL_FRAMEBUFFER, GL_STENCIL_ATTACHMENT,
+    glFramebufferRenderbufferEXT(GL_FRAMEBUFFER, GL_STENCIL_ATTACHMENT,
             GL_RENDERBUFFER, fb->rbo);
 
-    return glCheckFramebufferStatus(GL_FRAMEBUFFER) == GL_FRAMEBUFFER_COMPLETE;
+    return glCheckFramebufferStatusEXT(GL_FRAMEBUFFER) == GL_FRAMEBUFFER_COMPLETE;
 }
 
 static void mrb_fbo_free(mrb_state *mrb, void *ptr);
@@ -356,9 +356,9 @@ mrb_fbo_free(mrb_state *mrb, void *ptr)
 {
     mrb_assert(mrb && false);
     GLframebuffer *fbo = (GLframebuffer *)ptr;
-    glDeleteRenderbuffers(1, &fbo->rbo);
-    glDeleteFramebuffers(1, &fbo->fbo);
-    glDeleteTextures(1, &fbo->texture);
+    glDeleteRenderbuffersEXT(1, &fbo->rbo);
+    glDeleteFramebuffersEXT(1, &fbo->fbo);
+    glDeleteTexturesEXT(1, &fbo->texture);
 }
 
 static mrb_value
@@ -372,7 +372,9 @@ mrb_fbo_initialize(mrb_state *mrb, mrb_value self)
     fbo->fbo = 0;
     fbo->rbo = 0;
     fbo->texture = 0;
-    createFBO(w, h, fbo);
+    int ret = createFBO(w, h, fbo);
+    if(!ret)
+        fprintf(stderr, "[ERROR] Failed to create frame buffer\n");
     mrb_data_init(self, fbo, &mrb_fbo_type);
     return self;
 }
@@ -380,37 +382,9 @@ mrb_fbo_initialize(mrb_state *mrb, mrb_value self)
 static mrb_value
 mrb_fbo_deselect(mrb_state *mrb, mrb_value self)
 {
-    glBindFramebuffer(GL_FRAMEBUFFER, 0);
+    glBindFramebufferEXT(GL_FRAMEBUFFER, 0);
     return self;
 }
-
-//static mrb_value
-//mrb_fbo_copy_region(mrb_state *mrb, mrb_value self)
-//{
-//    //Disable rendering to the color buffer
-//    glColorMask( GL_FALSE, GL_FALSE, GL_FALSE, GL_FALSE );
-//    //Start using the stencil
-//    glEnable( GL_STENCIL_TEST );
-//
-//    //Place a 1 where rendered
-//    glStencilFunc( GL_ALWAYS, 1, 1 );
-//    //Replace where rendered
-//    glStencilOp( GL_REPLACE, GL_REPLACE, GL_REPLACE );
-//    //Render stencil triangle
-//    glTranslatef( gPolygonX, gPolygonY, 0.f );
-//    glRotatef( gPolygonAngle, 0.f, 0.f, 1.f );
-//    glBegin( GL_TRIANGLES );
-//    glVertex2f( -0.f / 4.f, -SCREEN_HEIGHT / 4.f );
-//    glVertex2f( SCREEN_WIDTH / 4.f, SCREEN_HEIGHT / 4.f );
-//    glVertex2f( -SCREEN_WIDTH / 4.f, SCREEN_HEIGHT / 4.f );
-//    glEnd();
-//    //Reenable color
-//    glColorMask( GL_TRUE, GL_TRUE, GL_TRUE, GL_TRUE );
-//    //Where a 1 was not rendered
-//    glStencilFunc(GL_NOTEQUAL, 1, 1 );
-//    //Keep the pixel
-//    glStencilOp( GL_KEEP, GL_KEEP, GL_KEEP );
-//}
 
 const struct mrb_data_type mrb_nvg_context_type;
 typedef void NVGcontext;
@@ -431,7 +405,7 @@ static mrb_value
 mrb_fbo_select(mrb_state *mrb, mrb_value self)
 {
     GLframebuffer *fbo = (GLframebuffer*)mrb_data_get_ptr(mrb, self, &mrb_fbo_type);
-    glBindFramebuffer(GL_FRAMEBUFFER, fbo->fbo);
+    glBindFramebufferEXT(GL_FRAMEBUFFER, fbo->fbo);
     return self;
 }
 
