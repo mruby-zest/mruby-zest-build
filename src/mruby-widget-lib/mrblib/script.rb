@@ -393,7 +393,7 @@ class ZRunner
 
         last = Time.new
         frames = 0
-        while(frames < 100000 && @window != nil && @keep_running)
+        while(@window != nil && @keep_running)
             now = Time.new
             if(now > last+100e-3)
                 puts

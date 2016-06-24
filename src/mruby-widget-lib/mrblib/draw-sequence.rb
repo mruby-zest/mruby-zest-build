@@ -1,10 +1,10 @@
 class DrawSeqNode
     attr_reader :x, :y, :w, :h, :item, :layer
     def initialize(x,y,item)
-        @x     = x
-        @y     = y
-        @w     = item.w
-        @h     = item.h
+        @x     = x.to_i
+        @y     = y.to_i
+        @w     = item.w.to_i
+        @h     = item.h.to_i
         @item  = item
         @layer = item.layer
     end
@@ -65,6 +65,8 @@ class DrawSequence
     end
 
     def make_draw_sequence_recur(item, xoff, yoff)
+        xoff = xoff.to_i
+        yoff = yoff.to_i
         if(item && xoff && yoff)
             add(item, xoff, yoff)
             item.children.each do |ch|
