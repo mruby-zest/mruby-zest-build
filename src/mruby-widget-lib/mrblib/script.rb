@@ -124,12 +124,12 @@ class ZRunner
     ########################################
 
     #holds true only in cases of a spacial partitioning
-    def activeWidget(mx=@mx, my=@my)
-        @draw_seq.event_widget(mx, my)
+    def activeWidget(mx=@mx, my=@my, ev=nil)
+        @draw_seq.event_widget(mx, my, ev)
     end
 
     def handleMousePress(mouse)
-        aw = activeWidget
+        aw = activeWidget(mouse.pos.x, mouse.pos.y, :onMousePress)
         puts "active widget = #{aw}"
         if(aw.respond_to? :onMousePress)
             puts "mouse press = #{mouse.pos}"
@@ -430,15 +430,19 @@ class ZRunner
                 if((frames%10) == 0 && @hotload)
                     p_code.time do
                         nwidget = block.call
-
-                        #Try to hotswap common draw routines
-                        draw_id = `md5sum src/mruby-zest/mrblib/draw-common.rb`
-                        @common_draw_id ||= draw_id
-                        if(draw_id != @common_draw_id)
-                            f = `cat src/mruby-zest/mrblib/draw-common.rb`
-                            eval(f)
-                            @draw_seq.damage_region(Rect.new(0, 0, @w, @h), 0)
-                            @common_draw_id = draw_id
+                        begin
+                            #Try to hotswap common draw routines
+                            q = "src/mruby-zest/mrblib/draw-common.rb"
+                            draw_id = File::Stat.new(q).ctime.to_s
+                            @common_draw_id ||= draw_id
+                            if(draw_id != @common_draw_id)
+                                f = File.read q
+                                eval(f)
+                                @draw_seq.damage_region(Rect.new(0, 0, @w, @h), 0)
+                                @common_draw_id = draw_id
+                            end
+                        rescue
+                            puts "Error loading draw common routines"
                         end
                     end
                 end
@@ -465,7 +469,9 @@ class ZRunner
                 t_layout_after = Time.new
 
                 if(nwidget)
-                    damage_item nwidget
+                    @draw_seq.damage_region(Rect.new(0, 0, @w, @h), 0)
+                    @draw_seq.damage_region(Rect.new(0, 0, @w, @h), 1)
+                    @draw_seq.damage_region(Rect.new(0, 0, @w, @h), 2)
                     toc = Time.new
                     puts "reload time #{1000*(toc-tic)}ms"
                     puts "setup time #{1000*(t_setup-tic)}ms"

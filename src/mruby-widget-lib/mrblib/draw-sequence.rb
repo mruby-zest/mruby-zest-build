@@ -220,6 +220,7 @@ class DrawSequence
         @seq.each do |elm|
             next if elm.layer == 1
             next if selected_layer == 2 && elm.layer != 2
+            next if !method.nil? && !elm.item.respond_to?(method)
             if(elm.hit?(x,y))
                 selected_item  = elm.item
                 selected_layer = elm.layer
