@@ -48,7 +48,7 @@ run: ## Run the toolkit
 	 ./mruby/bin/mruby -e "zr=ZRunner.new;zr.doRun lambda{doFastLoad}"
 
 valgrind: ## Launch with valgrind
-	 valgrind ./mruby/bin/mruby -e "zr=ZRunner.new;zr.doRun lambda{doFastLoad}"
+	 valgrind --leak-check=full ./mruby/bin/mruby -e "zr=ZRunner.new;zr.doRun lambda{doFastLoad}"
 
 callgrind: ## Launch with callgrind
 	 valgrind --tool=callgrind --dump-instr=yes --collect-jumps=yes ./mruby/bin/mruby -e "zr=ZRunner.new;zr.doRun lambda{doFastLoad}"
