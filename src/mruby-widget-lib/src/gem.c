@@ -100,11 +100,11 @@ printModifiers(PuglView* view)
 {
 	int mods = puglGetModifiers(view);
     (void) mods;
-	//fprintf(stderr, "Modifiers:%s%s%s%s\n",
-	//        (mods & PUGL_MOD_SHIFT) ? " Shift"   : "",
-	//        (mods & PUGL_MOD_CTRL)  ? " Ctrl"    : "",
-	//        (mods & PUGL_MOD_ALT)   ? " Alt"     : "",
-	//        (mods & PUGL_MOD_SUPER) ? " Super" : "");
+	fprintf(stderr, "Modifiers:%s%s%s%s\n",
+	        (mods & PUGL_MOD_SHIFT) ? " Shift"   : "",
+	        (mods & PUGL_MOD_CTRL)  ? " Ctrl"    : "",
+	        (mods & PUGL_MOD_ALT)   ? " Alt"     : "",
+	        (mods & PUGL_MOD_SUPER) ? " Super" : "");
 }
 
 static void
@@ -113,9 +113,9 @@ onEvent(PuglView* view, const PuglEvent* event)
 	if (event->type == PUGL_KEY_PRESS) {
 		const uint32_t ucode = event->key.character;
         (void) ucode;
-		//fprintf(stderr, "Key %u (char %u) down (%s)%s\n",
-		//        event->key.keycode, ucode, event->key.utf8,
-		//        event->key.filter ? " (filtered)" : "");
+		fprintf(stderr, "Key %u (char %u) down (%s)%s\n",
+		        event->key.keycode, ucode, event->key.utf8,
+		        event->key.filter ? " (filtered)" : "");
 	}
 }
 
@@ -124,6 +124,21 @@ onSpecial(PuglView* view, bool press, PuglKey key)
 {
 	//fprintf(stderr, "Special key %d %s ", key, press ? "down" : "up");
 	//printModifiers(view);
+    void **v = (void**)puglGetHandle(view);
+    if(v) {
+        const char *pres_rel = press ? "press" : "release";
+        const char *type     = NULL;
+        if(key == PUGL_KEY_CTRL)
+            type = "ctrl";
+
+        if(type) {
+            mrb_state *mrb = v[0];
+            mrb_value obj = mrb_obj_value(v[1]);
+            mrb_funcall(mrb, obj, "key_mod", 2,
+                    mrb_str_new_cstr(mrb, pres_rel),
+                    mrb_str_new_cstr(mrb, type));
+        }
+    }
 }
 
 static void
@@ -158,7 +173,7 @@ static void
 onScroll(PuglView* view, int x, int y, float dx, float dy)
 {
 	//fprintf(stderr, "Scroll %d %d %f %f ", x, y, dx, dy);
-	printModifiers(view);
+	//printModifiers(view);
 	//dist += dy / 4.0f;
     void **v = (void**)puglGetHandle(view);
     if(v) {

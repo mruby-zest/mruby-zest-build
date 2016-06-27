@@ -10,6 +10,12 @@ module OSC
             #puts "list of callbacks include "
             #puts @cb_list
         end
+        
+        def midi_learn(ext=nil)
+            puts "MIDI Learn Action"
+            puts "/midi/learn :s "
+            puts "trying to learn address #{ext}"
+        end
     end
     class RemoteMetadata
         attr_accessor :name, :short_name, :units, :tooltip, :options
@@ -43,9 +49,10 @@ module OSC
             #puts @cb_list
         end
 
-        def midi_learn()
+        def midi_learn(ext=nil)
             puts "MIDI Learn Action"
             puts "/midi/learn :s "
+            puts "trying to learn address #{ext}"
         end
 
         def rand()

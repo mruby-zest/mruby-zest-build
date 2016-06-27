@@ -186,6 +186,18 @@ class ZRunner
         @events.record([:mouseMove, {:x => x, :y => y}])
     end
 
+    def key_mod(press, key)
+        press = press.to_sym
+        key   = key.to_sym
+        puts press
+        if(press == :press && key == :ctrl)
+            @learn_mode = true
+        elsif(press == :release && key == :ctrl)
+            @learn_mode = false
+        end
+
+    end
+
     def mouse(button, action, x, y)
         mod = nil
         if(action == 1)
@@ -499,6 +511,8 @@ class ZRunner
     #                 API For Running Widgets                                  #
     ############################################################################
 
+    attr_accessor :fine_mode, :learn_mode, :reset_mode
+
     #Force a draw sequence regeneration
     def smash_draw_seq()
         @draw_seq.make_draw_sequence(@widget)
@@ -512,6 +526,7 @@ class ZRunner
 
     #Damage
     def damage_item(item, all=nil)
+        #puts "applying damage #{item}"
         @draw_seq.seq.each do |dsn|
             if(dsn.item == item)
                 @draw_seq.damage_region(Rect.new(dsn.x.to_i,dsn.y.to_i-0.5,dsn.w.to_i+0.5,dsn.h.to_i),dsn.layer)
