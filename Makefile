@@ -30,6 +30,23 @@ diff:
 	cd src/mruby-zest       && git diff
 	git diff
 
+stats:
+	@echo 'number of qml    files:' `find . -type f | grep -e qml$$ | wc -l`
+	@echo 'number of ruby   files:' `find src/ -type f | grep -e rb$$ | wc -l`
+	@echo 'number of c      files:' `find src/ -type f | grep -e c$$ | wc -l`
+	@echo 'number of header files:' `find src/ -type f | grep -e h$$ | wc -l`
+	@echo 'lines of OSC schema:' `wc -l src/osc-bridge/schema/test.json`
+	@echo 'lines of qml:'
+	@wc -l `find src/ -type f | grep qml$$` | tail -n 1
+	@echo 'lines of ruby:'
+	@wc -l `find src/ -type f | grep -e rb$$` | tail -n 1
+	@echo 'lines of c source:'
+	@wc -l `find src/ -type f | grep -e c$$` | tail -n 1
+	@echo 'lines of c header:'
+	@wc -l `find src/ -type f | grep -e h$$` | tail -n 1
+	@echo 'total lines of code:'
+	@wc -l `find src/ -type f | grep -Ee "(qml|rb|c|h)$$"` | tail -n 1
+
 
 verbose: ## Compile mruby with --trace
 	cd mruby             && MRUBY_CONFIG=../build_config.rb rake --trace
