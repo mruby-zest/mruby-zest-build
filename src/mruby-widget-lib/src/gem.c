@@ -116,6 +116,12 @@ onEvent(PuglView* view, const PuglEvent* event)
 		fprintf(stderr, "Key %u (char %u) down (%s)%s\n",
 		        event->key.keycode, ucode, event->key.utf8,
 		        event->key.filter ? " (filtered)" : "");
+        void **v = (void**)puglGetHandle(view);
+        if(v && event->key.utf8[0]) {
+            mrb_state *mrb = v[0];
+            mrb_value obj = mrb_obj_value(v[1]);
+            mrb_funcall(mrb, obj, "key", 1, mrb_str_new_cstr(mrb, event->key.utf8));
+        }
 	}
 }
 

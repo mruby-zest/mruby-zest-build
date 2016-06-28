@@ -11,6 +11,7 @@ class ZRunner
         @mx       = 0
         @my       = 0
         @clicked  = nil
+        @keyboard = nil
 
         @animate_frame_dt   = 100e-3
         @animate_frame_next = Time.new
@@ -139,6 +140,7 @@ class ZRunner
         end
         @window.refresh
         @clicked = Pos.new(@mx,@my)
+        @keyboard = Pos.new(@mx, @my)
     end
 
     def handleMouseRelease(mouse)
@@ -195,7 +197,12 @@ class ZRunner
         elsif(press == :release && key == :ctrl)
             @learn_mode = false
         end
+    end
 
+    def key(key)
+        return if @keyboard.nil?
+        aw = activeWidget(@keyboard.x, @keyboard.y)
+        aw.onKey(key) if(aw.respond_to? :onKey)
     end
 
     def mouse(button, action, x, y)
