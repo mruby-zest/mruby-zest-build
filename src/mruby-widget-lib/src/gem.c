@@ -167,7 +167,7 @@ onMouse(PuglView* view, int button, bool press, int x, int y)
 	//printModifiers(view);
     if(v) {
         mrb_value obj = mrb_obj_value(v[1]);
-        mrb_funcall(v[0], obj, "mouse", 4, 
+        mrb_funcall(v[0], obj, "mouse", 4,
                 mrb_fixnum_value(button),
                 mrb_fixnum_value(press),
                 mrb_fixnum_value(x),
@@ -184,7 +184,7 @@ onScroll(PuglView* view, int x, int y, float dx, float dy)
     void **v = (void**)puglGetHandle(view);
     if(v) {
         mrb_value obj = mrb_obj_value(v[1]);
-        mrb_funcall(v[0], obj, "scroll", 4, 
+        mrb_funcall(v[0], obj, "scroll", 4,
                 mrb_fixnum_value(x),
                 mrb_fixnum_value(y),
                 mrb_fixnum_value(dx),
@@ -519,6 +519,14 @@ mrb_remote_action(mrb_state *mrb, mrb_value self)
         args[0].s = arg;
         br_action(data->br, path, "s", args);
         free(arg);
+    } else if(argc == 3) {
+        //TODO make this less error prone
+        char *arg = strdup(mrb_string_value_ptr(mrb, argv[2]));
+        rtosc_arg_t args[2];
+        args[0].i = argv[1].value.i;
+        args[1].s = arg;
+        br_action(data->br, path, "is", args);
+        free(arg);
     } else {
         br_action(data->br, path, "", NULL);
     }
@@ -596,7 +604,7 @@ remote_cb_127(const char *msg, remote_cb_data *cb)
 {
     //assume the 0..127 integer case for the input
     //assume the 0..1   float   case for the output
-    
+
     mrb_assert(!strcmp("i",rtosc_argument_string(msg)));
     int arg = rtosc_argument(msg, 0).i;
 
@@ -615,6 +623,15 @@ remote_cb_int(const char *msg, remote_cb_data *cb)
     mrb_float cb_val = rtosc_argument(msg, 0).i;
 
     mrb_funcall(cb->mrb, cb->cb, "call", 1, mrb_float_value(cb->mrb,cb_val));
+}
+
+static void
+remote_cb_tf(const char *msg, remote_cb_data *cb)
+{
+    if(!strcmp("T", rtosc_argument_string(msg)))
+        mrb_funcall(cb->mrb, cb->cb, "call", 1, mrb_true_value());
+    else
+        mrb_funcall(cb->mrb, cb->cb, "call", 1, mrb_false_value());
 }
 
 static void
@@ -662,6 +679,10 @@ remote_cb(const char *msg, void *data)
         remote_cb_int(msg, cb);
     else if(!strcmp("f", rtosc_argument_string(msg)))
         mrb_funcall(cb->mrb, cb->cb, "call", 1, mrb_float_value(cb->mrb,rtosc_argument(msg, 0).f));
+    else if(!strcmp("T", rtosc_argument_string(msg)))
+        remote_cb_tf(msg, cb);
+    else if(!strcmp("F", rtosc_argument_string(msg)))
+        remote_cb_tf(msg, cb);
     else
         remote_cb_fvec(msg, cb);
 }
