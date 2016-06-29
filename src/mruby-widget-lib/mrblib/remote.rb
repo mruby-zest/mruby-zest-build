@@ -31,7 +31,8 @@ module OSC
 
         def value=(val)
             val = 0 if val.nil?
-            set_value(val*1.0, @mode)
+            set_value(val*1.0, @mode) if(val.class == Fixnum || val.class == Float)
+            set_value_tf(val,  @mode) if(val.class == TrueClass || val.class == FalseClass)
         end
 
         def callback=(cb)

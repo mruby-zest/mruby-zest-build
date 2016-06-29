@@ -131,12 +131,12 @@ class ZRunner
 
     def handleMousePress(mouse)
         aw = activeWidget(mouse.pos.x, mouse.pos.y, :onMousePress)
-        puts "active widget = #{aw}"
+        #puts "active widget = #{aw}"
         if(aw.respond_to? :onMousePress)
-            puts "mouse press = #{mouse.pos}"
+            #puts "mouse press = #{mouse.pos}"
             aw.onMousePress mouse
         else
-            puts "no mouse press option..."
+            #puts "no mouse press option..."
         end
         @window.refresh
         @clicked = Pos.new(@mx,@my)
@@ -414,7 +414,7 @@ class ZRunner
         frames = 0
         while(@window != nil && @keep_running)
             now = Time.new
-            if(now > last+100e-3)
+            if(now > last+200e-3)
                 puts
                 puts("[WARNING] xrun #{1000*(now-last)} ms")
             end
