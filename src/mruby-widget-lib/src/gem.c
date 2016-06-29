@@ -513,12 +513,16 @@ mrb_remote_action(mrb_state *mrb, mrb_value self)
 
     char *path = strdup(mrb_string_value_ptr(mrb, argv[0]));
 
-    if(argc == 2) {
+    if(argc == 2 && argv[1].tt == MRB_TT_STRING) {
         char *arg = strdup(mrb_string_value_ptr(mrb, argv[1]));
         rtosc_arg_t args[1];
         args[0].s = arg;
         br_action(data->br, path, "s", args);
         free(arg);
+    } else if(argc == 2 && argv[1].tt == MRB_TT_FIXNUM) {
+        rtosc_arg_t args[1];
+        args[0].i = argv[1].value.i;
+        br_action(data->br, path, "i", args);
     } else if(argc == 3) {
         //TODO make this less error prone
         char *arg = strdup(mrb_string_value_ptr(mrb, argv[2]));
@@ -665,6 +669,9 @@ remote_cb_fvec(const char *msg, remote_cb_data *cb)
 static void
 remote_cb(const char *msg, void *data)
 {
+    if(!msg || *msg != '/') {
+        printf("[ERROR] INVALID MESSAGE <%s>\n", msg);
+    }
     assert(msg && *msg == '/');
     const char *args = rtosc_argument_string(msg);
     if(args && *args)
@@ -777,6 +784,38 @@ mrb_remote_param_set_value_tf(mrb_state *mrb, mrb_value self)
     if(mrb_obj_equal(mrb, mrb_true_value(), value))
         val = true;
     br_set_value_bool(param->br, param->uri, val);
+    return self;
+}
+
+static mrb_value
+mrb_remote_param_set_value_ar(mrb_state *mrb, mrb_value self)
+{
+    remote_param_data *param;
+    param = (remote_param_data*) mrb_data_get_ptr(mrb, self, &mrb_remote_param_type);
+    mrb_assert(param);
+
+    mrb_value mode;
+    mrb_value value;
+    mrb_get_args(mrb, "oo", &value, &mode);
+    mrb_assert(param);
+    mrb_assert(param->br);
+    mrb_assert(param->uri);
+
+    int len = mrb_ary_len(mrb, value);
+    rtosc_arg_t args[len];
+    char        types[len+1];
+    memset(types, 0, len+1);
+    int j=0;
+    for(int i=0; i<len; ++i) {
+        mrb_value v = mrb_ary_ref(mrb, value, i);
+        if(v.tt == MRB_TT_FLOAT) {
+            args[j].f = v.value.f;
+            types[j]  = 'f';
+            j++;
+        }
+    }
+
+    br_set_array(param->br, param->uri, types, args);
     return self;
 }
 
@@ -943,6 +982,7 @@ mrb_mruby_widget_lib_gem_init(mrb_state* mrb) {
     mrb_define_method(mrb, param, "set_callback", mrb_remote_param_set_callback, MRB_ARGS_REQ(1));
     mrb_define_method(mrb, param, "set_value",    mrb_remote_param_set_value, MRB_ARGS_REQ(1));
     mrb_define_method(mrb, param, "set_value_tf", mrb_remote_param_set_value_tf, MRB_ARGS_REQ(1));
+    mrb_define_method(mrb, param, "set_value_ar", mrb_remote_param_set_value_ar, MRB_ARGS_REQ(1));
     mrb_define_method(mrb, param, "type=",        mrb_remote_param_set_type, MRB_ARGS_REQ(1));
     mrb_define_method(mrb, param, "display_value",mrb_remote_param_display_value, MRB_ARGS_NONE());
     mrb_define_method(mrb, param, "refresh",      mrb_remote_param_refresh, MRB_ARGS_NONE());
