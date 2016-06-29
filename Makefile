@@ -31,6 +31,12 @@ diff:
 	git diff
 
 stats:
+	@echo 'main repo        commits: ' `git log --oneline | wc -l`
+	@echo 'mruby-zest       commits: ' `cd src/mruby-zest      && git log --oneline | wc -l`
+	@echo 'mruby-layout     commits: ' `cd src/mruby-layout    && git log --oneline | wc -l`
+	@echo 'mruby-qml-parse  commits: ' `cd src/mruby-qml-parse && git log --oneline | wc -l`
+	@echo 'mruby-qml-spawn  commits: ' `cd src/mruby-qml-spawn && git log --oneline | wc -l`
+	@echo 'osc-bridge       commits: ' `cd src/osc-bridge      && git log --oneline | wc -l`
 	@echo 'number of qml    files:' `find . -type f | grep -e qml$$ | wc -l`
 	@echo 'number of ruby   files:' `find src/ -type f | grep -e rb$$ | wc -l`
 	@echo 'number of c      files:' `find src/ -type f | grep -e c$$ | wc -l`
