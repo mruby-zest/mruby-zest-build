@@ -540,6 +540,21 @@ mrb_remote_action(mrb_state *mrb, mrb_value self)
 }
 
 static mrb_value
+mrb_remote_damage(mrb_state *mrb, mrb_value self)
+{
+    remote_data *data = (remote_data*)mrb_data_get_ptr(mrb, self, &mrb_remote_type);
+    mrb_value val;
+    mrb_get_args(mrb, "o", &val);
+
+    if(val.tt == MRB_TT_STRING)
+        br_damage(data->br, mrb_string_value_ptr(mrb, val));
+    else
+        fprintf(stderr, "[ERROR] Wrong type given to mrb_remote_damage()\n");
+
+    return self;
+}
+
+static mrb_value
 mrb_remote_metadata_initalize(mrb_state *mrb, mrb_value self)
 {
     mrb_value remote;
@@ -971,6 +986,7 @@ mrb_mruby_widget_lib_gem_init(mrb_state* mrb) {
     mrb_define_method(mrb, remote, "initialize", mrb_remote_initalize, MRB_ARGS_NONE());
     mrb_define_method(mrb, remote, "tick",       mrb_remote_tick,      MRB_ARGS_NONE());
     mrb_define_method(mrb, remote, "action",     mrb_remote_action,    MRB_ARGS_ANY());
+    mrb_define_method(mrb, remote, "damage",     mrb_remote_damage,    MRB_ARGS_REQ(1));
 
     struct RClass *metadata = mrb_define_class_under(mrb, osc, "RemoteMetadata", mrb->object_class);
     MRB_SET_INSTANCE_TT(metadata, MRB_TT_DATA);
