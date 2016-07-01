@@ -654,6 +654,13 @@ remote_cb_tf(const char *msg, remote_cb_data *cb)
 }
 
 static void
+remote_cb_str(const char *msg, remote_cb_data *cb)
+{
+    mrb_funcall(cb->mrb, cb->cb, "call", 1,
+            mrb_str_new_cstr(cb->mrb, rtosc_argument(msg, 0).s));
+}
+
+static void
 remote_cb_fvec(const char *msg, remote_cb_data *cb)
 {
     mrb_value ary = mrb_ary_new(cb->mrb);
@@ -693,18 +700,21 @@ remote_cb(const char *msg, void *data)
         assert(valid_type(*args));
     remote_cb_data *cb = (remote_cb_data*) data;
     int nil = mrb_obj_equal(cb->mrb, mrb_nil_value(), cb->mode);
-    if(!strcmp("i", rtosc_argument_string(msg)) && nil)
+    const char *arg_str = rtosc_argument_string(msg);
+    if(!strcmp("i", arg_str) && nil)
         remote_cb_127(msg, cb);
-    else if(!strcmp("c", rtosc_argument_string(msg)))
+    else if(!strcmp("c", arg_str))
         remote_cb_127(msg, cb);
-    else if(!strcmp("i", rtosc_argument_string(msg)))
+    else if(!strcmp("i", arg_str))
         remote_cb_int(msg, cb);
-    else if(!strcmp("f", rtosc_argument_string(msg)))
+    else if(!strcmp("f", arg_str))
         mrb_funcall(cb->mrb, cb->cb, "call", 1, mrb_float_value(cb->mrb,rtosc_argument(msg, 0).f));
-    else if(!strcmp("T", rtosc_argument_string(msg)))
+    else if(!strcmp("T", arg_str))
         remote_cb_tf(msg, cb);
-    else if(!strcmp("F", rtosc_argument_string(msg)))
+    else if(!strcmp("F", arg_str))
         remote_cb_tf(msg, cb);
+    else if(!strcmp("s", arg_str))
+        remote_cb_str(msg, cb);
     else
         remote_cb_fvec(msg, cb);
 }
