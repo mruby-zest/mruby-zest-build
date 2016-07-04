@@ -525,12 +525,27 @@ mrb_remote_action(mrb_state *mrb, mrb_value self)
         br_action(data->br, path, "i", args);
     } else if(argc == 3) {
         //TODO make this less error prone
-        char *arg = strdup(mrb_string_value_ptr(mrb, argv[2]));
-        rtosc_arg_t args[2];
-        args[0].i = argv[1].value.i;
-        args[1].s = arg;
-        br_action(data->br, path, "is", args);
-        free(arg);
+        if(argv[1].tt == MRB_TT_FIXNUM && argv[2].tt == MRB_TT_STRING) {
+            char *arg = strdup(mrb_string_value_ptr(mrb, argv[2]));
+            rtosc_arg_t args[2];
+            args[0].i = argv[1].value.i;
+            args[1].s = arg;
+            br_action(data->br, path, "is", args);
+            free(arg);
+        } else if(argv[1].tt == MRB_TT_FIXNUM && argv[2].tt == MRB_TT_FIXNUM) {
+            rtosc_arg_t args[2];
+            args[0].i = argv[1].value.i;
+            args[1].i = argv[2].value.i;
+            br_action(data->br, path, "ii", args);
+        }
+    } else if(argc == 4) {
+        if(argv[1].tt == MRB_TT_FIXNUM && argv[2].tt == MRB_TT_FIXNUM && argv[3].tt == MRB_TT_FIXNUM) {
+            rtosc_arg_t args[3];
+            args[0].i = argv[1].value.i;
+            args[1].i = argv[2].value.i;
+            args[2].i = argv[3].value.i;
+            br_action(data->br, path, "iii", args);
+        }
     } else {
         br_action(data->br, path, "", NULL);
     }

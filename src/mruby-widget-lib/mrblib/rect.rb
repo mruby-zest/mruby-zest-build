@@ -10,4 +10,8 @@ class Rect
     def include(x,y)
         x>=@x && x<=@x+@w && y>=@y && y<=@y+@h
     end
+
+    def include?(pos)
+        include(pos.x, pos.y)
+    end
 end
