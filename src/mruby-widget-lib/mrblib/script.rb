@@ -34,6 +34,15 @@ class ZRunner
         $remote = OSC::Remote.new
         print "remote = "
         puts $remote
+
+
+        @view_pos         = Hash.new
+        @view_pos[:part]  = 0
+        @view_pos[:kit]   = 0
+        @view_pos[:voice] = 0
+        @view_pos[:eng]   = :add
+        @view_pos[:vis]   = :env
+
     end
 
     ########################################
@@ -574,6 +583,14 @@ class ZRunner
         if(!@log_widget.respond_to?(:display_log))
             raise "Invalid logger widget provided to ZRunner"
         end
+    end
+
+    def set_view_pos(sym, val)
+        @view_pos[sym] = val
+    end
+
+    def get_view_pos(sym)
+        @view_pos[sym]
     end
 end
 
