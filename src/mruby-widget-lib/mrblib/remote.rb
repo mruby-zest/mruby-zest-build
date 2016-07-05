@@ -34,6 +34,7 @@ module OSC
             set_value(val*1.0, @mode) if(val.class == Fixnum || val.class == Float)
             set_value_tf(val,  @mode) if(val.class == TrueClass || val.class == FalseClass)
             set_value_ar(val,  @mode) if(val.class == Array)
+            set_value_str(val, @mode) if(val.class == String)
         end
 
         def callback=(cb)

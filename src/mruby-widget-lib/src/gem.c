@@ -860,6 +860,25 @@ mrb_remote_param_set_value_ar(mrb_state *mrb, mrb_value self)
 }
 
 static mrb_value
+mrb_remote_param_set_value_str(mrb_state *mrb, mrb_value self)
+{
+    remote_param_data *param;
+    param = (remote_param_data*) mrb_data_get_ptr(mrb, self, &mrb_remote_param_type);
+    mrb_assert(param);
+
+    mrb_value mode;
+    mrb_value value;
+    mrb_get_args(mrb, "oo", &value, &mode);
+    mrb_assert(param);
+    mrb_assert(param->br);
+    mrb_assert(param->uri);
+
+    const char *str = mrb_string_value_ptr(mrb, value);
+    br_set_value_string(param->br, param->uri, str);
+    return self;
+}
+
+static mrb_value
 mrb_remote_param_set_type(mrb_state *mrb, mrb_value self)
 {
     mrb_value type;
@@ -1024,6 +1043,7 @@ mrb_mruby_widget_lib_gem_init(mrb_state* mrb) {
     mrb_define_method(mrb, param, "set_value",    mrb_remote_param_set_value, MRB_ARGS_REQ(1));
     mrb_define_method(mrb, param, "set_value_tf", mrb_remote_param_set_value_tf, MRB_ARGS_REQ(1));
     mrb_define_method(mrb, param, "set_value_ar", mrb_remote_param_set_value_ar, MRB_ARGS_REQ(1));
+    mrb_define_method(mrb, param, "set_value_str",mrb_remote_param_set_value_str, MRB_ARGS_REQ(1));
     mrb_define_method(mrb, param, "type=",        mrb_remote_param_set_type, MRB_ARGS_REQ(1));
     mrb_define_method(mrb, param, "display_value",mrb_remote_param_display_value, MRB_ARGS_NONE());
     mrb_define_method(mrb, param, "refresh",      mrb_remote_param_refresh, MRB_ARGS_NONE());
