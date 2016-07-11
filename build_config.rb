@@ -65,8 +65,9 @@ MRuby::Build.new do |conf|
       linker.libraries << 'X11'
       linker.libraries << 'osc-bridge'
       linker.libraries << 'rtosc'
-      linker.libraries << 'uv'
+      linker.flags_after_libraries  << "#{`pwd`.strip}/../deps/libuv.a"
       linker.flags_after_libraries  << "#{`pwd`.strip}/../deps/pugl/build/libpugl-0.a"
+      linker.flags_after_libraries  << "-lpthread"
   end
 
   #Custom Gems

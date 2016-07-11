@@ -1,10 +1,37 @@
+
+UV_DIR    = libuv-v1.9.1
+GLPK_DIR  = glpk-4.52
+GLPK_FILE = $(GLPK_DIR).tar.gz
+UV_FILE   = $(UV_DIR).tar.gz
+GLPK_URL  = https://ftp.gnu.org/gnu/glpk/$(GLPK_FILE)
+UV_URL    = http://dist.libuv.org/dist/v1.9.1/$(UV_FILE)
+
 all:
 	cd deps/nanovg       && premake4 gmake
 	cd deps/nanovg/build && make nanovg
 	cd deps/pugl         && ./waf configure --no-cairo --static
 	cd deps/pugl         && ./waf
-	cd src/osc-bridge   && make
+	cd src/osc-bridge    && make
 	cd mruby             && MRUBY_CONFIG=../build_config.rb rake
+
+builddep:
+	cd deps/$(UV_DIR)    && ./autogen.sh
+	cd deps/$(UV_DIR)    && ./configure
+	cd deps/$(UV_DIR)    && make
+	cp deps/$(UV_DIR)/.libs/libuv.a deps/
+	cd deps/$(GLPK_DIR)  && ./configure
+	cd deps/$(GLPK_DIR)  && make
+	cd deps/$(GLPK_DIR)  && $(CC) examples/glpsol.c -I src/ src/.libs/libglpk.a -o glpsol -lm
+	cp deps/$(GLPK_DIR)/glpsol deps/
+
+
+
+setup:
+	cd deps              && wget $(GLPK_URL)
+	cd deps              && tar xvf $(GLPK_FILE)
+	cd deps              && wget $(UV_URL)
+	cd deps              && tar xvf $(UV_FILE)
+
 
 push:
 	cd src/osc-bridge      && git push
@@ -103,13 +130,10 @@ pack:
 	cp mruby/bin/mruby package/
 	cp mruby/bin/zest package/
 	cp deps/nanovg/example/*.ttf package/font/
-	cp /usr/bin/glpsol package/
-	cp /usr/lib/libglpk.so.36.1.2 package/
-	cd package && ln -sf libglpk.so.36.1.2 libglpk.so.36
-	#cp /usr/lib64/libglpk.so.36.0.1 package/
+	cp deps/glpsol package/
 	echo `date` > package/VERSION
 	echo '#!/bin/sh' > package/run.sh
-	echo 'LD_LIBRARY_PATH="." ./zest --no-hotload' >> package/run.sh
+	echo './zest --no-hotload' >> package/run.sh
 	chmod +x package/run.sh
 	rm -f zest-dist.tar
 	rm -f zest-dist.tar.bz2
@@ -127,6 +151,8 @@ pack64: ## Create 64bit Linux Package
 put32: ## Push to the server
 	scp zest-dist-x86.tar.bz2 mark@fundamental-code.com:/var/www/htdocs/zest/
 
+put64: ## Push to the server
+	scp zest-dist-x86_64.tar.bz2 mark@fundamental-code.com:/var/www/htdocs/zest/
 
 .PHONY: help
 
