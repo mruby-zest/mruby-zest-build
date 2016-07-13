@@ -592,6 +592,9 @@ class ZRunner
     def get_view_pos(sym)
         @view_pos[sym]
     end
+
+    def change_view()
+    end
 end
 
 
