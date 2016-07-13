@@ -74,6 +74,7 @@ class DrawSequence
                     make_draw_sequence_recur(ch, xoff+ch.x, yoff+ch.y)
                 else
                     puts "bad x/y"
+                    puts "<#{ch.x},#{ch.y},#{ch.w},#{ch.h}>"
                     puts "widget = <#{ch}>"
                 end
             end
