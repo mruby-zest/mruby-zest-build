@@ -36,12 +36,13 @@ class ZRunner
         puts $remote
 
 
-        @view_pos         = Hash.new
-        @view_pos[:part]  = 0
-        @view_pos[:kit]   = 0
-        @view_pos[:voice] = 0
-        @view_pos[:eng]   = :add
-        @view_pos[:vis]   = :env
+        @view_pos           = Hash.new
+        @view_pos[:part]    = 0
+        @view_pos[:kit]     = 0
+        @view_pos[:view]    = :add_synth
+        @view_pos[:voice]   = 0
+        @view_pos[:subview] = :global
+        @view_pos[:vis]     = :env
 
     end
 
@@ -593,7 +594,11 @@ class ZRunner
         @view_pos[sym]
     end
 
-    def change_view()
+    def change_view(w=@widget)
+        w.set_view if w.respond_to? :set_view
+        w.children.each do |ch|
+            change_view(ch)
+        end
     end
 end
 
