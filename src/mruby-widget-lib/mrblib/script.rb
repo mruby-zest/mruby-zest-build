@@ -36,13 +36,14 @@ class ZRunner
         puts $remote
 
 
-        @view_pos           = Hash.new
-        @view_pos[:part]    = 0
-        @view_pos[:kit]     = 0
-        @view_pos[:view]    = :add_synth
-        @view_pos[:voice]   = 0
-        @view_pos[:subview] = :global
-        @view_pos[:vis]     = :env
+        @view_pos              = Hash.new
+        @view_pos[:part]       = 0
+        @view_pos[:kit]        = 0
+        @view_pos[:view]       = :add_synth
+        @view_pos[:voice]      = 0
+        @view_pos[:subview]    = :global
+        @view_pos[:subsubview] = nil
+        @view_pos[:vis]        = :env
 
     end
 
@@ -405,10 +406,10 @@ class ZRunner
         end
         @widget.parent = self
         @keep_running = true
-        puts "widget = <#{@widget}>"
+        #puts "widget = <#{@widget}>"
         setup
 
-        puts @widget.root
+        #puts @widget.root
 
         #Setup Profilers
         p_total = TimeProfile.new
