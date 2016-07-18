@@ -154,6 +154,13 @@ put32: ## Push to the server
 put64: ## Push to the server
 	scp zest-dist-x86_64.tar.bz2 mark@fundamental-code.com:/var/www/htdocs/zest/
 
+packsrc:
+	git-archive-all zynaddsubfx-3.0.0.tar.bz2
+
+putsrc:
+	scp zynaddsubfx-3.0.0.tar.bz2 mark@fundamental-code.com:/var/www/htdocs/zest/
+
+
 .PHONY: help
 
 help: ## This help
