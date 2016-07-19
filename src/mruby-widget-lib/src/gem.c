@@ -438,6 +438,8 @@ typedef struct {
     mrb_state *mrb;
     mrb_value  cb;
     mrb_value  mode;
+    float min;
+    float max;
 } remote_cb_data;
 
 typedef struct {
@@ -445,6 +447,8 @@ typedef struct {
     uri_t            uri;
     char             type;
     int              cbs;
+    float            min;
+    float            max;
     remote_cb_data **cb_refs;
 } remote_param_data;
 
@@ -598,12 +602,17 @@ mrb_remote_metadata_initalize(mrb_state *mrb, mrb_value self)
                       mrb_str_new_cstr(mrb, cstr))
 #define setfield2(x, value) \
     mrb_funcall(mrb, self, x, 1, value)
+#define setfield3(x, value) \
+    mrb_funcall(mrb, self, x, 1, mrb_float_value(mrb, value))
     setfield("name=",       sm_get_name(handle));
     setfield("short_name=", sm_get_short(handle));
     setfield("tooltip=",    sm_get_tooltip(handle));
     setfield2("options=",   opts);
+    setfield3("min=",       sm_get_min_flt(handle));
+    setfield3("max=",       sm_get_max_flt(handle));
 #undef setfield
 #undef setfield2
+#undef setfield3
     return self;
 }
 
@@ -644,7 +653,7 @@ remote_cb_127(const char *msg, remote_cb_data *cb)
 
     mrb_assert(0 <= arg && arg <= 127);
 
-    mrb_float cb_val = arg/127.0;
+    mrb_float cb_val = (arg+cb->min)/(cb->max-cb->min);
 
     mrb_funcall(cb->mrb, cb->cb, "call", 1, mrb_float_value(cb->mrb,cb_val));
 }
@@ -748,6 +757,8 @@ mrb_remote_param_initalize(mrb_state *mrb, mrb_value self)
     data->type = 'i';
     data->cb_refs = NULL;
     data->cbs     = 0;
+    data->min     = 0;
+    data->max     = 0;
     //if(strstr(data->uri, "Pfreq"))
     //    data->type = 'f';
 
@@ -765,6 +776,10 @@ mrb_remote_param_set_callback(mrb_state *mrb, mrb_value self)
     remote_cb_data *data = malloc(sizeof(remote_cb_data));
     data->mrb = mrb;
     data->mode = mrb_funcall(mrb, self, "mode", 0);
+    data->min  = param->min;
+    data->max  = param->max;
+    if(data->min == data->max && data->max == 0)
+        data->max = 127.0;
     mrb_get_args(mrb, "o", &data->cb);
 
     mrb_funcall(mrb, self, "add_cb", 1, data->cb);
@@ -778,6 +793,36 @@ mrb_remote_param_set_callback(mrb_state *mrb, mrb_value self)
 
 
     param = (remote_param_data*) mrb_data_get_ptr(mrb, self, &mrb_remote_param_type);
+    return self;
+}
+
+static mrb_value
+mrb_remote_param_set_min(mrb_state *mrb, mrb_value self)
+{
+    remote_param_data *param;
+    param = (remote_param_data*) mrb_data_get_ptr(mrb, self, &mrb_remote_param_type);
+    mrb_assert(param);
+
+    mrb_float value = 0;
+    mrb_get_args(mrb, "f", &value);
+    mrb_assert(param);
+
+    param->min = value;
+    return self;
+}
+
+static mrb_value
+mrb_remote_param_set_max(mrb_state *mrb, mrb_value self)
+{
+    remote_param_data *param;
+    param = (remote_param_data*) mrb_data_get_ptr(mrb, self, &mrb_remote_param_type);
+    mrb_assert(param);
+
+    mrb_float value = 0;
+    mrb_get_args(mrb, "f", &value);
+    mrb_assert(param);
+
+    param->max = value;
     return self;
 }
 
@@ -797,8 +842,12 @@ mrb_remote_param_set_value(mrb_state *mrb, mrb_value self)
 
     if(param->type == 'i') {
         int next = value;
-        if(mrb_obj_equal(mrb, mrb_nil_value(), mode))
+        bool nil_mode = mrb_obj_equal(mrb, mrb_nil_value(), mode);
+        bool p127     = param->min == 0 && (param->max == 127 || param->max == 0);
+        if(nil_mode && p127)
             next = (127.0*value);
+        else if(nil_mode)
+            next = (param->max-param->min)*value - param->min;
         br_set_value_int(param->br, param->uri, next);
     } else if(param->type == 'f') {
         br_set_value_float(param->br, param->uri, value);
@@ -1040,6 +1089,8 @@ mrb_mruby_widget_lib_gem_init(mrb_state* mrb) {
     MRB_SET_INSTANCE_TT(param, MRB_TT_DATA);
     mrb_define_method(mrb, param, "initialize", mrb_remote_param_initalize, MRB_ARGS_REQ(2));
     mrb_define_method(mrb, param, "set_callback", mrb_remote_param_set_callback, MRB_ARGS_REQ(1));
+    mrb_define_method(mrb, param, "set_min",      mrb_remote_param_set_min, MRB_ARGS_REQ(1));
+    mrb_define_method(mrb, param, "set_max",      mrb_remote_param_set_max, MRB_ARGS_REQ(1));
     mrb_define_method(mrb, param, "set_value",    mrb_remote_param_set_value, MRB_ARGS_REQ(1));
     mrb_define_method(mrb, param, "set_value_tf", mrb_remote_param_set_value_tf, MRB_ARGS_REQ(1));
     mrb_define_method(mrb, param, "set_value_ar", mrb_remote_param_set_value_ar, MRB_ARGS_REQ(1));

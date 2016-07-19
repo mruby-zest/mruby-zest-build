@@ -20,6 +20,7 @@ module OSC
     end
     class RemoteMetadata
         attr_accessor :name, :short_name, :units, :tooltip, :options
+        attr_accessor :min, :max
     end
 
     class RemoteParam
@@ -36,6 +37,7 @@ module OSC
             set_value_ar(val,  @mode) if(val.class == Array)
             set_value_str(val, @mode) if(val.class == String)
         end
+
 
         def callback=(cb)
             set_callback(cb)
