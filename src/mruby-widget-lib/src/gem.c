@@ -3,9 +3,6 @@
 #include <mruby/class.h>
 #include <mruby/data.h>
 #include <mruby/string.h>
-#define GL_GLEXT_PROTOTYPES
-#include <GL/gl.h>
-#include <GL/glext.h>
 #include <string.h>
 #include <stdlib.h>
 #include <assert.h>
@@ -16,6 +13,7 @@
 #include "../../../deps/pugl/pugl/pugl.h"
 #include "../../../deps/rtosc/include/rtosc/rtosc.h"
 #include "../../../src/osc-bridge/src/gem.h"
+#include "../../../deps/mruby-nanovg/src/gl_core.3.2.h"
 
 static mrb_value
 mrb_gl_viewport(mrb_state *mrb, mrb_value self)
@@ -342,32 +340,32 @@ static int
 createFBO(int w, int h, GLframebuffer *fb)
 {
     /* texture */
-    glGenTexturesEXT(1, &fb->texture);
-    glBindTextureEXT(GL_TEXTURE_2D, fb->texture);
+    glGenTextures(1, &fb->texture);
+    glBindTexture(GL_TEXTURE_2D, fb->texture);
     glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
     glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
     glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
     glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
     glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, w, h, 0, GL_RGBA,
                  GL_UNSIGNED_BYTE, NULL);
-    glBindTextureEXT(GL_TEXTURE_2D, 0);
+    glBindTexture(GL_TEXTURE_2D, 0);
 
     /* frame buffer object */
-    glGenFramebuffersEXT(1, &fb->fbo);
-    glBindFramebufferEXT(GL_FRAMEBUFFER, fb->fbo);
+    glGenFramebuffers(1, &fb->fbo);
+    glBindFramebuffer(GL_FRAMEBUFFER, fb->fbo);
 
     /* render buffer object */
-    glGenRenderbuffersEXT(1, &fb->rbo);
-    glBindRenderbufferEXT(GL_RENDERBUFFER, fb->rbo);
-    glRenderbufferStorageEXT(GL_RENDERBUFFER, GL_DEPTH24_STENCIL8, w, h);
+    glGenRenderbuffers(1, &fb->rbo);
+    glBindRenderbuffer(GL_RENDERBUFFER, fb->rbo);
+    glRenderbufferStorage(GL_RENDERBUFFER, GL_DEPTH24_STENCIL8, w, h);
 
     /* combine all */
-    glFramebufferTexture2DEXT(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0,
+    glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0,
             GL_TEXTURE_2D, fb->texture, 0);
-    glFramebufferRenderbufferEXT(GL_FRAMEBUFFER, GL_STENCIL_ATTACHMENT,
+    glFramebufferRenderbuffer(GL_FRAMEBUFFER, GL_STENCIL_ATTACHMENT,
             GL_RENDERBUFFER, fb->rbo);
 
-    return glCheckFramebufferStatusEXT(GL_FRAMEBUFFER) == GL_FRAMEBUFFER_COMPLETE;
+    return glCheckFramebufferStatus(GL_FRAMEBUFFER) == GL_FRAMEBUFFER_COMPLETE;
 }
 
 static void mrb_fbo_free(mrb_state *mrb, void *ptr);
@@ -377,9 +375,9 @@ mrb_fbo_free(mrb_state *mrb, void *ptr)
 {
     mrb_assert(mrb && false);
     GLframebuffer *fbo = (GLframebuffer *)ptr;
-    glDeleteRenderbuffersEXT(1, &fbo->rbo);
-    glDeleteFramebuffersEXT(1, &fbo->fbo);
-    glDeleteTexturesEXT(1, &fbo->texture);
+    glDeleteRenderbuffers(1, &fbo->rbo);
+    glDeleteFramebuffers(1, &fbo->fbo);
+    glDeleteTextures(1, &fbo->texture);
 }
 
 static mrb_value
@@ -403,7 +401,7 @@ mrb_fbo_initialize(mrb_state *mrb, mrb_value self)
 static mrb_value
 mrb_fbo_deselect(mrb_state *mrb, mrb_value self)
 {
-    glBindFramebufferEXT(GL_FRAMEBUFFER, 0);
+    glBindFramebuffer(GL_FRAMEBUFFER, 0);
     return self;
 }
 
@@ -426,7 +424,7 @@ static mrb_value
 mrb_fbo_select(mrb_state *mrb, mrb_value self)
 {
     GLframebuffer *fbo = (GLframebuffer*)mrb_data_get_ptr(mrb, self, &mrb_fbo_type);
-    glBindFramebufferEXT(GL_FRAMEBUFFER, fbo->fbo);
+    glBindFramebuffer(GL_FRAMEBUFFER, fbo->fbo);
     return self;
 }
 
@@ -653,7 +651,7 @@ remote_cb_127(const char *msg, remote_cb_data *cb)
 
     mrb_assert(0 <= arg && arg <= 127);
 
-    mrb_float cb_val = (arg+cb->min)/(cb->max-cb->min);
+    mrb_float cb_val = (arg-cb->min)/(cb->max-cb->min);
 
     mrb_funcall(cb->mrb, cb->cb, "call", 1, mrb_float_value(cb->mrb,cb_val));
 }
@@ -847,7 +845,7 @@ mrb_remote_param_set_value(mrb_state *mrb, mrb_value self)
         if(nil_mode && p127)
             next = (127.0*value);
         else if(nil_mode)
-            next = (param->max-param->min)*value - param->min;
+            next = (param->max-param->min)*value + param->min;
         br_set_value_int(param->br, param->uri, next);
     } else if(param->type == 'f') {
         br_set_value_float(param->br, param->uri, value);
