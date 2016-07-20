@@ -7,12 +7,20 @@ GLPK_URL  = https://ftp.gnu.org/gnu/glpk/$(GLPK_FILE)
 UV_URL    = http://dist.libuv.org/dist/v1.9.1/$(UV_FILE)
 
 all:
-	cd deps/nanovg       && premake4 gmake
-	cd deps/nanovg/build && make nanovg
+	cd deps/nanovg/src   && $(CC) nanovg.c -c
+	$(AR) rc deps/libnanovg.a deps/nanovg/src/*.o
 	cd deps/pugl         && ./waf configure --no-cairo --static
 	cd deps/pugl         && ./waf
-	cd src/osc-bridge    && make
+	cd src/osc-bridge    && make lib
 	cd mruby             && MRUBY_CONFIG=../build_config.rb rake
+	
+windows:
+	cd deps/nanovg/src   && $(CC) nanovg.c -c
+	$(AR) rc deps/libnanovg.a deps/nanovg/src/*.o
+	cd deps/pugl         && ./waf configure --no-cairo --static --target=win32
+	cd deps/pugl         && ./waf
+	cd src/osc-bridge    && make lib
+	cd mruby             && WINDOWS=1 MRUBY_CONFIG=../build_config.rb rake
 
 builddep:
 	cd deps/$(UV_DIR)    && ./autogen.sh
@@ -27,7 +35,20 @@ builddep:
 	cd deps/rtosc        && $(AR) rcs librtosc.a ./*.o
 	cp deps/rtosc/librtosc.a deps/
 
-
+builddepwin:
+	cd deps/$(UV_DIR)   && ./autogen.sh
+	cd deps/$(UV_DIR)   && ./configure  --host=x86_64-w64-mingw32
+	cd deps/$(UV_DIR)   && LD=x86_64-w64-mingw32-gcc make
+	cp deps/$(UV_DIR)/.libs/libuv.a deps/
+	#cd deps/$(GLPK_DIR) && CFLAGS="-DDBL_EPSILON=2e-16" ./configure --disable-shared --enable-static --host=x86_64-w64-mingw32
+	#cd deps/$(GLPK_DIR) && LD=x86_64-w64-mingw32-gcc make
+	#cd deps/$(GLPK_DIR) && x86_64-w64-mingw32-gcc examples/glpsol.c -I src/ src/.libs/libglpk.a -o glpsol.exe -lm
+	#cp deps/$(GLPK_DIR)/glpsol.exe deps/
+	cp deps/glpk-4.52/w64/glpk_4_52.dll deps/
+	cp deps/glpk-4.52/w64/glpsol.exe deps/
+	cd deps/rtosc       && x86_64-w64-mingw32-gcc src/*.c -I include -c
+	cd deps/rtosc       && x86_64-w64-mingw32-ar rcs librtosc.a ./*.o
+	cp deps/rtosc/librtosc.a deps/
 
 setup:
 	cd deps              && wget $(GLPK_URL)
@@ -35,6 +56,11 @@ setup:
 	cd deps              && wget $(UV_URL)
 	cd deps              && tar xvf $(UV_FILE)
 
+setupwin:
+	cd deps              && wget http://downloads.sourceforge.net/winglpk/winglpk/GLPK-4.52/winglpk-4.52.zip
+	cd deps              && unzip winglpk*
+	cd deps              && wget $(UV_URL)
+	cd deps              && tar xvf $(UV_FILE)
 
 push:
 	cd src/osc-bridge      && git push

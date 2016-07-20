@@ -88,7 +88,7 @@ class ZRunner
     end
 
     def init_pugl
-        puts "init pugl"
+        puts "[INFO] init pugl"
         @window = GL::PUGL.new self
         @draw_seq.window = @window
         init_gl
@@ -96,7 +96,7 @@ class ZRunner
     end
 
     def init_gl
-        puts "init gl"
+        puts "[INFO] init gl"
         @window.make_current
         @window.size = [1181,659]
         @w,@h=*@window.size
@@ -109,15 +109,22 @@ class ZRunner
         $vg     = @vg
 
         #Load Fonts
-        sans = `find . -type f | grep Regular.ttf`.split[0]
-        @vg.create_font('sans', sans)
-        bold = `find . -type f | grep Bold.ttf`.split[0]
-        @vg.create_font('bold', bold)
+        puts "[INFO] loading fonts"
+
+        sans = "font/Roboto-Regular.ttf"
+        if(!@vg.create_font('sans', sans))
+            puts "[ERROR] could not find sans font"
+        end
+
+        bold = "font/Roboto-Bold.ttf"
+        if(@vg.create_font('bold', bold) == -1)
+            puts "[ERROR] could not find bold font"
+        end
 
         #Load Overlay image
-        @backdrop = @vg.create_image('../template.png', 0)
-        puts "window width=#{@w}"
-        puts "window height=#{@h}"
+        #@backdrop = @vg.create_image('../template.png', 0)
+        puts "[INFO] window width=#{@w}"
+        puts "[INFO] window height=#{@h}"
 
         build_fbo
 
