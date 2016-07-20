@@ -23,6 +23,9 @@ builddep:
 	cd deps/$(GLPK_DIR)  && make
 	cd deps/$(GLPK_DIR)  && $(CC) examples/glpsol.c -I src/ src/.libs/libglpk.a -o glpsol -lm
 	cp deps/$(GLPK_DIR)/glpsol deps/
+	cd deps/rtosc        && $(CC) src/*.c -I include -c
+	cd deps/rtosc        && $(AR) rcs librtosc.a ./*.o
+	cp deps/rtosc/librtosc.a deps/
 
 
 
