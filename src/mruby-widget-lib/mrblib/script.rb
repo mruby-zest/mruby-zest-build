@@ -95,6 +95,22 @@ class ZRunner
         @window.impl = self
     end
 
+    def init_font
+        font_error = false
+        sans = ["font/Roboto-Regular.ttf", "deps/nanovg/example/Roboto-Regular.ttf"]
+        if(@vg.create_font('sans', sans[0]) == -1 && @vg.create_font('sans', sans[1]) == -1)
+            puts "[ERROR] could not find sans font"
+            font_error = true
+        end
+
+        bold = ["font/Roboto-Bold.ttf", "deps/nanovg/example/Roboto-Bold.ttf"]
+        if(@vg.create_font('bold', bold[0]) == -1 && @vg.create_font('bold', bold[1]) == -1)
+            puts "[ERROR] could not find bold font"
+            font_error = true
+        end
+        exit if font_error
+    end
+
     def init_gl
         puts "[INFO] init gl"
         @window.make_current
@@ -110,16 +126,7 @@ class ZRunner
 
         #Load Fonts
         puts "[INFO] loading fonts"
-
-        sans = "font/Roboto-Regular.ttf"
-        if(!@vg.create_font('sans', sans))
-            puts "[ERROR] could not find sans font"
-        end
-
-        bold = "font/Roboto-Bold.ttf"
-        if(@vg.create_font('bold', bold) == -1)
-            puts "[ERROR] could not find bold font"
-        end
+        init_font
 
         #Load Overlay image
         #@backdrop = @vg.create_image('../template.png', 0)
