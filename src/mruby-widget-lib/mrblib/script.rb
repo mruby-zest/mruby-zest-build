@@ -222,6 +222,12 @@ class ZRunner
         elsif(press == :release && key == :ctrl)
             @learn_mode = false
         end
+
+        if(press == :press && key == :shift)
+            @fine_mode = true
+        elsif(press == :release && key == :shift)
+            @fine_mode = false
+        end
     end
 
     def key(key)
@@ -569,6 +575,8 @@ class ZRunner
     end
 
     def ego_death(item)
+        return if item.nil?
+        return if item.parent.nil?
         #Remove from parent's children list and perhaps mark properties as no
         #longer in use?
         #Regenerate the draw sequence as a result

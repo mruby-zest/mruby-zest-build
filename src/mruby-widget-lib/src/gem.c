@@ -108,6 +108,7 @@ printModifiers(PuglView* view)
 static void
 onEvent(PuglView* view, const PuglEvent* event)
 {
+    void **v = (void**)puglGetHandle(view);
 	if (event->type == PUGL_KEY_PRESS) {
 		const uint32_t ucode = event->key.character;
         (void) ucode;
@@ -121,6 +122,16 @@ onEvent(PuglView* view, const PuglEvent* event)
             mrb_funcall(mrb, obj, "key", 1, mrb_str_new_cstr(mrb, event->key.utf8));
         }
 	}
+
+    if(event->key.keycode == 50) {
+        int press = event->type == PUGL_KEY_PRESS;
+        const char *pres_rel = press ? "press" : "release";
+        mrb_state *mrb = v[0];
+        mrb_value obj = mrb_obj_value(v[1]);
+        mrb_funcall(mrb, obj, "key_mod", 2,
+                mrb_str_new_cstr(mrb, pres_rel),
+                mrb_str_new_cstr(mrb, "shift"));
+    }
 }
 
 static void
