@@ -109,7 +109,10 @@ static void
 onEvent(PuglView* view, const PuglEvent* event)
 {
     void **v = (void**)puglGetHandle(view);
-	if (event->type == PUGL_KEY_PRESS) {
+	if(event->type == PUGL_KEY_PRESS ||
+            event->type == PUGL_KEY_RELEASE) {
+        int press = event->type == PUGL_KEY_PRESS;
+        const char *pres_rel = press ? "press" : "release";
 		const uint32_t ucode = event->key.character;
         (void) ucode;
 		fprintf(stderr, "Key %u (char %u) down (%s)%s\n",
@@ -119,7 +122,9 @@ onEvent(PuglView* view, const PuglEvent* event)
         if(v && event->key.utf8[0]) {
             mrb_state *mrb = v[0];
             mrb_value obj = mrb_obj_value(v[1]);
-            mrb_funcall(mrb, obj, "key", 1, mrb_str_new_cstr(mrb, event->key.utf8));
+            mrb_funcall(mrb, obj, "key", 2,
+                    mrb_str_new_cstr(mrb, event->key.utf8),
+                    mrb_str_new_cstr(mrb, pres_rel));
         }
 	}
 
@@ -235,6 +240,7 @@ mrb_pugl_initialize(mrb_state *mrb, mrb_value self)
     //puglInitWindowClass(view, "PuglWindow");
 	puglInitWindowSize(view, 1181, 659);
     puglInitResizable(view, true);
+    puglIgnoreKeyRepeat(view, true);
 
 	puglSetEventFunc(view, onEvent);
 	puglSetMotionFunc(view, onMotion);

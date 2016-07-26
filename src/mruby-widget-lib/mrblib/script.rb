@@ -230,10 +230,10 @@ class ZRunner
         end
     end
 
-    def key(key)
+    def key(key, act)
         return if @keyboard.nil?
         aw = activeWidget(@keyboard.x, @keyboard.y)
-        aw.onKey(key) if(aw.respond_to? :onKey)
+        aw.onKey(key, act) if(aw.respond_to? :onKey)
     end
 
     def mouse(button, action, x, y)
