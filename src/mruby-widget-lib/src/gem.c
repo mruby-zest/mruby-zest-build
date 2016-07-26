@@ -179,7 +179,7 @@ onMouse(PuglView* view, int button, bool press, int x, int y)
 	//fprintf(stderr, "Mouse %d %s at %d,%d ",
 	//        button, press ? "down" : "up", x, y);
 	//printModifiers(view);
-    if(v) {
+    if(v && button) {
         mrb_value obj = mrb_obj_value(v[1]);
         mrb_funcall(v[0], obj, "mouse", 4,
                 mrb_fixnum_value(button),
