@@ -14,12 +14,15 @@ struct {
 void
 parse_arguments(int argc, char **argv)
 {
-    cmd_arg.remote_address   = "localhost:1337";
+    cmd_arg.remote_address   = "osc.udp://localhost:1337";
     cmd_arg.widget_selection = "MainWindow";
     cmd_arg.hotload          = 0;
-    for(int i=0; i<argc; ++i)
+    for(int i=0; i<argc; ++i) {
         if(!strcmp("--hotload", argv[i]))
             cmd_arg.hotload = 1;
+        if(strstr(argv[i], "osc.udp://") == argv[i])
+            cmd_arg.remote_address = argv[i];
+    }
 
     (void) argc;
     (void) argv;
@@ -78,7 +81,8 @@ main(int argc, char **argv)
 
     //Initialize Application Runner
     struct RClass *runner  = mrb_class_get(mrb, "ZRunner");
-    mrb_value      run     = mrb_obj_new(mrb, runner, 0, NULL);
+    mrb_value      runarg  = mrb_str_new_cstr(mrb, cmd_arg.remote_address);
+    mrb_value      run     = mrb_obj_new(mrb, runner, 1, &runarg);
 
     //Set Argument Values
     mrb_funcall(mrb, run, "hotload=", 1, cmd_arg.hotload ? mrb_true_value() : mrb_false_value());

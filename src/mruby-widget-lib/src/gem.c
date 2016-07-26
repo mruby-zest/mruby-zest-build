@@ -504,8 +504,14 @@ const struct mrb_data_type mrb_remote_param_type    = {"RemoteParam", mrb_remote
 static mrb_value
 mrb_remote_initalize(mrb_state *mrb, mrb_value self)
 {
+    mrb_value val;
+    mrb_get_args(mrb, "o", &val);
+
+    const char *arg = "osc.udp://localhost:1234";
+    if(val.tt == MRB_TT_STRING)
+        arg = mrb_string_value_ptr(mrb, val);
     remote_data *data = mrb_malloc(mrb, sizeof(remote_data));
-    data->br  = br_create("localhost:1337");
+    data->br  = br_create(arg);
     data->sch = br_get_schema(data->br, "");
 
     mrb_data_init(self, data, &mrb_remote_type);
@@ -1091,7 +1097,7 @@ mrb_mruby_widget_lib_gem_init(mrb_state* mrb) {
     struct RClass *osc = mrb_define_module(mrb, "OSC");
     struct RClass *remote = mrb_define_class_under(mrb, osc, "Remote", mrb->object_class);
     MRB_SET_INSTANCE_TT(remote, MRB_TT_DATA);
-    mrb_define_method(mrb, remote, "initialize", mrb_remote_initalize, MRB_ARGS_NONE());
+    mrb_define_method(mrb, remote, "initialize", mrb_remote_initalize, MRB_ARGS_REQ(1));
     mrb_define_method(mrb, remote, "tick",       mrb_remote_tick,      MRB_ARGS_NONE());
     mrb_define_method(mrb, remote, "action",     mrb_remote_action,    MRB_ARGS_ANY());
     mrb_define_method(mrb, remote, "damage",     mrb_remote_damage,    MRB_ARGS_REQ(1));

@@ -5,7 +5,7 @@
 # 2 - overlay    layer
 
 class ZRunner
-    def initialize
+    def initialize(url)
         @events   = UiEventSeq.new
         @draw_seq = DrawSequence.new
         @mx       = 0
@@ -31,7 +31,7 @@ class ZRunner
         @hotload = true
 
         #global stuff?
-        $remote = OSC::Remote.new
+        $remote = OSC::Remote.new(url)
         print "remote = "
         puts $remote
 
