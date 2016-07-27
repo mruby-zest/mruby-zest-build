@@ -420,7 +420,8 @@ class ZRunner
         widget.children.map {|x| animate_frame x}
     end
 
-    def try_hotload
+    def try_hotload(frames, p_code, block)
+        return if !@hotload
         nwidget = nil
 
         #Attempt A code hot swap
@@ -532,7 +533,7 @@ class ZRunner
             end
             frames += 1
 
-            try_hotload
+            try_hotload(frames, p_code, block)
 
             p_swap.time do
                 @window.poll
