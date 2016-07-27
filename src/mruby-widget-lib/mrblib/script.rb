@@ -6,6 +6,7 @@
 
 class ZRunner
     def initialize(url)
+        puts "[INFO] setting up runner"
         @events   = UiEventSeq.new
         @draw_seq = DrawSequence.new
         @mx       = 0
@@ -52,7 +53,7 @@ class ZRunner
     ########################################
 
     def setup
-        puts "setup..."
+        puts "[INFO] setup..."
         if(!@widget)
             puts "No Widget was allocated"
             puts "This is typically a problem with running the code from the wrong subdirectory"
@@ -419,7 +420,65 @@ class ZRunner
         widget.children.map {|x| animate_frame x}
     end
 
+    def try_hotload
+        nwidget = nil
+
+        #Attempt A code hot swap
+        if((frames%10) == 0 && @hotload)
+            p_code.time do
+                nwidget = block.call
+                begin
+                    #Try to hotswap common draw routines
+                    q = "src/mruby-zest/mrblib/draw-common.rb"
+                    draw_id = File::Stat.new(q).ctime.to_s
+                    @common_draw_id ||= draw_id
+                    if(draw_id != @common_draw_id)
+                        f = File.read q
+                        eval(f)
+                        @draw_seq.damage_region(Rect.new(0, 0, @w, @h), 0)
+                        @common_draw_id = draw_id
+                    end
+                rescue
+                    puts "Error loading draw common routines"
+                end
+            end
+        end
+
+        #Attempt to merge old widget's runtime values into new widget tree
+        tic = Time.new
+        if(nwidget)
+            nwidget.parent = self
+            nwidget.w = @widget.w
+            nwidget.h = @widget.h
+            doSetup(@widget, nwidget)
+            doMerge(@widget, nwidget)
+            @widget = nwidget
+        end
+        t_setup = Time.new
+
+        #Layout Widgets again
+        #Build Draw order
+        t_layout_before = Time.new
+        if(nwidget)
+            perform_layout
+            @draw_seq.make_draw_sequence(@widget)
+        end
+        t_layout_after = Time.new
+
+        if(nwidget)
+            @draw_seq.damage_region(Rect.new(0, 0, @w, @h), 0)
+            @draw_seq.damage_region(Rect.new(0, 0, @w, @h), 1)
+            @draw_seq.damage_region(Rect.new(0, 0, @w, @h), 2)
+            toc = Time.new
+            puts "reload time #{1000*(toc-tic)}ms"
+            puts "setup time #{1000*(t_setup-tic)}ms"
+            puts "layout time #{1000*(t_layout_after-t_layout_before)}ms"
+            @window.refresh
+        end
+    end
+
     def doRun(block)
+        puts "[INFO] initial qml compile"
         @widget = block.call
         if(@widget.nil?)
             puts "invalid widget creation, try checking those .qml files for a bug"
@@ -473,62 +532,7 @@ class ZRunner
             end
             frames += 1
 
-            if(true)
-                nwidget = nil
-
-                #Attempt A code hot swap
-                if((frames%10) == 0 && @hotload)
-                    p_code.time do
-                        nwidget = block.call
-                        begin
-                            #Try to hotswap common draw routines
-                            q = "src/mruby-zest/mrblib/draw-common.rb"
-                            draw_id = File::Stat.new(q).ctime.to_s
-                            @common_draw_id ||= draw_id
-                            if(draw_id != @common_draw_id)
-                                f = File.read q
-                                eval(f)
-                                @draw_seq.damage_region(Rect.new(0, 0, @w, @h), 0)
-                                @common_draw_id = draw_id
-                            end
-                        rescue
-                            puts "Error loading draw common routines"
-                        end
-                    end
-                end
-
-                #Attempt to merge old widget's runtime values into new widget tree
-                tic = Time.new
-                if(nwidget)
-                    nwidget.parent = self
-                    nwidget.w = @widget.w
-                    nwidget.h = @widget.h
-                    doSetup(@widget, nwidget)
-                    doMerge(@widget, nwidget)
-                    @widget = nwidget
-                end
-                t_setup = Time.new
-
-                #Layout Widgets again
-                #Build Draw order
-                t_layout_before = Time.new
-                if(nwidget)
-                    perform_layout
-                    @draw_seq.make_draw_sequence(@widget)
-                end
-                t_layout_after = Time.new
-
-                if(nwidget)
-                    @draw_seq.damage_region(Rect.new(0, 0, @w, @h), 0)
-                    @draw_seq.damage_region(Rect.new(0, 0, @w, @h), 1)
-                    @draw_seq.damage_region(Rect.new(0, 0, @w, @h), 2)
-                    toc = Time.new
-                    puts "reload time #{1000*(toc-tic)}ms"
-                    puts "setup time #{1000*(t_setup-tic)}ms"
-                    puts "layout time #{1000*(t_layout_after-t_layout_before)}ms"
-                    @window.refresh
-                end
-            end
+            try_hotload
 
             p_swap.time do
                 @window.poll
