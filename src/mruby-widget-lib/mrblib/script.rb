@@ -4,9 +4,27 @@
 # 1 - animation  layer
 # 2 - overlay    layer
 
+class FakeWindow
+    attr_accessor :w, :h
+    def initalize()
+        @ref = nil
+    end
+
+    def refresh
+        @ref = true
+    end
+
+    def get_refresh
+        tmp = @ref
+        @ref = false
+        tmp
+    end
+end
+
 class ZRunner
     def initialize(url)
         puts "[INFO] setting up runner"
+        $global_self = self
         @events   = UiEventSeq.new
         @draw_seq = DrawSequence.new
         @mx       = 0
@@ -14,7 +32,7 @@ class ZRunner
         @clicked  = nil
         @keyboard = nil
 
-        @animate_frame_dt   = 100e-3
+        @animate_frame_dt   = 1.0/30.0
         @animate_frame_next = Time.new
 
         #Framebuffers
@@ -45,12 +63,47 @@ class ZRunner
         @view_pos[:subview]    = :global
         @view_pos[:subsubview] = nil
         @view_pos[:vis]        = :env
-
     end
 
     ########################################
     #       Graphics Init Routines         #
     ########################################
+
+    def init_window(block)
+        puts "init window"
+        @window = FakeWindow.new
+        @window.w = @w
+        @window.h = @h
+        @draw_seq.window = @window
+        @widget = block.call
+        if(!@widget)
+            puts "No Widget was allocated"
+            puts "This is typically a problem with running the code from the wrong subdirectory"
+            puts "If mruby-zest cannot find the qml source files, then the UI cannot be created"
+            raise "Impossible Widget"
+        end
+
+        puts "setting parent"
+        puts @widget
+        @widget.w = @w
+        @widget.h = @h
+        @widget.parent = self
+
+        puts "doing setup"
+        doSetup(nil, @widget)
+
+        puts "doing layout"
+        perform_layout
+        puts "makeing draw seq"
+        @draw_seq.make_draw_sequence(@widget)
+
+        @widget.db.make_rdepends
+        puts "Widget setup..."
+        @draw_seq.damage_region(Rect.new(0, 0, @w, @h), 0)
+        @draw_seq.damage_region(Rect.new(0, 0, @w, @h), 1)
+        @draw_seq.damage_region(Rect.new(0, 0, @w, @h), 2)
+        puts @widget
+    end
 
     def setup
         puts "[INFO] setup..."
@@ -98,13 +151,13 @@ class ZRunner
 
     def init_font
         font_error = false
-        sans = ["font/Roboto-Regular.ttf", "deps/nanovg/example/Roboto-Regular.ttf"]
+        sans = ["/home/mark/code/mruby-zest-build/package/font/Roboto-Regular.ttf", "font/Roboto-Regular.ttf", "deps/nanovg/example/Roboto-Regular.ttf"]
         if(@vg.create_font('sans', sans[0]) == -1 && @vg.create_font('sans', sans[1]) == -1)
             puts "[ERROR] could not find sans font"
             font_error = true
         end
 
-        bold = ["font/Roboto-Bold.ttf", "deps/nanovg/example/Roboto-Bold.ttf"]
+        bold = ["/home/mark/code/mruby-zest-build/package/font/Roboto-Bold.ttf", "font/Roboto-Bold.ttf", "deps/nanovg/example/Roboto-Bold.ttf"]
         if(@vg.create_font('bold', bold[0]) == -1 && @vg.create_font('bold', bold[1]) == -1)
             puts "[ERROR] could not find bold font"
             font_error = true
@@ -114,9 +167,9 @@ class ZRunner
 
     def init_gl
         puts "[INFO] init gl"
-        @window.make_current
-        @window.size = [1181,659]
-        @w,@h=*@window.size
+        #@window.make_current
+        #@window.size = [1181,659]
+        #@w,@h=*@window.size
         @w = 1181
         @h = 659
 
@@ -304,6 +357,7 @@ class ZRunner
 
     #Setup widget graph
     def doSetup(wOld, wNew)
+        puts wNew
         if(wNew.respond_to? :onSetup)
             wNew.onSetup(wOld)
         end
@@ -476,6 +530,26 @@ class ZRunner
             puts "layout time #{1000*(t_layout_after-t_layout_before)}ms"
             @window.refresh
         end
+    end
+
+    def check_redraw
+        @window.get_refresh
+    end
+
+    def tick_remote
+        $remote.tick
+    end
+
+    def tick_animation
+        now = Time.new
+        if(now > @animate_frame_next)
+            @animate_frame_next += @animate_frame_dt
+            animate_frame @widget
+        end
+    end
+
+    def tick_events
+        handle_events
     end
 
     def doRun(block)

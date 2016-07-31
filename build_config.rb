@@ -115,6 +115,7 @@ build_type.new(build_name) do |conf|
   conf.gem 'src/mruby-qml-parse'
   conf.gem 'src/mruby-zest'
   conf.gem 'src/mruby-layout'
+  conf.gem 'src/mruby-shared'
 
   #Scrap Code Gem
   conf.gem 'src/mruby-widget-lib'

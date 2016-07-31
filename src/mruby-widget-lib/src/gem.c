@@ -228,7 +228,7 @@ static mrb_value
 mrb_pugl_tick(mrb_state *mrb, mrb_value self)
 {
     PuglView *view = (PuglView*)mrb_data_get_ptr(mrb, self, &mrb_pugl_type);
-    puglProcessEvents(view);
+    //puglProcessEvents(view);
     return self;
 }
 
@@ -236,7 +236,9 @@ mrb_pugl_tick(mrb_state *mrb, mrb_value self)
 static mrb_value
 mrb_pugl_initialize(mrb_state *mrb, mrb_value self)
 {
-    PuglView *view = puglInit(0,0);
+    PuglView *view = 0;
+#if 0
+    view = puglInit(0,0);
     //puglInitWindowClass(view, "PuglWindow");
 	puglInitWindowSize(view, 1181, 659);
     puglInitResizable(view, true);
@@ -254,6 +256,7 @@ mrb_pugl_initialize(mrb_state *mrb, mrb_value self)
 	puglCreateWindow(view, "Zyn The Overdue");
 	puglShowWindow(view);
     puglProcessEvents(view);
+#endif
 
     mrb_data_init(self, view, &mrb_pugl_type);
     mrb_funcall(mrb, self, "w=", 1, mrb_fixnum_value(1181));
@@ -289,8 +292,8 @@ static mrb_value
 mrb_pugl_make_current(mrb_state *mrb, mrb_value self)
 {
     PuglView *view = (PuglView*)mrb_data_get_ptr(mrb, self, &mrb_pugl_type);
-    void puglEnterContext(PuglView* view);
-    puglEnterContext(view);
+    //void puglEnterContext(PuglView* view);
+    //puglEnterContext(view);
     return self;
 }
 
@@ -307,7 +310,7 @@ static mrb_value
 mrb_pugl_poll(mrb_state *mrb, mrb_value self)
 {
     PuglView *view = (PuglView*)mrb_data_get_ptr(mrb, self, &mrb_pugl_type);
-    puglProcessEvents(view);
+    //puglProcessEvents(view);
     return mrb_false_value();
 }
 
@@ -321,7 +324,7 @@ mrb_pugl_impl(mrb_state *mrb, mrb_value self)
     void **v = mrb_malloc(mrb, 2*sizeof(void*));
     v[0] = mrb;
     v[1] = mrb_cptr(zrunner);
-    puglSetHandle(view, v);
+    //puglSetHandle(view, v);
     return mrb_false_value();
 }
 
@@ -338,7 +341,7 @@ static mrb_value
 mrb_pugl_refresh(mrb_state *mrb, mrb_value self)
 {
     PuglView *view = (PuglView*)mrb_data_get_ptr(mrb, self, &mrb_pugl_type);
-	puglPostRedisplay(view);
+	//puglPostRedisplay(view);
     return self;
 }
 

@@ -13,7 +13,14 @@ all:
 	cd deps/pugl         && ./waf
 	cd src/osc-bridge    && make lib
 	cd mruby             && MRUBY_CONFIG=../build_config.rb rake
-	
+
+libzest:
+	gcc -shared -o libzest.so `find mruby/build/host -type f | grep -e "\.o$$" | grep -v bin` ./deps/libnanovg.a ./deps/rtosc/librtosc.a ./deps/nanovg/build/libnanovg.a ./deps/libuv-v1.9.1/.libs/libuv.a src/osc-bridge/libosc-bridge.a -lm -lX11 -lGL -lpthread
+
+zestrun:
+	gcc test-libversion.c deps/pugl/build/libpugl-0.a -ldl -o test -lX11 -lGL -lpthread -I deps/pugl -std=c99
+
+
 windows:
 	cd deps/nanovg/src   && $(CC) nanovg.c -c
 	$(AR) rc deps/libnanovg.a deps/nanovg/src/*.o
