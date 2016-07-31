@@ -1,5 +1,6 @@
 #include <stdio.h>
 #include <dlfcn.h>
+#include <unistd.h>
 #include "deps/pugl/pugl/pugl.h"
 
 typedef void *zest_t;
@@ -140,8 +141,6 @@ onDisplay(PuglView* view)
     }
 
     z->zest_draw(z->zest);
-    putchar('!');
-    fflush(stdout);
 }
 
 void *setup_pugl(void *zest)
@@ -189,17 +188,20 @@ int main()
     void *view = setup_pugl(&z);
     printf("[INFO:Zyn] zest_tick()\n");
     int64_t frame_id = 0;
+    const float target_fps  = 60.0;
+    const float frame_sleep = 1/target_fps;
     while(1) {
         frame_id++;
+        putchar('.');
+        fflush(stdout);
         int needs_redraw = 1;
         if(z.zest)
             needs_redraw = z.zest_tick(z.zest);
         if(needs_redraw)
             puglPostRedisplay(view);
+        else
+            usleep((int)(frame_sleep*1e6));
         puglProcessEvents(view);
-        usleep(20000);
-        putchar('%');
-        fflush(stdout);
     }
     printf("[INFO:Zyn] zest_close()\n");
     z.zest_close(z.zest);

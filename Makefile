@@ -13,13 +13,8 @@ all:
 	cd deps/pugl         && ./waf
 	cd src/osc-bridge    && make lib
 	cd mruby             && MRUBY_CONFIG=../build_config.rb rake
-
-libzest:
-	gcc -shared -o libzest.so `find mruby/build/host -type f | grep -e "\.o$$" | grep -v bin` ./deps/libnanovg.a ./deps/rtosc/librtosc.a ./deps/nanovg/build/libnanovg.a ./deps/libuv-v1.9.1/.libs/libuv.a src/osc-bridge/libosc-bridge.a -lm -lX11 -lGL -lpthread
-
-zestrun:
-	gcc test-libversion.c deps/pugl/build/libpugl-0.a -ldl -o test -lX11 -lGL -lpthread -I deps/pugl -std=c99
-
+	$(CC) -shared -o libzest.so `find mruby/build/host -type f | grep -e "\.o$$" | grep -v bin` ./deps/libnanovg.a ./deps/rtosc/librtosc.a ./deps/nanovg/build/libnanovg.a ./deps/libuv-v1.9.1/.libs/libuv.a src/osc-bridge/libosc-bridge.a -lm -lX11 -lGL -lpthread
+	$(CC) test-libversion.c deps/pugl/build/libpugl-0.a -ldl -o zest -lX11 -lGL -lpthread -I deps/pugl -std=c99
 
 windows:
 	cd deps/nanovg/src   && $(CC) nanovg.c -c
@@ -28,6 +23,8 @@ windows:
 	cd deps/pugl         && ./waf
 	cd src/osc-bridge    && make lib
 	cd mruby             && WINDOWS=1 MRUBY_CONFIG=../build_config.rb rake
+	$(CC) -shared -o libzest.so `find mruby/build/host -type f | grep -e "\.o$$" | grep -v bin` ./deps/libnanovg.a ./deps/rtosc/librtosc.a ./deps/nanovg/build/libnanovg.a ./deps/libuv-v1.9.1/.libs/libuv.a src/osc-bridge/libosc-bridge.a -lm -lX11 -lGL -lpthread
+	$(CC) test-libversion.c deps/pugl/build/libpugl-0.a -ldl -o zest -lX11 -lGL -lpthread -I deps/pugl -std=c99
 
 builddep:
 	cd deps/$(UV_DIR)    && ./autogen.sh
@@ -160,17 +157,18 @@ pack:
 	mkdir package/schema
 	mkdir package/qml
 	mkdir package/font
-	cp src/mruby-zest/qml/* package/qml/
-	cp src/mruby-zest/example/* package/qml/
-	cp src/osc-bridge/schema/test.json package/schema/
-	cp mruby/bin/mruby package/
-	cp mruby/bin/zest package/
-	cp deps/nanovg/example/*.ttf package/font/
-	cp deps/glpsol package/
-	echo `date` > package/VERSION
-	echo '#!/bin/sh' > package/run.sh
-	echo './zest --no-hotload' >> package/run.sh
-	chmod +x package/run.sh
+	cp src/mruby-zest/qml/*             package/qml/
+	cp src/mruby-zest/example/*         package/qml/
+	cp src/osc-bridge/schema/test.json  package/schema/
+	cp deps/nanovg/example/*.ttf        package/font/
+	cp mruby/bin/mruby                  package/
+	cp libzest.so                       package/
+	cp zest                             package/
+	cp deps/glpsol                      package/
+	echo `date` >                       package/VERSION
+	echo '#!/bin/sh' >                  package/run.sh
+	echo './zest' >>                    package/run.sh
+	chmod +x                            package/run.sh
 	rm -f zest-dist.tar
 	rm -f zest-dist.tar.bz2
 	tar cf zest-dist.tar package/

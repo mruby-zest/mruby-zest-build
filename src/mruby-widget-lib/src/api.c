@@ -49,7 +49,7 @@ zest_t *zest_open(char *address)
 
     //Configure application runner
     mrb_funcall(z->mrb, z->runner, "hotload=", 1, mrb_false_value());
-    
+
     //Run application runner setup
     //Create nanovg + frame buffers
     mrb_funcall(z->mrb, z->runner, "init_gl",     0);

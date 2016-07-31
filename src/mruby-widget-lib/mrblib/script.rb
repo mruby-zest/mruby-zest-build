@@ -16,7 +16,7 @@ class FakeWindow
 
     def get_refresh
         tmp = @ref
-        @ref = false
+        @ref = nil
         tmp
     end
 end
