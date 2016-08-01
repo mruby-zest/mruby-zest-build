@@ -12,70 +12,47 @@ struct zest_handles {
     void (*zest_motion)(zest_t*, int x, int y);
     void (*zest_scroll)(zest_t*, int x, int y, int dx, int dy);
     void (*zest_mouse)();
-    void (*zest_key)();
+    void (*zest_key)(zest_t *, const char *key, int press);
+    void (*zest_special)(zest_t *, int key, int press);
     void (*zest_resize)();
     int (*zest_tick)(zest_t*);
     zest_t *zest;
+    int do_exit;
 };
 
 static void
 onEvent(PuglView* view, const PuglEvent* event)
 {
-#if 0
-    void **v = (void**)puglGetHandle(view);
-	if(event->type == PUGL_KEY_PRESS ||
-            event->type == PUGL_KEY_RELEASE) {
-        int press = event->type == PUGL_KEY_PRESS;
-        const char *pres_rel = press ? "press" : "release";
-		const uint32_t ucode = event->key.character;
-        (void) ucode;
-		fprintf(stderr, "Key %u (char %u) down (%s)%s\n",
-		        event->key.keycode, ucode, event->key.utf8,
-		        event->key.filter ? " (filtered)" : "");
-        void **v = (void**)puglGetHandle(view);
-        if(v && event->key.utf8[0]) {
-            mrb_state *mrb = v[0];
-            mrb_value obj = mrb_obj_value(v[1]);
-            mrb_funcall(mrb, obj, "key", 2,
-                    mrb_str_new_cstr(mrb, event->key.utf8),
-                    mrb_str_new_cstr(mrb, pres_rel));
-        }
-	}
+    struct zest_handles *z = puglGetHandle(view);
+    if(!z || !z->zest)
+        return;
 
-    if(event->key.keycode == 50) {
-        int press = event->type == PUGL_KEY_PRESS;
-        const char *pres_rel = press ? "press" : "release";
-        mrb_state *mrb = v[0];
-        mrb_value obj = mrb_obj_value(v[1]);
-        mrb_funcall(mrb, obj, "key_mod", 2,
-                mrb_str_new_cstr(mrb, pres_rel),
-                mrb_str_new_cstr(mrb, "shift"));
+    if((event->type == PUGL_KEY_PRESS ||
+            event->type == PUGL_KEY_RELEASE) &&
+            event->key.utf8[0]) {
+        z->zest_key(z->zest, (char*)event->key.utf8,
+                event->type == PUGL_KEY_PRESS);
     }
-#endif
+    //if(event->key.keycode == 50) {
+    //    int press = event->type == PUGL_KEY_PRESS;
+    //    const char *pres_rel = press ? "press" : "release";
+    //    mrb_state *mrb = v[0];
+    //    mrb_value obj = mrb_obj_value(v[1]);
+    //    mrb_funcall(mrb, obj, "key_mod", 2,
+    //            mrb_str_new_cstr(mrb, pres_rel),
+    //            mrb_str_new_cstr(mrb, "shift"));
+    //}
+
 }
 
 static void
 onSpecial(PuglView* view, bool press, PuglKey key)
 {
-#if 0
-	//fprintf(stderr, "Special key %d %s ", key, press ? "down" : "up");
-	//printModifiers(view);
-    void **v = (void**)puglGetHandle(view);
-    if(v) {
-        const char *pres_rel = press ? "press" : "release";
-        const char *type     = NULL;
-        if(key == PUGL_KEY_CTRL)
-            type = "ctrl";
+    struct zest_handles *z = puglGetHandle(view);
+    if(!z || !z->zest)
+        return;
 
-        if(type) {
-            mrb_state *mrb = v[0];
-            mrb_value obj = mrb_obj_value(v[1]);
-            mrb_funcall(mrb, obj, "key_mod", 2,
-                    mrb_str_new_cstr(mrb, pres_rel),
-                    mrb_str_new_cstr(mrb, type));
-        }
-    }
-#endif
+    z->zest_special(z->zest, key, press);
 }
 
 static void
@@ -111,7 +88,11 @@ onScroll(PuglView* view, int x, int y, float dx, float dy)
 static void
 onClose(PuglView* view)
 {
-    exit(1);
+    struct zest_handles *z = puglGetHandle(view);
+    if(!z || !z->zest)
+        return;
+
+    z->do_exit = 1;
 }
 
 static void
@@ -175,14 +156,17 @@ int main()
         printf("[ERROR] '%s'\n", dlerror());
     }
     struct zest_handles z = {0};
-    z.zest_open  = dlsym(handle, "zest_open");
-    z.zest_setup = dlsym(handle, "zest_setup");
-    z.zest_close = dlsym(handle, "zest_close");
-    z.zest_draw  = dlsym(handle, "zest_draw");
-    z.zest_tick  = dlsym(handle, "zest_tick");
-    z.zest_motion= dlsym(handle, "zest_motion");
-    z.zest_scroll= dlsym(handle, "zest_scroll");
-    z.zest_mouse = dlsym(handle, "zest_mouse");
+    z.zest_open     = dlsym(handle, "zest_open");
+    z.zest_setup    = dlsym(handle, "zest_setup");
+    z.zest_close    = dlsym(handle, "zest_close");
+    z.zest_draw     = dlsym(handle, "zest_draw");
+    z.zest_tick     = dlsym(handle, "zest_tick");
+    z.zest_motion   = dlsym(handle, "zest_motion");
+    z.zest_scroll   = dlsym(handle, "zest_scroll");
+    z.zest_mouse    = dlsym(handle, "zest_mouse");
+    z.zest_key      = dlsym(handle, "zest_key");
+    z.zest_special  = dlsym(handle, "zest_special");
+    z.do_exit       = 0;
 
     printf("[INFO:Zyn] setup_pugl()\n");
     void *view = setup_pugl(&z);
@@ -190,7 +174,7 @@ int main()
     int64_t frame_id = 0;
     const float target_fps  = 60.0;
     const float frame_sleep = 1/target_fps;
-    while(1) {
+    while(!z.do_exit) {
         frame_id++;
         putchar('.');
         fflush(stdout);
@@ -205,5 +189,7 @@ int main()
     }
     printf("[INFO:Zyn] zest_close()\n");
     z.zest_close(z.zest);
+    printf("[INFO:Zyn] Destroying pugl view\n");
+    puglDestroy(view);
     return 0;
 }

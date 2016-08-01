@@ -486,6 +486,9 @@ void
 mrb_remote_free(mrb_state *mrb, void *ptr)
 {
     printf("================ remote FFFFFFFFFFFFFFRRRRRRRREEEEEEEEEEEE\n");
+    remote_data *data = (remote_data*)ptr;
+    br_destroy_schema(data->sch);
+    br_destroy(data->br);
 }
 
 static void remote_cb(const char *msg, void *data);
@@ -497,7 +500,9 @@ mrb_remote_param_free(mrb_state *mrb, void *ptr)
     for(int i=0; i<data->cbs; ++i) {
         remote_cb_data *ref = data->cb_refs[i];
         br_del_callback(data->br, data->uri, remote_cb, ref);
+        free((void*)ref);
     }
+    free((void*)data->uri);
 }
 
 const struct mrb_data_type mrb_remote_type          = {"Remote", mrb_remote_free};
@@ -815,8 +820,7 @@ mrb_remote_param_set_callback(mrb_state *mrb, mrb_value self)
     param->cb_refs = realloc(param->cb_refs, param->cbs*sizeof(void*));
     param->cb_refs[param->cbs-1] = data;
 
-
-    param = (remote_param_data*) mrb_data_get_ptr(mrb, self, &mrb_remote_param_type);
+    //param = (remote_param_data*) mrb_data_get_ptr(mrb, self, &mrb_remote_param_type);
     return self;
 }
 
@@ -1013,6 +1017,7 @@ mrb_remote_param_clean(mrb_state *mrb, mrb_value self)
     for(int i=0; i<data->cbs; ++i) {
         remote_cb_data *ref = data->cb_refs[i];
         br_del_callback(data->br, data->uri, remote_cb, ref);
+        free(ref);
     }
     free(data->cb_refs);
     data->cbs = 0;

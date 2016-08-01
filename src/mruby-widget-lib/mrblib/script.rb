@@ -344,6 +344,7 @@ class ZRunner
             end
         end
 
+        print "E#{cnt}" if cnt != 0
         @events.next_frame
         cnt
     end
@@ -357,7 +358,6 @@ class ZRunner
 
     #Setup widget graph
     def doSetup(wOld, wNew)
-        puts wNew
         if(wNew.respond_to? :onSetup)
             wNew.onSetup(wOld)
         end
@@ -480,22 +480,20 @@ class ZRunner
 
         #Attempt A code hot swap
         if((frames%10) == 0 && @hotload)
-            p_code.time do
-                nwidget = block.call
-                begin
-                    #Try to hotswap common draw routines
-                    q = "src/mruby-zest/mrblib/draw-common.rb"
-                    draw_id = File::Stat.new(q).ctime.to_s
-                    @common_draw_id ||= draw_id
-                    if(draw_id != @common_draw_id)
-                        f = File.read q
-                        eval(f)
-                        @draw_seq.damage_region(Rect.new(0, 0, @w, @h), 0)
-                        @common_draw_id = draw_id
-                    end
-                rescue
-                    puts "Error loading draw common routines"
+            nwidget = block.call
+            begin
+                #Try to hotswap common draw routines
+                q = "src/mruby-zest/mrblib/draw-common.rb"
+                draw_id = File::Stat.new(q).ctime.to_s
+                @common_draw_id ||= draw_id
+                if(draw_id != @common_draw_id)
+                    f = File.read q
+                    eval(f)
+                    @draw_seq.damage_region(Rect.new(0, 0, @w, @h), 0)
+                    @common_draw_id = draw_id
                 end
+            rescue
+                puts "Error loading draw common routines"
             end
         end
 
@@ -538,6 +536,7 @@ class ZRunner
 
     def tick_remote
         $remote.tick
+        nil
     end
 
     def tick_animation
@@ -546,10 +545,19 @@ class ZRunner
             @animate_frame_next += @animate_frame_dt
             animate_frame @widget
         end
+        nil
     end
 
     def tick_events
         handle_events
+        nil
+    end
+
+    def tick_hotload(block)
+        @hotload_frames ||= 0
+        try_hotload(@hotload_frames, nil, block)
+        @hotload_frames += 1
+        nil
     end
 
     def doRun(block)

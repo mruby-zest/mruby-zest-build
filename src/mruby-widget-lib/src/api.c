@@ -1,5 +1,30 @@
 #include "mruby.h"
 #include <stdlib.h>
+#include <string.h>
+#define __USE_GNU
+#include <dlfcn.h>
+#include "../../../deps/pugl/pugl/common.h"
+
+const char *path;
+
+__attribute__((constructor))
+void on_zest_load(void) {
+    Dl_info dl_info;
+    dladdr((void*)on_zest_load, &dl_info);
+    if(!path)
+        path = strdup(dl_info.dli_fname);
+    printf("[INFO] Zest Library Located at <%s>\n", path);
+}
+
+static void
+check_error(mrb_state *mrb)
+{
+    if(mrb->exc) {
+        mrb_print_error(mrb);
+        fprintf(stderr, "[FATAL ERROR] Mruby Is Unable To Continue\n");
+        exit(1);
+    }
+}
 
 typedef struct {
     mrb_state *mrb;
@@ -15,7 +40,7 @@ dummy_initialize(mrb_state *mrb, mrb_value self)
 mrb_value
 load_qml_obj(mrb_state *mrb, mrb_value self)
 {
-    printf("[INFO] (Hot?)Loading QML...\n");
+    //printf("[INFO] (Hot?)Loading QML...\n");
     return mrb_funcall(mrb, mrb_nil_value(), "doFastLoad", 0);
 }
 
@@ -35,7 +60,7 @@ zest_t *zest_open(char *address)
     //Create mruby interpreter
     printf("[INFO:Zyn] Creating MRuby Interpreter...\n");
     z->mrb = mrb_open();
-    
+
     //Create Callback Object
     struct RClass *hotload = mrb_define_class(z->mrb, "HotLoad", z->mrb->object_class);
     mrb_define_method(z->mrb, hotload, "initialize", dummy_initialize, MRB_ARGS_NONE());
@@ -48,14 +73,17 @@ zest_t *zest_open(char *address)
     z->runner              = mrb_obj_new(z->mrb, runcls, 1, &runarg);
 
     //Configure application runner
-    mrb_funcall(z->mrb, z->runner, "hotload=", 1, mrb_false_value());
+    mrb_funcall(z->mrb, z->runner, "hotload=", 1, mrb_true_value());
+    check_error(z->mrb);
 
     //Run application runner setup
     //Create nanovg + frame buffers
     mrb_funcall(z->mrb, z->runner, "init_gl",     0);
+    check_error(z->mrb);
     //mrb_print_error(z->mrb);
     //Create window
     mrb_funcall(z->mrb, z->runner, "init_window", 1, loader);
+    check_error(z->mrb);
 
     return z;
 }
@@ -76,6 +104,7 @@ void zest_motion(zest_t *z, int x, int y)
 {
     mrb_funcall(z->mrb, z->runner, "cursor", 2,
             mrb_fixnum_value(x), mrb_fixnum_value(y));
+    check_error(z->mrb);
 }
 
 void zest_mouse(zest_t *z, int button, int action, int x, int y)
@@ -87,6 +116,7 @@ void zest_mouse(zest_t *z, int button, int action, int x, int y)
                 mrb_fixnum_value(action),
                 mrb_fixnum_value(x),
                 mrb_fixnum_value(y));
+        check_error(z->mrb);
     }
     //mrb_int x = x_;
     //mrb_int y = y_;
@@ -101,15 +131,41 @@ void zest_scroll(zest_t *z, int x, int y, int dx, int dy)
             mrb_fixnum_value(y),
             mrb_fixnum_value(dx),
             mrb_fixnum_value(dy));
+    check_error(z->mrb);
 }
 
-void zest_key(zest_t *z, int key, int action)
+void zest_key(zest_t *z, const char *key, int press)
 {
+    const char *pres_rel = press ? "press" : "release";
+    mrb_state *mrb = z->mrb;
+    mrb_funcall(z->mrb, z->runner, "key", 2,
+            mrb_str_new_cstr(mrb, key),
+            mrb_str_new_cstr(mrb, pres_rel));
+}
+
+void zest_special(zest_t *z, int key, int press)
+{
+	//fprintf(stderr, "Special key %d %s ", key, press ? "down" : "up");
+    const char *pres_rel = press ? "press" : "release";
+    const char *type     = NULL;
+    if(key == PUGL_KEY_CTRL)
+        type = "ctrl";
+    else if(key == PUGL_KEY_SHIFT)
+        type = "shift";
+
+    if(type) {
+        mrb_funcall(z->mrb, z->runner, "key_mod", 2,
+                mrb_str_new_cstr(z->mrb, pres_rel),
+                mrb_str_new_cstr(z->mrb, type));
+    } else {
+        printf("[INFO] Unknown special key(%d)...\n", key);
+    }
 }
 
 void zest_draw(zest_t *z)
 {
     mrb_funcall(z->mrb, z->runner, "draw", 0);
+    check_error(z->mrb);
 }
 
 void zest_resize(zest_t *z, int x_, int y_)
@@ -118,22 +174,31 @@ void zest_resize(zest_t *z, int x_, int y_)
     mrb_int y = y_;
     mrb_funcall(z->mrb, z->runner, "resize", 2,
             x, y);
+    check_error(z->mrb);
 }
 
 int zest_tick(zest_t *z)
 {
     //printf("zest_tick(%p, %p)\n", z->mrb, z->runner);
     //Check code hotload
-    //mrb_funcall(z->mrb, z->runner, "tick_hotload",   0);
+    struct RClass *hotload = mrb_define_class(z->mrb,
+            "HotLoad", z->mrb->object_class);
+    mrb_value      loader  = mrb_obj_new(z->mrb, hotload, 0, NULL);
+    mrb_funcall(z->mrb, z->runner, "tick_hotload",   1, loader);
+    check_error(z->mrb);
     //Check osc events
     mrb_funcall(z->mrb, z->runner, "tick_remote",    0);
+    check_error(z->mrb);
     //Check animation frames
     mrb_funcall(z->mrb, z->runner, "tick_animation", 0);
+    check_error(z->mrb);
     //Apply all events for the frame
     mrb_funcall(z->mrb, z->runner, "tick_events",    0);
+    check_error(z->mrb);
 
     //Apply redraw status
     mrb_value v = mrb_funcall(z->mrb, z->runner, "check_redraw",   0);
+    check_error(z->mrb);
     return !mrb_obj_equal(z->mrb, mrb_nil_value(), v);
 
 }

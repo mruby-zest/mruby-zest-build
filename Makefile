@@ -128,19 +128,19 @@ rtest:
 	cd src/mruby-qml-spawn && ruby test-non-mruby.rb
 
 run: ## Run the toolkit
-	./mruby/bin/mruby -e "zr=ZRunner.new('osc.udp://127.0.0.1:1337');zr.doRun lambda{doFastLoad}"
+	./zest osc.udp://127.0.0.1:1337
 
 valgrind: ## Launch with valgrind
-	 valgrind --leak-check=full ./mruby/bin/mruby -e "zr=ZRunner.new('osc.udp://127.0.0.1:1337');zr.doRun lambda{doFastLoad}"
+	 valgrind --leak-check=full --show-reachable=yes --log-file=leak-log.txt ./zest osc.udp://127.0.0.1:1337
 
 callgrind: ## Launch with callgrind
-	 valgrind --tool=callgrind --dump-instr=yes --collect-jumps=yes ./mruby/bin/mruby -e "zr=ZRunner.new('osc.udp://127.0.0.1:1337');zr.doRun lambda{doFastLoad}"
+	 valgrind --tool=callgrind --dump-instr=yes --collect-jumps=yes ./zest osc.udp://127.0.0.1:1337
 
 gdb:
-	 gdb --args ./mruby/bin/mruby -e "zr=ZRunner.new('osc.udp://127.0.0.1:1337');zr.doRun lambda{doFastLoad}"
+	 gdb --args ./zest osc.udp://127.0.0.1:1337
 
 gltrace: ## Launch with apitrace
-	/work/mytmp/apitrace/build/apitrace trace ./mruby/bin/mruby -e "zr=ZRunner.new('osc.udp://127.0.0.1:1337');zr.doRun lambda{doFastLoad}"
+	/work/mytmp/apitrace/build/apitrace trace ./zest osc.udp://127.0.0.1:1337
 
 qtrace:
 	/work/mytmp/apitrace/build/qapitrace ./mruby.trace
