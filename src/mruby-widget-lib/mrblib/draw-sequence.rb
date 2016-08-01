@@ -73,15 +73,17 @@ class DrawSequence
                 if(ch.y && ch.x)
                     make_draw_sequence_recur(ch, xoff+ch.x, yoff+ch.y)
                 else
-                    puts "bad x/y"
-                    puts "<#{ch.x},#{ch.y},#{ch.w},#{ch.h}>"
-                    puts "widget = <#{ch}>"
+                    puts "[ERROR] X/Y Are Nil"
+                    puts "        Relative bounding box = <#{ch.x.inspect},#{ch.y.inspect},#{ch.w.inspect},#{ch.h.inspect}>"
+                    puts "        widget.class = <#{ch.class}>"
+                    puts "        widget       = <#{ch}>"
                 end
             end
         end
     end
 
     def make_draw_sequence(root)
+        puts "[DEBUG] Make Draw Sequence"
         @seq = []
         make_draw_sequence_recur(root, 0, 0)
     end

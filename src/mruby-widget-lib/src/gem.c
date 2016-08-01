@@ -929,6 +929,8 @@ mrb_remote_param_set_value_ar(mrb_state *mrb, mrb_value self)
             args[j].f = v.value.f;
             types[j]  = 'f';
             j++;
+        } else {
+            printf("[WARNING] Invalid TT(%d) in mrb_remote_param_set_value_ar\n", v.tt);
         }
     }
 
