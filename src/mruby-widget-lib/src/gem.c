@@ -545,7 +545,7 @@ mrb_remote_seti(mrb_state *mrb, mrb_value self)
     mrb_get_args(mrb, "oi", &path, &value);
 
     int next = value;
-    printf("[INFO] seti<%s> = %d\n", mrb_string_value_ptr(mrb, path), next);
+    //printf("[INFO] seti<%s> = %d\n", mrb_string_value_ptr(mrb, path), next);
     br_set_value_int(data->br, mrb_string_value_ptr(mrb, path), next);
     return self;
 }
