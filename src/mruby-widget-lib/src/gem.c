@@ -535,6 +535,22 @@ mrb_remote_tick(mrb_state *mrb, mrb_value self)
 }
 
 static mrb_value
+mrb_remote_seti(mrb_state *mrb, mrb_value self)
+{
+    remote_data *data = (remote_data*)mrb_data_get_ptr(mrb, self, &mrb_remote_type);
+    mrb_assert(data && data->br);
+
+    mrb_value path;
+    mrb_int value = 0;
+    mrb_get_args(mrb, "oi", &path, &value);
+
+    int next = value;
+    printf("[INFO] seti<%s> = %d\n", mrb_string_value_ptr(mrb, path), next);
+    br_set_value_int(data->br, mrb_string_value_ptr(mrb, path), next);
+    return self;
+}
+
+static mrb_value
 mrb_remote_action(mrb_state *mrb, mrb_value self)
 {
     remote_data *data = (remote_data*)mrb_data_get_ptr(mrb, self, &mrb_remote_type);
@@ -1109,6 +1125,7 @@ mrb_mruby_widget_lib_gem_init(mrb_state* mrb) {
     MRB_SET_INSTANCE_TT(remote, MRB_TT_DATA);
     mrb_define_method(mrb, remote, "initialize", mrb_remote_initalize, MRB_ARGS_REQ(1));
     mrb_define_method(mrb, remote, "tick",       mrb_remote_tick,      MRB_ARGS_NONE());
+    mrb_define_method(mrb, remote, "seti",       mrb_remote_seti,      MRB_ARGS_REQ(2));
     mrb_define_method(mrb, remote, "action",     mrb_remote_action,    MRB_ARGS_ANY());
     mrb_define_method(mrb, remote, "damage",     mrb_remote_damage,    MRB_ARGS_REQ(1));
 
