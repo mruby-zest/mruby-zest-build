@@ -7,7 +7,7 @@ GLPK_URL  = https://ftp.gnu.org/gnu/glpk/$(GLPK_FILE)
 UV_URL    = http://dist.libuv.org/dist/v1.9.1/$(UV_FILE)
 
 all:
-	cd deps/nanovg/src   && $(CC) nanovg.c -c
+	cd deps/nanovg/src   && $(CC) nanovg.c -c -fPIC
 	$(AR) rc deps/libnanovg.a deps/nanovg/src/*.o
 	cd deps/pugl         && ./waf configure --no-cairo --static
 	cd deps/pugl         && ./waf
@@ -28,14 +28,14 @@ windows:
 
 builddep:
 	cd deps/$(UV_DIR)    && ./autogen.sh
-	cd deps/$(UV_DIR)    && ./configure
-	cd deps/$(UV_DIR)    && make
+	cd deps/$(UV_DIR)    && CFLAGS=-fPIC ./configure
+	cd deps/$(UV_DIR)    && CFLAGS=-fPIC make
 	cp deps/$(UV_DIR)/.libs/libuv.a deps/
 	cd deps/$(GLPK_DIR)  && ./configure
 	cd deps/$(GLPK_DIR)  && make
 	cd deps/$(GLPK_DIR)  && $(CC) examples/glpsol.c -I src/ src/.libs/libglpk.a -o glpsol -lm
 	cp deps/$(GLPK_DIR)/glpsol deps/
-	cd deps/rtosc        && $(CC) -std=c99 src/*.c -I include -c
+	cd deps/rtosc        && $(CC) -std=c99 src/*.c -I include -c -fPIC
 	cd deps/rtosc        && $(AR) rcs librtosc.a ./*.o
 	cp deps/rtosc/librtosc.a deps/
 
