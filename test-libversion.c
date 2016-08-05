@@ -14,7 +14,7 @@ struct zest_handles {
     void (*zest_mouse)();
     void (*zest_key)(zest_t *, const char *key, int press);
     void (*zest_special)(zest_t *, int key, int press);
-    void (*zest_resize)();
+    void (*zest_resize)(zest_t *, int w, int h);
     int (*zest_tick)(zest_t*);
     zest_t *zest;
     int do_exit;
@@ -98,14 +98,11 @@ onClose(PuglView* view)
 static void
 onReshape(PuglView* view, int width, int height)
 {
-#if 0
-    void **v = (void**)puglGetHandle(view);
-    //printf("reshape to %dx%d\n", width, height);
-    if(v) {
-        mrb_value obj = mrb_obj_value(v[1]);
-        mrb_funcall(v[0], obj, "resize", 2, mrb_fixnum_value(width), mrb_fixnum_value(height));
-    }
-#endif
+    struct zest_handles *z = puglGetHandle(view);
+    if(!z || !z->zest)
+        return;
+
+    z->zest_resize(z->zest, width, height);
 }
 
 static void
@@ -166,6 +163,7 @@ int main()
     z.zest_mouse    = dlsym(handle, "zest_mouse");
     z.zest_key      = dlsym(handle, "zest_key");
     z.zest_special  = dlsym(handle, "zest_special");
+    z.zest_resize  = dlsym(handle,  "zest_resize");
     z.do_exit       = 0;
 
     printf("[INFO:Zyn] setup_pugl()\n");

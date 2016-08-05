@@ -325,7 +325,8 @@ class ZRunner
                 handleScroll(ev[1][:x],ev[1][:y], scroll)
             elsif(ev[0] == :windowResize)
                 @events.ignore
-                @window.size = [ev[1][:w], ev[1][:h]]
+                @window.w    = ev[1][:w]
+                @window.h    = ev[1][:h]
                 puts "doing a resize to #{[ev[1][:w], ev[1][:h]]}"
 
                 @w = @widget.w  = ev[1][:w]

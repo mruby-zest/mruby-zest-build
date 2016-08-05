@@ -73,7 +73,7 @@ zest_t *zest_open(char *address)
     z->runner              = mrb_obj_new(z->mrb, runcls, 1, &runarg);
 
     //Configure application runner
-    mrb_funcall(z->mrb, z->runner, "hotload=", 1, mrb_true_value());
+    mrb_funcall(z->mrb, z->runner, "hotload=", 1, mrb_false_value());
     check_error(z->mrb);
 
     //Run application runner setup
@@ -168,12 +168,10 @@ void zest_draw(zest_t *z)
     check_error(z->mrb);
 }
 
-void zest_resize(zest_t *z, int x_, int y_)
+void zest_resize(zest_t *z, int x, int y)
 {
-    mrb_int x = x_;
-    mrb_int y = y_;
     mrb_funcall(z->mrb, z->runner, "resize", 2,
-            x, y);
+            mrb_fixnum_value(x), mrb_fixnum_value(y));
     check_error(z->mrb);
 }
 
