@@ -251,7 +251,7 @@ class ZRunner
     end
 
     def handleScroll(x, y, scroll)
-        aw = activeWidget(x,y)
+        aw = activeWidget(x, y, :onScroll)
         aw.onScroll scroll if(aw.respond_to? :onScroll)
     end
 
