@@ -18,9 +18,8 @@ void on_zest_load(void) {
 }
 #define EXPORT
 #else
-
-#endif
 #define EXPORT __declspec(dllexport)
+#endif
 
 static void
 check_error(mrb_state *mrb)

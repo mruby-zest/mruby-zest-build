@@ -1,7 +1,11 @@
 #include <stdio.h>
 #include <pthread.h>
 #include <unistd.h>
+#ifdef WIN32
 #include <windows.h>
+#else
+#include <dlfcn.h>
+#endif
 #include "deps/pugl/pugl/pugl.h"
 
 typedef void *zest_t;
