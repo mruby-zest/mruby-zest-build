@@ -1,6 +1,7 @@
 #include <stdio.h>
-#include <dlfcn.h>
+#include <pthread.h>
 #include <unistd.h>
+#include <windows.h>
 #include "deps/pugl/pugl/pugl.h"
 
 typedef void *zest_t;
@@ -147,12 +148,17 @@ void *setup_pugl(void *zest)
 
 int main()
 {
+#ifdef WIN32
+    void *handle = LoadLibrary("./libzest.dll");
+#else
     void *handle = dlopen("./libzest.so", RTLD_LAZY);
+#endif
     if(!handle) {
         printf("[ERROR] Cannot Open libzest.so\n");
-        printf("[ERROR] '%s'\n", dlerror());
+        //printf("[ERROR] '%s'\n", dlerror());
     }
     struct zest_handles z = {0};
+#ifndef WIN32
     z.zest_open     = dlsym(handle, "zest_open");
     z.zest_setup    = dlsym(handle, "zest_setup");
     z.zest_close    = dlsym(handle, "zest_close");
@@ -164,7 +170,30 @@ int main()
     z.zest_key      = dlsym(handle, "zest_key");
     z.zest_special  = dlsym(handle, "zest_special");
     z.zest_resize  = dlsym(handle,  "zest_resize");
+#else
+    z.zest_open     = GetProcAddress(handle, "zest_open");
+    z.zest_setup    = GetProcAddress(handle, "zest_setup");
+    z.zest_close    = GetProcAddress(handle, "zest_close");
+    z.zest_draw     = GetProcAddress(handle, "zest_draw");
+    z.zest_tick     = GetProcAddress(handle, "zest_tick");
+    z.zest_motion   = GetProcAddress(handle, "zest_motion");
+    z.zest_scroll   = GetProcAddress(handle, "zest_scroll");
+    z.zest_mouse    = GetProcAddress(handle, "zest_mouse");
+    z.zest_key      = GetProcAddress(handle, "zest_key");
+    z.zest_special  = GetProcAddress(handle, "zest_special");
+#endif
     z.do_exit       = 0;
+#define check(x) printf("z.zest_" #x " = %p\n", z.zest_##x)
+    check(open);
+    check(setup);
+    check(close);
+    check(draw);
+    check(tick);
+    check(motion);
+    check(scroll);
+    check(mouse);
+    check(key);
+    check(special);
 
     printf("[INFO:Zyn] setup_pugl()\n");
     void *view = setup_pugl(&z);

@@ -14,7 +14,7 @@ struct {
 void
 parse_arguments(int argc, char **argv)
 {
-    cmd_arg.remote_address   = "osc.udp://localhost:1337";
+    cmd_arg.remote_address   = "osc.udp://127.0.0.1:1337";
     cmd_arg.widget_selection = "MainWindow";
     cmd_arg.hotload          = 0;
     for(int i=0; i<argc; ++i) {

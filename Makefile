@@ -23,8 +23,9 @@ windows:
 	cd deps/pugl         && ./waf
 	cd src/osc-bridge    && make lib
 	cd mruby             && WINDOWS=1 MRUBY_CONFIG=../build_config.rb rake
-	$(CC) -shared -o libzest.so `find mruby/build/host -type f | grep -e "\.o$$" | grep -v bin` ./deps/libnanovg.a ./deps/rtosc/librtosc.a ./deps/nanovg/build/libnanovg.a ./deps/libuv-v1.9.1/.libs/libuv.a src/osc-bridge/libosc-bridge.a -lm -lX11 -lGL -lpthread
-	$(CC) test-libversion.c deps/pugl/build/libpugl-0.a -ldl -o zest -lX11 -lGL -lpthread -I deps/pugl -std=c99
+	$(CC) -shared -o libzest.dll -static-libgcc `find mruby/build/w64 -type f | grep -e "\.o$$" | grep -v bin` ./deps/libnanovg.a ./deps/rtosc/librtosc.a ./deps/libuv-v1.9.1/.libs/libuv.a src/osc-bridge/libosc-bridge.a -lm -lpthread -lws2_32 -lkernel32 -lpsapi -luserenv -liphlpapi -lglu32 -lgdi32 -lopengl32
+	$(CC) test-libversion.c deps/pugl/build/libpugl-0.a -o zest.exe -lpthread -I deps/pugl -std=c99 -lws2_32 -lkernel32 -lpsapi -luserenv -liphlpapi -lglu32 -lgdi32 -lopengl32
+
 
 builddep:
 	cd deps/$(UV_DIR)    && ./autogen.sh
