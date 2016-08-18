@@ -541,6 +541,10 @@ class ZRunner
 
     def tick_remote
         $remote.tick
+        last = $remote.last_up_time
+        if(last > 2 && last < 50)
+            log(:warning, "connection to remote zyn lost")
+        end
         nil
     end
 

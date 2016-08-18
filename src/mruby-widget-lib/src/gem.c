@@ -219,7 +219,7 @@ onClose(PuglView* view)
 static void
 mrb_pugl_free(mrb_state *mrb, void *ptr)
 {
-    printf("================ FFFFFFFFFFFFFFRRRRRRRREEEEEEEEEEEE\n");
+    //printf("================ FFFFFFFFFFFFFFRRRRRRRREEEEEEEEEEEE\n");
 }
 
 const struct mrb_data_type mrb_pugl_type = {"PUGL", mrb_pugl_free};
@@ -479,13 +479,13 @@ typedef struct {
 void
 mrb_remote_metadata_free(mrb_state *mrb, void *ptr)
 {
-    printf("================ metadata FFFFFFFFFFFFFFRRRRRRRREEEEEEEEEEEE\n");
+    //printf("================ metadata FFFFFFFFFFFFFFRRRRRRRREEEEEEEEEEEE\n");
 }
 
 void
 mrb_remote_free(mrb_state *mrb, void *ptr)
 {
-    printf("================ remote FFFFFFFFFFFFFFRRRRRRRREEEEEEEEEEEE\n");
+    //fprintf(stderr, "================ remote FFFFFFFFFFFFFFRRRRRRRREEEEEEEEEEEE\n");
     remote_data *data = (remote_data*)ptr;
     br_destroy_schema(data->sch);
     br_destroy(data->br);
@@ -496,6 +496,7 @@ static void remote_cb(const char *msg, void *data);
 void
 mrb_remote_param_free(mrb_state *mrb, void *ptr)
 {
+    //fprintf(stderr, "================ param FFFFFFFFFFFFFFRRRRRRRREEEEEEEEEEEE\n");
     remote_param_data *data = (remote_param_data*)ptr;
     for(int i=0; i<data->cbs; ++i) {
         remote_cb_data *ref = data->cb_refs[i];
@@ -617,6 +618,15 @@ mrb_remote_damage(mrb_state *mrb, mrb_value self)
 
     return self;
 }
+
+static mrb_value
+mrb_remote_last_up_time(mrb_state *mrb, mrb_value self)
+{
+    remote_data *data = (remote_data*)mrb_data_get_ptr(mrb, self, &mrb_remote_type);
+    int up = br_last_update(data->br);
+    return mrb_fixnum_value(up);
+}
+
 
 static mrb_value
 mrb_remote_metadata_initalize(mrb_state *mrb, mrb_value self)
@@ -806,6 +816,10 @@ mrb_remote_param_initalize(mrb_state *mrb, mrb_value self)
     data->max     = 0;
     //if(strstr(data->uri, "Pfreq"))
     //    data->type = 'f';
+    if(!data->br) {
+        fprintf(stderr, "[ERROR] Remote Bridge Is Missing...\n");
+        exit(1);
+    }
 
     mrb_funcall(mrb, self, "remote=", 1, remote);
     mrb_data_init(self, data, &mrb_remote_param_type);
@@ -1128,6 +1142,7 @@ mrb_mruby_widget_lib_gem_init(mrb_state* mrb) {
     mrb_define_method(mrb, remote, "seti",       mrb_remote_seti,      MRB_ARGS_REQ(2));
     mrb_define_method(mrb, remote, "action",     mrb_remote_action,    MRB_ARGS_ANY());
     mrb_define_method(mrb, remote, "damage",     mrb_remote_damage,    MRB_ARGS_REQ(1));
+    mrb_define_method(mrb, remote, "last_up_time", mrb_remote_last_up_time, MRB_ARGS_NONE());
 
     struct RClass *metadata = mrb_define_class_under(mrb, osc, "RemoteMetadata", mrb->object_class);
     MRB_SET_INSTANCE_TT(metadata, MRB_TT_DATA);
