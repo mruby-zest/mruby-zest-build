@@ -161,10 +161,27 @@ zest_special(zest_t *z, int key, int press)
 	//fprintf(stderr, "Special key %d %s ", key, press ? "down" : "up");
     const char *pres_rel = press ? "press" : "release";
     const char *type     = NULL;
-    if(key == PUGL_KEY_CTRL)
-        type = "ctrl";
-    else if(key == PUGL_KEY_SHIFT)
-        type = "shift";
+#define k(x,y) case PUGL_KEY_##x: type = #y;break
+    switch(key) {
+        k(F1,       f1);
+        k(LEFT,     left);
+        k(RIGHT,    right);
+        k(UP,       up);
+        k(DOWN,     down);
+        k(CTRL,     ctrl);
+        k(SHIFT,    shift);
+    }
+#undef k
+
+	//PUGL_KEY_PAGE_UP,
+	//PUGL_KEY_PAGE_DOWN,
+	//PUGL_KEY_HOME,
+	//PUGL_KEY_END,
+	//PUGL_KEY_INSERT,
+	//PUGL_KEY_SHIFT,
+	//PUGL_KEY_CTRL,
+	//PUGL_KEY_ALT,
+	//PUGL_KEY_SUPER
 
     if(type) {
         mrb_funcall(z->mrb, z->runner, "key_mod", 2,

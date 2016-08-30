@@ -207,6 +207,10 @@ class ZRunner
     def activeWidget(mx=@mx, my=@my, ev=nil)
         @draw_seq.event_widget(mx, my, ev)
     end
+    
+    def findWidget(ev)
+        @draw_seq.find_widget(ev)
+    end
 
     def handleMousePress(mouse)
         aw = activeWidget(mouse.pos.x, mouse.pos.y, :onMousePress)
@@ -270,7 +274,7 @@ class ZRunner
     def key_mod(press, key)
         press = press.to_sym
         key   = key.to_sym
-        puts press
+        #puts "mod press #{press} with #{key}"
         if(press == :press && key == :ctrl)
             @learn_mode = true
         elsif(press == :release && key == :ctrl)
@@ -285,8 +289,16 @@ class ZRunner
     end
 
     def key(key, act)
-        return if @keyboard.nil?
-        aw = activeWidget(@keyboard.x, @keyboard.y)
+        puts key.ord
+        aw = nil
+        if @keyboard
+            aw = activeWidget(@keyboard.x, @keyboard.y, :onKey)
+        end
+
+        if aw.nil?
+            aw = findWidget(:onKey)
+        end
+        puts aw
         aw.onKey(key, act) if(aw.respond_to? :onKey)
     end
 

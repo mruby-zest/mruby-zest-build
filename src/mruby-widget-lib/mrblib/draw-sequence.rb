@@ -231,6 +231,21 @@ class DrawSequence
         end
         selected_item
     end
+    
+    #Similar to event_widget, but does not have the x/y hit detection
+    def find_widget(method)
+        selected_item  = nil
+        selected_layer = 0
+        @seq.each do |elm|
+            next if elm.layer == 1
+            next if selected_layer == 2 && elm.layer != 2
+            next if !elm.item.respond_to?(method)
+
+            selected_item  = elm.item
+            selected_layer = elm.layer
+        end
+        selected_item
+    end
 
     private :make_draw_sequence_recur
 
