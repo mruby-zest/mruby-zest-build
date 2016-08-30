@@ -227,8 +227,10 @@ class ZRunner
     end
 
     def handleMouseRelease(mouse)
+        aw = nil
+        aw = activeWidget(@clicked.x, @clicked.y) if @clicked
+        aw = activeWidget if @clicked.nil?
         @clicked = nil
-        aw = activeWidget
         if(aw.respond_to? :onMouseRelease)
             aw.onMouseRelease mouse
         end
@@ -298,7 +300,7 @@ class ZRunner
         if aw.nil?
             aw = findWidget(:onKey)
         end
-        puts aw
+        #puts aw
         aw.onKey(key, act) if(aw.respond_to? :onKey)
     end
 
