@@ -51,8 +51,6 @@ class ZRunner
 
         #global stuff?
         $remote = OSC::Remote.new(url)
-        print "remote = "
-        puts $remote
 
 
         @view_pos              = Hash.new
@@ -70,47 +68,43 @@ class ZRunner
     ########################################
 
     def init_window(block)
-        puts "init window"
+        puts "[INFO] init window"
         @window = FakeWindow.new
         @window.w = @w
         @window.h = @h
         @draw_seq.window = @window
         @widget = block.call
         if(!@widget)
-            puts "No Widget was allocated"
-            puts "This is typically a problem with running the code from the wrong subdirectory"
-            puts "If mruby-zest cannot find the qml source files, then the UI cannot be created"
+            puts "[ERROR] No Widget was allocated"
+            puts "[ERROR] This is typically a problem with running the code from the wrong subdirectory"
+            puts "[ERROR] If mruby-zest cannot find the qml source files, then the UI cannot be created"
             raise "Impossible Widget"
         end
 
-        puts "setting parent"
-        puts @widget
         @widget.w = @w
         @widget.h = @h
         @widget.parent = self
 
-        puts "doing setup"
+        puts "[INFO] doing setup"
         doSetup(nil, @widget)
 
-        puts "doing layout"
+        puts "[INFO] doing layout"
         perform_layout
-        puts "makeing draw seq"
+        puts "[INFO] makeing draw seq"
         @draw_seq.make_draw_sequence(@widget)
 
         @widget.db.make_rdepends
-        puts "Widget setup..."
         @draw_seq.damage_region(Rect.new(0, 0, @w, @h), 0)
         @draw_seq.damage_region(Rect.new(0, 0, @w, @h), 1)
         @draw_seq.damage_region(Rect.new(0, 0, @w, @h), 2)
-        puts @widget
     end
 
     def setup
         puts "[INFO] setup..."
         if(!@widget)
-            puts "No Widget was allocated"
-            puts "This is typically a problem with running the code from the wrong subdirectory"
-            puts "If mruby-zest cannot find the qml source files, then the UI cannot be created"
+            puts "[ERROR] No Widget was allocated"
+            puts "[ERROR] This is typically a problem with running the code from the wrong subdirectory"
+            puts "[ERROR] If mruby-zest cannot find the qml source files, then the UI cannot be created"
             raise "Impossible Widget"
         end
 
@@ -137,8 +131,6 @@ class ZRunner
         @draw_seq.make_draw_sequence(@widget)
 
         @widget.db.make_rdepends
-        puts "Widget setup..."
-        #puts @widget.db
     end
 
     def init_pugl
@@ -214,9 +206,7 @@ class ZRunner
 
     def handleMousePress(mouse)
         aw = activeWidget(mouse.pos.x, mouse.pos.y, :onMousePress)
-        #puts "active widget = #{aw}"
         if(aw.respond_to? :onMousePress)
-            #puts "mouse press = #{mouse.pos}"
             aw.onMousePress mouse
         else
             #puts "no mouse press option..."
@@ -291,7 +281,6 @@ class ZRunner
     end
 
     def key(key, act)
-        puts key.ord
         aw = nil
         if @keyboard
             aw = activeWidget(@keyboard.x, @keyboard.y, :onKey)
@@ -300,7 +289,6 @@ class ZRunner
         if aw.nil?
             aw = findWidget(:onKey)
         end
-        #puts aw
         aw.onKey(key, act) if(aw.respond_to? :onKey)
     end
 
@@ -341,7 +329,7 @@ class ZRunner
                 @events.ignore
                 @window.w    = ev[1][:w]
                 @window.h    = ev[1][:h]
-                puts "doing a resize to #{[ev[1][:w], ev[1][:h]]}"
+                puts "[INFO] doing a resize to #{[ev[1][:w], ev[1][:h]]}"
 
                 @w = @widget.w  = ev[1][:w]
                 @h = @widget.h  = ev[1][:h]
@@ -454,10 +442,8 @@ class ZRunner
     def perform_layout
         if(@widget.respond_to?(:layout))
             srt = Time.new
-            #puts "Layout Start..."
             l = Layout.new
             bb = @widget.layout l
-            puts bb
             if(bb)
                 l.sh([bb.x], [1], 0)
                 l.sh([bb.y], [1], 0)
@@ -467,23 +453,19 @@ class ZRunner
             setup = Time.new
             l.solve
             solve = Time.new
-            #puts "Applying Layout..."
 
             #Now project the solution onto all widget's that provided bounding
             #boxes
             l.boxes.each do |box|
                 if(box.info)
-                    #puts "apply <#{l.getR box}>..."
                     box.info.x = l.get box.x
                     box.info.y = l.get box.y
                     box.info.w = l.get box.w
                     box.info.h = l.get box.h
                 end
             end
-            #puts "Performed Layout..."
             fin = Time.new
-            #puts "Time was #{1000*(fin-srt)}ms"
-            puts "Layout: Setup(#{1e3*(setup-srt)}) Solve(#{1e3*(solve-setup)}) Apply(#{1e3*(fin-solve)}) Total #{1000*(fin-srt)}ms"
+            puts "[PERF] Layout: Setup(#{1e3*(setup-srt)}) Solve(#{1e3*(solve-setup)}) Apply(#{1e3*(fin-solve)}) Total #{1000*(fin-srt)}ms"
             #exit
         end
     end
@@ -542,9 +524,9 @@ class ZRunner
             @draw_seq.damage_region(Rect.new(0, 0, @w, @h), 1)
             @draw_seq.damage_region(Rect.new(0, 0, @w, @h), 2)
             toc = Time.new
-            puts "reload time #{1000*(toc-tic)}ms"
-            puts "setup time #{1000*(t_setup-tic)}ms"
-            puts "layout time #{1000*(t_layout_after-t_layout_before)}ms"
+            puts "[PERF] reload time #{1000*(toc-tic)}ms"
+            puts "[PERF] setup time #{1000*(t_setup-tic)}ms"
+            puts "[PERF] layout time #{1000*(t_layout_after-t_layout_before)}ms"
             @window.refresh
         end
     end
@@ -587,14 +569,12 @@ class ZRunner
         puts "[INFO] initial qml compile"
         @widget = block.call
         if(@widget.nil?)
-            puts "invalid widget creation, try checking those .qml files for a bug"
+            puts "[ERROR] invalid widget creation, try checking those .qml files for a bug"
         end
         @widget.parent = self
         @keep_running = true
-        #puts "widget = <#{@widget}>"
         setup
 
-        #puts @widget.root
 
         #Setup Profilers
         p_total = TimeProfile.new
@@ -675,7 +655,6 @@ class ZRunner
 
     #Damage
     def damage_item(item, all=nil)
-        #puts "applying damage #{item}"
         @draw_seq.seq.each do |dsn|
             if(dsn.item == item)
                 @draw_seq.damage_region(Rect.new(dsn.x.to_i,dsn.y.to_i-0.5,dsn.w.to_i+0.5,dsn.h.to_i),dsn.layer)
@@ -712,8 +691,6 @@ class ZRunner
     end
 
     def log_widget=(widget)
-        puts "Setting logging widget to: "
-        puts widget
         @log_widget = widget
         if(!@log_widget.respond_to?(:display_log))
             raise "Invalid logger widget provided to ZRunner"
