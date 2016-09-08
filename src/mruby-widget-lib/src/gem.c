@@ -467,6 +467,7 @@ typedef struct {
     int              cbs;
     float            min;
     float            max;
+    int              watch;
     remote_cb_data **cb_refs;
 } remote_param_data;
 
@@ -814,6 +815,7 @@ mrb_remote_param_initalize(mrb_state *mrb, mrb_value self)
     data->cbs     = 0;
     data->min     = 0;
     data->max     = 0;
+    data->watch   = 0;
     //if(strstr(data->uri, "Pfreq"))
     //    data->type = 'f';
     if(!data->br) {
@@ -823,6 +825,15 @@ mrb_remote_param_initalize(mrb_state *mrb, mrb_value self)
 
     mrb_funcall(mrb, self, "remote=", 1, remote);
     mrb_data_init(self, data, &mrb_remote_param_type);
+    return self;
+}
+
+static mrb_value
+mrb_remote_param_set_watch(mrb_state *mrb, mrb_value self)
+{
+    remote_param_data *param = (remote_param_data*)
+        mrb_data_get_ptr(mrb, self, &mrb_remote_param_type);
+    param->watch = true;
     return self;
 }
 
@@ -845,7 +856,10 @@ mrb_remote_param_set_callback(mrb_state *mrb, mrb_value self)
 
     mrb_assert(param->br);
     mrb_assert(param->uri);
-    br_add_callback(param->br, param->uri, remote_cb, data);
+    if(!param->watch)
+        br_add_callback(param->br, param->uri, remote_cb, data);
+    else
+        br_add_action_callback(param->br, param->uri, remote_cb, data);
     param->cbs += 1;
     param->cb_refs = realloc(param->cb_refs, param->cbs*sizeof(void*));
     param->cb_refs[param->cbs-1] = data;
@@ -1151,6 +1165,7 @@ mrb_mruby_widget_lib_gem_init(mrb_state* mrb) {
     struct RClass *param = mrb_define_class_under(mrb, osc, "RemoteParam", mrb->object_class);
     MRB_SET_INSTANCE_TT(param, MRB_TT_DATA);
     mrb_define_method(mrb, param, "initialize", mrb_remote_param_initalize, MRB_ARGS_REQ(2));
+    mrb_define_method(mrb, param, "set_watch",    mrb_remote_param_set_watch,    MRB_ARGS_NONE());
     mrb_define_method(mrb, param, "set_callback", mrb_remote_param_set_callback, MRB_ARGS_REQ(1));
     mrb_define_method(mrb, param, "set_min",      mrb_remote_param_set_min, MRB_ARGS_REQ(1));
     mrb_define_method(mrb, param, "set_max",      mrb_remote_param_set_max, MRB_ARGS_REQ(1));
