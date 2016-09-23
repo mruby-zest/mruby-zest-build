@@ -211,6 +211,7 @@ class ZRunner
         else
             #puts "no mouse press option..."
         end
+        @modal.onMousePress(mouse) if(@modal && @modal.respond_to?(:onMousePress))
         @window.refresh
         @clicked = Pos.new(@mx,@my)
         @keyboard = Pos.new(@mx, @my)
@@ -710,6 +711,10 @@ class ZRunner
         w.children.each do |ch|
             change_view(ch)
         end
+    end
+
+    def set_modal(w)
+        @modal = w
     end
 end
 
