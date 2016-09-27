@@ -460,8 +460,11 @@ typedef struct {
     float max;
 } remote_cb_data;
 
+typedef struct remote_data_struct remote_data;
+
 typedef struct {
     bridge_t        *br;
+    remote_data     *remote;
     uri_t            uri;
     char             type;
     int              cbs;
@@ -471,9 +474,12 @@ typedef struct {
     remote_cb_data **cb_refs;
 } remote_param_data;
 
-typedef struct {
+typedef struct remote_data_struct {
     bridge_t *br;
     schema_t  sch;
+    //Needed for deterministic memory deallocation
+    remote_param_data **subs;
+    int num_subs;
 } remote_data;
 
 
@@ -482,6 +488,50 @@ mrb_remote_metadata_free(mrb_state *mrb, void *ptr)
 {
     //printf("================ metadata FFFFFFFFFFFFFFRRRRRRRREEEEEEEEEEEE\n");
 }
+static void remote_cb(const char *msg, void *data);
+
+static void
+free_param(remote_param_data *data)
+{
+    for(int i=0; i<data->cbs; ++i) {
+        remote_cb_data *ref = data->cb_refs[i];
+        br_del_callback(data->br, data->uri, remote_cb, ref);
+        free((void*)ref);
+    }
+    data->cbs = 0;
+    free(data->cb_refs);
+    data->cb_refs = 0;
+    free((void*)data->uri);
+    data->uri = 0;
+    data->remote = 0;
+}
+
+static void
+remove_from_remote(remote_param_data *data, remote_data *rem)
+{
+    //find the element
+    int ind = -1;
+    for(int i=0; i<rem->num_subs; ++i)
+        if(rem->subs[i] == data)
+            ind = i;
+    if(ind == -1)
+        return;
+
+    //delete
+    for(int i=ind; i<rem->num_subs-1; ++i)
+        rem->subs[i] = rem->subs[i+1];
+    rem->num_subs--;
+    rem->subs = realloc(rem->subs, sizeof(void*)*rem->num_subs);
+}
+
+static void
+add_to_remote(remote_param_data *data, remote_data *rem)
+{
+    rem->num_subs++;
+    rem->subs = realloc(rem->subs, sizeof(void*)*rem->num_subs);
+    rem->subs[rem->num_subs-1] = data;
+}
+
 
 void
 mrb_remote_free(mrb_state *mrb, void *ptr)
@@ -489,22 +539,23 @@ mrb_remote_free(mrb_state *mrb, void *ptr)
     //fprintf(stderr, "================ remote FFFFFFFFFFFFFFRRRRRRRREEEEEEEEEEEE\n");
     remote_data *data = (remote_data*)ptr;
     br_destroy_schema(data->sch);
+    for(int i=0; i<data->num_subs; ++i)
+        free_param(data->subs[i]);
+    free(data->subs);
     br_destroy(data->br);
 }
 
-static void remote_cb(const char *msg, void *data);
+
 
 void
 mrb_remote_param_free(mrb_state *mrb, void *ptr)
 {
     //fprintf(stderr, "================ param FFFFFFFFFFFFFFRRRRRRRREEEEEEEEEEEE\n");
     remote_param_data *data = (remote_param_data*)ptr;
-    for(int i=0; i<data->cbs; ++i) {
-        remote_cb_data *ref = data->cb_refs[i];
-        br_del_callback(data->br, data->uri, remote_cb, ref);
-        free((void*)ref);
+    if(data->remote) {
+        remove_from_remote(data, data->remote);
+        free_param(data);
     }
-    free((void*)data->uri);
 }
 
 const struct mrb_data_type mrb_remote_type          = {"Remote", mrb_remote_free};
@@ -523,6 +574,8 @@ mrb_remote_initalize(mrb_state *mrb, mrb_value self)
     remote_data *data = mrb_malloc(mrb, sizeof(remote_data));
     data->br  = br_create(arg);
     data->sch = br_get_schema(data->br, "");
+    data->num_subs = 0;
+    data->subs     = 0;
 
     mrb_data_init(self, data, &mrb_remote_type);
     return self;
@@ -808,9 +861,10 @@ mrb_remote_param_initalize(mrb_state *mrb, mrb_value self)
     mrb_get_args(mrb, "oS", &remote, &uri);
     remote_param_data *data = mrb_malloc(mrb, sizeof(remote_param_data));
     remote_data *rdata = (remote_data*)mrb_data_get_ptr(mrb, remote, &mrb_remote_type);
-    data->br  = rdata->br;
-    data->uri = strdup(mrb_string_value_ptr(mrb, uri));
-    data->type = 'i';
+    data->br      = rdata->br;
+    data->remote  = rdata;
+    data->uri     = strdup(mrb_string_value_ptr(mrb, uri));
+    data->type    = 'i';
     data->cb_refs = NULL;
     data->cbs     = 0;
     data->min     = 0;
@@ -825,6 +879,7 @@ mrb_remote_param_initalize(mrb_state *mrb, mrb_value self)
 
     mrb_funcall(mrb, self, "remote=", 1, remote);
     mrb_data_init(self, data, &mrb_remote_param_type);
+    add_to_remote(data, rdata);
     return self;
 }
 
@@ -1066,7 +1121,8 @@ mrb_remote_param_clean(mrb_state *mrb, mrb_value self)
         free(ref);
     }
     free(data->cb_refs);
-    data->cbs = 0;
+    data->cb_refs = 0;
+    data->cbs     = 0;
 
     return self;
 }
