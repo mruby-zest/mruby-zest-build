@@ -34,8 +34,6 @@ build_type.new(build_name) do |conf|
 
   toolchain :gcc
 
-  enable_debug
-
   conf.cc.defines = %w(MRUBY_NANOVG_GL2)
   conf.cc.flags << '-O3'
 
@@ -103,7 +101,7 @@ build_type.new(build_name) do |conf|
       if(!windows)
         linker.libraries << 'GL'
         linker.libraries << 'X11'
-        linker.flags_after_libraries  << "-lpthread"
+        linker.flags_after_libraries  << "-lpthread -ldl"
       else
         linker.flags_after_libraries  << "-lws2_32 -lkernel32 -lpsapi -luserenv -liphlpapi"
         linker.flags_after_libraries  << "-lglu32 -lgdi32 -lopengl32"
@@ -120,7 +118,7 @@ build_type.new(build_name) do |conf|
   conf.gem 'src/mruby-widget-lib'
 
   #Binary Launcher
-  conf.gem 'src/mruby-bin-zest'
+  #conf.gem 'src/mruby-bin-zest'
 
 end
 
