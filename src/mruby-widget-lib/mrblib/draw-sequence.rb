@@ -196,7 +196,7 @@ class DrawSequence
             end
         end
 
-        print drawn_widgets
+        #print drawn_widgets
         @damage_layers = []
         @damage        = []
     end

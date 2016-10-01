@@ -4,6 +4,7 @@
 #ifdef WIN32
 #include <windows.h>
 #else
+#define __USE_GNU
 #include <dlfcn.h>
 #endif
 #include "deps/pugl/pugl/pugl.h"
@@ -150,15 +151,20 @@ void *setup_pugl(void *zest)
     return view;
 }
 
-int main()
+int main(int argc, char **argv)
 {
 #ifdef WIN32
     void *handle = LoadLibrary("./libzest.dll");
 #else
     void *handle = dlopen("./libzest.so", RTLD_LAZY);
+    if(!handle)
+        handle = dlopen("/opt/zyn-fusion/libzest.so", RTLD_LAZY);
+    if(!handle)
+        handle = dlopen("libzest.so", RTLD_LAZY);
 #endif
     if(!handle) {
         printf("[ERROR] Cannot Open libzest.so\n");
+        return 1;
         //printf("[ERROR] '%s'\n", dlerror());
     }
     struct zest_handles z = {0};
@@ -187,7 +193,7 @@ int main()
     z.zest_special  = GetProcAddress(handle, "zest_special");
 #endif
     z.do_exit       = 0;
-#define check(x) printf("z.zest_" #x " = %p\n", z.zest_##x)
+#define check(x) if(!z.zest_##x) {printf("z.zest_" #x " = %p\n", z.zest_##x);}
     check(open);
     check(setup);
     check(close);
@@ -207,8 +213,8 @@ int main()
     const float frame_sleep = 1/target_fps;
     while(!z.do_exit) {
         frame_id++;
-        putchar('.');
-        fflush(stdout);
+        //putchar('.');
+        //fflush(stdout);
         int needs_redraw = 1;
         if(z.zest)
             needs_redraw = z.zest_tick(z.zest);

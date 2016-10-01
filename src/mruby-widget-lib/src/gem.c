@@ -568,11 +568,15 @@ mrb_remote_initalize(mrb_state *mrb, mrb_value self)
     mrb_value val;
     mrb_get_args(mrb, "o", &val);
 
+    extern char *zest_search_path;
+    char *search = zest_search_path;
     const char *arg = "osc.udp://localhost:1234";
     if(val.tt == MRB_TT_STRING)
         arg = mrb_string_value_ptr(mrb, val);
     remote_data *data = mrb_malloc(mrb, sizeof(remote_data));
     data->br  = br_create(arg);
+    if(search)
+        data->br->search_path = search;
     data->sch = br_get_schema(data->br, "");
     data->num_subs = 0;
     data->subs     = 0;

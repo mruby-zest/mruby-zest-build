@@ -164,12 +164,11 @@ pack:
 	cp deps/nanovg/example/*.ttf        package/font/
 	cp mruby/bin/mruby                  package/
 	cp libzest.so                       package/
-	cp zest                             package/
+	cp zest     	                    package/
 	cp deps/glpsol                      package/
-	echo `date` >                       package/VERSION
-	echo '#!/bin/sh' >                  package/run.sh
-	echo './zest' >>                    package/run.sh
-	chmod +x                            package/run.sh
+	echo 'Version 3.0.0-pre '       >>  package/VERSION
+	echo 'built on: '               >>  package/VERSION
+	echo `date`                     >>  package/VERSION
 	rm -f zest-dist.tar
 	rm -f zest-dist.tar.bz2
 	tar cf zest-dist.tar package/

@@ -63,6 +63,10 @@ class ZRunner
         @view_pos[:vis]        = :env
     end
 
+    def search_path=(val)
+        @search_path = val
+    end
+
     ########################################
     #       Graphics Init Routines         #
     ########################################
@@ -142,14 +146,16 @@ class ZRunner
     end
 
     def init_font
+        search   = @search_path
+        search ||= ""
         font_error = false
-        sans = ["/home/mark/code/mruby-zest-build/package/font/Roboto-Regular.ttf", "font/Roboto-Regular.ttf", "deps/nanovg/example/Roboto-Regular.ttf"]
+        sans = [search + "font/Roboto-Regular.ttf", "deps/nanovg/example/Roboto-Regular.ttf"]
         if(@vg.create_font('sans', sans[0]) == -1 && @vg.create_font('sans', sans[1]) == -1)
             puts "[ERROR] could not find sans font"
             font_error = true
         end
 
-        bold = ["/home/mark/code/mruby-zest-build/package/font/Roboto-Bold.ttf", "font/Roboto-Bold.ttf", "deps/nanovg/example/Roboto-Bold.ttf"]
+        bold = [search + "font/Roboto-Bold.ttf", "deps/nanovg/example/Roboto-Bold.ttf"]
         if(@vg.create_font('bold', bold[0]) == -1 && @vg.create_font('bold', bold[1]) == -1)
             puts "[ERROR] could not find bold font"
             font_error = true
@@ -199,7 +205,7 @@ class ZRunner
     def activeWidget(mx=@mx, my=@my, ev=nil)
         @draw_seq.event_widget(mx, my, ev)
     end
-    
+
     def findWidget(ev)
         @draw_seq.find_widget(ev)
     end
@@ -348,7 +354,7 @@ class ZRunner
             end
         end
 
-        print "E#{cnt}" if cnt != 0
+        #print "E#{cnt}" if cnt != 0
         @events.next_frame
         cnt
     end
@@ -402,8 +408,8 @@ class ZRunner
         p_total = TimeProfile.new
         p_draw  = TimeProfile.new
 
-        print 'D'
-        STDOUT.flush
+        #print 'D'
+        #STDOUT.flush
 
         p_total.start
 
@@ -442,7 +448,7 @@ class ZRunner
 
     def perform_layout
         if(@widget.respond_to?(:layout))
-            srt = Time.new
+            #srt = Time.new
             l = Layout.new
             bb = @widget.layout l
             if(bb)
@@ -451,9 +457,9 @@ class ZRunner
                 l.sh([bb.x, bb.w], [1, 1], @widget.w)
                 l.sh([bb.y, bb.h], [1, 1], @widget.h)
             end
-            setup = Time.new
+            #setup = Time.new
             l.solve
-            solve = Time.new
+            #solve = Time.new
 
             #Now project the solution onto all widget's that provided bounding
             #boxes
@@ -465,8 +471,8 @@ class ZRunner
                     box.info.h = l.get box.h
                 end
             end
-            fin = Time.new
-            puts "[PERF] Layout: Setup(#{1e3*(setup-srt)}) Solve(#{1e3*(solve-setup)}) Apply(#{1e3*(fin-solve)}) Total #{1000*(fin-srt)}ms"
+            #fin = Time.new
+            #puts "[PERF] Layout: Setup(#{1e3*(setup-srt)}) Solve(#{1e3*(solve-setup)}) Apply(#{1e3*(fin-solve)}) Total #{1000*(fin-srt)}ms"
             #exit
         end
     end
@@ -500,7 +506,7 @@ class ZRunner
         end
 
         #Attempt to merge old widget's runtime values into new widget tree
-        tic = Time.new
+        #tic = Time.new
         if(nwidget)
             nwidget.parent = self
             nwidget.w = @widget.w
@@ -509,25 +515,25 @@ class ZRunner
             doMerge(@widget, nwidget)
             @widget = nwidget
         end
-        t_setup = Time.new
+        #t_setup = Time.new
 
         #Layout Widgets again
         #Build Draw order
-        t_layout_before = Time.new
+        #t_layout_before = Time.new
         if(nwidget)
             perform_layout
             @draw_seq.make_draw_sequence(@widget)
         end
-        t_layout_after = Time.new
+        #t_layout_after = Time.new
 
         if(nwidget)
             @draw_seq.damage_region(Rect.new(0, 0, @w, @h), 0)
             @draw_seq.damage_region(Rect.new(0, 0, @w, @h), 1)
             @draw_seq.damage_region(Rect.new(0, 0, @w, @h), 2)
-            toc = Time.new
-            puts "[PERF] reload time #{1000*(toc-tic)}ms"
-            puts "[PERF] setup time #{1000*(t_setup-tic)}ms"
-            puts "[PERF] layout time #{1000*(t_layout_after-t_layout_before)}ms"
+            #toc = Time.new
+            #puts "[PERF] reload time #{1000*(toc-tic)}ms"
+            #puts "[PERF] setup time #{1000*(t_setup-tic)}ms"
+            #puts "[PERF] layout time #{1000*(t_layout_after-t_layout_before)}ms"
             @window.refresh
         end
     end
@@ -582,7 +588,7 @@ class ZRunner
         p_code  = TimeProfile.new
         p_swap  = TimeProfile.new
         p_poll  = TimeProfile.new
-        print '..'
+        #print '..'
 
         #Do initial draw
         @draw_seq.damage_region(Rect.new(0, 0, @w, @h), 0)
@@ -597,8 +603,8 @@ class ZRunner
             end
             last = now
 
-            print '.'
-            STDOUT.flush
+            #print '.'
+            #STDOUT.flush
 
             p_total.start
 
