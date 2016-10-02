@@ -213,15 +213,14 @@ int main(int argc, char **argv)
     const float frame_sleep = 1/target_fps;
     while(!z.do_exit) {
         frame_id++;
-        //putchar('.');
-        //fflush(stdout);
         int needs_redraw = 1;
         if(z.zest)
             needs_redraw = z.zest_tick(z.zest);
         if(needs_redraw)
             puglPostRedisplay(view);
-        else
+        else {
             usleep((int)(frame_sleep*1e6));
+        }
         puglProcessEvents(view);
     }
     printf("[INFO:Zyn] zest_close()\n");

@@ -34,6 +34,8 @@ build_type.new(build_name) do |conf|
 
   toolchain :gcc
 
+  enable_debug
+
   conf.cc.defines = %w(MRUBY_NANOVG_GL2)
   conf.cc.flags << '-O3'
 

@@ -240,7 +240,7 @@ zest_resize(zest_t *z, int x, int y)
     check_error(z->mrb);
 }
 
-EXPORT int 
+EXPORT int
 zest_tick(zest_t *z)
 {
     //printf("zest_tick(%p, %p)\n", z->mrb, z->runner);

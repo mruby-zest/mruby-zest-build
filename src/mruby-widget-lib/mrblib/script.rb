@@ -56,7 +56,7 @@ class ZRunner
         @view_pos              = Hash.new
         @view_pos[:part]       = 0
         @view_pos[:kit]        = 0
-        @view_pos[:view]       = :add_synth
+        @view_pos[:view]       = :banks
         @view_pos[:voice]      = 0
         @view_pos[:subview]    = :global
         @view_pos[:subsubview] = nil
@@ -260,6 +260,7 @@ class ZRunner
 
     def quit
         @keep_running = false
+        @quit_time = Time.new + 0.5
     end
 
     def resize(w,h)
@@ -562,6 +563,9 @@ class ZRunner
 
     def tick_events
         handle_events
+        if(@quit_time && @quit_time < Time.new)
+            exit
+        end
         nil
     end
 
