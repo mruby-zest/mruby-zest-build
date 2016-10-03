@@ -49,6 +49,8 @@ class ZRunner
         #Misc
         @hotload = true
 
+        @startup_time = Time.new
+
         #global stuff?
         $remote = OSC::Remote.new(url)
 
@@ -558,6 +560,11 @@ class ZRunner
             @animate_frame_next += @animate_frame_dt
             animate_frame @widget
         end
+
+        if((now-@startup_time) > 10*60)
+            $remote.action("/Panic")
+        end
+
         nil
     end
 

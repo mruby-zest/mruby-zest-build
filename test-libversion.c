@@ -111,6 +111,8 @@ onReshape(PuglView* view, int width, int height)
     z->zest_resize(z->zest, width, height);
 }
 
+char *osc_path = 0;
+
 static void
 onDisplay(PuglView* view)
 {
@@ -119,7 +121,7 @@ onDisplay(PuglView* view)
         return;
     if(!z->zest) {
         printf("[INFO:Zyn] zest_open()\n");
-        z->zest = z->zest_open("osc.udp://127.0.0.1:1337");
+        z->zest = z->zest_open(osc_path ? osc_path : "osc.udp://127.0.0.1:1337");
         printf("[INFO:Zyn] zest_setup()\n");
         z->zest_setup(z->zest);
     }
@@ -153,6 +155,10 @@ void *setup_pugl(void *zest)
 
 int main(int argc, char **argv)
 {
+    if(argc > 1 && strstr(argv[1], "osc"))
+        osc_path = argv[1];
+
+
 #ifdef WIN32
     void *handle = LoadLibrary("./libzest.dll");
 #else
