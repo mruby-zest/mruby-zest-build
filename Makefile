@@ -106,13 +106,13 @@ stats:
 	@echo 'lines of qml:'
 	@wc -l `find src/ -type f | grep qml$$` | tail -n 1
 	@echo 'lines of ruby:'
-	@wc -l `find src/ -type f | grep -e rb$$` | tail -n 1
+	@wc -l `find src/ -type f | grep -e rb$$ | grep -v fcache` | tail -n 1
 	@echo 'lines of c source:'
 	@wc -l `find src/ -type f | grep -e c$$` | tail -n 1
 	@echo 'lines of c header:'
 	@wc -l `find src/ -type f | grep -e h$$` | tail -n 1
 	@echo 'total lines of code:'
-	@wc -l `find src/ -type f | grep -Ee "(qml|rb|c|h)$$"` | tail -n 1
+	@wc -l `find src/ -type f | grep -Ee "(qml|rb|c|h)$$" | grep -v fcache` | tail -n 1
 
 
 verbose: ## Compile mruby with --trace
