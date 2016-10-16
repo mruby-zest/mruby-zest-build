@@ -263,6 +263,7 @@ class ZRunner
     def quit
         @keep_running = false
         @quit_time = Time.new + 0.5
+        $remote.action("/quit")
     end
 
     def resize(w,h)
