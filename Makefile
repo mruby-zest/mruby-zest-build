@@ -17,14 +17,14 @@ all:
 	$(CC) test-libversion.c deps/pugl/build/libpugl-0.a -ldl -o zest -lX11 -lGL -lpthread -I deps/pugl -std=c99
 
 windows:
-	cd deps/nanovg/src   && $(CC) nanovg.c -c
+	cd deps/nanovg/src   && $(CC) -mstackrealign nanovg.c -c
 	$(AR) rc deps/libnanovg.a deps/nanovg/src/*.o
-	cd deps/pugl         && ./waf configure --no-cairo --static --target=win32
+	cd deps/pugl         && CFLAGS="-mstackrealign" ./waf configure --no-cairo --static --target=win32
 	cd deps/pugl         && ./waf
-	cd src/osc-bridge    && make lib
+	cd src/osc-bridge    && CFLAGS="-mstackrealign" make lib
 	cd mruby             && WINDOWS=1 MRUBY_CONFIG=../build_config.rb rake
-	$(CC) -shared -o libzest.dll -static-libgcc `find mruby/build/w64 -type f | grep -e "\.o$$" | grep -v bin` ./deps/libnanovg.a ./deps/rtosc/librtosc.a ./deps/libuv-v1.9.1/.libs/libuv.a src/osc-bridge/libosc-bridge.a -lm -lpthread -lws2_32 -lkernel32 -lpsapi -luserenv -liphlpapi -lglu32 -lgdi32 -lopengl32
-	$(CC) test-libversion.c deps/pugl/build/libpugl-0.a -o zest.exe -lpthread -I deps/pugl -std=c99 -lws2_32 -lkernel32 -lpsapi -luserenv -liphlpapi -lglu32 -lgdi32 -lopengl32
+	$(CC) -mstackrealign -shared -o libzest.dll -static-libgcc `find mruby/build/w64 -type f | grep -e "\.o$$" | grep -v bin` ./deps/libnanovg.a ./deps/rtosc/librtosc.a ./deps/libuv-v1.9.1/.libs/libuv.a src/osc-bridge/libosc-bridge.a -lm -lpthread -lws2_32 -lkernel32 -lpsapi -luserenv -liphlpapi -lglu32 -lgdi32 -lopengl32
+	$(CC) -mstackrealign -DWIN32 test-libversion.c deps/pugl/build/libpugl-0.a -o zest.exe -lpthread -I deps/pugl -std=c99 -lws2_32 -lkernel32 -lpsapi -luserenv -liphlpapi -lglu32 -lgdi32 -lopengl32
 
 
 builddep:
@@ -42,7 +42,7 @@ builddep:
 
 builddepwin:
 	cd deps/$(UV_DIR)   && ./autogen.sh
-	cd deps/$(UV_DIR)   && ./configure  --host=x86_64-w64-mingw32
+	cd deps/$(UV_DIR)   && CFLAGS="-mstackrealign" ./configure  --host=x86_64-w64-mingw32
 	cd deps/$(UV_DIR)   && LD=x86_64-w64-mingw32-gcc make
 	cp deps/$(UV_DIR)/.libs/libuv.a deps/
 	#cd deps/$(GLPK_DIR) && CFLAGS="-DDBL_EPSILON=2e-16" ./configure --disable-shared --enable-static --host=x86_64-w64-mingw32
@@ -51,7 +51,7 @@ builddepwin:
 	#cp deps/$(GLPK_DIR)/glpsol.exe deps/
 	cp deps/glpk-4.52/w64/glpk_4_52.dll deps/
 	cp deps/glpk-4.52/w64/glpsol.exe deps/
-	cd deps/rtosc       && x86_64-w64-mingw32-gcc src/*.c -I include -c
+	cd deps/rtosc       && x86_64-w64-mingw32-gcc src/*.c -I include -mstackrealign -c
 	cd deps/rtosc       && x86_64-w64-mingw32-ar rcs librtosc.a ./*.o
 	cp deps/rtosc/librtosc.a deps/
 

@@ -2,6 +2,7 @@
 #include <stdlib.h>
 #include <string.h>
 #include "../../../deps/pugl/pugl/common.h"
+#include <locale.h>
 #ifndef WIN32
 #define __USE_GNU
 #include <dlfcn.h>
@@ -17,14 +18,34 @@ char *get_search_path(void) {
 }
 #define EXPORT
 #else
+#include <windows.h>
+const char *zest_search_path=0;
+static void
+check_error(mrb_state *mrb);
+
+char *get_search_path(void) {
+    char buffer[1024];
+    GetModuleFileName(GetModuleHandle("libzest.dll"), buffer, sizeof(buffer));
+    //printf("get_search_path() => <%s>\n", buffer);
+    return strdup(buffer);
+}
+
 #define EXPORT __declspec(dllexport)
 #endif
+
+#ifndef WIN32
+#define MessageBox(a,b,c,d)
+#endif
+
+extern char superhack[];
 
 static void
 check_error(mrb_state *mrb)
 {
     if(mrb->exc) {
         mrb_print_error(mrb);
+        MessageBox(0, "[FATAL ERROR] Mruby Is Unable To Continue\n", "asdf", 0);
+        MessageBox(0, superhack, "asdf", 0);
         fprintf(stderr, "[FATAL ERROR] Mruby Is Unable To Continue\n");
         exit(1);
     }
@@ -54,6 +75,7 @@ load_qml_obj(mrb_state *mrb, mrb_value self)
 EXPORT zest_t *
 zest_open(char *address)
 {
+setlocale(LC_NUMERIC, "C");
     //Find QML Root
     const char *roots[] = {
         "./src/mruby-zest/example/MainWindow.qml",
@@ -71,6 +93,7 @@ zest_open(char *address)
             fclose(f);
         }
     }
+
 
     //Verify that the search path is usable
     char *path = get_search_path();
@@ -94,20 +117,23 @@ zest_open(char *address)
     //Create mruby interpreter
     printf("[INFO:Zyn] Creating MRuby Interpreter...\n");
     z->mrb = mrb_open();
+    check_error(z->mrb);
 
     //Create Callback Object
     struct RClass *hotload = mrb_define_class(z->mrb, "HotLoad", z->mrb->object_class);
     mrb_define_method(z->mrb, hotload, "initialize", dummy_initialize, MRB_ARGS_NONE());
     mrb_define_method(z->mrb, hotload, "call", load_qml_obj, MRB_ARGS_NONE());
     mrb_value      loader  = mrb_obj_new(z->mrb, hotload, 0, NULL);
+    check_error(z->mrb);
 
     //Create application runner
     struct RClass *runcls  = mrb_class_get(z->mrb, "ZRunner");
     mrb_value      runarg  = mrb_str_new_cstr(z->mrb, address);
     z->runner              = mrb_obj_new(z->mrb, runcls, 1, &runarg);
+    check_error(z->mrb);
 
     //Configure application runner
-    mrb_funcall(z->mrb, z->runner, "hotload=", 1, dev_mode ? mrb_true_value() : mrb_false_value());
+    mrb_funcall(z->mrb, z->runner, "hotload=", 1, mrb_false_value());
     check_error(z->mrb);
 
     if(!dev_mode) {
@@ -130,20 +156,26 @@ zest_open(char *address)
 EXPORT void
 zest_setup(zest_t *z)
 {
+setlocale(LC_NUMERIC, "C");
 }
 
 EXPORT void
 zest_close(zest_t *z)
 {
+return;
     //close mruby
+    MessageBox(0, "[INFO] Closing the UI\n", "asdf", 0);
     printf("[INFO] Closing MRuby Application...\n");
     mrb_close(z->mrb);
+    MessageBox(0, "[INFO] Mruby closed\n", "asdf", 0);
     free(z);
+    MessageBox(0, "[INFO] Mruby freed\n", "asdf", 0);
 }
 
 EXPORT void
 zest_motion(zest_t *z, int x, int y)
 {
+setlocale(LC_NUMERIC, "C");
     mrb_funcall(z->mrb, z->runner, "cursor", 2,
             mrb_fixnum_value(x), mrb_fixnum_value(y));
     check_error(z->mrb);
@@ -152,6 +184,7 @@ zest_motion(zest_t *z, int x, int y)
 EXPORT void
 zest_mouse(zest_t *z, int button, int action, int x, int y)
 {
+setlocale(LC_NUMERIC, "C");
     if(button) {
         //mrb_value obj = mrb_obj_value(v[1]);
         mrb_funcall(z->mrb, z->runner, "mouse", 4,
@@ -170,6 +203,7 @@ zest_mouse(zest_t *z, int button, int action, int x, int y)
 EXPORT void
 zest_scroll(zest_t *z, int x, int y, int dx, int dy)
 {
+setlocale(LC_NUMERIC, "C");
     mrb_funcall(z->mrb, z->runner, "scroll", 4,
             mrb_fixnum_value(x),
             mrb_fixnum_value(y),
@@ -181,6 +215,7 @@ zest_scroll(zest_t *z, int x, int y, int dx, int dy)
 EXPORT void 
 zest_key(zest_t *z, const char *key, int press)
 {
+setlocale(LC_NUMERIC, "C");
     const char *pres_rel = press ? "press" : "release";
     mrb_state *mrb = z->mrb;
     mrb_funcall(z->mrb, z->runner, "key", 2,
@@ -191,6 +226,7 @@ zest_key(zest_t *z, const char *key, int press)
 EXPORT void 
 zest_special(zest_t *z, int key, int press)
 {
+setlocale(LC_NUMERIC, "C");
 	//fprintf(stderr, "Special key %d %s ", key, press ? "down" : "up");
     const char *pres_rel = press ? "press" : "release";
     const char *type     = NULL;
@@ -228,6 +264,7 @@ zest_special(zest_t *z, int key, int press)
 EXPORT void 
 zest_draw(zest_t *z)
 {
+setlocale(LC_NUMERIC, "C");
     mrb_funcall(z->mrb, z->runner, "draw", 0);
     check_error(z->mrb);
 }
@@ -235,6 +272,7 @@ zest_draw(zest_t *z)
 EXPORT void
 zest_resize(zest_t *z, int x, int y)
 {
+setlocale(LC_NUMERIC, "C");
     mrb_funcall(z->mrb, z->runner, "resize", 2,
             mrb_fixnum_value(x), mrb_fixnum_value(y));
     check_error(z->mrb);
@@ -243,6 +281,7 @@ zest_resize(zest_t *z, int x, int y)
 EXPORT int
 zest_tick(zest_t *z)
 {
+setlocale(LC_NUMERIC, "C");
     //printf("zest_tick(%p, %p)\n", z->mrb, z->runner);
     //Check code hotload
     struct RClass *hotload = mrb_define_class(z->mrb,

@@ -23,7 +23,7 @@ end
 
 class ZRunner
     def initialize(url)
-        puts "[INFO] setting up runner"
+        GL::debug "[INFO] setting up runner"
         $global_self = self
         @events   = UiEventSeq.new
         @draw_seq = DrawSequence.new
@@ -52,7 +52,9 @@ class ZRunner
         @startup_time = Time.new
 
         #global stuff?
+        GL::debug "[INFO] Loading Remote Interface"
         $remote = OSC::Remote.new(url)
+        GL::debug "[INFO] Done Loading Remote Interface"
 
 
         @view_pos              = Hash.new
@@ -74,30 +76,32 @@ class ZRunner
     ########################################
 
     def init_window(block)
-        puts "[INFO] init window"
+        GL::debug "[INFO] init window"
         @window = FakeWindow.new
         @window.w = @w
         @window.h = @h
         @draw_seq.window = @window
         @widget = block.call
         if(!@widget)
-            puts "[ERROR] No Widget was allocated"
-            puts "[ERROR] This is typically a problem with running the code from the wrong subdirectory"
-            puts "[ERROR] If mruby-zest cannot find the qml source files, then the UI cannot be created"
+            GL::debug "[ERROR] No Widget was allocated"
+            GL::debug "[ERROR] This is typically a problem with running the code from the wrong subdirectory"
+            GL::debug "[ERROR] If mruby-zest cannot find the qml source files, then the UI cannot be created"
             raise "Impossible Widget"
         end
+        GL::debug "[INFO] widget loaded"
 
         @widget.w = @w
         @widget.h = @h
         @widget.parent = self
 
-        puts "[INFO] doing setup"
+        GL::debug "[INFO] doing setup"
         doSetup(nil, @widget)
 
-        puts "[INFO] doing layout"
+        GL::debug "[INFO] doing layout"
         perform_layout
-        puts "[INFO] makeing draw seq"
+        GL::debug "[INFO] makeing draw seq"
         @draw_seq.make_draw_sequence(@widget)
+        GL::debug "[INFO] draw sequence ready"
 
         @widget.db.make_rdepends
         @draw_seq.damage_region(Rect.new(0, 0, @w, @h), 0)
@@ -106,11 +110,11 @@ class ZRunner
     end
 
     def setup
-        puts "[INFO] setup..."
+        GL::debug "[INFO] setup..."
         if(!@widget)
-            puts "[ERROR] No Widget was allocated"
-            puts "[ERROR] This is typically a problem with running the code from the wrong subdirectory"
-            puts "[ERROR] If mruby-zest cannot find the qml source files, then the UI cannot be created"
+           GL::debug "[ERROR] No Widget was allocated"
+           GL::debug "[ERROR] This is typically a problem with running the code from the wrong subdirectory"
+           GL::debug "[ERROR] If mruby-zest cannot find the qml source files, then the UI cannot be created"
             raise "Impossible Widget"
         end
 
@@ -140,7 +144,7 @@ class ZRunner
     end
 
     def init_pugl
-        puts "[INFO] init pugl"
+        GL::debug "[INFO] init pugl"
         @window = GL::PUGL.new self
         @draw_seq.window = @window
         init_gl
@@ -153,39 +157,40 @@ class ZRunner
         font_error = false
         sans = [search + "font/Roboto-Regular.ttf", "deps/nanovg/example/Roboto-Regular.ttf"]
         if(@vg.create_font('sans', sans[0]) == -1 && @vg.create_font('sans', sans[1]) == -1)
-            puts "[ERROR] could not find sans font"
+           GL::debug "[ERROR] could not find sans font"
             font_error = true
         end
 
         bold = [search + "font/Roboto-Bold.ttf", "deps/nanovg/example/Roboto-Bold.ttf"]
         if(@vg.create_font('bold', bold[0]) == -1 && @vg.create_font('bold', bold[1]) == -1)
-            puts "[ERROR] could not find bold font"
+           GL::debug "[ERROR] could not find bold font"
             font_error = true
         end
         exit if font_error
     end
 
     def init_gl
-        puts "[INFO] init gl"
+        GL::debug "[INFO] init gl"
         #@window.make_current
         #@window.size = [1181,659]
         #@w,@h=*@window.size
         @w = 1181
         @h = 659
 
+        GL::debug "[INFO] init nanovg instance"
         @vg     = NVG::Context.new(NVG::ANTIALIAS | NVG::STENCIL_STROKES | NVG::DEBUG)
 
         #Global Initialize
         $vg     = @vg
 
         #Load Fonts
-        puts "[INFO] loading fonts"
+        GL::debug "[INFO] loading fonts"
         init_font
 
         #Load Overlay image
         #@backdrop = @vg.create_image('../template.png', 0)
-        puts "[INFO] window width=#{@w}"
-        puts "[INFO] window height=#{@h}"
+        GL::debug "[INFO] window width=#{@w}"
+        GL::debug "[INFO] window height=#{@h}"
 
         build_fbo
 
@@ -217,7 +222,7 @@ class ZRunner
         if(aw.respond_to? :onMousePress)
             aw.onMousePress mouse
         else
-            #puts "no mouse press option..."
+            GL::debug "no mouse press option..."
         end
         @modal.onMousePress(mouse) if(@modal && @modal.respond_to?(:onMousePress))
         @window.refresh
@@ -277,7 +282,7 @@ class ZRunner
     def key_mod(press, key)
         press = press.to_sym
         key   = key.to_sym
-        #puts "mod press #{press} with #{key}"
+        GL::debug "mod press #{press} with #{key}"
         if(press == :press && key == :ctrl)
             @learn_mode = true
         elsif(press == :release && key == :ctrl)
@@ -324,7 +329,7 @@ class ZRunner
         cnt = 0
         @events.ev.each do |ev|
             cnt += 1
-            #puts "handling #{ev}"
+            GL::debug "handling #{ev}"
             if(ev[0] == :mousePress)
                 mouse = MouseButton.new(ev[1][:button], Pos.new(@mx, @my))
                 handleMousePress(mouse)
@@ -340,7 +345,7 @@ class ZRunner
                 @events.ignore
                 @window.w    = ev[1][:w]
                 @window.h    = ev[1][:h]
-                puts "[INFO] doing a resize to #{[ev[1][:w], ev[1][:h]]}"
+                #puts "[INFO] doing a resize to #{[ev[1][:w], ev[1][:h]]}"
 
                 @w = @widget.w  = ev[1][:w]
                 @h = @widget.h  = ev[1][:h]
@@ -505,7 +510,7 @@ class ZRunner
                     @common_draw_id = draw_id
                 end
             rescue
-                puts "Error loading draw common routines"
+               GL::debug "Error loading draw common routines"
             end
         end
 

@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <pthread.h>
 #include <unistd.h>
+#include <locale.h>
 #ifdef WIN32
 #include <windows.h>
 #else
@@ -155,6 +156,7 @@ void *setup_pugl(void *zest)
 
 int main(int argc, char **argv)
 {
+    setlocale(LC_NUMERIC, "C");
     if(argc > 1 && strstr(argv[1], "osc"))
         osc_path = argv[1];
 
@@ -174,31 +176,26 @@ int main(int argc, char **argv)
         //printf("[ERROR] '%s'\n", dlerror());
     }
     struct zest_handles z = {0};
-#ifndef WIN32
-    z.zest_open     = dlsym(handle, "zest_open");
-    z.zest_setup    = dlsym(handle, "zest_setup");
-    z.zest_close    = dlsym(handle, "zest_close");
-    z.zest_draw     = dlsym(handle, "zest_draw");
-    z.zest_tick     = dlsym(handle, "zest_tick");
-    z.zest_motion   = dlsym(handle, "zest_motion");
-    z.zest_scroll   = dlsym(handle, "zest_scroll");
-    z.zest_mouse    = dlsym(handle, "zest_mouse");
-    z.zest_key      = dlsym(handle, "zest_key");
-    z.zest_special  = dlsym(handle, "zest_special");
-    z.zest_resize  = dlsym(handle,  "zest_resize");
+#ifdef WIN32
+#define get(x) z.zest_##x = (void*) GetProcAddress(handle, "zest_" #x)
 #else
-    z.zest_open     = GetProcAddress(handle, "zest_open");
-    z.zest_setup    = GetProcAddress(handle, "zest_setup");
-    z.zest_close    = GetProcAddress(handle, "zest_close");
-    z.zest_draw     = GetProcAddress(handle, "zest_draw");
-    z.zest_tick     = GetProcAddress(handle, "zest_tick");
-    z.zest_motion   = GetProcAddress(handle, "zest_motion");
-    z.zest_scroll   = GetProcAddress(handle, "zest_scroll");
-    z.zest_mouse    = GetProcAddress(handle, "zest_mouse");
-    z.zest_key      = GetProcAddress(handle, "zest_key");
-    z.zest_special  = GetProcAddress(handle, "zest_special");
+#define get(x) z.zest_##x = (void*) dlsym(handle, "zest_" #x)
 #endif
+
+    get(open);
+    get(setup);
+    get(close);
+    get(draw);
+    get(tick);
+    get(motion);
+    get(scroll);
+    get(mouse);
+    get(key);
+    get(special);
+    get(resize);
+
     z.do_exit       = 0;
+
 #define check(x) if(!z.zest_##x) {printf("z.zest_" #x " = %p\n", z.zest_##x);}
     check(open);
     check(setup);
@@ -210,6 +207,7 @@ int main(int argc, char **argv)
     check(mouse);
     check(key);
     check(special);
+    check(resize);
 
     printf("[INFO:Zyn] setup_pugl()\n");
     void *view = setup_pugl(&z);

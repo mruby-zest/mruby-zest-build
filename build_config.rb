@@ -89,6 +89,8 @@ build_type.new(build_name) do |conf|
       cc.include_paths << "/usr/share/mingw-w64/include/" if windows
       cc.include_paths << "/usr/x86_64-w64-mingw32/include/" if windows
       cc.flags << "-std=gnu99 -fPIC"
+      cc.flags << "-DWINDOWS_WHY" if windows
+      cc.flags << "-mstackrealign" if windows
   end
 
   conf.linker do |linker|
