@@ -452,6 +452,7 @@ mrb_fbo_free(mrb_state *mrb, void *ptr)
     glCheck();
     glDeleteTextures(1, &fbo->texture);
     glCheck();
+    free(ptr);
 }
 
 static mrb_value
@@ -595,11 +596,12 @@ mrb_remote_free(mrb_state *mrb, void *ptr)
 {
     //fprintf(stderr, "================ remote FFFFFFFFFFFFFFRRRRRRRREEEEEEEEEEEE\n");
     remote_data *data = (remote_data*)ptr;
-    //br_destroy_schema(data->sch);
-    //for(int i=0; i<data->num_subs; ++i)
-    //    free_param(data->subs[i]);
-    //free(data->subs);
+    br_destroy_schema(data->sch);
+    for(int i=0; i<data->num_subs; ++i)
+        free_param(data->subs[i]);
+    free(data->subs);
     br_destroy(data->br);
+    free(ptr);
 }
 
 
@@ -613,6 +615,7 @@ mrb_remote_param_free(mrb_state *mrb, void *ptr)
         remove_from_remote(data, data->remote);
         free_param(data);
     }
+    free(ptr);
 }
 
 const struct mrb_data_type mrb_remote_type          = {"Remote", mrb_remote_free};

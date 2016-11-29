@@ -2,6 +2,8 @@
 #include <pthread.h>
 #include <unistd.h>
 #include <locale.h>
+#include <string.h>
+#include <stdlib.h>
 #ifdef WIN32
 #include <windows.h>
 #else
