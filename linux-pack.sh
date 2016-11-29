@@ -3,7 +3,7 @@
 rm -r /opt/zyn-fusion
 mkdir /opt/zyn-fusion
 chown mark:users /opt/zyn-fusion
-echo "Version 3.0.0" >> /opt/zyn-fusion/VERSION
+echo "Version 3.0.1" >> /opt/zyn-fusion/VERSION
 echo "Build on"      >> /opt/zyn-fusion/VERSION
 echo `date`          >> /opt/zyn-fusion/VERSION
 cp   -a /usr/lib/lv2/ZynAddSubFX.lv2presets       /opt/zyn-fusion/
@@ -25,6 +25,6 @@ cp      ./zyn-fusion-ELUA.txt /opt/zyn-fusion/
 cp      /home/mark/zynaddsubfx/COPYING /opt/zyn-fusion/COPYING.zynaddsubfx
 cp      ./deps/glpk-4.52/COPYING       /opt/zyn-fusion/COPYING.glpsol
 cd /opt/
-rm -f zyn-fusion-3.0.0.tar zyn-fusion-3.0.0.tar.bz2
-tar cf zyn-fusion-3.0.0.tar ./zyn-fusion
-bzip2 zyn-fusion-3.0.0.tar
+rm -f zyn-fusion-3.0.1.tar zyn-fusion-3.0.1.tar.bz2
+tar cf zyn-fusion-3.0.1.tar ./zyn-fusion
+bzip2 zyn-fusion-3.0.1.tar

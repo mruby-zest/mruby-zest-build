@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <pthread.h>
 #include <unistd.h>
+#include <locale.h>
 #ifdef WIN32
 #include <windows.h>
 #else
@@ -153,8 +154,27 @@ void *setup_pugl(void *zest)
     return view;
 }
 
+char *conv(char *c, float f)
+{
+    sprintf(c, "%f", f);
+    char *cc = c;
+    while(*cc) {
+        if(*cc == ',')
+            *cc = '.';
+        cc++;
+    }
+    return c;
+}
+
 int main(int argc, char **argv)
 {
+    //setlocale(LC_NUMERIC, "it_IT.UTF-8");
+    setlocale(LC_NUMERIC, "C");
+    //char cvt[128];
+    //printf("%f\n", +1.234);
+    //printf("%f\n", -1.234);
+    //printf("%s\n", conv(cvt,+1.234));
+    //printf("%s\n", conv(cvt,-1.234));
     if(argc > 1 && strstr(argv[1], "osc"))
         osc_path = argv[1];
 

@@ -15,12 +15,20 @@
 #include "../../../src/osc-bridge/src/gem.h"
 #include "../../../deps/mruby-nanovg/src/gl_core.3.2.h"
 
+#define glCheck() do { \
+    GLenum err; \
+    while((err = glGetError()) != GL_NO_ERROR)\
+        printf("[ERROR] GL error %x on line %d in %s\n", err, __LINE__, __FILE__);\
+} while(0)
+
+
 static mrb_value
 mrb_gl_viewport(mrb_state *mrb, mrb_value self)
 {
     mrb_float x, y, w, h;
     mrb_get_args(mrb, "ffff", &x, &y, &w, &h);
     glViewport(x, y, w, h);
+    glCheck();
     return self;
 }
 static mrb_value
@@ -29,6 +37,7 @@ mrb_gl_clear_color(mrb_state *mrb, mrb_value self)
     mrb_float r, b, g, a;
     mrb_get_args(mrb, "ffff", &r, &b, &g, &a);
     glClearColor(r, b, g, a);
+    glCheck();
     return self;
 }
 static mrb_value
@@ -38,6 +47,7 @@ mrb_gl_clear(mrb_state *mrb, mrb_value self)
     mrb_get_args(mrb, "i", &clear_mode);
     //glClear(clear_mode);
     glClear(GL_COLOR_BUFFER_BIT|GL_DEPTH_BUFFER_BIT|GL_STENCIL_BUFFER_BIT);
+    glCheck();
     return self;
 }
 
@@ -47,7 +57,9 @@ mrb_gl_scissor(mrb_state *mrb, mrb_value self)
     mrb_float x, y, w, h;
     mrb_get_args(mrb, "ffff", &x, &y, &w, &h);
     glEnable(GL_SCISSOR_TEST);
+    glCheck();
     glScissor(x, y, w, h);
+    glCheck();
     return self;
 }
 
@@ -55,6 +67,7 @@ static mrb_value
 mrb_gl_scissor_end(mrb_state *mrb, mrb_value self)
 {
     glDisable(GL_SCISSOR_TEST);
+    glCheck();
     return self;
 }
 
@@ -355,37 +368,57 @@ typedef struct {
 	GLuint rbo;
 	GLuint texture;
 } GLframebuffer;
-
+    
 static int
 createFBO(int w, int h, GLframebuffer *fb)
 {
     /* texture */
+    glCheck();
     glGenTextures(1, &fb->texture);
+    glCheck();
     glBindTexture(GL_TEXTURE_2D, fb->texture);
+    glCheck();
     glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+    glCheck();
     glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+    glCheck();
     glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
+    glCheck();
     glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
+    glCheck();
     glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, w, h, 0, GL_RGBA,
                  GL_UNSIGNED_BYTE, NULL);
+    glCheck();
     glBindTexture(GL_TEXTURE_2D, 0);
+    glCheck();
 
     /* frame buffer object */
-    glGenFramebuffers(1, &fb->fbo);
-    glBindFramebuffer(GL_FRAMEBUFFER, fb->fbo);
+    glGenFramebuffersEXT(1, &fb->fbo);
+    glCheck();
+    glBindFramebufferEXT(GL_FRAMEBUFFER_EXT, fb->fbo);
+    glCheck();
 
     /* render buffer object */
-    glGenRenderbuffers(1, &fb->rbo);
-    glBindRenderbuffer(GL_RENDERBUFFER, fb->rbo);
-    glRenderbufferStorage(GL_RENDERBUFFER, GL_DEPTH24_STENCIL8, w, h);
+    glGenRenderbuffersEXT(1, &fb->rbo);
+    glCheck();
+    glBindRenderbufferEXT(GL_RENDERBUFFER_EXT, fb->rbo);
+    glCheck();
+    glRenderbufferStorageEXT(GL_RENDERBUFFER_EXT, 0x88f0, w, h);
+    glCheck();
 
     /* combine all */
-    glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0,
+    glFramebufferTexture2DEXT(GL_FRAMEBUFFER_EXT, GL_COLOR_ATTACHMENT0_EXT,
             GL_TEXTURE_2D, fb->texture, 0);
-    glFramebufferRenderbuffer(GL_FRAMEBUFFER, GL_STENCIL_ATTACHMENT,
-            GL_RENDERBUFFER, fb->rbo);
+    glCheck();
+    glFramebufferRenderbufferEXT(GL_FRAMEBUFFER_EXT, GL_STENCIL_ATTACHMENT_EXT,
+            GL_RENDERBUFFER_EXT, fb->rbo);
+    glCheck();
 
-    return glCheckFramebufferStatus(GL_FRAMEBUFFER) == GL_FRAMEBUFFER_COMPLETE;
+    printf("framebuffer status = %d\n", glCheckFramebufferStatusEXT(GL_FRAMEBUFFER_EXT));
+    glCheck();
+    assert(glCheckFramebufferStatusEXT(GL_FRAMEBUFFER_EXT) == GL_FRAMEBUFFER_COMPLETE_EXT);
+
+    return glCheckFramebufferStatusEXT(GL_FRAMEBUFFER_EXT) == GL_FRAMEBUFFER_COMPLETE_EXT;
 }
 
 static void mrb_fbo_free(mrb_state *mrb, void *ptr);
@@ -395,9 +428,12 @@ mrb_fbo_free(mrb_state *mrb, void *ptr)
 {
     mrb_assert(mrb && false);
     GLframebuffer *fbo = (GLframebuffer *)ptr;
-    glDeleteRenderbuffers(1, &fbo->rbo);
-    glDeleteFramebuffers(1, &fbo->fbo);
+    glDeleteRenderbuffersEXT(1, &fbo->rbo);
+    glCheck();
+    glDeleteFramebuffersEXT(1, &fbo->fbo);
+    glCheck();
     glDeleteTextures(1, &fbo->texture);
+    glCheck();
 }
 
 static mrb_value
@@ -421,7 +457,8 @@ mrb_fbo_initialize(mrb_state *mrb, mrb_value self)
 static mrb_value
 mrb_fbo_deselect(mrb_state *mrb, mrb_value self)
 {
-    glBindFramebuffer(GL_FRAMEBUFFER, 0);
+    glBindFramebufferEXT(GL_FRAMEBUFFER_EXT, 0);
+    glCheck();
     return self;
 }
 
@@ -444,7 +481,9 @@ static mrb_value
 mrb_fbo_select(mrb_state *mrb, mrb_value self)
 {
     GLframebuffer *fbo = (GLframebuffer*)mrb_data_get_ptr(mrb, self, &mrb_fbo_type);
-    glBindFramebuffer(GL_FRAMEBUFFER, fbo->fbo);
+    glCheck();
+    glBindFramebufferEXT(GL_FRAMEBUFFER_EXT, fbo->fbo);
+    glCheck();
     return self;
 }
 
@@ -1142,7 +1181,7 @@ mrb_opt_magnitude(mrb_state *mrb, mrb_value self)
 
     float b[3] = {0}, a[3] = {0};
     int   order = mrb_ary_len(mrb, num);
-    assert(order == 3);
+    assert(order == 3 || order == 2);
 
     for(int i=0; i<order; ++i) {
         b[i] = mrb_ary_ref(mrb, num, i).value.f;
