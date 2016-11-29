@@ -75,7 +75,7 @@ load_qml_obj(mrb_state *mrb, mrb_value self)
 EXPORT zest_t *
 zest_open(char *address)
 {
-setlocale(LC_NUMERIC, "C");
+    setlocale(LC_NUMERIC, "C");
     //Find QML Root
     const char *roots[] = {
         "./src/mruby-zest/example/MainWindow.qml",
@@ -175,7 +175,7 @@ return;
 EXPORT void
 zest_motion(zest_t *z, int x, int y)
 {
-setlocale(LC_NUMERIC, "C");
+    setlocale(LC_NUMERIC, "C");
     mrb_funcall(z->mrb, z->runner, "cursor", 2,
             mrb_fixnum_value(x), mrb_fixnum_value(y));
     check_error(z->mrb);
@@ -184,7 +184,7 @@ setlocale(LC_NUMERIC, "C");
 EXPORT void
 zest_mouse(zest_t *z, int button, int action, int x, int y)
 {
-setlocale(LC_NUMERIC, "C");
+    setlocale(LC_NUMERIC, "C");
     if(button) {
         //mrb_value obj = mrb_obj_value(v[1]);
         mrb_funcall(z->mrb, z->runner, "mouse", 4,
@@ -203,7 +203,7 @@ setlocale(LC_NUMERIC, "C");
 EXPORT void
 zest_scroll(zest_t *z, int x, int y, int dx, int dy)
 {
-setlocale(LC_NUMERIC, "C");
+    setlocale(LC_NUMERIC, "C");
     mrb_funcall(z->mrb, z->runner, "scroll", 4,
             mrb_fixnum_value(x),
             mrb_fixnum_value(y),
@@ -226,7 +226,7 @@ setlocale(LC_NUMERIC, "C");
 EXPORT void 
 zest_special(zest_t *z, int key, int press)
 {
-setlocale(LC_NUMERIC, "C");
+    setlocale(LC_NUMERIC, "C");
 	//fprintf(stderr, "Special key %d %s ", key, press ? "down" : "up");
     const char *pres_rel = press ? "press" : "release";
     const char *type     = NULL;
@@ -264,7 +264,7 @@ setlocale(LC_NUMERIC, "C");
 EXPORT void 
 zest_draw(zest_t *z)
 {
-setlocale(LC_NUMERIC, "C");
+    setlocale(LC_NUMERIC, "C");
     mrb_funcall(z->mrb, z->runner, "draw", 0);
     check_error(z->mrb);
 }
@@ -272,7 +272,7 @@ setlocale(LC_NUMERIC, "C");
 EXPORT void
 zest_resize(zest_t *z, int x, int y)
 {
-setlocale(LC_NUMERIC, "C");
+    setlocale(LC_NUMERIC, "C");
     mrb_funcall(z->mrb, z->runner, "resize", 2,
             mrb_fixnum_value(x), mrb_fixnum_value(y));
     check_error(z->mrb);
@@ -281,7 +281,7 @@ setlocale(LC_NUMERIC, "C");
 EXPORT int
 zest_tick(zest_t *z)
 {
-setlocale(LC_NUMERIC, "C");
+    setlocale(LC_NUMERIC, "C");
     //printf("zest_tick(%p, %p)\n", z->mrb, z->runner);
     //Check code hotload
     struct RClass *hotload = mrb_define_class(z->mrb,

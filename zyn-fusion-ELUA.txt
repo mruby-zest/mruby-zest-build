@@ -1,0 +1,52 @@
+Do not re-distribute Zyn-Fusion or deriviates of it
+Use it at your own risk
+One person can use it on multiple computers
+
+=======  Zyn-Fusion End User License Agreement
+
+This copy of zyn-fusion, including 'libzest.so' and 'zyn-fusion', is licensed and not sold.
+Please read the following terms and conditions carefully before using "zyn-fusion".
+By installing or distributing this copy of "zyn-fusion", the Licensee ("you" or "your")
+accept and agree to be bound by the terms of this License. If you do not agree to any
+of the terms of this License, you must not install or distribute "zyn-fusion".
+
+The distribution of zyn-fusion includes a binary 'glpsol' from GLPK and it contains binaries
+'zynaddsubfx' 'ZynAddSubFX.so', 'ZynAddSubFX_ui.so', as well as data files 'schema/test.json',
+all presets '.xiz'/'.xmz' and ttl files from ZynAddSubFX.
+These components are covered separately in COPYING.GLPK and
+COPYING.ZynAddSubFX (GPLv3 and GPLv2+ respectively).
+
+SOFTWARE PRODUCT here means the files 'libzest.so' and 'zyn-fusion' received with your
+order of "zyn-fusion".
+
+This SOFTWARE PRODUCT may be installed on multiple computers only if A) all such computers
+are your personal property, and B) no more than one installation is in use at any one time.
+
+This SOFTWARE PRODUCT, all accompanying files, data and materials, are distributed "AS IS"
+and with no warranties of any kind, whether express or implied. The user must assume all
+risk of using this SOFTWARE PRODUCT. This disclaimer of warranty constitutes an essential
+part of the agreement.
+
+Any liability of Mark McCurry will be limited exclusively to refund of purchase price.
+In addition, in no event shall Mark McCurry, or its principals or employees, be liable
+for any incidental, consequential, punitive or any other damages whatsoever relating
+ to the use of SOFTWARE PRODUCT.
+
+All components accompanying this SOFTWARE PRODUCT are copyrighted by Mark McCurry,
+and may not be published, distributed or copied in any manner. Mark McCurry is the owner
+of the copyright of this SOFTWARE PRODUCT. All of its derivatives, title and accompanying
+materials are the exclusive property of Mark McCurry. All rights of any kind, which are
+not expressly granted in this License, are entirely and exclusively reserved
+to and by Mark McCurry. You may not rent, lease, transfer, translate, or create derivative
+works based on this SOFTWARE PRODUCT. You may not distribute modifications to this SOFTWARE
+PRODUCT, except for the modifications described in the accompanying documentation. You may
+not make access to this SOFTWARE PRODUCT available to others in connection with a service
+bureau, application service provider, or similar business.
+There are no third party beneficiaries of any promises, obligations or representations made by
+Mark McCurry herein.
+
+If any provision of this Agreement shall be held to be invalid or unenforceable, the remainder
+of this Agreement shall remain in full force and effect. To the extent any express or implied
+restrictions are not permitted by applicable laws, these express or implied restrictions shall
+remain in force and effect to the maximum extent permitted by such applicable laws.
+

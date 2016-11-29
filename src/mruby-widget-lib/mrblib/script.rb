@@ -342,24 +342,8 @@ class ZRunner
                 scroll = MouseScroll.new(ev[1][:x], ev[1][:y], ev[1][:dx], ev[1][:dy])
                 handleScroll(ev[1][:x],ev[1][:y], scroll)
             elsif(ev[0] == :windowResize)
-                @events.ignore
-                @window.w    = ev[1][:w]
-                @window.h    = ev[1][:h]
-                #puts "[INFO] doing a resize to #{[ev[1][:w], ev[1][:h]]}"
-
-                @w = @widget.w  = ev[1][:w]
-                @h = @widget.h  = ev[1][:h]
-
-                #Layout Widgets again
-                perform_layout
-                #Build Draw order
-                @draw_seq.make_draw_sequence(@widget)
-                #Reset textures
-                build_fbo
-
-                @draw_seq.damage_region(Rect.new(0,0,@widget.w, @widget.h), 0)
-                @draw_seq.damage_region(Rect.new(0,0,@widget.w, @widget.h), 1)
-                @draw_seq.damage_region(Rect.new(0,0,@widget.w, @widget.h), 2)
+                @pending_resize = [ev[1][:w], ev[1][:h]]
+                @window.refresh
             end
         end
 
@@ -411,7 +395,32 @@ class ZRunner
         end
     end
 
+    def handle_pending_resize
+        return if @pending_resize.nil?
+        @events.ignore
+        @window.w    = @pending_resize[0]
+        @window.h    = @pending_resize[1]
+        puts "[INFO] doing a resize to #{@pending_resize}"
+
+        @w = @widget.w  = @pending_resize[0]
+        @h = @widget.h  = @pending_resize[1]
+
+        #Layout Widgets again
+        perform_layout
+        #Build Draw order
+        @draw_seq.make_draw_sequence(@widget)
+        #Reset textures
+        build_fbo
+
+        @draw_seq.damage_region(Rect.new(0,0,@widget.w, @widget.h), 0)
+        @draw_seq.damage_region(Rect.new(0,0,@widget.w, @widget.h), 1)
+        @draw_seq.damage_region(Rect.new(0,0,@widget.w, @widget.h), 2)
+        @pending_resize = nil
+    end
+
+        
     def draw
+        handle_pending_resize
         handle_pending_layout
         #Setup Profilers
         p_total = TimeProfile.new
@@ -567,9 +576,9 @@ class ZRunner
             animate_frame @widget
         end
 
-        if((now-@startup_time) > 10*60)
-            $remote.action("/Panic")
-        end
+        #if((now-@startup_time) > 10*60)
+        #    $remote.action("/Panic")
+        #end
 
         nil
     end

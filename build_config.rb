@@ -91,6 +91,7 @@ build_type.new(build_name) do |conf|
       cc.flags << "-std=gnu99 -fPIC"
       cc.flags << "-DWINDOWS_WHY" if windows
       cc.flags << "-mstackrealign" if windows
+      cc.flags << "-Wno-declaration-after-statement"
   end
 
   conf.linker do |linker|

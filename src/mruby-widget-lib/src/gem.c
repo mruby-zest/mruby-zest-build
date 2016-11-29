@@ -384,7 +384,7 @@ typedef struct {
 	GLuint rbo;
 	GLuint texture;
 } GLframebuffer;
-
+    
 static int
 createFBO(int w, int h, GLframebuffer *fb)
 {
