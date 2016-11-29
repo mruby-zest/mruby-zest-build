@@ -500,6 +500,22 @@ class ZRunner
         widget.children.map {|x| animate_frame x}
     end
 
+    def rec_clean_cbs(widget)
+        if(widget.respond_to? :valueRef)
+            v = widget.valueRef
+            if(v.class == Array)
+                v.each do |vv|
+                    vv.clean
+                end
+            else
+                v.clean if v.respond_to? :clean
+            end
+        end
+        widget.children.each do |ch|
+            rec_clean_cbs(ch)
+        end
+    end
+
     def try_hotload(frames, p_code, block)
         return if !@hotload
         nwidget = nil
@@ -531,6 +547,7 @@ class ZRunner
             nwidget.h = @widget.h
             doSetup(@widget, nwidget)
             doMerge(@widget, nwidget)
+            rec_clean_cbs(@widget)
             @widget = nwidget
         end
         #t_setup = Time.new
@@ -554,6 +571,7 @@ class ZRunner
             #puts "[PERF] layout time #{1000*(t_layout_after-t_layout_before)}ms"
             @window.refresh
         end
+        GC.start
     end
 
     def check_redraw
