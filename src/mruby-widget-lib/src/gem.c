@@ -8,7 +8,9 @@
 #include <assert.h>
 #include <complex.h>
 #include <math.h>
+#ifdef WIN32
 #include <windows.h>
+#endif
 #include "../../../deps/pugl/pugl/event.h"
 #include "../../../deps/pugl/pugl/common.h"
 #include "../../../deps/pugl/pugl/pugl.h"
@@ -430,9 +432,9 @@ createFBO(int w, int h, GLframebuffer *fb)
             GL_RENDERBUFFER_EXT, fb->rbo);
     glCheck();
 
-    printf("framebuffer status = %d\n", glCheckFramebufferStatusEXT(GL_FRAMEBUFFER_EXT));
-    glCheck();
-    assert(glCheckFramebufferStatusEXT(GL_FRAMEBUFFER_EXT) == GL_FRAMEBUFFER_COMPLETE_EXT);
+    //printf("framebuffer status = %d\n", glCheckFramebufferStatusEXT(GL_FRAMEBUFFER_EXT));
+    //glCheck();
+    //assert(glCheckFramebufferStatusEXT(GL_FRAMEBUFFER_EXT) == GL_FRAMEBUFFER_COMPLETE_EXT);
 
     return glCheckFramebufferStatusEXT(GL_FRAMEBUFFER_EXT) == GL_FRAMEBUFFER_COMPLETE_EXT;
 }

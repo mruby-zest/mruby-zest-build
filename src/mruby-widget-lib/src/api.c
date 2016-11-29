@@ -162,7 +162,6 @@ setlocale(LC_NUMERIC, "C");
 EXPORT void
 zest_close(zest_t *z)
 {
-return;
     //close mruby
     MessageBox(0, "[INFO] Closing the UI\n", "asdf", 0);
     printf("[INFO] Closing MRuby Application...\n");

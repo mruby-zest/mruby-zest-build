@@ -74,10 +74,8 @@ build_type.new(build_name) do |conf|
   conf.gem :core => "mruby-eval"
 
   #Non-STD lib gems
-  conf.gem 'deps/mruby-complex'
   conf.gem 'deps/mruby-io'
   conf.gem 'deps/mruby-nanovg'
-  conf.gem 'deps/mruby-sleep'
   conf.gem 'deps/mruby-regexp-pcre'
   conf.gem 'deps/mruby-dir-glob'
   conf.gem 'deps/mruby-set'
