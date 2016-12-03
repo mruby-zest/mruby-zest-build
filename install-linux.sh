@@ -79,6 +79,7 @@ echo "...ZynAddSubFX"
 ln -s /opt/zyn-fusion/zynaddsubfx /usr/bin/
 
 echo "...Banks"
+mkdir -p /usr/share/zynaddsubfx/
 ln -s /opt/zyn-fusion/banks /usr/share/zynaddsubfx/banks
 
 echo "...vst version"
