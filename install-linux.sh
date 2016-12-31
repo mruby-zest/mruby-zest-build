@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/usr/bash
 
 #This script needs:
 # - To be run in the directory of the extracted tarball
