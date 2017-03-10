@@ -15,7 +15,7 @@
 #include "../../../deps/pugl/pugl/common.h"
 #include "../../../deps/pugl/pugl/pugl.h"
 #include "../../../deps/rtosc/include/rtosc/rtosc.h"
-#include "../../../src/osc-bridge/src/gem.h"
+#include "../../../src/osc-bridge/src/bridge.h"
 #include "../../../deps/mruby-nanovg/src/gl_core.3.2.h"
 
 #define glCheck() do { \
