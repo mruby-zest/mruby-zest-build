@@ -89,6 +89,25 @@ return self;
 return self;
 }
 
+static mrb_value
+mrb_gl_intersect(mrb_state *mrb, mrb_value self)
+{
+    mrb_int rx, ry, rw, rh, xx, yy, ww, hh;
+    mrb_get_args(mrb, "iiiiiiii", &rx, &ry, &rw, &rh, &xx, &yy, &ww, &hh);
+    int left_in  = rx       >=xx && rx      <=xx+ww;
+    int right_in = rx+rw    >=xx && rx+rw   <=xx+ww;
+    int lr_in    = rx       <=xx && rx+rw   >=xx+ww;
+
+    int top_in   = ry       >=yy && ry      <=yy+hh;
+    int bot_in   = ry+rh    >=yy && ry+rh   <=yy+hh;
+    int tb_in    = ry       <=yy && ry+rh   >=yy+hh;
+
+    if((left_in || right_in || lr_in) && (top_in || bot_in || tb_in))
+        return mrb_true_value();
+    else
+        return mrb_false_value();
+}
+
 /*******************************************************************************
  *                          PUGL Code Here                                     *
  *                                                                             *
@@ -1233,6 +1252,7 @@ mrb_opt_magnitude(mrb_state *mrb, mrb_value self)
     return output;
 }
 
+void draw_seq_start(mrb_state *mrb);
 // Puting it all together
 void
 mrb_mruby_widget_lib_gem_init(mrb_state* mrb) {
@@ -1243,6 +1263,8 @@ mrb_mruby_widget_lib_gem_init(mrb_state* mrb) {
     mrb_define_class_method(mrb, module, "gl_scissor",     mrb_gl_scissor,     MRB_ARGS_REQ(4));
     mrb_define_class_method(mrb, module, "gl_scissor_end", mrb_gl_scissor_end, MRB_ARGS_REQ(0));
     mrb_define_class_method(mrb, module, "debug", mrb_gl_debug, MRB_ARGS_REQ(1));
+    mrb_define_class_method(mrb, module, "intersect", mrb_gl_intersect,
+            MRB_ARGS_REQ(8));
 
 
     struct RClass *pugl = mrb_define_class_under(mrb, module, "PUGL", mrb->object_class);
@@ -1302,6 +1324,7 @@ mrb_mruby_widget_lib_gem_init(mrb_state* mrb) {
 
     struct RClass *opt = mrb_define_module(mrb, "Draw");
     mrb_define_class_method(mrb, opt, "opt_magnitude",    mrb_opt_magnitude,    MRB_ARGS_REQ(4));
+    draw_seq_start(mrb);
 }
 
 void

@@ -1,10 +1,6 @@
 
 UV_DIR    = libuv-v1.9.1
-GLPK_DIR  = glpk-4.52
-GLPK_FILE = $(GLPK_DIR).tar.gz
 UV_FILE   = $(UV_DIR).tar.gz
-GLPK_URL  = https://ftp.gnu.org/gnu/glpk/$(GLPK_FILE)
-UV_URL    = http://dist.libuv.org/dist/v1.9.1/$(UV_FILE)
 
 all:
 	cd deps/nanovg/src   && $(CC) nanovg.c -c -fPIC
@@ -14,7 +10,7 @@ all:
 	cd src/osc-bridge    && make lib
 	cd mruby             && MRUBY_CONFIG=../build_config.rb rake
 	$(CC) -shared -o libzest.so `find mruby/build/host -type f | grep -e "\.o$$" | grep -v bin` ./deps/libnanovg.a ./deps/rtosc/librtosc.a ./deps/nanovg/build/libnanovg.a ./deps/libuv-v1.9.1/.libs/libuv.a src/osc-bridge/libosc-bridge.a -lm -lX11 -lGL -lpthread
-	$(CC) test-libversion.c deps/pugl/build/libpugl-0.a -ldl -o zest -lX11 -lGL -lpthread -I deps/pugl -std=c99
+	$(CC) test-libversion.c deps/pugl/build/libpugl-0.a -ldl -o zest -lX11 -lGL -lpthread -I deps/pugl -std=gnu99
 
 windows:
 	cd deps/nanovg/src   && $(CC) -mstackrealign nanovg.c -c
@@ -32,10 +28,6 @@ builddep:
 	cd deps/$(UV_DIR)    && CFLAGS=-fPIC ./configure
 	cd deps/$(UV_DIR)    && CFLAGS=-fPIC make
 	cp deps/$(UV_DIR)/.libs/libuv.a deps/
-	cd deps/$(GLPK_DIR)  && ./configure
-	cd deps/$(GLPK_DIR)  && make
-	cd deps/$(GLPK_DIR)  && $(CC) examples/glpsol.c -I src/ src/.libs/libglpk.a -o glpsol -lm
-	cp deps/$(GLPK_DIR)/glpsol deps/
 	cd deps/rtosc        && $(CC) -std=c99 src/*.c -I include -c -fPIC
 	cd deps/rtosc        && $(AR) rcs librtosc.a ./*.o
 	cp deps/rtosc/librtosc.a deps/
@@ -45,25 +37,15 @@ builddepwin:
 	cd deps/$(UV_DIR)   && CFLAGS="-mstackrealign" ./configure  --host=x86_64-w64-mingw32
 	cd deps/$(UV_DIR)   && LD=x86_64-w64-mingw32-gcc make
 	cp deps/$(UV_DIR)/.libs/libuv.a deps/
-	#cd deps/$(GLPK_DIR) && CFLAGS="-DDBL_EPSILON=2e-16" ./configure --disable-shared --enable-static --host=x86_64-w64-mingw32
-	#cd deps/$(GLPK_DIR) && LD=x86_64-w64-mingw32-gcc make
-	#cd deps/$(GLPK_DIR) && x86_64-w64-mingw32-gcc examples/glpsol.c -I src/ src/.libs/libglpk.a -o glpsol.exe -lm
-	#cp deps/$(GLPK_DIR)/glpsol.exe deps/
-	cp deps/glpk-4.52/w64/glpk_4_52.dll deps/
-	cp deps/glpk-4.52/w64/glpsol.exe deps/
 	cd deps/rtosc       && x86_64-w64-mingw32-gcc src/*.c -I include -mstackrealign -c
 	cd deps/rtosc       && x86_64-w64-mingw32-ar rcs librtosc.a ./*.o
 	cp deps/rtosc/librtosc.a deps/
 
 setup:
-	cd deps              && wget $(GLPK_URL)
-	cd deps              && tar xvf $(GLPK_FILE)
 	cd deps              && wget $(UV_URL)
 	cd deps              && tar xvf $(UV_FILE)
 
 setupwin:
-	cd deps              && wget http://downloads.sourceforge.net/winglpk/winglpk/GLPK-4.52/winglpk-4.52.zip
-	cd deps              && unzip winglpk*
 	cd deps              && wget $(UV_URL)
 	cd deps              && tar xvf $(UV_FILE)
 
@@ -165,7 +147,6 @@ pack:
 	cp mruby/bin/mruby                  package/
 	cp libzest.so                       package/
 	cp zest     	                    package/
-	cp deps/glpsol                      package/
 	echo 'Version 3.0.0-pre '       >>  package/VERSION
 	echo 'built on: '               >>  package/VERSION
 	echo `date`                     >>  package/VERSION

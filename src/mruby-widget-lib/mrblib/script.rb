@@ -14,10 +14,12 @@ class FakeWindow
         @ref = true
     end
 
-    def get_refresh
-        tmp = @ref
+    def clear_refresh
         @ref = nil
-        tmp
+    end
+
+    def get_refresh
+        @ref
     end
 end
 
@@ -100,13 +102,14 @@ class ZRunner
         GL::debug "[INFO] doing layout"
         perform_layout
         GL::debug "[INFO] makeing draw seq"
+        @animated = []
         @draw_seq.make_draw_sequence(@widget)
         GL::debug "[INFO] draw sequence ready"
 
         @widget.db.make_rdepends
-        @draw_seq.damage_region(Rect.new(0, 0, @w, @h), 0)
-        @draw_seq.damage_region(Rect.new(0, 0, @w, @h), 1)
-        @draw_seq.damage_region(Rect.new(0, 0, @w, @h), 2)
+        @draw_seq.damage_region(DrawRect.new(0, 0, @w, @h), 0)
+        @draw_seq.damage_region(DrawRect.new(0, 0, @w, @h), 1)
+        @draw_seq.damage_region(DrawRect.new(0, 0, @w, @h), 2)
     end
 
     def setup
@@ -272,6 +275,9 @@ class ZRunner
     end
 
     def resize(w,h)
+        #@resize_start = Time.new
+        #puts "resize event... #{Time.new}"
+        #puts "resize to #{w}, #{h}"
         @events.record([:windowResize, {:w => w, :h => h}])
     end
 
@@ -342,7 +348,9 @@ class ZRunner
                 scroll = MouseScroll.new(ev[1][:x], ev[1][:y], ev[1][:dx], ev[1][:dy])
                 handleScroll(ev[1][:x],ev[1][:y], scroll)
             elsif(ev[0] == :windowResize)
+                next if @w == ev[1][:w] && @h == ev[1][:h]
                 @pending_resize = [ev[1][:w], ev[1][:h]]
+                #puts "resize pending... #{1000*(Time.new-@resize_start)}"
                 @window.refresh
             end
         end
@@ -390,13 +398,14 @@ class ZRunner
         if(@pending_layout)
             perform_layout
             @draw_seq.make_draw_sequence(@widget)
-            @draw_seq.damage_region(Rect.new(0, 0, @w, @h), 0)
+            @draw_seq.damage_region(DrawRect.new(0, 0, @w, @h), 0)
             @pending_layout = false
         end
     end
 
     def handle_pending_resize
         return if @pending_resize.nil?
+        #puts "handling pending resize = #{1000*(Time.new-@resize_start)}"
         @events.ignore
         @window.w    = @pending_resize[0]
         @window.h    = @pending_resize[1]
@@ -412,14 +421,18 @@ class ZRunner
         #Reset textures
         build_fbo
 
-        @draw_seq.damage_region(Rect.new(0,0,@widget.w, @widget.h), 0)
-        @draw_seq.damage_region(Rect.new(0,0,@widget.w, @widget.h), 1)
-        @draw_seq.damage_region(Rect.new(0,0,@widget.w, @widget.h), 2)
+        @draw_seq.damage_region(DrawRect.new(0,0,@widget.w, @widget.h), 0)
+        @draw_seq.damage_region(DrawRect.new(0,0,@widget.w, @widget.h), 1)
+        @draw_seq.damage_region(DrawRect.new(0,0,@widget.w, @widget.h), 2)
         @pending_resize = nil
+        #puts "final time = #{1000*(Time.new-@resize_start)}"
+
     end
 
         
     def draw
+        #return if !@window.get_refresh
+        #puts "drawing..."
         handle_pending_resize
         handle_pending_layout
         #Setup Profilers
@@ -442,6 +455,7 @@ class ZRunner
         end
 
         p_total.stop
+        @window.clear_refresh
     end
 
 
@@ -466,38 +480,33 @@ class ZRunner
 
     def perform_layout
         if(@widget.respond_to?(:layout))
-            #srt = Time.new
+            puts "performing layout for widget <#{@widget.w},#{@widget.h}>"
+            srt = Time.new
             l = Layout.new
-            bb = @widget.layout l
-            if(bb)
-                l.sh([bb.x], [1], 0)
-                l.sh([bb.y], [1], 0)
-                l.sh([bb.x, bb.w], [1, 1], @widget.w)
-                l.sh([bb.y, bb.h], [1, 1], @widget.h)
-            end
-            #setup = Time.new
-            l.solve
-            #solve = Time.new
+            bounds = l.genConstBox(0, 0, @widget.w, @widget.h, @widget)
+            bb = @widget.layout(l,bounds)
+            setup = Time.new
+            #l.solve
+            solve = Time.new
 
             #Now project the solution onto all widget's that provided bounding
             #boxes
             l.boxes.each do |box|
-                if(box.info)
-                    box.info.x = l.get box.x
-                    box.info.y = l.get box.y
-                    box.info.w = l.get box.w
-                    box.info.h = l.get box.h
-                end
+                #puts "RESULT - <#{box.info.class}, #{box.x}, #{box.y}, #{box.w}, #{box.h}>"
+                next if box.info.nil?
+                box.info.x = box.x
+                box.info.y = box.y
+                box.info.w = box.w
+                box.info.h = box.h
             end
-            #fin = Time.new
-            #puts "[PERF] Layout: Setup(#{1e3*(setup-srt)}) Solve(#{1e3*(solve-setup)}) Apply(#{1e3*(fin-solve)}) Total #{1000*(fin-srt)}ms"
+            fin = Time.new
+            puts "[PERF] Layout: Setup(#{1e3*(setup-srt)}) Solve(#{1e3*(solve-setup)}) Apply(#{1e3*(fin-solve)}) Total #{1000*(fin-srt)}ms"
             #exit
         end
     end
 
     def animate_frame(widget)
-        widget.animate if widget.respond_to? :animate
-        widget.children.map {|x| animate_frame x}
+        @draw_seq.animate_frame
     end
 
     def rec_clean_cbs(widget)
@@ -531,7 +540,7 @@ class ZRunner
                 if(draw_id != @common_draw_id)
                     f = File.read q
                     eval(f)
-                    @draw_seq.damage_region(Rect.new(0, 0, @w, @h), 0)
+                    @draw_seq.damage_region(DrawRect.new(0, 0, @w, @h), 0)
                     @common_draw_id = draw_id
                 end
             rescue
@@ -562,9 +571,9 @@ class ZRunner
         #t_layout_after = Time.new
 
         if(nwidget)
-            @draw_seq.damage_region(Rect.new(0, 0, @w, @h), 0)
-            @draw_seq.damage_region(Rect.new(0, 0, @w, @h), 1)
-            @draw_seq.damage_region(Rect.new(0, 0, @w, @h), 2)
+            @draw_seq.damage_region(DrawRect.new(0, 0, @w, @h), 0)
+            @draw_seq.damage_region(DrawRect.new(0, 0, @w, @h), 1)
+            @draw_seq.damage_region(DrawRect.new(0, 0, @w, @h), 2)
             #toc = Time.new
             #puts "[PERF] reload time #{1000*(toc-tic)}ms"
             #puts "[PERF] setup time #{1000*(t_setup-tic)}ms"
@@ -701,18 +710,20 @@ class ZRunner
     #Force a layout regeneration
     def smash_layout()
         @pending_layout = true
+        damage_item(@widget, true)
         @window.refresh
     end
 
     #Damage
     def damage_item(item, all=nil)
-        @draw_seq.seq.each do |dsn|
-            if(dsn.item == item)
-                @draw_seq.damage_region(Rect.new(dsn.x.to_i,dsn.y.to_i-0.5,dsn.w.to_i+0.5,dsn.h.to_i),dsn.layer)
-                @draw_seq.damage_region(Rect.new(dsn.x.to_i,dsn.y.to_i-0.5,dsn.w.to_i+0.5,dsn.h.to_i),1) if all
-                @draw_seq.damage_region(Rect.new(dsn.x.to_i,dsn.y.to_i-0.5,dsn.w.to_i+0.5,dsn.h.to_i),2) if all
-            end
-        end
+        node = @draw_seq.get_node(item)
+        #puts "damage_item = #{node.inspect}"
+        return if node.nil?
+        dmg = DrawRect.new(node.x.to_i,node.y.to_i-0.5,
+                           node.w.to_i+0.5,node.h.to_i)
+        @draw_seq.damage_region(dmg,  node.layer)
+        @draw_seq.damage_region(dmg,  1) if all
+        @draw_seq.damage_region(dmg,  2) if all
     end
 
     def ego_death(item)
@@ -756,11 +767,13 @@ class ZRunner
         @view_pos[sym]
     end
 
-    def change_view(w=@widget)
+    def change_view(w=@widget, level=0)
+        #t1 = Time.new if w.respond_to? :set_view
         w.set_view if w.respond_to? :set_view
         w.children.each do |ch|
-            change_view(ch)
+            change_view(ch, level+1)
         end
+        #puts(" "*level + "Change view took #{1000*(t2-t1)} ms @ #<#{w.class}>") if t1
     end
 
     def set_modal(w)

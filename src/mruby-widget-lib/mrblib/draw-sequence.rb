@@ -1,39 +1,51 @@
-class DrawSeqNode
-    attr_reader :x, :y, :w, :h, :item, :layer
-    def initialize(x,y,item)
-        @x     = x.to_i
-        @y     = y.to_i
-        @w     = item.w.to_i
-        @h     = item.h.to_i
-        @item  = item
-        @layer = item.layer
-    end
-
-    def hit?(x,y)
-        hx = @x <= x && x <= @x+@w
-        hy = @y <= y && y <= @y+@h
-        hx && hy
-    end
-
-    def intersect?(dmg)
-        (rect, layer) = dmg
-        if(layer == @layer)
-            left_in  = rect.x       >=@x && rect.x       <=@x+@w
-            right_in = rect.x+rect.w>=@x && rect.x+rect.w<=@x+@w
-            lr_in    = rect.x       <=@x && rect.x+rect.w>=@x+@w
-
-            top_in   = rect.y       >=@y && rect.y       <=@y+@h
-            bot_in   = rect.y+rect.h>=@y && rect.y+rect.h<=@y+@h
-            tb_in    = rect.y       <=@y && rect.y+rect.h>=@y+@h
-
-            (left_in || right_in || lr_in) && (top_in || bot_in || tb_in)
-        else
-            false
-        end
-    end
+class DrawRect
+    attr_reader :x, :y, :w, :h
 
     def to_s
-        "<DrawSeqNode x:#{@x} y:#{@y} w:#{@w} h:#{@h} layer:#{@layer}>"
+        "<DrawRect x:#{@x} y:#{@y} w:#{@w} h:#{@h}>"
+    end
+    def inspect
+        to_s
+    end
+end
+
+class DrawSeqNode
+    attr_reader :x, :y, :w, :h, :item, :layer
+    #def initialize(x,y,item)
+    #    @x     = x.to_i
+    #    @y     = y.to_i
+    #    @w     = item.w.to_i
+    #    @h     = item.h.to_i
+    #    @item  = item
+    #    @layer = item.layer
+    #end
+
+    #def hit?(x,y)
+    #    hx = @x <= x && x <= @x+@w
+    #    hy = @y <= y && y <= @y+@h
+    #    hx && hy
+    #end
+
+    #def intersect?(dmg)
+    #    (rect, layer) = dmg
+    #    if(layer == @layer)
+    #        return GL::intersect(rect.x, rect.y, rect.w, rect.h, @x, @y, @w, @h)
+    #        #left_in  = rect.x       >=@x && rect.x       <=@x+@w
+    #        #right_in = rect.x+rect.w>=@x && rect.x+rect.w<=@x+@w
+    #        #lr_in    = rect.x       <=@x && rect.x+rect.w>=@x+@w
+
+    #        #top_in   = rect.y       >=@y && rect.y       <=@y+@h
+    #        #bot_in   = rect.y+rect.h>=@y && rect.y+rect.h<=@y+@h
+    #        #tb_in    = rect.y       <=@y && rect.y+rect.h>=@y+@h
+
+    #        #(left_in || right_in || lr_in) && (top_in || bot_in || tb_in)
+    #    else
+    #        false
+    #    end
+    #end
+
+    def to_s
+        "<DrawSeqNode x:#{@x} y:#{@y} w:#{@w} h:#{@h} layer:#{@layer} cls:#{@item.class}>"
     end
     def inspect
         to_s
@@ -42,10 +54,24 @@ end
 
 class DrawSequence
     attr_accessor :window, :damage, :seq
-    def initialize
+    def initialize_rb
         @damage        = []
         @damage_layers = []
         @seq           = []
+        @animated      = nil
+    end
+
+    def animate_frame
+        #Rebuild animation list as needed
+        if(@animated.nil?)
+            @animated = []
+            @seq.each do |s|
+                @animated << s.item if s.item.respond_to?(:animate)
+            end
+        end
+        @animated.each do |a|
+            a.animate
+        end
     end
 
     # Force a redraw in the given region
@@ -60,7 +86,9 @@ class DrawSequence
     # Add a widget to the draw sequence
     def add(item, xoff, yoff)
         if(item.respond_to? :draw)
-            @seq << DrawSeqNode.new(xoff, yoff, item)
+            node = DrawSeqNode.new(xoff, yoff, item)
+            @seq << node
+            add_seq_c(node)
         end
     end
 
@@ -70,6 +98,7 @@ class DrawSequence
         if(item && xoff && yoff)
             add(item, xoff, yoff)
             item.children.each do |ch|
+                #puts "        Box = <#{ch.class}, #{ch.x.inspect},#{ch.y.inspect},#{ch.w.inspect},#{ch.h.inspect}>"
                 if(ch.y && ch.x)
                     make_draw_sequence_recur(ch, xoff+ch.x, yoff+ch.y)
                 else
@@ -83,8 +112,10 @@ class DrawSequence
     end
 
     def make_draw_sequence(root)
-        puts "[DEBUG] Make Draw Sequence"
+        #puts "[DEBUG] Make Draw Sequence"
         @seq = []
+        clear_seq_c
+        @animated = nil
         make_draw_sequence_recur(root, 0, 0)
     end
 
@@ -104,6 +135,7 @@ class DrawSequence
         #    GL::gl_clear_color(0, 0, 0, 1.0);
         #    GL::gl_clear(GL_COLOR_BUFFER_BIT|GL_DEPTH_BUFFER_BIT|GL_STENCIL_BUFFER_BIT);
         #end
+        rseq = render_seqs()
         (0..2).each do |layer_id|
             updating_layer = @damage_layers.include?(layer_id)
             next if !updating_layer
@@ -118,27 +150,18 @@ class DrawSequence
             end
 
             redraw_fbo.select
-            #puts "running draw sequence on #{w}x#{h} window"
+            #puts "running draw sequence on #{w}x#{h} window layer=#{layer_id}"
             GL::gl_viewport(0, 0, w, h);
             GL::gl_clear_color(0, 0, 0, 0.0);
             GL::gl_clear(GL_COLOR_BUFFER_BIT|GL_DEPTH_BUFFER_BIT|GL_STENCIL_BUFFER_BIT);
 
             GL::gl_viewport(0, 0, w, h);
-            vg.draw(w,h,1.0) do |v|
-                @seq.each do |n|
-                    if(n.layer == layer_id)
-                        #Check if damage overlaps with widget
-                        is_clean = true
-                        @damage.each do |dmg|
-                            is_clean = false if n.intersect?(dmg)
-                        end
-                        next if is_clean
-
-                        drawn_widgets += 1
-                        v.spork do |vv|
-                            vv.translate(n.x,n.y)
-                            n.item.draw(vv)
-                        end
+            vg.draw(w,h,1.0) do
+                rseq[layer_id].each do |n|
+                    drawn_widgets += 1
+                    vg.spork do
+                        vg.translate(n.x,n.y)
+                        n.item.draw(vg)
                     end
                 end
             end
@@ -157,7 +180,7 @@ class DrawSequence
 
 
             redraw_img = get_image(redraw_fbo)
-            #@damage = [[Rect.new(0, 0, 512,512)]]
+            #@damage = [[DrawRect.new(0, 0, 512,512)]]
 
             GL::gl_viewport(0, 0, w, h);
             vg.draw(w, h, 1.0) do |v|
@@ -217,20 +240,20 @@ class DrawSequence
     # - y location relative to the root of the window
     # - optional method which widget must respond to
     #  (filters out decoration widgets)
-    def event_widget(x, y, method=nil)
-        selected_item  = nil
-        selected_layer = 0
-        @seq.each do |elm|
-            next if elm.layer == 1
-            next if selected_layer == 2 && elm.layer != 2
-            next if !method.nil? && !elm.item.respond_to?(method)
-            if(elm.hit?(x,y))
-                selected_item  = elm.item
-                selected_layer = elm.layer
-            end
-        end
-        selected_item
-    end
+    #def event_widget(x, y, method=nil)
+    #    selected_item  = nil
+    #    selected_layer = 0
+    #    @seq.each do |elm|
+    #        next if elm.layer == 1
+    #        next if selected_layer == 2 && elm.layer != 2
+    #        next if !method.nil? && !elm.item.respond_to?(method)
+    #        if(elm.hit?(x,y))
+    #            selected_item  = elm.item
+    #            selected_layer = elm.layer
+    #        end
+    #    end
+    #    selected_item
+    #end
     
     #Similar to event_widget, but does not have the x/y hit detection
     def find_widget(method)

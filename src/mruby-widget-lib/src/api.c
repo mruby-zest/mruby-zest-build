@@ -133,7 +133,7 @@ zest_open(char *address)
     check_error(z->mrb);
 
     //Configure application runner
-    mrb_funcall(z->mrb, z->runner, "hotload=", 1, mrb_false_value());
+    mrb_funcall(z->mrb, z->runner, "hotload=", 1, mrb_true_value());
     check_error(z->mrb);
 
     if(!dev_mode) {
@@ -238,18 +238,15 @@ zest_special(zest_t *z, int key, int press)
         k(DOWN,     down);
         k(CTRL,     ctrl);
         k(SHIFT,    shift);
+        k(PAGE_UP,  page_up);
+        k(PAGE_DOWN, page_down);
+        k(HOME,     home);
+        k(END,      end);
+        k(INSERT,   insert);
+        k(ALT,      alt);
+        k(SUPER,    super);
     }
 #undef k
-
-	//PUGL_KEY_PAGE_UP,
-	//PUGL_KEY_PAGE_DOWN,
-	//PUGL_KEY_HOME,
-	//PUGL_KEY_END,
-	//PUGL_KEY_INSERT,
-	//PUGL_KEY_SHIFT,
-	//PUGL_KEY_CTRL,
-	//PUGL_KEY_ALT,
-	//PUGL_KEY_SUPER
 
     if(type) {
         mrb_funcall(z->mrb, z->runner, "key_mod", 2,

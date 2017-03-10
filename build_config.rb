@@ -36,12 +36,13 @@ build_type.new(build_name) do |conf|
 
   enable_debug
 
-  conf.cc.defines = %w(MRUBY_NANOVG_GL2)
+  conf.cc.defines = %w(MRUBY_NANOVG_GL2 MRB_ENABLE_DEBUG_HOOK)
   conf.cc.flags << '-O3'
 
   #No default gems
   # Use standard print/puts/p
   conf.gem :core => "mruby-print"
+  conf.gem :core => "mruby-sprintf"
 
   # Use standard Math module
   conf.gem :core => "mruby-math"
@@ -115,14 +116,11 @@ build_type.new(build_name) do |conf|
   conf.gem 'src/mruby-qml-spawn'
   conf.gem 'src/mruby-qml-parse'
   conf.gem 'src/mruby-zest'
-  conf.gem 'src/mruby-layout'
 
   #Scrap Code Gem
   conf.gem 'src/mruby-widget-lib'
 
-  #Binary Launcher
-  #conf.gem 'src/mruby-bin-zest'
-
+  #conf.gem 'deps/mruby-profiler'
 end
 
 MRuby::Build.new('host-debug') do |conf|

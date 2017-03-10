@@ -4,6 +4,7 @@
 #include <locale.h>
 #include <string.h>
 #include <stdlib.h>
+#include <time.h>
 #ifdef WIN32
 #include <windows.h>
 #else
@@ -235,17 +236,50 @@ int main(int argc, char **argv)
     int64_t frame_id = 0;
     const float target_fps  = 60.0;
     const float frame_sleep = 1/target_fps;
+    
+    struct timespec before, post_tick, post_draw, post_events;
+    float total, tick, draw, events;
     while(!z.do_exit) {
+        clock_gettime(CLOCK_MONOTONIC, &before);
         frame_id++;
         int needs_redraw = 1;
+
+        puglProcessEvents(view);
+        clock_gettime(CLOCK_MONOTONIC, &post_events);
+
         if(z.zest)
             needs_redraw = z.zest_tick(z.zest);
+        clock_gettime(CLOCK_MONOTONIC, &post_tick);
+
+#define TIME_DIFF(a,b) (b.tv_sec-a.tv_sec + 1e-9 *(b.tv_nsec-a.tv_nsec))
         if(needs_redraw)
             puglPostRedisplay(view);
         else {
-            usleep((int)(frame_sleep*1e6));
+            float time = frame_sleep-TIME_DIFF(before, post_tick);
+            if(time > 0)
+                usleep((int)(time*1e6));
         }
-        puglProcessEvents(view);
+        clock_gettime(CLOCK_MONOTONIC, &post_draw);
+
+        if(false) {
+            events = TIME_DIFF(before,      post_events);
+            tick   = TIME_DIFF(post_events, post_tick);
+            draw   = TIME_DIFF(post_tick,   post_draw);
+            total  = tick+draw+events;
+            fflush(stdout);
+            printf("[PERF:%d%%]", (int)(100.0*total*target_fps));
+            tick  /= total;
+            draw  /= total;
+            events  /= total;
+            for(int i=0; i<tick*100; ++i)
+                putchar('t');
+            for(int i=tick*100; i<(tick+draw)*100; ++i)
+                putchar(needs_redraw ? 'd' : 's');
+            for(int i=(tick+draw)*100; i<100; ++i)
+                putchar('e');
+            putchar('\n');
+            fflush(stdout);
+        }
     }
     printf("[INFO:Zyn] zest_close()\n");
     z.zest_close(z.zest);
