@@ -34,9 +34,6 @@
 [submodule "src/mruby-qml-spawn"]
 	path = src/mruby-qml-spawn
 	url = git@fundamental-code.com:mruby-qml-spawn
-[submodule "src/mruby-layout"]
-	path = src/mruby-layout
-	url = git@fundamental-code.com:mruby-layout
 [submodule "src/mruby-zest"]
 	path = src/mruby-zest
 	url = git@fundamental-code.com:mruby-zest
