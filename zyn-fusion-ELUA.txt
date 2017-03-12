@@ -10,11 +10,10 @@ By installing or distributing this copy of "zyn-fusion", the Licensee ("you" or 
 accept and agree to be bound by the terms of this License. If you do not agree to any
 of the terms of this License, you must not install or distribute "zyn-fusion".
 
-The distribution of zyn-fusion includes a binary 'glpsol' from GLPK and it contains binaries
-'zynaddsubfx' 'ZynAddSubFX.so', 'ZynAddSubFX_ui.so', as well as data files 'schema/test.json',
+The distribution of zyn-fusion includes binaries 'zynaddsubfx' 'ZynAddSubFX.so',
+'ZynAddSubFX_ui.so', as well as data files 'schema/test.json',
 all presets '.xiz'/'.xmz' and ttl files from ZynAddSubFX.
-These components are covered separately in COPYING.GLPK and
-COPYING.ZynAddSubFX (GPLv3 and GPLv2+ respectively).
+These components are covered separately in COPYING.ZynAddSubFX (GPLv2+).
 
 SOFTWARE PRODUCT here means the files 'libzest.so' and 'zyn-fusion' received with your
 order of "zyn-fusion".

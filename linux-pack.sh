@@ -8,7 +8,6 @@ echo "Build on"      >> /opt/zyn-fusion/VERSION
 echo `date`          >> /opt/zyn-fusion/VERSION
 cp   -a /usr/lib/lv2/ZynAddSubFX.lv2presets       /opt/zyn-fusion/
 cp   -a /home/mark/zynaddsubfx/instruments/banks  /opt/zyn-fusion/
-cp      ./package/glpsol                          /opt/zyn-fusion/
 cp      ./package/libzest.so                      /opt/zyn-fusion/
 cp      ./package/zest                            /opt/zyn-fusion/zyn-fusion
 cp   -a ./package/font                            /opt/zyn-fusion/
@@ -23,7 +22,6 @@ cp      ./install-linux.sh /opt/zyn-fusion/
 cp      ./package-README.txt /opt/zyn-fusion/README.txt
 cp      ./zyn-fusion-ELUA.txt /opt/zyn-fusion/
 cp      /home/mark/zynaddsubfx/COPYING /opt/zyn-fusion/COPYING.zynaddsubfx
-cp      ./deps/glpk-4.52/COPYING       /opt/zyn-fusion/COPYING.glpsol
 cd /opt/
 rm -f zyn-fusion-3.0.1.tar zyn-fusion-3.0.1.tar.bz2
 tar cf zyn-fusion-3.0.1.tar ./zyn-fusion
