@@ -248,7 +248,7 @@ class ZRunner
         @mx = x
         @my = y
         if(@clicked)
-            aw = activeWidget(@clicked.x, @clicked.y)
+            aw = activeWidget(@clicked.x, @clicked.y, :onMousePress)
             if(aw.respond_to? :onMouseMove)
                 aw.onMouseMove MouseButton.new(0,Pos.new(x,y))
             end
