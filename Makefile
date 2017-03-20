@@ -1,5 +1,7 @@
 UV_DIR    = libuv-v1.9.1
 UV_FILE   = $(UV_DIR).tar.gz
+UV_URL    = http://dist.libuv.org/dist/v1.9.1/$(UV_FILE)
+	 
 
 all:
 	cd deps/nanovg/src   && $(CC) nanovg.c -c -fPIC
