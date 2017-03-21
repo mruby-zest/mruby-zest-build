@@ -603,9 +603,12 @@ class ZRunner
             animate_frame @widget
         end
 
-        #if((now-@startup_time) > 10*60)
-        #    $remote.action("/Panic")
-        #end
+        if(GL::demo_mode)
+            if((now-@startup_time) > 10*60)
+                $remote.action("/Panic")
+                log(:warning, "Demo time is complete")
+            end
+        end
 
         nil
     end

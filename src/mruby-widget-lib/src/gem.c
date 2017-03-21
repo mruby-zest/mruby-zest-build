@@ -108,6 +108,16 @@ mrb_gl_intersect(mrb_state *mrb, mrb_value self)
         return mrb_false_value();
 }
 
+static mrb_value
+mrb_demo_mode(mrb_state *mrb, mrb_value self)
+{
+#if DEMO_MODE
+    return mrb_true_value();
+#else
+    return mrb_false_value();
+#endif
+}
+
 /*******************************************************************************
  *                          PUGL Code Here                                     *
  *                                                                             *
@@ -1265,6 +1275,8 @@ mrb_mruby_widget_lib_gem_init(mrb_state* mrb) {
     mrb_define_class_method(mrb, module, "debug", mrb_gl_debug, MRB_ARGS_REQ(1));
     mrb_define_class_method(mrb, module, "intersect", mrb_gl_intersect,
             MRB_ARGS_REQ(8));
+    //yeah, this shouldn't be in GL, but it was quick to hack in
+    mrb_define_class_method(mrb, module, "demo_mode", mrb_demo_mode, MRB_ARGS_NONE());
 
 
     struct RClass *pugl = mrb_define_class_under(mrb, module, "PUGL", mrb->object_class);

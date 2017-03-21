@@ -81,6 +81,13 @@ build_type.new(build_name) do |conf|
   conf.gem 'deps/mruby-dir-glob'
   conf.gem 'deps/mruby-set'
 
+  demo_mode = false
+  if(ENV.include?("BUILD_MODE"))
+      if(ENV["BUILD_MODE"] == "demo")
+          demo_mode = true
+      end
+  end
+
   conf.cc do |cc|
       cc.include_paths << "#{`pwd`.strip}/../deps/nanovg/src"
       cc.include_paths << "#{`pwd`.strip}/../deps/pugl/"
@@ -91,6 +98,7 @@ build_type.new(build_name) do |conf|
       cc.flags << "-DWINDOWS_WHY" if windows
       cc.flags << "-mstackrealign" if windows
       cc.flags << "-Wno-declaration-after-statement"
+      cc.flags << "-DDEMO_MODE=#{demo_mode}"
   end
 
   conf.linker do |linker|
