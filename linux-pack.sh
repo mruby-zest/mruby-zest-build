@@ -1,5 +1,6 @@
 #!/bin/sh
 
+ZYN_FUSION_VERSION=$1
 
 #to be run as root
 rm -r /opt/zyn-fusion
