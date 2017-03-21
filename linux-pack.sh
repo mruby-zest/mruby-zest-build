@@ -1,9 +1,11 @@
 #!/bin/sh
+
+
 #to be run as root
 rm -r /opt/zyn-fusion
 mkdir /opt/zyn-fusion
 chown mark:users /opt/zyn-fusion
-echo "Version 3.0.1" >> /opt/zyn-fusion/VERSION
+echo "Version $ZYN_FUSION_VERSION" >> /opt/zyn-fusion/VERSION
 echo "Build on"      >> /opt/zyn-fusion/VERSION
 echo `date`          >> /opt/zyn-fusion/VERSION
 cp   -a /usr/lib/lv2/ZynAddSubFX.lv2presets       /opt/zyn-fusion/
@@ -23,6 +25,6 @@ cp      ./package-README.txt /opt/zyn-fusion/README.txt
 cp      ./zyn-fusion-ELUA.txt /opt/zyn-fusion/
 cp      /home/mark/zynaddsubfx/COPYING /opt/zyn-fusion/COPYING.zynaddsubfx
 cd /opt/
-rm -f zyn-fusion-3.0.1.tar zyn-fusion-3.0.1.tar.bz2
-tar cf zyn-fusion-3.0.1.tar ./zyn-fusion
-bzip2 zyn-fusion-3.0.1.tar
+rm -f zyn-fusion-${ZYN_FUSION_VERSION}.tar zyn-fusion-${ZYN_FUSION_VERSION}.tar.bz2
+tar cf zyn-fusion-${ZYN_FUSION_VERSION}.tar ./zyn-fusion
+bzip2 zyn-fusion-${ZYN_FUSION_VERSION}.tar
