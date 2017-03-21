@@ -114,6 +114,13 @@ zest_open(char *address)
         }
     }
 
+#if DEMO_MODE
+    printf("[INFO:Zyn] Starting Zyn-Fusion Demo...\n");
+#else
+    printf("[INFO:Zyn] Starting Zyn-Fusion\n");
+    printf("[INFO:Zyn] Thanks for supporting the developement of this project\n");
+#endif
+
     //Create mruby interpreter
     printf("[INFO:Zyn] Creating MRuby Interpreter...\n");
     z->mrb = mrb_open();
@@ -133,7 +140,7 @@ zest_open(char *address)
     check_error(z->mrb);
 
     //Configure application runner
-    mrb_funcall(z->mrb, z->runner, "hotload=", 1, mrb_true_value());
+    mrb_funcall(z->mrb, z->runner, "hotload=", 1, mrb_false_value());
     check_error(z->mrb);
 
     if(!dev_mode) {
