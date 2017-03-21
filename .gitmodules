@@ -1,6 +1,6 @@
 [submodule "mruby"]
 	path = mruby
-	url = https://github.com/fundamental/mruby
+	url = https://github.com/mruby/mruby
 [submodule "deps/nanovg"]
 	path = deps/nanovg
 	url = https://github.com/memononen/nanovg
