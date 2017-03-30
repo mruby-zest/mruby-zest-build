@@ -5,6 +5,7 @@
 #include <string.h>
 #include <stdlib.h>
 #include <time.h>
+#include <errno.h>
 #ifdef WIN32
 #include <windows.h>
 #else
@@ -27,6 +28,7 @@ struct zest_handles {
     void (*zest_resize)(zest_t *, int w, int h);
     int  (*zest_tick)(zest_t*);
     int  (*zest_exit)(zest_t*);
+    void (*zest_set_option)(zest_t*, const char *key, const char *value);
     zest_t *zest;
     int do_exit;
 };
@@ -116,6 +118,7 @@ onReshape(PuglView* view, int width, int height)
     z->zest_resize(z->zest, width, height);
 }
 
+float target_animation_fps = 30.0f;
 char *osc_path = 0;
 
 static void
@@ -129,6 +132,11 @@ onDisplay(PuglView* view)
         z->zest = z->zest_open(osc_path ? osc_path : "osc.udp://127.0.0.1:1337");
         printf("[INFO:Zyn] zest_setup()\n");
         z->zest_setup(z->zest);
+
+        printf("[DEBUG:Zyn] setting up animation fps\n");
+        char fps[128] = {0};
+        snprintf(fps, sizeof(fps)-1, "%f", target_animation_fps);
+        z->zest_set_option(z->zest, "animation_fps", fps);
     }
 
     z->zest_draw(z->zest);
@@ -170,6 +178,20 @@ char *conv(char *c, float f)
     return c;
 }
 
+const char *help =
+"zyn-fusion - the user interface component of ZynAddSubFX for 3.0+ versions"
+"\n\n"
+"Options:\n"
+"    --help             print this help\n"
+"    --uri              specify remote osc server (for zynaddsubfx dsp)\n"
+"                       e.g. osc.udp://127.0.0.1:1234\n"
+"\n"
+"Environmental Variables:\n"
+"    ZEST_TARGET_FPS    target frames per second            [default 60]\n"
+"    ZEST_ANIMATE_FPS   target animation updates per second [default 30]\n";
+
+
+
 int main(int argc, char **argv)
 {
     //setlocale(LC_NUMERIC, "it_IT.UTF-8");
@@ -181,6 +203,31 @@ int main(int argc, char **argv)
     //printf("%s\n", conv(cvt,-1.234));
     if(argc > 1 && strstr(argv[1], "osc"))
         osc_path = argv[1];
+
+    float target_fps = 60.0f;
+    if(getenv("ZEST_TARGET_FPS")) {
+        errno = 0;
+        target_fps = strtod(getenv("ZEST_TARGET_FPS"), 0);
+        if(errno != 0)
+            target_fps = 60.0f;
+
+        if(target_fps < 0.1)
+            target_fps = 0.1;
+        else if(target_fps > 200)
+            target_fps = 200;
+    }
+
+    if(getenv("ZEST_ANIMATE_FPS")) {
+        errno = 0;
+        target_animation_fps = strtod(getenv("ZEST_ANIMATE_FPS"), 0);
+        if(errno != 0)
+            target_animation_fps = 60.0f;
+
+        if(target_animation_fps < 0.1)
+            target_animation_fps = 0.1;
+        else if(target_animation_fps > 200)
+            target_animation_fps = 200;
+    }
 
 
 #ifdef WIN32
@@ -216,6 +263,7 @@ int main(int argc, char **argv)
     get(special);
     get(resize);
     get(exit);
+    get(set_option);
 
     z.do_exit       = 0;
 
@@ -232,12 +280,12 @@ int main(int argc, char **argv)
     check(special);
     check(resize);
     check(exit);
+    check(set_option);
 
     printf("[INFO:Zyn] setup_pugl()\n");
     void *view = setup_pugl(&z);
     printf("[INFO:Zyn] zest_tick()\n");
     int64_t frame_id = 0;
-    const float target_fps  = 60.0;
     const float frame_sleep = 1/target_fps;
     
     struct timespec before, post_tick, post_draw, post_events;

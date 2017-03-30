@@ -140,7 +140,7 @@ zest_open(char *address)
     check_error(z->mrb);
 
     //Configure application runner
-    mrb_funcall(z->mrb, z->runner, "hotload=", 1, mrb_false_value());
+    mrb_funcall(z->mrb, z->runner, "hotload=", 1, mrb_true_value());
     check_error(z->mrb);
 
     if(!dev_mode) {
@@ -308,6 +308,15 @@ zest_tick(zest_t *z)
     return !mrb_obj_equal(z->mrb, mrb_nil_value(), v);
 
 }
+
+EXPORT void
+zest_set_option(zest_t *z, const char *key, const char *value)
+{
+    if(!strcmp(key, "animation_fps"))
+        mrb_funcall(z->mrb, z->runner, "animation_fps=", 1,
+                mrb_float_value(z->mrb, atof(value)));
+}
+
 EXPORT int
 zest_exit(zest_t *z)
 {

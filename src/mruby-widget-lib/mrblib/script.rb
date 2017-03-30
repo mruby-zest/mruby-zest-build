@@ -424,7 +424,7 @@ class ZRunner
         @events.ignore
         @window.w    = @pending_resize[0]
         @window.h    = @pending_resize[1]
-        puts "[INFO] doing a resize to #{@pending_resize}"
+        #puts "[INFO] doing a resize to #{@pending_resize}"
 
         @w = @widget.w  = @pending_resize[0]
         @h = @widget.h  = @pending_resize[1]
@@ -495,7 +495,7 @@ class ZRunner
 
     def perform_layout
         if(@widget.respond_to?(:layout))
-            puts "performing layout for widget <#{@widget.w},#{@widget.h}>"
+            #puts "performing layout for widget <#{@widget.w},#{@widget.h}>"
             srt = Time.new
             l = Layout.new
             bounds = l.genConstBox(0, 0, @widget.w, @widget.h, @widget)
@@ -515,7 +515,7 @@ class ZRunner
                 box.info.h = box.h
             end
             fin = Time.new
-            puts "[PERF] Layout: Setup(#{1e3*(setup-srt)}) Solve(#{1e3*(solve-setup)}) Apply(#{1e3*(fin-solve)}) Total #{1000*(fin-srt)}ms"
+            #puts "[PERF] Layout: Setup(#{1e3*(setup-srt)}) Solve(#{1e3*(solve-setup)}) Apply(#{1e3*(fin-solve)}) Total #{1000*(fin-srt)}ms"
             #exit
         end
     end
@@ -796,6 +796,10 @@ class ZRunner
 
     def set_modal(w)
         @modal = w
+    end
+
+    def animation_fps=(v)
+        @animate_frame_dt = 1.0/v
     end
 end
 
