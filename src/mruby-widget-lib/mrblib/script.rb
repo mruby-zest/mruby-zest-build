@@ -323,6 +323,12 @@ class ZRunner
         aw.onKey(key, act) if(aw.respond_to? :onKey)
     end
 
+    def key_widget
+        if @keyboard
+            activeWidget(@keyboard.x, @keyboard.y, :onKey)
+        end
+    end
+
     def mouse(button, action, x, y)
         mod = nil
         if(action == 1)
