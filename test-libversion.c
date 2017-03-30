@@ -25,7 +25,8 @@ struct zest_handles {
     void (*zest_key)(zest_t *, const char *key, int press);
     void (*zest_special)(zest_t *, int key, int press);
     void (*zest_resize)(zest_t *, int w, int h);
-    int (*zest_tick)(zest_t*);
+    int  (*zest_tick)(zest_t*);
+    int  (*zest_exit)(zest_t*);
     zest_t *zest;
     int do_exit;
 };
@@ -214,6 +215,7 @@ int main(int argc, char **argv)
     get(key);
     get(special);
     get(resize);
+    get(exit);
 
     z.do_exit       = 0;
 
@@ -229,6 +231,7 @@ int main(int argc, char **argv)
     check(key);
     check(special);
     check(resize);
+    check(exit);
 
     printf("[INFO:Zyn] setup_pugl()\n");
     void *view = setup_pugl(&z);
@@ -280,6 +283,8 @@ int main(int argc, char **argv)
             putchar('\n');
             fflush(stdout);
         }
+        if(z.zest && z.zest_exit(z.zest))
+            break;
     }
     printf("[INFO:Zyn] zest_close()\n");
     z.zest_close(z.zest);

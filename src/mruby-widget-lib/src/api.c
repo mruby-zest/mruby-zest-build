@@ -308,3 +308,13 @@ zest_tick(zest_t *z)
     return !mrb_obj_equal(z->mrb, mrb_nil_value(), v);
 
 }
+EXPORT int
+zest_exit(zest_t *z)
+{
+    mrb_value out;
+    out = mrb_funcall(z->mrb, z->runner, "exit?", 0),
+    check_error(z->mrb);
+    if(mrb_obj_equal(z->mrb, out, mrb_nil_value()))
+        return 0;
+    return 1;
+}

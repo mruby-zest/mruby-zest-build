@@ -274,6 +274,15 @@ class ZRunner
         $remote.action("/quit")
     end
 
+    def exit?
+        tmp = @quit_time && @quit_time < Time.new
+        if(tmp)
+            tmp
+        else
+            nil
+        end
+    end
+
     def resize(w,h)
         #@resize_start = Time.new
         #puts "resize event... #{Time.new}"
