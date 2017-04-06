@@ -98,7 +98,7 @@ build_type.new(build_name) do |conf|
       cc.flags << "-DWINDOWS_WHY" if windows
       cc.flags << "-mstackrealign" if windows
       cc.flags << "-Wno-declaration-after-statement"
-      cc.flags << "-DDEMO_MODE=#{demo_mode}"
+      cc.flags << "-DDEMO_MODE=#{demo_mode ? '1':'0'}"
   end
 
   conf.linker do |linker|
