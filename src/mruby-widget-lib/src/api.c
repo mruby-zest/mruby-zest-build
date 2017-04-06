@@ -140,7 +140,7 @@ zest_open(char *address)
     check_error(z->mrb);
 
     //Configure application runner
-    mrb_funcall(z->mrb, z->runner, "hotload=", 1, mrb_true_value());
+    mrb_funcall(z->mrb, z->runner, "hotload=", 1, mrb_false_value());
     check_error(z->mrb);
 
     if(!dev_mode) {
