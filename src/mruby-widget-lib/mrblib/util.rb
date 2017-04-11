@@ -19,6 +19,8 @@ class MouseButton
             @buttons = [:middleButton]
         elsif(enum == 3)
             @buttons = [:rightButton]
+        elsif(enum == 4)
+            @buttons = [:drag_and_drop]
         else
             @buttons = []
         end
