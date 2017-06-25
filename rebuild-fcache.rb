@@ -12,4 +12,4 @@ require_relative 'src/mruby-qml-spawn/mrblib/loader.rb'
 ir = loadIR(nil)
 puts "length(IR) = #{ir.length}"
 $ruby_mode = :CRuby
-QmlIrToRuby.new(ir, nil, "testing-cache.rb")
+QmlIrToRuby.new(ir, nil, "src/mruby-widget-lib/mrblib/fcache.rb")

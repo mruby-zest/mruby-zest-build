@@ -543,6 +543,7 @@ typedef struct {
     mrb_state *mrb;
     mrb_value  cb;
     mrb_value  mode;
+    bool       log;
     float min;
     float max;
 } remote_cb_data;
@@ -552,6 +553,7 @@ typedef struct remote_data_struct remote_data;
 typedef struct {
     bridge_t        *br;
     remote_data     *remote;
+    const char      *scale;
     uri_t            uri;
     char             type;
     int              cbs;
@@ -671,6 +673,8 @@ mrb_remote_initalize(mrb_state *mrb, mrb_value self)
     data->subs     = 0;
 
     mrb_data_init(self, data, &mrb_remote_type);
+
+    mrb_funcall(mrb, self, "init_automate", 0);
     return self;
 }
 
@@ -809,6 +813,8 @@ mrb_remote_metadata_initalize(mrb_state *mrb, mrb_value self)
     setfield("name=",       sm_get_name(handle));
     setfield("short_name=", sm_get_short(handle));
     setfield("tooltip=",    sm_get_tooltip(handle));
+    setfield("units=",      handle.units);
+    setfield("scale=",      handle.scale);
     setfield2("options=",   opts);
     setfield3("min=",       sm_get_min_flt(handle));
     setfield3("max=",       sm_get_max_flt(handle));
@@ -933,9 +939,16 @@ remote_cb(const char *msg, void *data)
         remote_cb_127(msg, cb);
     else if(!strcmp("i", arg_str))
         remote_cb_int(msg, cb);
-    else if(!strcmp("f", arg_str))
-        mrb_funcall(cb->mrb, cb->cb, "call", 1, mrb_float_value(cb->mrb,rtosc_argument(msg, 0).f));
-    else if(!strcmp("T", arg_str))
+    else if(!strcmp("f", arg_str)) {
+        float val = rtosc_argument(msg, 0).f;
+        if(cb->log) {
+            const float b = log(cb->min);
+            const float a = log(cb->max)-b;
+            val = (logf(val)-b)/a;
+        } else
+            val = (val-cb->min)/(cb->max-cb->min);
+        mrb_funcall(cb->mrb, cb->cb, "call", 1, mrb_float_value(cb->mrb, val));
+    } else if(!strcmp("T", arg_str))
         remote_cb_tf(msg, cb);
     else if(!strcmp("F", arg_str))
         remote_cb_tf(msg, cb);
@@ -963,6 +976,7 @@ mrb_remote_param_initalize(mrb_state *mrb, mrb_value self)
     data->min     = 0;
     data->max     = 0;
     data->watch   = 0;
+    data->scale   = 0;
     //if(strstr(data->uri, "Pfreq"))
     //    data->type = 'f';
     if(!data->br) {
@@ -994,6 +1008,7 @@ mrb_remote_param_set_callback(mrb_state *mrb, mrb_value self)
     remote_cb_data *data = malloc(sizeof(remote_cb_data));
     data->mrb = mrb;
     data->mode = mrb_funcall(mrb, self, "mode", 0);
+    data->log  = (param->scale && strstr(param->scale, "log"));
     data->min  = param->min;
     data->max  = param->max;
     if(data->min == data->max && data->max == 0)
@@ -1047,6 +1062,29 @@ mrb_remote_param_set_max(mrb_state *mrb, mrb_value self)
 }
 
 static mrb_value
+mrb_remote_param_set_scale(mrb_state *mrb, mrb_value self)
+{
+    remote_param_data *param;
+    param = (remote_param_data*) mrb_data_get_ptr(mrb, self, &mrb_remote_param_type);
+    mrb_assert(param);
+
+    mrb_value val;
+    mrb_get_args(mrb, "o", &val);
+
+    const char *arg = "";
+    if(val.tt == MRB_TT_STRING)
+        arg = mrb_string_value_ptr(mrb, val);
+
+    mrb_assert(param);
+
+    if(strstr(arg, "log"))
+        param->scale = "log";
+    else
+        param->scale = "linear";
+    return self;
+}
+
+static mrb_value
 mrb_remote_param_set_value(mrb_state *mrb, mrb_value self)
 {
     remote_param_data *param;
@@ -1070,8 +1108,17 @@ mrb_remote_param_set_value(mrb_state *mrb, mrb_value self)
             next = (param->max-param->min)*value + param->min;
         br_set_value_int(param->br, param->uri, next);
     } else if(param->type == 'f') {
-        br_set_value_float(param->br, param->uri, value);
+        const float x = value;
+        float out = 0;
+        if(param->scale && strstr(param->scale, "log")) {
+            const float b = log(param->min);
+            const float a = log(param->max)-b;
+            out = expf(a*x+b);
+        } else
+            out = (param->max-param->min)*value + param->min;
+        br_set_value_float(param->br, param->uri, out);
     }
+    
     return self;
 }
 
@@ -1175,6 +1222,8 @@ mrb_remote_param_display_value(mrb_state *mrb, mrb_value self)
                 br->cache[i].valid) {
             if(br->cache[i].type == 'i')
                 return mrb_fixnum_value(br->cache[i].val.i);
+            if(br->cache[i].type == 'f')
+                return mrb_float_value(mrb, br->cache[i].val.f);
         }
     }
 
@@ -1324,6 +1373,7 @@ mrb_mruby_widget_lib_gem_init(mrb_state* mrb) {
     mrb_define_method(mrb, param, "set_callback", mrb_remote_param_set_callback, MRB_ARGS_REQ(1));
     mrb_define_method(mrb, param, "set_min",      mrb_remote_param_set_min, MRB_ARGS_REQ(1));
     mrb_define_method(mrb, param, "set_max",      mrb_remote_param_set_max, MRB_ARGS_REQ(1));
+    mrb_define_method(mrb, param, "set_scale",    mrb_remote_param_set_scale, MRB_ARGS_REQ(1));
     mrb_define_method(mrb, param, "set_value",    mrb_remote_param_set_value, MRB_ARGS_REQ(1));
     mrb_define_method(mrb, param, "set_value_tf", mrb_remote_param_set_value_tf, MRB_ARGS_REQ(1));
     mrb_define_method(mrb, param, "set_value_ar", mrb_remote_param_set_value_ar, MRB_ARGS_REQ(1));

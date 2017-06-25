@@ -67,6 +67,7 @@ class ZRunner
         @view_pos[:subview]    = :global
         @view_pos[:subsubview] = nil
         @view_pos[:vis]        = :env
+        @view_pos[:slot]       = 0
     end
 
     def search_path=(val)
@@ -760,11 +761,11 @@ class ZRunner
     end
 
     def log(message_class, message, src=:unknown)
-        #if(message_class == :user_value)
-        #    puts "[LOG#value] #{message.to_s}"
-        #else
-        #    puts "[LOG#misc]  #{message.to_s}"
-        #end
+        if(message_class == :user_value)
+            puts "[LOG#value] #{message.to_s}"
+        else
+            puts "[LOG#misc]  #{message.to_s}"
+        end
         if(@log_widget)
             @log_widget.display_log(message_class, message.to_s, src)
         end

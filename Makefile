@@ -4,14 +4,14 @@ UV_URL    = http://dist.libuv.org/dist/v1.9.1/$(UV_FILE)
 	 
 
 all:
+	ruby ./rebuild-fcache.rb
 	cd deps/nanovg/src   && $(CC) nanovg.c -c -fPIC
 	$(AR) rc deps/libnanovg.a deps/nanovg/src/*.o
 	cd deps/pugl         && ./waf configure --no-cairo --static
 	cd deps/pugl         && ./waf
-	cd src/osc-bridge    && make lib
+	cd src/osc-bridge    && CFLAGS="-I ../../deps/libuv-v1.9.1/include " make lib
 	cd mruby             && MRUBY_CONFIG=../build_config.rb rake
 	$(CC) -shared -o libzest.so `find mruby/build/host -type f | grep -e "\.o$$" | grep -v bin` ./deps/libnanovg.a \
-		./deps/rtosc/librtosc.a \
 		./deps/libnanovg.a \
 		src/osc-bridge/libosc-bridge.a \
 		./deps/libuv-v1.9.1/.libs/libuv.a  -lm -lX11 -lGL -lpthread
@@ -22,9 +22,9 @@ windows:
 	$(AR) rc deps/libnanovg.a deps/nanovg/src/*.o
 	cd deps/pugl         && CFLAGS="-mstackrealign" ./waf configure --no-cairo --static --target=win32
 	cd deps/pugl         && ./waf
-	cd src/osc-bridge    && CFLAGS="-mstackrealign" make lib
+	cd src/osc-bridge    && CFLAGS="-mstackrealign -I ../../deps/libuv-v1.9.1/include " make lib
 	cd mruby             && WINDOWS=1 MRUBY_CONFIG=../build_config.rb rake
-	$(CC) -mstackrealign -shared -o libzest.dll -static-libgcc `find mruby/build/w64 -type f | grep -e "\.o$$" | grep -v bin` ./deps/libnanovg.a ./deps/rtosc/librtosc.a ./deps/libuv-v1.9.1/.libs/libuv.a src/osc-bridge/libosc-bridge.a -lm -lpthread -lws2_32 -lkernel32 -lpsapi -luserenv -liphlpapi -lglu32 -lgdi32 -lopengl32
+	$(CC) -mstackrealign -shared -o libzest.dll -static-libgcc `find mruby/build/w64 -type f | grep -e "\.o$$" | grep -v bin` ./deps/libnanovg.a  ./deps/libuv-v1.9.1/.libs/libuv.a src/osc-bridge/libosc-bridge.a -lm -lpthread -lws2_32 -lkernel32 -lpsapi -luserenv -liphlpapi -lglu32 -lgdi32 -lopengl32
 	$(CC) -mstackrealign -DWIN32 test-libversion.c deps/pugl/build/libpugl-0.a -o zest.exe -lpthread -I deps/pugl -std=c99 -lws2_32 -lkernel32 -lpsapi -luserenv -liphlpapi -lglu32 -lgdi32 -lopengl32
 
 
@@ -33,18 +33,12 @@ builddep:
 	cd deps/$(UV_DIR)    && CFLAGS=-fPIC ./configure
 	cd deps/$(UV_DIR)    && CFLAGS=-fPIC make
 	cp deps/$(UV_DIR)/.libs/libuv.a deps/
-	cd deps/rtosc        && $(CC) -std=c99 src/*.c -I include -c -fPIC
-	cd deps/rtosc        && $(AR) rcs librtosc.a ./*.o
-	cp deps/rtosc/librtosc.a deps/
 
 builddepwin:
 	cd deps/$(UV_DIR)   && ./autogen.sh
 	cd deps/$(UV_DIR)   && CFLAGS="-mstackrealign" ./configure  --host=x86_64-w64-mingw32
 	cd deps/$(UV_DIR)   && LD=x86_64-w64-mingw32-gcc make
 	cp deps/$(UV_DIR)/.libs/libuv.a deps/
-	cd deps/rtosc       && x86_64-w64-mingw32-gcc src/*.c -I include -mstackrealign -c
-	cd deps/rtosc       && x86_64-w64-mingw32-ar rcs librtosc.a ./*.o
-	cp deps/rtosc/librtosc.a deps/
 
 setup:
 	cd deps              && wget $(UV_URL)
