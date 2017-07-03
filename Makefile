@@ -50,7 +50,6 @@ setupwin:
 
 push:
 	cd src/osc-bridge      && git push
-	cd src/mruby-layout     && git push
 	cd src/mruby-qml-parse  && git push
 	cd src/mruby-qml-spawn  && git push
 	cd src/mruby-zest       && git push
@@ -58,7 +57,6 @@ push:
 
 status:
 	cd src/osc-bridge      && git status
-	cd src/mruby-layout     && git status
 	cd src/mruby-qml-parse  && git status
 	cd src/mruby-qml-spawn  && git status
 	cd src/mruby-zest       && git status
@@ -66,7 +64,6 @@ status:
 
 diff:
 	cd src/osc-bridge      && git diff
-	cd src/mruby-layout     && git diff
 	cd src/mruby-qml-parse  && git diff
 	cd src/mruby-qml-spawn  && git diff
 	cd src/mruby-zest       && git diff
@@ -75,7 +72,6 @@ diff:
 stats:
 	@echo 'main repo        commits: ' `git log --oneline | wc -l`
 	@echo 'mruby-zest       commits: ' `cd src/mruby-zest      && git log --oneline | wc -l`
-	@echo 'mruby-layout     commits: ' `cd src/mruby-layout    && git log --oneline | wc -l`
 	@echo 'mruby-qml-parse  commits: ' `cd src/mruby-qml-parse && git log --oneline | wc -l`
 	@echo 'mruby-qml-spawn  commits: ' `cd src/mruby-qml-spawn && git log --oneline | wc -l`
 	@echo 'osc-bridge       commits: ' `cd src/osc-bridge      && git log --oneline | wc -l`
