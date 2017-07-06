@@ -94,9 +94,11 @@ build_type.new(build_name) do |conf|
       cc.include_paths << "#{`pwd`.strip}/../deps/libuv-v1.9.1/include/"
       cc.include_paths << "/usr/share/mingw-w64/include/" if windows
       cc.include_paths << "/usr/x86_64-w64-mingw32/include/" if windows
-      cc.flags << "-std=gnu99 -fPIC"
-      cc.flags << "-DWINDOWS_WHY" if windows
-      cc.flags << "-mstackrealign" if windows
+      cc.flags << "-DLDBL_EPSILON=1e-6" if windows
+      cc.flags << "-std=gnu99"
+      cc.flags << " -fPIC"              if !windows
+      cc.flags << "-DWINDOWS_WHY"       if windows
+      cc.flags << "-mstackrealign"      if windows
       cc.flags << "-Wno-declaration-after-statement"
       cc.flags << "-DDEMO_MODE=#{demo_mode ? '1':'0'}"
   end
