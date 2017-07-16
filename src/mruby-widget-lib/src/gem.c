@@ -771,6 +771,21 @@ mrb_remote_damage(mrb_state *mrb, mrb_value self)
 }
 
 static mrb_value
+mrb_remote_default(mrb_state *mrb, mrb_value self)
+{
+    remote_data *data = (remote_data*)mrb_data_get_ptr(mrb, self, &mrb_remote_type);
+    mrb_value val;
+    mrb_get_args(mrb, "o", &val);
+
+    if(val.tt == MRB_TT_STRING)
+        br_default(data->br, data->sch, mrb_string_value_ptr(mrb, val));
+    else
+        fprintf(stderr, "[ERROR] Wrong type given to mrb_remote_default()\n");
+
+    return self;
+}
+
+static mrb_value
 mrb_remote_last_up_time(mrb_state *mrb, mrb_value self)
 {
     remote_data *data = (remote_data*)mrb_data_get_ptr(mrb, self, &mrb_remote_type);
@@ -1360,6 +1375,7 @@ mrb_mruby_widget_lib_gem_init(mrb_state* mrb) {
     mrb_define_method(mrb, remote, "seti",       mrb_remote_seti,      MRB_ARGS_REQ(2));
     mrb_define_method(mrb, remote, "action",     mrb_remote_action,    MRB_ARGS_ANY());
     mrb_define_method(mrb, remote, "damage",     mrb_remote_damage,    MRB_ARGS_REQ(1));
+    mrb_define_method(mrb, remote, "default",     mrb_remote_default,    MRB_ARGS_REQ(1));
     mrb_define_method(mrb, remote, "last_up_time", mrb_remote_last_up_time, MRB_ARGS_NONE());
 
     struct RClass *metadata = mrb_define_class_under(mrb, osc, "RemoteMetadata", mrb->object_class);
