@@ -110,7 +110,6 @@ build_type.new(build_name) do |conf|
       linker.libraries << 'osc-bridge'
       linker.flags_after_libraries  << "#{`pwd`.strip}/../deps/libuv.a"
       linker.flags_after_libraries  << "#{`pwd`.strip}/../deps/pugl/build/libpugl-0.a"
-      linker.flags_after_libraries  << "#{`pwd`.strip}/../deps/librtosc.a"
       linker.flags_after_libraries  << "#{`pwd`.strip}/../deps/libnanovg.a"
       if(!windows)
         linker.libraries << 'GL'
