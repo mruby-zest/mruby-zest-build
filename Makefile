@@ -24,7 +24,11 @@ windows:
 	cd deps/pugl         && ./waf
 	cd src/osc-bridge    && CFLAGS="-mstackrealign -I ../../deps/libuv-v1.9.1/include " make lib
 	cd mruby             && WINDOWS=1 MRUBY_CONFIG=../build_config.rb rake
-	$(CC) -mstackrealign -shared -o libzest.dll -static-libgcc `find mruby/build/w64 -type f | grep -e "\.o$$" | grep -v bin` ./deps/libnanovg.a  ./deps/libuv-v1.9.1/.libs/libuv.a src/osc-bridge/libosc-bridge.a -lm -lpthread -lws2_32 -lkernel32 -lpsapi -luserenv -liphlpapi -lglu32 -lgdi32 -lopengl32
+	$(CC) -mstackrealign -shared -o libzest.dll -static-libgcc `find mruby/build/w64 -type f | grep -e "\.o$$" | grep -v bin` \
+        ./deps/libnanovg.a \
+        src/osc-bridge/libosc-bridge.a \
+        ./deps/libuv-v1.9.1/.libs/libuv.a \
+        -lm -lpthread -lws2_32 -lkernel32 -lpsapi -luserenv -liphlpapi -lglu32 -lgdi32 -lopengl32
 	$(CC) -mstackrealign -DWIN32 test-libversion.c deps/pugl/build/libpugl-0.a -o zest.exe -lpthread -I deps/pugl -std=c99 -lws2_32 -lkernel32 -lpsapi -luserenv -liphlpapi -lglu32 -lgdi32 -lopengl32
 
 
