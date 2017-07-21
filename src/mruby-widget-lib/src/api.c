@@ -175,12 +175,12 @@ EXPORT void
 zest_close(zest_t *z)
 {
     //close mruby
-    MessageBox(0, "[INFO] Closing the UI\n", "asdf", 0);
+    //MessageBox(0, "[INFO] Closing the UI\n", "asdf", 0);
     printf("[INFO] Closing MRuby Application...\n");
     mrb_close(z->mrb);
-    MessageBox(0, "[INFO] Mruby closed\n", "asdf", 0);
+    //MessageBox(0, "[INFO] Mruby closed\n", "asdf", 0);
     free(z);
-    MessageBox(0, "[INFO] Mruby freed\n", "asdf", 0);
+    //MessageBox(0, "[INFO] Mruby freed\n", "asdf", 0);
 }
 
 EXPORT void
