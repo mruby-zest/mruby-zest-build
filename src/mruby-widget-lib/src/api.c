@@ -126,6 +126,11 @@ zest_open(char *address)
     z->mrb = mrb_open();
     check_error(z->mrb);
 
+#ifdef WIN32
+    mrb_funcall(z->mrb, mrb_nil_value(), "disable_kernel_io", 0);
+    check_error(z->mrb);
+#endif
+
     //Create Callback Object
     struct RClass *hotload = mrb_define_class(z->mrb, "HotLoad", z->mrb->object_class);
     mrb_define_method(z->mrb, hotload, "initialize", dummy_initialize, MRB_ARGS_NONE());

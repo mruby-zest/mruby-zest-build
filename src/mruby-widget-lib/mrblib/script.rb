@@ -761,11 +761,11 @@ class ZRunner
     end
 
     def log(message_class, message, src=:unknown)
-        if(message_class == :user_value)
-            puts "[LOG#value] #{message.to_s}"
-        else
-            puts "[LOG#misc]  #{message.to_s}"
-        end
+        #if(message_class == :user_value)
+        #    puts "[LOG#value] #{message.to_s}"
+        #else
+        #    puts "[LOG#misc]  #{message.to_s}"
+        #end
         if(@log_widget)
             @log_widget.display_log(message_class, message.to_s, src)
         end
@@ -808,5 +808,34 @@ end
 module GL
     class PUGL
         attr_accessor :w, :h
+    end
+end
+
+module Kernel
+    def self.disable_kernel_io
+        def print(*args)
+        end
+        def puts(*args)
+        end
+        def printf(*args)
+        end
+        def gets(*args)
+        end
+        def getc(*args)
+        end
+    end
+end
+    
+def disable_kernel_io
+    Kernel.disable_kernel_io
+    def print(*args)
+    end
+    def puts(*args)
+    end
+    def printf(*args)
+    end
+    def gets(*args)
+    end
+    def getc(*args)
     end
 end
