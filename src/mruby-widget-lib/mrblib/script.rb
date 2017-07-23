@@ -796,6 +796,9 @@ class ZRunner
     end
 
     def set_modal(w)
+        if(@modal)
+            ego_death(@modal)
+        end
         @modal = w
     end
 
