@@ -473,6 +473,14 @@ const struct mrb_data_type mrb_fbo_type = {"FBO", mrb_fbo_free};
 static void
 mrb_fbo_free(mrb_state *mrb, void *ptr)
 {
+
+#ifdef WIN32
+    //In windows plugin hosts it's impossible to know if the gl context
+    // is available
+    //This workaround may be needed on other platforms as well
+    return;
+#endif
+
     mrb_assert(mrb && false);
     GLframebuffer *fbo = (GLframebuffer *)ptr;
     glDeleteRenderbuffersEXT(1, &fbo->rbo);
