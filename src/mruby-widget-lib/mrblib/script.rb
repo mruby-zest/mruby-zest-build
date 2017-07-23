@@ -631,9 +631,9 @@ class ZRunner
 
     def tick_events
         handle_events
-        if(@quit_time && @quit_time < Time.new)
-            exit
-        end
+        #if(@quit_time && @quit_time < Time.new)
+        #    exit
+        #end
         nil
     end
 
