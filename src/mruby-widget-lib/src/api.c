@@ -44,8 +44,8 @@ check_error(mrb_state *mrb)
 {
     if(mrb->exc) {
         mrb_print_error(mrb);
-        MessageBox(0, "[FATAL ERROR] Mruby Is Unable To Continue\n", "asdf", 0);
-        MessageBox(0, superhack, "asdf", 0);
+        //MessageBox(0, "[FATAL ERROR] Mruby Is Unable To Continue\n", "asdf", 0);
+        MessageBox(0, superhack, "[FATAL ERROR] mruby-zest (likely zyn-fusion) cannot continue", 0);
         fprintf(stderr, "[FATAL ERROR] Mruby Is Unable To Continue\n");
         exit(1);
     }
