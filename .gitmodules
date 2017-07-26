@@ -39,13 +39,13 @@
 	url = git@fundamental-code.com:mruby-zest
 [submodule "src/mruby-qml-parse"]
 	path = src/mruby-qml-parse
-	url = git@fundamental-code.com:mruby-qml-parse
+	url = https://github.com/mruby-zest/mruby-qml-parse
 [submodule "deps/pugl"]
 	path = deps/pugl
 	url = git@fundamental-code.com:pugl
 [submodule "deps/osc-bridge"]
 	path = src/osc-bridge
-	url = git@fundamental-code.com:osc-bridge.git
+	url = https://github.com/mruby-zest/osc-bridge
 [submodule "deps/mruby-complex"]
 	path = deps/mruby-complex
 	url = https://github.com/pbosetti/mruby-complex
