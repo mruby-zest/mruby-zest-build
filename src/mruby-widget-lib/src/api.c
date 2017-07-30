@@ -223,10 +223,29 @@ zest_scroll(zest_t *z, int x, int y, int dx, int dy)
     check_error(z->mrb);
 }
 
+#ifdef WIN32
+static int vst_dup_hack = 0;
+#endif
+
 EXPORT void 
 zest_key(zest_t *z, const char *key, int press)
 {
-setlocale(LC_NUMERIC, "C");
+    int len = 0;
+    if(key)
+        len = strlen(key);
+    //fprintf(stderr, "   zest_key = <%s>(%d) press=%d\n", key, len, press);
+    setlocale(LC_NUMERIC, "C");
+#ifdef WIN32
+    //Normal event
+    if(press && len == 1) {
+        if(vst_dup_hack == key[0])
+            return;
+        vst_dup_hack = key[0];
+    }
+#endif
+
+
+
     const char *pres_rel = press ? "press" : "release";
     mrb_state *mrb = z->mrb;
     mrb_funcall(z->mrb, z->runner, "key", 2,
@@ -238,7 +257,7 @@ EXPORT void
 zest_special(zest_t *z, int key, int press)
 {
     setlocale(LC_NUMERIC, "C");
-	//fprintf(stderr, "Special key %d %s ", key, press ? "down" : "up");
+	//fprintf(stderr, "   zest_special() key %d %s ", key, press ? "down" : "up");
     const char *pres_rel = press ? "press" : "release";
     const char *type     = NULL;
 #define k(x,y) case PUGL_KEY_##x: type = #y;break
@@ -291,6 +310,9 @@ zest_tick(zest_t *z)
 {
     setlocale(LC_NUMERIC, "C");
     //printf("zest_tick(%p, %p)\n", z->mrb, z->runner);
+#ifdef WIN32
+    vst_dup_hack = 0;
+#endif
     //Check code hotload
     struct RClass *hotload = mrb_define_class(z->mrb,
             "HotLoad", z->mrb->object_class);
