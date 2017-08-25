@@ -132,6 +132,7 @@ scratch:
 
 clean: ## Clean Build Data
 	cd mruby             && MRUBY_CONFIG=../build_config.rb rake clean
+	cd mruby             && rm -rf build/w64
 
 pack:
 	rm -rf package
