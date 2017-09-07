@@ -123,160 +123,6 @@ mrb_demo_mode(mrb_state *mrb, mrb_value self)
  *                                                                             *
  ******************************************************************************/
 static void
-onReshape(PuglView* view, int width, int height)
-{
-    void **v = (void**)puglGetHandle(view);
-    //printf("reshape to %dx%d\n", width, height);
-    if(v) {
-        mrb_value obj = mrb_obj_value(v[1]);
-        mrb_funcall(v[0], obj, "resize", 2, mrb_fixnum_value(width), mrb_fixnum_value(height));
-    }
-#if 0
-	glMatrixMode(GL_PROJECTION);
-	glLoadIdentity();
-	glViewport(0, 0, width, height);
-	gluPerspective(45.0f, width/(float)height, 1.0f, 10.0f);
-
-	glMatrixMode(GL_MODELVIEW);
-	glLoadIdentity();
-#endif
-}
-
-static void
-onDisplay(PuglView* view)
-{
-    void **v = (void**)puglGetHandle(view);
-    if(v) {
-        mrb_value obj = mrb_obj_value(v[1]);
-        mrb_funcall(v[0], obj, "draw", 0);
-    }
-	//puglPostRedisplay(view);
-}
-
-static void
-printModifiers(PuglView* view)
-{
-	int mods = puglGetModifiers(view);
-    (void) mods;
-	fprintf(stderr, "Modifiers:%s%s%s%s\n",
-	        (mods & PUGL_MOD_SHIFT) ? " Shift"   : "",
-	        (mods & PUGL_MOD_CTRL)  ? " Ctrl"    : "",
-	        (mods & PUGL_MOD_ALT)   ? " Alt"     : "",
-	        (mods & PUGL_MOD_SUPER) ? " Super" : "");
-}
-
-static void
-onEvent(PuglView* view, const PuglEvent* event)
-{
-    void **v = (void**)puglGetHandle(view);
-	if(event->type == PUGL_KEY_PRESS ||
-            event->type == PUGL_KEY_RELEASE) {
-        int press = event->type == PUGL_KEY_PRESS;
-        const char *pres_rel = press ? "press" : "release";
-		const uint32_t ucode = event->key.character;
-        (void) ucode;
-		fprintf(stderr, "Key %u (char %u) down (%s)%s\n",
-		        event->key.keycode, ucode, event->key.utf8,
-		        event->key.filter ? " (filtered)" : "");
-        void **v = (void**)puglGetHandle(view);
-        if(v && event->key.utf8[0]) {
-            mrb_state *mrb = v[0];
-            mrb_value obj = mrb_obj_value(v[1]);
-            mrb_funcall(mrb, obj, "key", 2,
-                    mrb_str_new_cstr(mrb, event->key.utf8),
-                    mrb_str_new_cstr(mrb, pres_rel));
-        }
-	}
-
-    if(event->key.keycode == 50) {
-        int press = event->type == PUGL_KEY_PRESS;
-        const char *pres_rel = press ? "press" : "release";
-        mrb_state *mrb = v[0];
-        mrb_value obj = mrb_obj_value(v[1]);
-        mrb_funcall(mrb, obj, "key_mod", 2,
-                mrb_str_new_cstr(mrb, pres_rel),
-                mrb_str_new_cstr(mrb, "shift"));
-    }
-}
-
-static void
-onSpecial(PuglView* view, bool press, PuglKey key)
-{
-	//fprintf(stderr, "Special key %d %s ", key, press ? "down" : "up");
-	//printModifiers(view);
-    void **v = (void**)puglGetHandle(view);
-    if(v) {
-        const char *pres_rel = press ? "press" : "release";
-        const char *type     = NULL;
-        if(key == PUGL_KEY_CTRL)
-            type = "ctrl";
-
-        if(type) {
-            mrb_state *mrb = v[0];
-            mrb_value obj = mrb_obj_value(v[1]);
-            mrb_funcall(mrb, obj, "key_mod", 2,
-                    mrb_str_new_cstr(mrb, pres_rel),
-                    mrb_str_new_cstr(mrb, type));
-        }
-    }
-}
-
-static void
-onMotion(PuglView* view, int x, int y)
-{
-	//fprintf(stderr, "Mouse Move %d %d\n", x, y);
-    void **v = (void**)puglGetHandle(view);
-    if(v) {
-        mrb_value obj = mrb_obj_value(v[1]);
-        mrb_funcall(v[0], obj, "cursor", 2, mrb_fixnum_value(x), mrb_fixnum_value(y));
-    }
-}
-
-static void
-onMouse(PuglView* view, int button, bool press, int x, int y)
-{
-    void **v = (void**)puglGetHandle(view);
-	//fprintf(stderr, "Mouse %d %s at %d,%d ",
-	//        button, press ? "down" : "up", x, y);
-	//printModifiers(view);
-    if(v && button) {
-        mrb_value obj = mrb_obj_value(v[1]);
-        mrb_funcall(v[0], obj, "mouse", 4,
-                mrb_fixnum_value(button),
-                mrb_fixnum_value(press),
-                mrb_fixnum_value(x),
-                mrb_fixnum_value(y));
-    }
-}
-
-static void
-onScroll(PuglView* view, int x, int y, float dx, float dy)
-{
-	//fprintf(stderr, "Scroll %d %d %f %f ", x, y, dx, dy);
-	//printModifiers(view);
-	//dist += dy / 4.0f;
-    void **v = (void**)puglGetHandle(view);
-    if(v) {
-        mrb_value obj = mrb_obj_value(v[1]);
-        mrb_funcall(v[0], obj, "scroll", 4,
-                mrb_fixnum_value(x),
-                mrb_fixnum_value(y),
-                mrb_fixnum_value(dx),
-                mrb_fixnum_value(dy));
-    }
-}
-
-static void
-onClose(PuglView* view)
-{
-    void **v = (void**)puglGetHandle(view);
-    if(v) {
-        mrb_value obj = mrb_obj_value(v[1]);
-        mrb_funcall(v[0], obj, "quit", 0);
-    }
-}
-
-static void
 mrb_pugl_free(mrb_state *mrb, void *ptr)
 {
     //printf("================ FFFFFFFFFFFFFFRRRRRRRREEEEEEEEEEEE\n");
@@ -284,39 +130,11 @@ mrb_pugl_free(mrb_state *mrb, void *ptr)
 
 const struct mrb_data_type mrb_pugl_type = {"PUGL", mrb_pugl_free};
 
-static mrb_value
-mrb_pugl_tick(mrb_state *mrb, mrb_value self)
-{
-    PuglView *view = (PuglView*)mrb_data_get_ptr(mrb, self, &mrb_pugl_type);
-    //puglProcessEvents(view);
-    return self;
-}
-
 
 static mrb_value
 mrb_pugl_initialize(mrb_state *mrb, mrb_value self)
 {
     PuglView *view = 0;
-#if 0
-    view = puglInit(0,0);
-    //puglInitWindowClass(view, "PuglWindow");
-	puglInitWindowSize(view, 1181, 659);
-    puglInitResizable(view, true);
-    puglIgnoreKeyRepeat(view, true);
-
-	puglSetEventFunc(view, onEvent);
-	puglSetMotionFunc(view, onMotion);
-	puglSetMouseFunc(view, onMouse);
-	puglSetScrollFunc(view, onScroll);
-	puglSetSpecialFunc(view, onSpecial);
-	puglSetDisplayFunc(view, onDisplay);
-	puglSetReshapeFunc(view, onReshape);
-	puglSetCloseFunc(view, onClose);
-
-	puglCreateWindow(view, "Zyn The Overdue");
-	puglShowWindow(view);
-    puglProcessEvents(view);
-#endif
 
     mrb_data_init(self, view, &mrb_pugl_type);
     mrb_funcall(mrb, self, "w=", 1, mrb_fixnum_value(1181));
@@ -349,33 +167,6 @@ mrb_pugl_size_set(mrb_state *mrb, mrb_value self)
 }
 
 static mrb_value
-mrb_pugl_make_current(mrb_state *mrb, mrb_value self)
-{
-    PuglView *view = (PuglView*)mrb_data_get_ptr(mrb, self, &mrb_pugl_type);
-    //void puglEnterContext(PuglView* view);
-    //puglEnterContext(view);
-    return self;
-}
-
-static mrb_value
-mrb_pugl_should_close(mrb_state *mrb, mrb_value self)
-{
-    PuglView *view = (PuglView*)mrb_data_get_ptr(mrb, self, &mrb_pugl_type);
-    //void puglEnterContext(PuglView* view);
-    //puglEnterContext(view);
-    return mrb_false_value();
-}
-
-static mrb_value
-mrb_pugl_poll(mrb_state *mrb, mrb_value self)
-{
-    PuglView *view = (PuglView*)mrb_data_get_ptr(mrb, self, &mrb_pugl_type);
-    //puglProcessEvents(view);
-    return mrb_false_value();
-}
-
-
-static mrb_value
 mrb_pugl_impl(mrb_state *mrb, mrb_value self)
 {
     PuglView *view = (PuglView*)mrb_data_get_ptr(mrb, self, &mrb_pugl_type);
@@ -386,23 +177,6 @@ mrb_pugl_impl(mrb_state *mrb, mrb_value self)
     v[1] = mrb_cptr(zrunner);
     //puglSetHandle(view, v);
     return mrb_false_value();
-}
-
-static mrb_value
-mrb_pugl_dummy(mrb_state *mrb, mrb_value self)
-{
-    PuglView *view = (PuglView*)mrb_data_get_ptr(mrb, self, &mrb_pugl_type);
-    //void puglEnterContext(PuglView* view);
-    //puglEnterContext(view);
-    return self;
-}
-
-static mrb_value
-mrb_pugl_refresh(mrb_state *mrb, mrb_value self)
-{
-    PuglView *view = (PuglView*)mrb_data_get_ptr(mrb, self, &mrb_pugl_type);
-	//puglPostRedisplay(view);
-    return self;
 }
 
 /*****************************************************************************
@@ -540,6 +314,12 @@ mrb_fbo_select(mrb_state *mrb, mrb_value self)
     glCheck();
     glBindFramebufferEXT(GL_FRAMEBUFFER_EXT, fbo->fbo);
     glCheck();
+    return self;
+}
+
+static mrb_value
+mrb_fbo_destroy(mrb_state *mrb, mrb_value self)
+{
     return self;
 }
 
@@ -1362,15 +1142,9 @@ mrb_mruby_widget_lib_gem_init(mrb_state* mrb) {
     MRB_SET_INSTANCE_TT(pugl, MRB_TT_DATA);
 
     mrb_define_method(mrb, pugl, "initialize",   mrb_pugl_initialize,   MRB_ARGS_REQ(1));
-    mrb_define_method(mrb, pugl, "make_current", mrb_pugl_make_current, MRB_ARGS_NONE());
-    mrb_define_method(mrb, pugl, "should_close", mrb_pugl_should_close, MRB_ARGS_NONE());
     mrb_define_method(mrb, pugl, "size",         mrb_pugl_size,         MRB_ARGS_NONE());
     mrb_define_method(mrb, pugl, "size=",        mrb_pugl_size_set,     MRB_ARGS_REQ(1));
-    mrb_define_method(mrb, pugl, "title=",       mrb_pugl_dummy,        MRB_ARGS_REQ(1));
-    mrb_define_method(mrb, pugl, "poll",         mrb_pugl_poll,         MRB_ARGS_NONE());
     mrb_define_method(mrb, pugl, "impl=",        mrb_pugl_impl,         MRB_ARGS_REQ(1));
-    mrb_define_method(mrb, pugl, "refresh",      mrb_pugl_refresh,      MRB_ARGS_NONE());
-    mrb_define_method(mrb, pugl, "destroy",       mrb_pugl_dummy,        MRB_ARGS_NONE());
 
     struct RClass *fbo = mrb_define_class_under(mrb, module, "FBO",
             mrb->object_class);
@@ -1379,7 +1153,7 @@ mrb_mruby_widget_lib_gem_init(mrb_state* mrb) {
     mrb_define_method(mrb, fbo, "select",       mrb_fbo_select,       MRB_ARGS_NONE());
     mrb_define_method(mrb, fbo, "deselect",     mrb_fbo_deselect,     MRB_ARGS_NONE());
     mrb_define_method(mrb, fbo, "image",        mrb_fbo_image,        MRB_ARGS_REQ(1));
-    mrb_define_method(mrb, fbo, "destroy",      mrb_pugl_dummy,       MRB_ARGS_NONE());
+    mrb_define_method(mrb, fbo, "destroy",      mrb_fbo_destroy,      MRB_ARGS_NONE());
 
     //Define the remote API
     struct RClass *osc = mrb_define_module(mrb, "OSC");
