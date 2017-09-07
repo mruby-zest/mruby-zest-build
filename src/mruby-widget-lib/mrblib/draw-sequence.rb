@@ -259,13 +259,17 @@ class DrawSequence
     def find_widget(method)
         selected_item  = nil
         selected_layer = 0
+        priority       = 0
         @seq.each do |elm|
             next if elm.layer == 1
             next if selected_layer == 2 && elm.layer != 2
             next if !elm.item.respond_to?(method)
+            epri = elm.item.respond_to?(:priority) ? elm.item.priority : 0
+            next if epri < priority
 
             selected_item  = elm.item
             selected_layer = elm.layer
+            priority       = epri
         end
         selected_item
     end
