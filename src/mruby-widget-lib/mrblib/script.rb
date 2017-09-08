@@ -310,6 +310,18 @@ class ZRunner
         elsif(press == :release && key == :shift)
             @fine_mode = false
         end
+
+        begin
+            aw = nil
+            if @keyboard
+                aw = activeWidget(@keyboard.x, @keyboard.y, :onSpecial)
+            end
+
+            if aw.nil?
+                aw = findWidget(:onSpecial)
+            end
+            aw.onSpecial(key, press) if(aw.respond_to? :onSpecial)
+        end
     end
 
     def key(key, act)
