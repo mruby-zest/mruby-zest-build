@@ -159,7 +159,7 @@ void *setup_pugl(void *zest)
 	puglSetReshapeFunc(view, onReshape);
 	puglSetCloseFunc(view, onClose);
 
-	puglCreateWindow(view, "ZynAddSubFX 3.0");
+	puglCreateWindow(view, "ZynAddSubFX 3.0.3");
 	puglShowWindow(view);
     puglProcessEvents(view);
     puglSetHandle(view, zest);
