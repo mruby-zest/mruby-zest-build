@@ -79,14 +79,14 @@ mrb_gl_debug(mrb_state *mrb, mrb_value self)
 {
     mrb_value val;
     mrb_get_args(mrb, "o", &val);
-return self;
+    //return self;
 
     const char *arg = "ERROR CODE 876-5309";
     if(val.tt == MRB_TT_STRING)
         arg = mrb_string_value_ptr(mrb, val);
     
     fprintf(stderr, "[DEBUG:Zyn-Fusion] \'%s\'\n", arg);
-return self;
+    return self;
 }
 
 static mrb_value
