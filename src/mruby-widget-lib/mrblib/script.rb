@@ -330,6 +330,15 @@ class ZRunner
             aw = activeWidget(@keyboard.x, @keyboard.y, :onKey)
         end
 
+        if(key == "z" && act == "press" && @learn_mode)
+            $remote.action("/undo") 
+        end
+
+        if(key == "r" && act == "press" && @learn_mode)
+            $remote.action("/redo") 
+        end
+
+
         if aw.nil?
             aw = findWidget(:onKey)
         end
