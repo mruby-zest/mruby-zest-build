@@ -1,9 +1,6 @@
 Welcome to the source of the Zyn-Fusion user interface.
 To build you'll want to use the Makefile (setupdep/builddep/make) and the
 ahead-of-time qml compiler 'rebuild-fcache.rb'.
-Parts of this repo may be underdocumented and keep in mind that this source
-cannot (currently) be freely distributed. Parts of the source (src/ directory)
-which have been released can be found at https://github.com/mruby-zest/
 
 Enjoy,
 --Mark McCurry
