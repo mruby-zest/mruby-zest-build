@@ -135,7 +135,7 @@ end
 
 MRuby::Build.new('host-debug') do |conf|
   # load specific toolchain settings
-  toolchain :clang
+  toolchain :gcc
 
   enable_debug
 
