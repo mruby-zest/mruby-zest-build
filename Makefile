@@ -45,11 +45,11 @@ builddepwin:
 	cp deps/$(UV_DIR)/.libs/libuv.a deps/
 
 setup:
-	cd deps              && wget $(UV_URL)
+	cd deps              && wget -4 $(UV_URL)
 	cd deps              && tar xvf $(UV_FILE)
 
 setupwin:
-	cd deps              && wget $(UV_URL)
+	cd deps              && wget -4 $(UV_URL)
 	cd deps              && tar xvf $(UV_FILE)
 
 push:
