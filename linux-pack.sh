@@ -23,7 +23,6 @@ cp      /home/mark/zynaddsubfx/build/src/Plugin/ZynAddSubFX/vst/ZynAddSubFX.so /
 cp      /home/mark/zynaddsubfx/build/src/zynaddsubfx /opt/zyn-fusion/
 cp      ./install-linux.sh /opt/zyn-fusion/
 cp      ./package-README.txt /opt/zyn-fusion/README.txt
-cp      ./zyn-fusion-ELUA.txt /opt/zyn-fusion/
 cp      /home/mark/zynaddsubfx/COPYING /opt/zyn-fusion/COPYING.zynaddsubfx
 cd /opt/
 rm -f zyn-fusion-${ZYN_FUSION_VERSION}.tar zyn-fusion-${ZYN_FUSION_VERSION}.tar.bz2
