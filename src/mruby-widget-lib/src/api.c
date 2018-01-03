@@ -7,7 +7,7 @@
 #define __USE_GNU
 #include <dlfcn.h>
 
-const char *zest_search_path;
+const char *zest_search_path = 0;
 static void
 check_error(mrb_state *mrb);
 

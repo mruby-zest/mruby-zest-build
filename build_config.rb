@@ -1,4 +1,5 @@
 puts "Environment is:"
+puts ENV['OS']
 puts ENV.include? "WINDOWS"
 windows = ENV.include? "WINDOWS"
 RUBY_PLATFORM = "mingw" if ENV.include? "WINDOWS"
@@ -113,8 +114,10 @@ build_type.new(build_name) do |conf|
       linker.flags_after_libraries  << "#{`pwd`.strip}/../deps/pugl/build/libpugl-0.a"
       linker.flags_after_libraries  << "#{`pwd`.strip}/../deps/libnanovg.a"
       if(!windows)
-        linker.libraries << 'GL'
-        linker.libraries << 'X11'
+        if(ENV['OS'] != "Mac")
+          linker.libraries << 'GL'
+          linker.libraries << 'X11'
+        end
         linker.flags_after_libraries  << "-lpthread -ldl"
       else
         linker.flags_after_libraries  << "-lws2_32 -lkernel32 -lpsapi -luserenv -liphlpapi"
