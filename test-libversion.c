@@ -33,6 +33,27 @@ struct zest_handles {
     int do_exit;
 };
 
+#ifdef __APPLE__
+#include <mach/clock.h>
+#include <mach/mach.h>
+#endif
+
+static void monotonic_clock_gettime(struct timespec *ts) {
+#ifdef __APPLE__
+    clock_serv_t cclock;
+    mach_timespec_t mts;
+    host_get_clock_service(mach_host_self(), SYSTEM_CLOCK, &cclock);
+    clock_get_time(cclock, &mts);
+    mach_port_deallocate(mach_task_self(), cclock);
+    ts->tv_sec = mts.tv_sec;
+    ts->tv_nsec = mts.tv_nsec;
+#else
+    clock_gettime(CLOCK_MONOTONIC, ts);
+#endif
+}
+
+
+
 static void
 onEvent(PuglView* view, const PuglEvent* event)
 {
@@ -291,16 +312,16 @@ int main(int argc, char **argv)
     struct timespec before, post_tick, post_draw, post_events;
     float total, tick, draw, events;
     while(!z.do_exit) {
-        clock_gettime(CLOCK_MONOTONIC, &before);
+        monotonic_clock_gettime(&before);
         frame_id++;
         int needs_redraw = 1;
 
         puglProcessEvents(view);
-        clock_gettime(CLOCK_MONOTONIC, &post_events);
+        monotonic_clock_gettime(&post_events);
 
         if(z.zest)
             needs_redraw = z.zest_tick(z.zest);
-        clock_gettime(CLOCK_MONOTONIC, &post_tick);
+        monotonic_clock_gettime(&post_tick);
 
 #define TIME_DIFF(a,b) (b.tv_sec-a.tv_sec + 1e-9 *(b.tv_nsec-a.tv_nsec))
         if(needs_redraw)
@@ -310,7 +331,7 @@ int main(int argc, char **argv)
             if(time > 0)
                 usleep((int)(time*1e6));
         }
-        clock_gettime(CLOCK_MONOTONIC, &post_draw);
+        monotonic_clock_gettime(&post_draw);
 
         if(false) {
             events = TIME_DIFF(before,      post_events);
