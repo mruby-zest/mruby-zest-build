@@ -16,7 +16,7 @@ char *get_search_path(void) {
     dladdr((void*)check_error, &dl_info);
     return strdup(dl_info.dli_fname);
 }
-#define EXPORT
+#define EXPORT __attribute__ ((visibility ("default")))
 #else
 #include <windows.h>
 const char *zest_search_path=0;
