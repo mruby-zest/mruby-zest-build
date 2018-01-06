@@ -334,7 +334,7 @@ class ZRunner
             $remote.action("/undo") 
         end
 
-        if(key == "r" && act == "press" && @learn_mode)
+        if(key == "y" && act == "press" && @learn_mode)
             $remote.action("/redo") 
         end
 
