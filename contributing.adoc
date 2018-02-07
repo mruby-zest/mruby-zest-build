@@ -87,8 +87,34 @@ make run
 This will build the GUI and connect it to the remote zyn (note, you should not
 need to rerun setup/builddep from now on).
 
+Ok, now the GUI is running and it should be connected to a running instance of
+zynaddsubfx. Now what?
+Well, let's do a change and verify that everything is working correctly.
+
+First, open up 'src/mruby-zest/qml/Knob.qml'
+
+This defines a knob and it decends from the valuator base class.
+Let's take a look at the draw() function.
+Within the draw function add 'background color("ffffff")' and then save the
+file.
+If hotloading is working you should see the background behind each one of the
+knobs change to white. If you aren't using hotloading, then closing and running
+"make && make run" should get you to the same spot.
+
+From there, it's possible to probe other parts of the drawing process.
+Comment out the background change with "#" and then let's try changing the
+color of something that is drawn.
+
+Go to the first 'vg.path' section and change the fill_color to
+'color("550000")' and in the next 'vg.path' section change the color to
+'color(:red)'.
+Save the file and you should now see the new drawing changes in the live GUI.
+This is just a quick example, but you should get the idea.
+
+In general theme information is stored over in
+'src/mruby-zest/mrblib/draw-common.rb', but colors can also be defined inline.
+
 If you're working on basic GUI drawing code, then I'd recommend taking a look
 at some quick tutorial on javascripts canvas as that's what the nanovg opengl
 render is based off of (mruby-zest uses nanovg for rendering the full UI with
-vector graphics).
-
+vector graphics). Once you have a feel for it have fun.
