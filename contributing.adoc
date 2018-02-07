@@ -1,0 +1,94 @@
+Contributing To the MRuby-Zest Toolkit (and/or the zyn-fusion GUI)
+==================================================================
+
+
+When working with mruby-zest a number of concepts. Down the road I'll likely
+add in links to the (likely) LAC paper on the framework, but for now here's
+some basic developer level information:
+
+In theory you shouldn't have to mess with anything in deps/ , 
+
+src/mruby-zest
+--------------
+
+'src/mruby-zest' contains all the widget code with 'qml/' containing the
+ base set of widgets and
+'example/' containing widgets specific to Zyn-Fusion.
+
+These widgets use a qml like formatting, but use ruby code to define drawing
+routines, event handling, etc.
+When working with these widgets you're likely going to want to enable code
+hotloading. Code hotloading makes the GUI reload any changed widget and update
+the running GUI without restarting. Saving a file with errors may result in the
+running GUI crashing, but that's not a major issue as the GUI is out-of-process
+compared to the synthesis backend.
+
+To enable code hotloading, two major flags need to be toggled:
+'src/mruby-widget-lib/api.c' should normally say:
+
+--------------------------------------------------------------------------------
+mrb_funcall(z->mrb, z->runner, "hotload=", 1, mrb_false_value());
+--------------------------------------------------------------------------------
+
+Just change the false argument to 'mrb_true_value()'.
+
+In 'src/mruby-qml-spawn/mrblib/build.rb' change 'workaround=true' to
+'workaround=false'.
+
+Then rebuild the GUI. This will slowdown the GUI's execution somewhat as the
+GUI will occasionally probe widget .qml files to see if they need to be
+reloaded.
+
+
+src/mruby-widget-lib
+--------------------
+
+Basically if it's not a widget, but something that the toolkit needs to manage,
+e.g. draw order it's handled in this module. You'll likely not have to mess
+with this module much.
+
+src/osc-bridge
+--------------
+
+This is the module that handles all communications with external processes via
+OSC. This code is reasonably complete, but it also handles the OSC schema which
+specifies a lot of information from the zynaddsubfx core (without needing to
+ask about it over UDP/OSC). Once in a while 'src/osc-bridge/schema/test.json'
+will need to be updated, but that only needs to be done if the rtosc based
+dispatch tree is getting modified (subject for later details)
+
+
+Running the app
+---------------
+
+NOTE:: I'm assuming that you have setup widget hotloading if you're working
+ with the widget level first.
+
+In one terminal start a zyn instance without a GUI bound to it with a known UDP
+port:
+
+--------------------------------------------------------------------------------
+zynaddsubfx -U -P 1337
+--------------------------------------------------------------------------------
+
+Add -I null -O null if you're using your sound device for other stuff during
+dev (e.g. listening to some music).
+
+
+Then from the mruby-zest-build repo:
+
+--------------------------------------------------------------------------------
+make setup
+make builddep
+make
+make run
+--------------------------------------------------------------------------------
+
+This will build the GUI and connect it to the remote zyn (note, you should not
+need to rerun setup/builddep from now on).
+
+If you're working on basic GUI drawing code, then I'd recommend taking a look
+at some quick tutorial on javascripts canvas as that's what the nanovg opengl
+render is based off of (mruby-zest uses nanovg for rendering the full UI with
+vector graphics).
+
