@@ -1,7 +1,7 @@
 #include "mruby.h"
 #include <stdlib.h>
 #include <string.h>
-#include "../../../deps/pugl/pugl/common.h"
+#include "../../../deps/pugl/pugl/pugl.h"
 #include <locale.h>
 #ifndef WIN32
 #define __USE_GNU
@@ -284,7 +284,7 @@ zest_special(zest_t *z, int key, int press)
                 mrb_str_new_cstr(z->mrb, pres_rel),
                 mrb_str_new_cstr(z->mrb, type));
     } else {
-        printf("[INFO] Unknown special key(%d)...\n", key);
+        printf("[INFO] Unknown special key(%x)...\n", key);
     }
 }
 

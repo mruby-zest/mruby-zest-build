@@ -8,6 +8,7 @@ all:
 	cd deps/nanovg/src   && $(CC) nanovg.c -c -fPIC
 	$(AR) rc deps/libnanovg.a deps/nanovg/src/*.o
 	cd deps/pugl         && ./waf configure --no-cairo --static
+#	cd deps/pugl         && ./waf configure --no-cairo --static --debug
 	cd deps/pugl         && ./waf
 	cd src/osc-bridge    && CFLAGS="-I ../../deps/libuv-v1.9.1/include " make lib
 	cd mruby             && MRUBY_CONFIG=../build_config.rb rake

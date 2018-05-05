@@ -53,32 +53,6 @@ static void monotonic_clock_gettime(struct timespec *ts) {
 }
 
 
-
-static void
-onEvent(PuglView* view, const PuglEvent* event)
-{
-    struct zest_handles *z = puglGetHandle(view);
-    if(!z || !z->zest)
-        return;
-
-    if((event->type == PUGL_KEY_PRESS ||
-            event->type == PUGL_KEY_RELEASE) &&
-            event->key.utf8[0]) {
-        z->zest_key(z->zest, (char*)event->key.utf8,
-                event->type == PUGL_KEY_PRESS);
-    }
-    //if(event->key.keycode == 50) {
-    //    int press = event->type == PUGL_KEY_PRESS;
-    //    const char *pres_rel = press ? "press" : "release";
-    //    mrb_state *mrb = v[0];
-    //    mrb_value obj = mrb_obj_value(v[1]);
-    //    mrb_funcall(mrb, obj, "key_mod", 2,
-    //            mrb_str_new_cstr(mrb, pres_rel),
-    //            mrb_str_new_cstr(mrb, "shift"));
-    //}
-
-}
-
 static void
 onSpecial(PuglView* view, bool press, PuglKey key)
 {
@@ -163,27 +137,95 @@ onDisplay(PuglView* view)
     z->zest_draw(z->zest);
 }
 
+static void
+onUtf8KeyEvent(PuglView* view, char* utf8, bool press)
+{
+    struct zest_handles *z = puglGetHandle(view);
+    z->zest_key(z->zest, utf8, press);
+}
+
+static void
+onEvent(PuglView* view, const PuglEvent* event)
+{
+    switch(event->type)
+    {
+        case PUGL_NOTHING: break;
+        case PUGL_BUTTON_PRESS:
+        case PUGL_BUTTON_RELEASE:
+        {
+            const PuglEventButton* button = &event->button;
+            onMouse(view, button->button, button->type == PUGL_BUTTON_PRESS,
+                    button->x, button->y);
+            break;
+        }
+        case PUGL_CONFIGURE:
+        {
+            const PuglEventConfigure* configure = &event->configure;
+            onReshape(view, configure->width, configure->height);
+            break;
+        }
+        case PUGL_EXPOSE:
+            onDisplay(view);
+            break;
+        case PUGL_CLOSE:
+            onClose(view);
+            break;
+        case PUGL_KEY_PRESS:
+        case PUGL_KEY_RELEASE:
+        {
+            const PuglEventKey* key = &event->key;
+            if(key->utf8[0])
+                onUtf8KeyEvent(view, (char*)key->utf8,
+                               event->type == PUGL_KEY_PRESS);
+            if(key->special)
+                onSpecial(view, event->type == PUGL_KEY_PRESS, key->special);
+            break;
+        }
+        case PUGL_ENTER_NOTIFY: break;   /* Pointer entered view */
+        case PUGL_LEAVE_NOTIFY: break;   /* Pointer left view */
+        case PUGL_MOTION_NOTIFY:
+        {
+            const PuglEventMotion* motion = &event->motion;
+            onMotion(view, motion->x, motion->y);
+            break;
+        }
+        case PUGL_SCROLL:
+        {
+            const PuglEventScroll* scroll = &event->scroll;
+            onScroll(view, scroll->x, scroll->y, scroll->dx, scroll->dy);
+            break;
+        }
+        case PUGL_FOCUS_IN: break;       /* Keyboard focus entered view */
+        case PUGL_FOCUS_OUT: break;      /* Keyboard focus left view */
+    }
+
+    //if(event->key.keycode == 50) {
+    //    int press = event->type == PUGL_KEY_PRESS;
+    //    const char *pres_rel = press ? "press" : "release";
+    //    mrb_state *mrb = v[0];
+    //    mrb_value obj = mrb_obj_value(v[1]);
+    //    mrb_funcall(mrb, obj, "key_mod", 2,
+    //            mrb_str_new_cstr(mrb, pres_rel),
+    //            mrb_str_new_cstr(mrb, "shift"));
+    //}
+
+}
+
+
 void *setup_pugl(void *zest)
 {
-    void *view = puglInit(0,0);
+    PuglView *view = puglInit(0,0);
+    puglSetHandle(view, zest);
     //puglInitWindowClass(view, "PuglWindow");
-	puglInitWindowSize(view, 1181, 659);
+    puglInitWindowSize(view, 1181, 659);
     puglInitResizable(view, true);
     puglIgnoreKeyRepeat(view, true);
 
-	puglSetEventFunc(view, onEvent);
-	puglSetMotionFunc(view, onMotion);
-	puglSetMouseFunc(view, onMouse);
-	puglSetScrollFunc(view, onScroll);
-	puglSetSpecialFunc(view, onSpecial);
-	puglSetDisplayFunc(view, onDisplay);
-	puglSetReshapeFunc(view, onReshape);
-	puglSetCloseFunc(view, onClose);
+    puglSetEventFunc(view, onEvent);
 
-	puglCreateWindow(view, "ZynAddSubFX 3.0.3");
-	puglShowWindow(view);
+    puglCreateWindow(view, "ZynAddSubFX 3.0.3");
+    puglShowWindow(view);
     puglProcessEvents(view);
-    puglSetHandle(view, zest);
     return view;
 }
 
