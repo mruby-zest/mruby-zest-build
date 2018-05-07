@@ -1,3 +1,4 @@
+#include <assert.h>
 #include <stdio.h>
 #include <pthread.h>
 #include <unistd.h>
@@ -29,8 +30,14 @@ struct zest_handles {
     int  (*zest_tick)(zest_t*);
     int  (*zest_exit)(zest_t*);
     void (*zest_set_option)(zest_t*, const char *key, const char *value);
+
     zest_t *zest;
     int do_exit;
+
+    // drag and drop variables if zest is the target
+    int dnd_target_best_slot;          //!< ID of the offered types
+    int dnd_target_best_mimetype;      //!< mimetype in the best slot
+    int dnd_target_dropping_currently; //!< set while the drop callbacks are called
 };
 
 #ifdef __APPLE__
@@ -144,6 +151,7 @@ onUtf8KeyEvent(PuglView* view, char* utf8, bool press)
     z->zest_key(z->zest, utf8, press);
 }
 
+// convert pugl-new-style event structs to pugl-old-style event callbacks
 static void
 onEvent(PuglView* view, const PuglEvent* event)
 {
@@ -211,6 +219,255 @@ onEvent(PuglView* view, const PuglEvent* event)
 
 }
 
+/*
+ * Drag and Drop functionality
+ */
+
+// what we can send:
+enum {
+    application_x_osc_stringpair,
+    /* insert more here and keep in sync with send_mime_names! */
+    send_mime_count
+};
+
+char *send_mime_names[send_mime_count] = {
+    "application/x-lmms-stringpair" // TODO: rename to x-osc-stringpair later
+    /* insert more here and keep in sync with above enum! */
+};
+
+// what we can receive:
+enum {
+    // mozilla [1] recommends to prefer the most specific mimetype
+    // => the larger the number, the better
+    // [1] https://developer.mozilla.org/en-US/docs/Web/API/HTML_Drag_and_Drop_API/Recommended_drag_types
+    text_plain,
+    text_uri_list,
+    // text_x_moz_url, /* unsupported, as it seems to use wide characters */
+    /* insert more here and keep in sync with recv_mime_names! */
+    recv_mime_count
+};
+
+char *recv_mime_names[recv_mime_count] = {
+    "text/plain",
+    "text/uri-list",
+    // "text/x-moz-url"
+    /* insert more here and keep in sync with above enum! */
+};
+
+static PuglDndAction
+onDndSourceAction(PuglView* view, int rootx, int rooty)
+{
+    (void)view; (void)rootx; (void)rooty;
+    // currently, if pugl is the dnd source, we only support
+    // linking knobs with DAW automation
+    return PuglDndActionLink;
+}
+
+static int
+onDndSourceDrag(PuglView* view, int x, int y)
+{
+    (void)view;
+    // XXX: use x, y to find out which parameter has been dragged
+    //      and then store that path in "view"
+    return 1; /* always allow drag */
+}
+
+static void
+onDndSourceFinished(PuglView* view, int accepted)
+{
+    (void)view; (void)accepted;
+}
+
+static PuglKey
+onDndSourceKey(PuglView* view)
+{
+    (void)view;
+    return PUGL_KEY_F1;
+}
+
+static const char*
+onDndSourceOfferType(PuglView* view, int rootx, int rooty, int slot)
+{
+    (void)view; (void)rootx; (void)rooty;
+    // provide application/x-osc-stringpair in slot 0
+    // if we will offer other mimetypes to drag, add them here
+    // note that using more than 3 slots (e.g. using slot 3) requires
+    // implementation in pugl_x11.c
+    return slot ? NULL : send_mime_names[application_x_osc_stringpair];
+}
+
+static int
+onDndSourceProvideData(PuglView* view, int slot, int size, char* buffer)
+{
+    (void)view;
+    assert(!slot);
+    // XXX: automatable_model:/path/to/osc.... types...
+    const char* offered_property = "automatable_model:1";
+    int len = 1 + strlen(offered_property);
+    assert(len <= size);
+    strcpy(buffer, offered_property);
+    return len;
+}
+
+// also used as a cleanup-function:
+static void
+onDndTargetLeave(PuglView* view)
+{
+    struct zest_handles *z = puglGetHandle(view);
+    z->dnd_target_best_slot = -1;
+    z->dnd_target_best_mimetype = -1;
+    z->dnd_target_dropping_currently = 0;
+}
+
+static int
+onDndTargetAcceptDrop(PuglView* view)
+{
+    const struct zest_handles *z = puglGetHandle(view);
+    if(z->dnd_target_best_slot == -1)
+        return 0;
+    else
+    {
+        onDndTargetLeave(view); // reset for next time
+        return 1;
+    }
+}
+
+static int
+onDndTargetChooseTypesToLookup(PuglView* view)
+{
+    const struct zest_handles *z = puglGetHandle(view);
+    if(z->dnd_target_dropping_currently)
+    {
+        int slot = z->dnd_target_best_slot;
+        if(slot == -1)
+            return 0;
+        else
+            return 1 << slot;
+    }
+    else
+        return 0;
+}
+
+static void
+onDndTargetDrop(PuglView* view)
+{
+    struct zest_handles *z = puglGetHandle(view);
+    // drop is initiated
+    z->dnd_target_dropping_currently = 1;
+}
+
+static int
+onDndTargetInformPosition(PuglView* view, int x, int y, PuglDndAction a)
+{
+    // files can be dropped everywhere:
+    (void)x; (void)y;
+    // file dropping means:
+    if(a == PuglDndActionCopy)
+        return 1;
+    else {
+        onDndTargetLeave(view); // reset
+        return 0;
+    }
+}
+
+static void
+onDndTargetOfferType(PuglView* view, int slot, const char* mimetype)
+{
+    struct zest_handles *z = puglGetHandle(view);
+
+    // mozilla recommends to pick the most specific type,
+    // i.e. the highest enum
+    for(int i = 1 + z->dnd_target_best_mimetype; i < recv_mime_count; ++i)
+    if(!strcmp(recv_mime_names[i], mimetype))
+    {
+        z->dnd_target_best_slot = slot;
+        z->dnd_target_best_mimetype = i;
+    }
+}
+
+// get next line which is not empty and not starting with #
+static const char*
+next_in_urilist(const char* start)
+{
+    while(start && *start && *start == '#')
+    {
+        start = strchr(start, '\n');
+        if(start) ++start;
+    }
+    return (start && *start && *start != '\n' && *start != '\r') ? start : NULL;
+}
+
+// translate uri in-place into filename
+void uri_to_filename(char* filename)
+{
+    const char* read = filename + (!strncmp(filename, "file://", 7) ? 7 : 0);
+    char* write = filename;
+    while(*read)
+    {
+        switch(*read)
+        {
+            case '%':
+            {
+                int i=0, skipped=0;
+                sscanf(++read, "%x%n", &i, &skipped);
+                read += skipped;
+                if(i>255) i = 0; // be safe
+                *write++ = (char)i;
+                break;
+            }
+            case '\n':
+            case '\r': *write++ = 0; ++read; break;
+            default: *write++ = *read; ++read; break;
+        }
+    }
+}
+
+static void
+onDndTargetReceiveData(PuglView* view, int slot, int size, const char* property)
+{
+    (void)slot;
+
+    int uris_counted = 0;
+    const char* uri1 = next_in_urilist(property);
+    const char* uri1_end;
+
+    if(uri1)
+    {
+        uris_counted = 1;
+        uri1_end = uri1;
+        for(; *uri1_end && *uri1_end != '\n'; ++uri1_end) ;
+
+        if(*uri1_end)
+        {
+            const char* uri2 = next_in_urilist(uri1_end + 1);
+            if(uri2)
+                uris_counted = 2;
+        }
+    }
+
+    if(1 == uris_counted)
+    {
+        char filename[size];
+        {
+            // copy to no-const buffer
+            int i;
+            for(i = 0; uri1[i] && uri1[i] != '\n'; ++i) filename[i] = uri1[i];
+            filename[i] = 0;
+        }
+        uri_to_filename(filename);
+
+        if(0 == access(filename, R_OK))
+        {
+            printf("(would load file \"%s\" now)\n", filename);
+            // XXX: ask MiddleWare to load this file if it's xmz or xiz
+        }
+        else
+            fprintf(stderr, "Unable to read file \"%s\"\n", filename);
+    }
+    else
+        fprintf(stderr, "Unable to load %d files at once\n", uris_counted);
+}
+
 
 void *setup_pugl(void *zest)
 {
@@ -222,6 +479,20 @@ void *setup_pugl(void *zest)
     puglIgnoreKeyRepeat(view, true);
 
     puglSetEventFunc(view, onEvent);
+    puglSetDndSourceActionFunc(view, onDndSourceAction);
+    puglSetDndSourceDragFunc(view, onDndSourceDrag);
+    puglSetDndSourceFinishedFunc(view, onDndSourceFinished);
+    puglSetDndSourceKeyFunc(view, onDndSourceKey);
+    puglSetDndSourceOfferTypeFunc(view, onDndSourceOfferType);
+    puglSetDndSourceProvideDataFunc(view, onDndSourceProvideData);
+    puglSetDndTargetAcceptDropFunc(view, onDndTargetAcceptDrop);
+    puglSetDndTargetChooseTypesToLookupFunc(view,
+					    onDndTargetChooseTypesToLookup);
+    puglSetDndTargetDropFunc(view, onDndTargetDrop);
+    puglSetDndTargetInformPositionFunc(view, onDndTargetInformPosition);
+    puglSetDndTargetLeaveFunc(view, onDndTargetLeave);
+    puglSetDndTargetOfferTypeFunc(view, onDndTargetOfferType);
+    puglSetDndTargetReceiveDataFunc(view, onDndTargetReceiveData);
 
     puglCreateWindow(view, "ZynAddSubFX 3.0.3");
     puglShowWindow(view);
@@ -329,6 +600,9 @@ int main(int argc, char **argv)
     get(set_option);
 
     z.do_exit       = 0;
+    z.dnd_target_dropping_currently = 0;
+    z.dnd_target_best_slot = -1;
+    z.dnd_target_best_mimetype = -1;
 
 #define check(x) if(!z.zest_##x) {printf("z.zest_" #x " = %p\n", z.zest_##x);}
     check(open);
