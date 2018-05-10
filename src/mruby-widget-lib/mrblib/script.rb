@@ -364,6 +364,15 @@ class ZRunner
         @events.record([:mouseScroll,   {:x => x, :y => y, :dx => dx, :dy => dy}])
     end
 
+    def dnd_pick
+        aw = activeWidget
+        if(aw.respond_to(:extern))
+            return aw.extern
+        else
+            return ""
+        end
+    end
+
     def load_event_seq
         @events.reload File.open("/tmp/zest-event-log.txt", "r")
     end
