@@ -31,6 +31,9 @@ struct zest_handles {
     int  (*zest_exit)(zest_t*);
     void (*zest_set_option)(zest_t*, const char *key, const char *value);
 
+    void (*zest_dnd_drop)(zest_t*, const char*);
+    const char* (*zest_dnd_pick)(zest_t*);
+
     zest_t *zest;
     int do_exit;
 
@@ -38,6 +41,8 @@ struct zest_handles {
     int dnd_target_best_slot;          //!< ID of the offered types
     int dnd_target_best_mimetype;      //!< mimetype in the best slot
     int dnd_target_dropping_currently; //!< set while the drop callbacks are called
+
+    char dnd_source_widget_path[1024]; //!< OSC path of dragged widget
 };
 
 #ifdef __APPLE__
@@ -266,10 +271,18 @@ onDndSourceAction(PuglView* view, int rootx, int rooty)
 static int
 onDndSourceDrag(PuglView* view, int x, int y)
 {
-    (void)view;
-    // XXX: use x, y to find out which parameter has been dragged
-    //      and then store that path in "view"
-    return 1; /* always allow drag */
+    struct zest_handles *z = puglGetHandle(view);
+    if(!z || !z->zest)
+        return 0;
+    const char* widget_path = z->zest_dnd_pick(z->zest);
+    if(widget_path && *widget_path) {
+        *z->dnd_source_widget_path = 0;
+        strncat(z->dnd_source_widget_path, widget_path,
+                sizeof(z->dnd_source_widget_path)-1);
+        return 1;
+    }
+    else
+        return 0; /* forbid drag */
 }
 
 static void
@@ -299,10 +312,19 @@ onDndSourceOfferType(PuglView* view, int rootx, int rooty, int slot)
 static int
 onDndSourceProvideData(PuglView* view, int slot, int size, char* buffer)
 {
-    (void)view;
     assert(!slot);
-    // XXX: automatable_model:/path/to/osc.... types...
-    const char* offered_property = "automatable_model:1";
+    struct zest_handles *z = puglGetHandle(view);
+    if(!z || !z->zest)
+        return 0;
+    z->dnd_source_widget_path;
+
+    size_t sz = 1024;
+    char offered_property[sz];
+    *offered_property = 0;
+    strncat(offered_property, "automatable_model:", sz-1);
+    strncat(offered_property, z->dnd_source_widget_path,
+            sz-1-strlen(offered_property));
+
     int len = 1 + strlen(offered_property);
     assert(len <= size);
     strcpy(buffer, offered_property);
@@ -458,8 +480,10 @@ onDndTargetReceiveData(PuglView* view, int slot, int size, const char* property)
 
         if(0 == access(filename, R_OK))
         {
-            printf("(would load file \"%s\" now)\n", filename);
-            // XXX: ask MiddleWare to load this file if it's xmz or xiz
+            struct zest_handles *z = puglGetHandle(view);
+            if(!z || !z->zest)
+                return;
+            z->zest_dnd_drop(z->zest, filename);
         }
         else
             fprintf(stderr, "Unable to read file \"%s\"\n", filename);
@@ -598,11 +622,14 @@ int main(int argc, char **argv)
     get(resize);
     get(exit);
     get(set_option);
+    get(dnd_drop);
+    get(dnd_pick);
 
     z.do_exit       = 0;
     z.dnd_target_dropping_currently = 0;
     z.dnd_target_best_slot = -1;
     z.dnd_target_best_mimetype = -1;
+    *z.dnd_source_widget_path = 0;
 
 #define check(x) if(!z.zest_##x) {printf("z.zest_" #x " = %p\n", z.zest_##x);}
     check(open);
@@ -618,6 +645,8 @@ int main(int argc, char **argv)
     check(resize);
     check(exit);
     check(set_option);
+    check(dnd_drop);
+    check(dnd_pick);
 
     printf("[INFO:Zyn] setup_pugl()\n");
     void *view = setup_pugl(&z);

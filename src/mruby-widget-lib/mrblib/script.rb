@@ -624,6 +624,30 @@ class ZRunner
         @window.get_refresh
     end
 
+    def dnd_drop(data)
+        # for now, we only support dropping files
+        filetype = nil;
+
+        # filetype "osc" currently not supported, as the OSC file loader
+        # is not safe against buffer overflow attacks
+        ["xmz", "xiz", "xlz", "xsz", "scl", "kbm", "xpz"].each do |i|
+            if data.end_with?i then
+                filetype = i;
+                break;
+            end
+        end
+
+        if filetype then
+            # puts("attempting to load " + filetype + "-file " + data + " ...")
+            if filetype == "xpz" then
+                log(:warning, "Filetype \"" + filetype + "\" not supported yet")
+            else
+                # not sure which of them will work...
+                $remote.action("/load_" + filetype, data)
+            end
+        end
+    end
+
     def tick_remote
         $remote.tick
         last = $remote.last_up_time
