@@ -364,6 +364,39 @@ class ZRunner
         @events.record([:mouseScroll,   {:x => x, :y => y, :dx => dx, :dy => dy}])
     end
 
+    def dnd_drop(data)
+        # for now, we only support dropping files
+        filetype = nil;
+
+        # filetype "osc" currently not supported, as the OSC file loader
+        # is not safe against buffer overflow attacks
+        ["xmz", "xiz", "xlz", "xsz", "scl", "kbm", "xpz"].each do |i|
+            if data.end_with?i then
+                filetype = i;
+                break;
+            end
+        end
+
+        if filetype then
+            # puts("attempting to load " + filetype + "-file " + data + " ...")
+            if filetype == "xpz" then
+                log(:warning, "Filetype \"" + filetype + "\" not supported yet")
+            else
+                # not sure which of them will work...
+                $remote.action("/load_" + filetype, data)
+            end
+        end
+    end
+
+    def dnd_pick
+        aw = activeWidget
+        if(aw.respond_to?(:extern))
+            return aw.extern
+        else
+            return ""
+        end
+    end
+
     def load_event_seq
         @events.reload File.open("/tmp/zest-event-log.txt", "r")
     end
@@ -622,30 +655,6 @@ class ZRunner
 
     def check_redraw
         @window.get_refresh
-    end
-
-    def dnd_drop(data)
-        # for now, we only support dropping files
-        filetype = nil;
-
-        # filetype "osc" currently not supported, as the OSC file loader
-        # is not safe against buffer overflow attacks
-        ["xmz", "xiz", "xlz", "xsz", "scl", "kbm", "xpz"].each do |i|
-            if data.end_with?i then
-                filetype = i;
-                break;
-            end
-        end
-
-        if filetype then
-            # puts("attempting to load " + filetype + "-file " + data + " ...")
-            if filetype == "xpz" then
-                log(:warning, "Filetype \"" + filetype + "\" not supported yet")
-            else
-                # not sure which of them will work...
-                $remote.action("/load_" + filetype, data)
-            end
-        end
     end
 
     def tick_remote

@@ -42,7 +42,7 @@ struct zest_handles {
     int dnd_target_best_mimetype;      //!< mimetype in the best slot
     int dnd_target_dropping_currently; //!< set while the drop callbacks are called
 
-    char dnd_source_widget_path[1024]; //!< OSC path of dragged widget
+    char dnd_source_widget_path[1024]; //!< OSC path of dragged widget, or ""
 };
 
 #ifdef __APPLE__

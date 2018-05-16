@@ -1,4 +1,5 @@
 #include "mruby.h"
+#include "mruby/string.h"
 #include <stdlib.h>
 #include <string.h>
 #include "../../../deps/pugl/pugl/pugl.h"
@@ -365,12 +366,11 @@ zest_dnd_drop(zest_t *z, const char *data)
 }
 
 EXPORT const char*
-zest_dnd_pick(zest_t *z, const char *data)
+zest_dnd_pick(zest_t *z)
 {
-/*    mrb_state *mrb = z->mrb;
+    mrb_state *mrb = z->mrb;
     mrb_value out = mrb_funcall(z->mrb, z->runner, "dnd_pick", 0);
     check_error(z->mrb);
-    return mrb_string_value_ptr(mrb, out);*/
-    return NULL;
+    return mrb_string_value_ptr(mrb, out);
 }
 
