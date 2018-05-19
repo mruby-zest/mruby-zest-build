@@ -1,7 +1,8 @@
 #include "mruby.h"
+#include "mruby/string.h"
 #include <stdlib.h>
 #include <string.h>
-#include "../../../deps/pugl/pugl/common.h"
+#include "../../../deps/pugl/pugl/pugl.h"
 #include <locale.h>
 #ifndef WIN32
 #define __USE_GNU
@@ -284,7 +285,7 @@ zest_special(zest_t *z, int key, int press)
                 mrb_str_new_cstr(z->mrb, pres_rel),
                 mrb_str_new_cstr(z->mrb, type));
     } else {
-        printf("[INFO] Unknown special key(%d)...\n", key);
+        printf("[INFO] Unknown special key(%x)...\n", key);
     }
 }
 
@@ -354,3 +355,22 @@ zest_exit(zest_t *z)
         return 0;
     return 1;
 }
+
+EXPORT void
+zest_dnd_drop(zest_t *z, const char *data)
+{
+    mrb_state *mrb = z->mrb;
+    mrb_funcall(z->mrb, z->runner, "dnd_drop", 1,
+                mrb_str_new_cstr(mrb, data));
+    check_error(z->mrb);
+}
+
+EXPORT const char*
+zest_dnd_pick(zest_t *z)
+{
+    mrb_state *mrb = z->mrb;
+    mrb_value out = mrb_funcall(z->mrb, z->runner, "dnd_pick", 0);
+    check_error(z->mrb);
+    return mrb_string_value_ptr(mrb, out);
+}
+
