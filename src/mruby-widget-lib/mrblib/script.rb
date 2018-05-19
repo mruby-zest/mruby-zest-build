@@ -378,7 +378,7 @@ class ZRunner
         end
 
         if filetype then
-            # puts("attempting to load " + filetype + "-file " + data + " ...")
+            puts("attempting to load " + filetype + "-file " + data + " ...")
             if filetype == "xpz" then
                 log(:warning, "Filetype \"" + filetype + "\" not supported yet")
             else

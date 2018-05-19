@@ -40,7 +40,8 @@ struct zest_handles {
     // drag and drop variables if zest is the target
     int dnd_target_best_slot;          //!< ID of the offered types
     int dnd_target_best_mimetype;      //!< mimetype in the best slot
-    int dnd_target_dropping_currently; //!< set while the drop callbacks are called
+    PuglDndSourceStatus dnd_source_status;
+    PuglDndTargetStatus dnd_target_status;
 
     char dnd_source_widget_path[1024]; //!< OSC path of dragged widget, or ""
 };
@@ -92,7 +93,10 @@ onMouse(PuglView* view, int button, bool press, int x, int y)
     if(!z || !z->zest)
         return;
 
-    z->zest_mouse(z->zest, button, press, x, y);
+    if(z->dnd_source_status == PuglNotDndSource &&
+       z->dnd_target_status == PuglNotDndTarget) {
+        z->zest_mouse(z->zest, button, press, x, y);
+    }
 }
 
 static void
@@ -259,6 +263,24 @@ char *recv_mime_names[recv_mime_count] = {
     /* insert more here and keep in sync with above enum! */
 };
 
+static void
+onDndSourceStatus(PuglView* view, PuglDndSourceStatus status) {
+//  printf("source status: %d\n", (int)status);
+    struct zest_handles *z = puglGetHandle(view);
+    if(!z || !z->zest)
+        return;
+    z->dnd_source_status = status;
+}
+
+static void
+onDndTargetStatus(PuglView* view, PuglDndTargetStatus status) {
+//  printf("target status: %d\n", (int)status);
+    struct zest_handles *z = puglGetHandle(view);
+    if(!z || !z->zest)
+        return;
+    z->dnd_target_status = status;
+}
+
 static PuglDndAction
 onDndSourceAction(PuglView* view, int rootx, int rooty)
 {
@@ -336,15 +358,18 @@ static void
 onDndTargetLeave(PuglView* view)
 {
     struct zest_handles *z = puglGetHandle(view);
+    if(!z || !z->zest)
+        return;
     z->dnd_target_best_slot = -1;
     z->dnd_target_best_mimetype = -1;
-    z->dnd_target_dropping_currently = 0;
 }
 
 static int
 onDndTargetAcceptDrop(PuglView* view)
 {
     const struct zest_handles *z = puglGetHandle(view);
+    if(!z || !z->zest)
+        return 0;
     if(z->dnd_target_best_slot == -1)
         return 0;
     else
@@ -358,7 +383,12 @@ static int
 onDndTargetChooseTypesToLookup(PuglView* view)
 {
     const struct zest_handles *z = puglGetHandle(view);
-    if(z->dnd_target_dropping_currently)
+    if(!z || !z->zest)
+        return 0;
+
+    // this function is being called both when the pointer position changes and
+    // during the drop; we only need to request data in the second case
+    if(z->dnd_target_status == PuglDndTargetDropped)
     {
         int slot = z->dnd_target_best_slot;
         if(slot == -1)
@@ -373,9 +403,7 @@ onDndTargetChooseTypesToLookup(PuglView* view)
 static void
 onDndTargetDrop(PuglView* view)
 {
-    struct zest_handles *z = puglGetHandle(view);
-    // drop is initiated
-    z->dnd_target_dropping_currently = 1;
+    (void)view;
 }
 
 static int
@@ -396,6 +424,8 @@ static void
 onDndTargetOfferType(PuglView* view, int slot, const char* mimetype)
 {
     struct zest_handles *z = puglGetHandle(view);
+    if(!z || !z->zest)
+        return;
 
     // mozilla recommends to pick the most specific type,
     // i.e. the highest enum
@@ -503,12 +533,14 @@ void *setup_pugl(void *zest)
     puglIgnoreKeyRepeat(view, true);
 
     puglSetEventFunc(view, onEvent);
+    puglSetDndSourceStatusFunc(view, onDndSourceStatus);
     puglSetDndSourceActionFunc(view, onDndSourceAction);
     puglSetDndSourceDragFunc(view, onDndSourceDrag);
     puglSetDndSourceFinishedFunc(view, onDndSourceFinished);
     puglSetDndSourceKeyFunc(view, onDndSourceKey);
     puglSetDndSourceOfferTypeFunc(view, onDndSourceOfferType);
     puglSetDndSourceProvideDataFunc(view, onDndSourceProvideData);
+    puglSetDndTargetStatusFunc(view, onDndTargetStatus);
     puglSetDndTargetAcceptDropFunc(view, onDndTargetAcceptDrop);
     puglSetDndTargetChooseTypesToLookupFunc(view,
 					    onDndTargetChooseTypesToLookup);
@@ -626,7 +658,6 @@ int main(int argc, char **argv)
     get(dnd_pick);
 
     z.do_exit       = 0;
-    z.dnd_target_dropping_currently = 0;
     z.dnd_target_best_slot = -1;
     z.dnd_target_best_mimetype = -1;
     *z.dnd_source_widget_path = 0;

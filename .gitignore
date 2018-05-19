@@ -13,3 +13,5 @@ zest-dist.tar.bz2
 zest-temporary.mod
 zest-w.txt
 zynaddsubfx-3.0.0.tar.bz2
+src/mruby-widget-lib/mrblib/fcache.rb
+zest
