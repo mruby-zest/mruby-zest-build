@@ -36,7 +36,7 @@
 	url = https://github.com/mruby-zest/mruby-qml-spawn
 [submodule "src/mruby-zest"]
 	path = src/mruby-zest
-	url = http://github.com/mruby-zest/mruby-zest
+	url = https://github.com/mruby-zest/mruby-zest
 [submodule "src/mruby-qml-parse"]
 	path = src/mruby-qml-parse
 	url = https://github.com/mruby-zest/mruby-qml-parse
