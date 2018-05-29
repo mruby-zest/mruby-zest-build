@@ -42,7 +42,7 @@
 	url = https://github.com/mruby-zest/mruby-qml-parse
 [submodule "deps/pugl"]
 	path = deps/pugl
-	url = https://github.com/mruby-zest/pugl
+	url = https://github.com/JohannesLorenz/pugl.git
 [submodule "deps/osc-bridge"]
 	path = src/osc-bridge
 	url = https://github.com/mruby-zest/osc-bridge

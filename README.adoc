@@ -1,6 +1,12 @@
 Welcome to the source of the Zyn-Fusion user interface.
-To build you'll want to use the Makefile (setupdep/builddep/make) and the
-ahead-of-time qml compiler 'rebuild-fcache.rb'.
+To build you'll want to use the Makefile:
+[source,bash]
+----
+make setup
+make builddep
+make
+----
+and the ahead-of-time qml compiler 'rebuild-fcache.rb'.
 
 Enjoy,
 --Mark McCurry
