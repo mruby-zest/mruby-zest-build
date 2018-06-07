@@ -30,9 +30,10 @@ struct zest_handles {
     int  (*zest_tick)(zest_t*);
     int  (*zest_exit)(zest_t*);
     void (*zest_set_option)(zest_t*, const char *key, const char *value);
-
     void (*zest_dnd_drop)(zest_t*, const char*);
     const char* (*zest_dnd_pick)(zest_t*);
+
+    void (*zest_script)(zest_t *, const char *str);
 
     zest_t *zest;
     int do_exit;
@@ -131,6 +132,7 @@ onReshape(PuglView* view, int width, int height)
 
 float target_animation_fps = 30.0f;
 char *osc_path = 0;
+char *script_data = 0;
 
 static void
 onDisplay(PuglView* view)
@@ -148,6 +150,9 @@ onDisplay(PuglView* view)
         char fps[128] = {0};
         snprintf(fps, sizeof(fps)-1, "%f", target_animation_fps);
         z->zest_set_option(z->zest, "animation_fps", fps);
+
+        if(script_data)
+            z->zest_script(z->zest, script_data);
     }
 
     z->zest_draw(z->zest);
@@ -573,8 +578,9 @@ const char *help =
 "\n\n"
 "Options:\n"
 "    --help             print this help\n"
-"    --uri              specify remote osc server (for zynaddsubfx dsp)\n"
+"    --uri    URI       specify remote osc server (for zynaddsubfx dsp)\n"
 "                       e.g. osc.udp://127.0.0.1:1234\n"
+"    --script SCRIPT    specify script to register events for screenshot\n"
 "\n"
 "Environmental Variables:\n"
 "    ZEST_TARGET_FPS    target frames per second            [default 60]\n"
@@ -591,8 +597,27 @@ int main(int argc, char **argv)
     //printf("%f\n", -1.234);
     //printf("%s\n", conv(cvt,+1.234));
     //printf("%s\n", conv(cvt,-1.234));
-    if(argc > 1 && strstr(argv[1], "osc"))
-        osc_path = argv[1];
+    {
+        int next_script = 0;
+        for(int i=1; i<argc; ++i) {
+            if(strstr(argv[i], "osc"))
+                osc_path = argv[i];
+            else if(next_script) {
+                FILE *f = fopen(argv[i], "r");
+                if(!f)
+                    continue;
+                fseek(f, 0, SEEK_END);
+                size_t fsize = ftell(f);
+                fseek(f, 0, SEEK_SET);
+
+                script_data = calloc(1,fsize+1);
+                fread(script_data, fsize, 1, f);
+                fclose(f);
+            } else if(!strcmp("--script", argv[i]))
+                next_script = 1;
+
+        }
+    }
 
     float target_fps = 60.0f;
     if(getenv("ZEST_TARGET_FPS")) {
@@ -656,6 +681,7 @@ int main(int argc, char **argv)
     get(set_option);
     get(dnd_drop);
     get(dnd_pick);
+    get(script);
 
     z.do_exit       = 0;
     z.dnd_target_best_slot = -1;
@@ -678,6 +704,7 @@ int main(int argc, char **argv)
     check(set_option);
     check(dnd_drop);
     check(dnd_pick);
+    check(script);
 
     printf("[INFO:Zyn] setup_pugl()\n");
     void *view = setup_pugl(&z);

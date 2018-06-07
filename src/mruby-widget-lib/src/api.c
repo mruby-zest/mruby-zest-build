@@ -329,6 +329,9 @@ zest_tick(zest_t *z)
     //Apply all events for the frame
     mrb_funcall(z->mrb, z->runner, "tick_events",    0);
     check_error(z->mrb);
+    //Run the scheduler
+    mrb_funcall(z->mrb, z->runner, "tick_sched",     0);
+    check_error(z->mrb);
 
     //Apply redraw status
     mrb_value v = mrb_funcall(z->mrb, z->runner, "check_redraw",   0);
@@ -374,3 +377,11 @@ zest_dnd_pick(zest_t *z)
     return mrb_string_value_ptr(mrb, out);
 }
 
+EXPORT void
+zest_script(zest_t *z, const char *script)
+{
+    mrb_value out;
+    out = mrb_funcall(z->mrb, z->runner, "run_script", 1,
+                mrb_str_new_cstr(z->mrb, script));
+    check_error(z->mrb);
+}

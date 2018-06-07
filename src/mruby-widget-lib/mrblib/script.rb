@@ -50,6 +50,7 @@ class ZRunner
 
         #Misc
         @hotload = true
+        $sched = nil
 
         @startup_time = Time.new
 
@@ -698,6 +699,10 @@ class ZRunner
         nil
     end
 
+    def tick_sched
+        $sched.tick(self) if($sched)
+    end
+
     def doRun(block)
         puts "[INFO] initial qml compile"
         @widget = block.call
@@ -859,6 +864,18 @@ class ZRunner
     def animation_fps=(v)
         @animate_frame_dt = 1.0/v
     end
+    
+    def run_script(x)
+        $sched = Sched.new
+        sched = $sched
+        eval(x)
+    end
+
+    def screenshot(x)
+        puts "I would like to take a screenshot and save it to #{x}"
+        $vg.screenshot(0,0,@w,@h, x)
+    end
+
 end
 
 
