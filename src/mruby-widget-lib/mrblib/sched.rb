@@ -19,7 +19,8 @@ class Sched
     end
 
     def tick(runner)
-        puts "sched tick"
+        print '#'
+        #puts "sched tick"
         @frame_id += 1
 
         to_delete = []
@@ -29,6 +30,7 @@ class Sched
                 e[1].call(runner)
             end
         end
+        puts "E" if to_delete.length != 0
         to_delete.reverse.each do |i|
             @event_list.delete_at(i)
         end

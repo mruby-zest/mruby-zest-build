@@ -871,9 +871,65 @@ class ZRunner
         eval(x)
     end
 
-    def screenshot(x)
-        puts "I would like to take a screenshot and save it to #{x}"
-        $vg.screenshot(0,0,@w,@h, x)
+    def filter_widgets(w=nil, &block)
+        out   = []
+        w   ||= @widget
+
+        out << w if(block.call(w))
+
+        w.children.each do |ww|
+            tmp = filter_widgets(ww, &block)
+            if(tmp)
+                tmp.each do |t|
+                    out << t
+                end
+            end
+        end
+        out
+    end
+
+    def joint_bounding_box(wid)
+        x1 = 99999999.0
+        y1 = 99999999.0
+        x2 = -1.0
+        y2 = -1.0
+
+        wid.each do |ww|
+            x = ww.global_x
+            y = ww.global_y
+            #puts "   y1= #{y}"
+            #puts "   y2= #{y+ww.h}"
+            x1 = [x1, x].min
+            y1 = [y1, y].min
+            x2 = [x2, x+ww.w].max
+            y2 = [y2, y+ww.h].max
+        end
+        x1 = x1.floor
+        y1 = y1.floor
+        w  = (x2-x1).ceil
+        h  = (y2-y1).ceil
+        #y1 = y2.ceil
+        return nil if(x1 > 100000)
+
+        #puts [x1, y1, w, h]
+        [x1, y1, w, h]
+    end
+
+
+    def screenshot(x, bb=nil)
+        #puts "I would like to take a screenshot and save it to #{x}"
+        if(bb)
+            #Adjust coords due to flipped y representation
+            yt = @h-bb[3]
+            bb[1] = yt-bb[1]
+            $vg.screenshot(bb[0],
+                           bb[1],
+                           bb[2],
+                           bb[3],
+                           x)
+        else
+            $vg.screenshot(0,0,@w,@h, x)
+        end
     end
 
 end
