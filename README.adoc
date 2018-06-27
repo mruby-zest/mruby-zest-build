@@ -1,4 +1,16 @@
 Welcome to the source of the Zyn-Fusion user interface.
+
+### Preparations
+
+After cloning the repository, initialize the submodules:
+[source,bash]
+----
+git submodule init
+git submodule update
+----
+
+## Building
+
 To build you'll want to use the Makefile:
 [source,bash]
 ----
@@ -7,6 +19,28 @@ make builddep
 make
 ----
 and the ahead-of-time qml compiler 'rebuild-fcache.rb'.
+
+### Building on OS X
+
+In order to make the build work on a recent OSX (at the time of writing, 10.13),
+run the make process as follows:
+
+[source,bash]
+----
+make setup
+make builddep
+OS=Mac make osx
+----
+There will be a number of deprecation warnings, these can be ignored.
+
+The main difference to the Linux build are the linking options (The process links against
+the `OpenGL` and the `AppKit` frameworks.
+
+## Running
+
+The build process will create a `libzest.so` library and the `zest` executable.
+See the link:contributing.adoc[contributing.adoc] document for information about
+running the application and changing it.
 
 Enjoy,
 --Mark McCurry
