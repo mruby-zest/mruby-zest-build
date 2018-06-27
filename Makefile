@@ -18,6 +18,21 @@ all:
 		./deps/libuv-v1.9.1/.libs/libuv.a  -lm -lX11 -lGL -lpthread
 	$(CC) test-libversion.c deps/pugl/build/libpugl-0.a -ldl -o zest -lX11 -lGL -lpthread -I deps/pugl -std=gnu99
 
+osx:
+	ruby ./rebuild-fcache.rb
+	cd deps/nanovg/src   && $(CC) nanovg.c -c -fPIC
+	$(AR) rc deps/libnanovg.a deps/nanovg/src/*.o
+	cd deps/pugl         && ./waf configure --no-cairo --static
+#	cd deps/pugl         && ./waf configure --no-cairo --static --debug
+	cd deps/pugl         && ./waf
+	cd src/osc-bridge    && CFLAGS="-I ../../deps/libuv-v1.9.1/include " make lib
+	cd mruby             && MRUBY_CONFIG=../build_config.rb rake
+	$(CC) -shared -o libzest.so `find mruby/build/host -type f | grep -e "\.o$$" | grep -v bin` ./deps/libnanovg.a \
+		./deps/libnanovg.a \
+		src/osc-bridge/libosc-bridge.a \
+		./deps/libuv-v1.9.1/.libs/libuv.a  -lm -framework OpenGL -lpthread
+	$(CC) test-libversion.c deps/pugl/build/libpugl-0.a -ldl -o zest -framework OpenGL -framework AppKit -lpthread -I deps/pugl -std=gnu99
+
 windows:
 	cd deps/nanovg/src   && $(CC) -mstackrealign nanovg.c -c
 	$(AR) rc deps/libnanovg.a deps/nanovg/src/*.o
