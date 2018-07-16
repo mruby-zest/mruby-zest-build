@@ -24,7 +24,7 @@ running GUI crashing, but that's not a major issue as the GUI is out-of-process
 compared to the synthesis backend.
 
 To enable code hotloading, two major flags need to be toggled:
-'src/mruby-widget-lib/api.c' should normally say:
+'src/mruby-widget-lib/src/api.c' should normally say:
 
 --------------------------------------------------------------------------------
 mrb_funcall(z->mrb, z->runner, "hotload=", 1, mrb_false_value());
