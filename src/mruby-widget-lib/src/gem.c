@@ -1067,6 +1067,17 @@ mrb_remote_param_refresh(mrb_state *mrb, mrb_value self)
 }
 
 static mrb_value
+mrb_remote_param_force_refresh(mrb_state *mrb, mrb_value self)
+{
+    remote_param_data *param;
+    param = (remote_param_data*) mrb_data_get_ptr(mrb, self, &mrb_remote_param_type);
+    mrb_assert(param);
+
+    br_force_refresh(param->br, param->uri);
+    return self;
+}
+
+static mrb_value
 mrb_remote_param_watch(mrb_state *mrb, mrb_value self)
 {
     remote_param_data *param;
@@ -1201,6 +1212,7 @@ mrb_mruby_widget_lib_gem_init(mrb_state* mrb) {
     mrb_define_method(mrb, param, "set_value_str",mrb_remote_param_set_value_str, MRB_ARGS_REQ(1));
     mrb_define_method(mrb, param, "type=",        mrb_remote_param_set_type, MRB_ARGS_REQ(1));
     mrb_define_method(mrb, param, "display_value",mrb_remote_param_display_value, MRB_ARGS_NONE());
+    mrb_define_method(mrb, param, "force_refresh",mrb_remote_param_force_refresh, MRB_ARGS_NONE());
     mrb_define_method(mrb, param, "refresh",      mrb_remote_param_refresh, MRB_ARGS_NONE());
     mrb_define_method(mrb, param, "watch",        mrb_remote_param_watch, MRB_ARGS_NONE());
     mrb_define_method(mrb, param, "clean",        mrb_remote_param_clean, MRB_ARGS_NONE());
