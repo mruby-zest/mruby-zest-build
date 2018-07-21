@@ -32,6 +32,7 @@ struct zest_handles {
     void (*zest_set_option)(zest_t*, const char *key, const char *value);
     void (*zest_dnd_drop)(zest_t*, const char*);
     const char* (*zest_dnd_pick)(zest_t*);
+    const char* (*zest_get_remote_url)(zest_t*);
 
     void (*zest_script)(zest_t *, const char *str);
 
@@ -245,7 +246,7 @@ enum {
 };
 
 char *send_mime_names[send_mime_count] = {
-    "application/x-lmms-stringpair" // TODO: rename to x-osc-stringpair later
+    "application/x-osc-stringpair"
     /* insert more here and keep in sync with above enum! */
 };
 
@@ -343,14 +344,14 @@ onDndSourceProvideData(PuglView* view, int slot, int size, char* buffer)
     struct zest_handles *z = puglGetHandle(view);
     if(!z || !z->zest)
         return 0;
-    z->dnd_source_widget_path;
 
     size_t sz = 1024;
     char offered_property[sz];
     *offered_property = 0;
-    strncat(offered_property, "automatable_model:", sz-1);
-    strncat(offered_property, z->dnd_source_widget_path,
-            sz-1-strlen(offered_property));
+    // e.g. osc.udp://127.0.0.1:17070/path/to/port
+    int res = snprintf(offered_property, sz-1, "automatable_model:%s%s",
+             z->zest_get_remote_url(z->zest), z->dnd_source_widget_path);
+    assert(res < sz);
 
     int len = 1 + strlen(offered_property);
     assert(len <= size);
@@ -548,7 +549,7 @@ void *setup_pugl(void *zest)
     puglSetDndTargetStatusFunc(view, onDndTargetStatus);
     puglSetDndTargetAcceptDropFunc(view, onDndTargetAcceptDrop);
     puglSetDndTargetChooseTypesToLookupFunc(view,
-					    onDndTargetChooseTypesToLookup);
+                                            onDndTargetChooseTypesToLookup);
     puglSetDndTargetDropFunc(view, onDndTargetDrop);
     puglSetDndTargetInformPositionFunc(view, onDndTargetInformPosition);
     puglSetDndTargetLeaveFunc(view, onDndTargetLeave);
@@ -682,6 +683,7 @@ int main(int argc, char **argv)
     get(dnd_drop);
     get(dnd_pick);
     get(script);
+    get(get_remote_url);
 
     z.do_exit       = 0;
     z.dnd_target_best_slot = -1;
@@ -705,13 +707,14 @@ int main(int argc, char **argv)
     check(dnd_drop);
     check(dnd_pick);
     check(script);
+    check(get_remote_url);
 
     printf("[INFO:Zyn] setup_pugl()\n");
     void *view = setup_pugl(&z);
     printf("[INFO:Zyn] zest_tick()\n");
     int64_t frame_id = 0;
     const float frame_sleep = 1/target_fps;
-    
+
     struct timespec before, post_tick, post_draw, post_events;
     float total, tick, draw, events;
     while(!z.do_exit) {

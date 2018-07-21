@@ -399,3 +399,13 @@ zest_script(zest_t *z, const char *script)
                 mrb_str_new_cstr(z->mrb, script));
     check_error(z->mrb);
 }
+
+EXPORT const char*
+zest_get_remote_url(zest_t *z)
+{
+    mrb_state *mrb = z->mrb;
+    mrb_value out = mrb_funcall(z->mrb, z->runner, "get_remote_url", 0);
+    check_error(z->mrb);
+    return mrb_string_value_ptr(mrb, out);
+}
+

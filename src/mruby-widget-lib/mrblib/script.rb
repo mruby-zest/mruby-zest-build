@@ -397,6 +397,10 @@ class ZRunner
         end
     end
 
+    def get_remote_url
+        return "osc.udp://" + $remote.getaddr + ":" + $remote.getport.to_s
+    end
+
     def load_event_seq
         @events.reload File.open("/tmp/zest-event-log.txt", "r")
     end

@@ -506,6 +506,26 @@ mrb_remote_settf(mrb_state *mrb, mrb_value self)
 }
 
 static mrb_value
+mrb_remote_getaddr(mrb_state* mrb, mrb_value self)
+{
+    remote_data *data = (remote_data*)mrb_data_get_ptr(mrb, self, &mrb_remote_type);
+    mrb_assert(data);
+    mrb_assert(data->br);
+    mrb_assert(data->br->address);
+    return mrb_str_new_cstr(mrb, data->br->address);
+}
+
+static mrb_value
+mrb_remote_getport(mrb_state* mrb, mrb_value self)
+{
+    remote_data *data = (remote_data*)mrb_data_get_ptr(mrb, self, &mrb_remote_type);
+    mrb_assert(data);
+    mrb_assert(data->br);
+    mrb_assert(data->br->port);
+    return mrb_fixnum_value(data->br->port);
+}
+
+static mrb_value
 mrb_remote_action(mrb_state *mrb, mrb_value self)
 {
     remote_data *data = (remote_data*)mrb_data_get_ptr(mrb, self, &mrb_remote_type);
@@ -1193,6 +1213,8 @@ mrb_mruby_widget_lib_gem_init(mrb_state* mrb) {
     mrb_define_method(mrb, remote, "damage",     mrb_remote_damage,    MRB_ARGS_REQ(1));
     mrb_define_method(mrb, remote, "default",     mrb_remote_default,    MRB_ARGS_REQ(1));
     mrb_define_method(mrb, remote, "last_up_time", mrb_remote_last_up_time, MRB_ARGS_NONE());
+    mrb_define_method(mrb, remote, "getaddr",    mrb_remote_getaddr,   MRB_ARGS_NONE());
+    mrb_define_method(mrb, remote, "getport",    mrb_remote_getport,   MRB_ARGS_NONE());
 
     struct RClass *metadata = mrb_define_class_under(mrb, osc, "RemoteMetadata", mrb->object_class);
     MRB_SET_INSTANCE_TT(metadata, MRB_TT_DATA);
