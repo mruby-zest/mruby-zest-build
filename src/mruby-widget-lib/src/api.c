@@ -193,23 +193,6 @@ get_special_type(int key)
     return type;
 }
 
-const char *
-get_modifier_type(int key)
-{
-    const char *type = "";
-
-#define k(x,y) case PUGL_MOD_##x: type = #y;break
-    switch(key) {
-        k(SHIFT, shift);
-        k(CTRL,  ctrl);
-        k(ALT,   alt);
-        k(SUPER, super);
-    }
-#undef k
-
-    return type;
-}
-
 EXPORT void
 zest_setup(zest_t *z)
 {
@@ -233,10 +216,9 @@ zest_motion(zest_t *z, int x, int y, int mod)
 {
     setlocale(LC_NUMERIC, "C");
 
-    const char *type     = get_modifier_type(mod);
-
     mrb_funcall(z->mrb, z->runner, "cursor", 3,
-            mrb_fixnum_value(x), mrb_fixnum_value(y), mrb_str_new_cstr(z->mrb, type));
+            mrb_fixnum_value(x), mrb_fixnum_value(y), mrb_fixnum_value(mod));
+
     check_error(z->mrb);
 }
 
@@ -246,14 +228,13 @@ zest_mouse(zest_t *z, int button, int action, int x, int y, int mod)
     setlocale(LC_NUMERIC, "C");
     if(button) {
 
-        const char *type     = get_modifier_type(mod);
         //mrb_value obj = mrb_obj_value(v[1]);
         mrb_funcall(z->mrb, z->runner, "mouse", 5,
                 mrb_fixnum_value(button),
                 mrb_fixnum_value(action),
                 mrb_fixnum_value(x),
                 mrb_fixnum_value(y),
-		        mrb_str_new_cstr(z->mrb, type));
+		        mrb_fixnum_value(mod));
         check_error(z->mrb);
     }
     //mrb_int x = x_;

@@ -293,7 +293,6 @@ class ZRunner
     end
 
     def cursor(x,y,mod)
-        mod = mod.to_sym
         @events.record([:mouseMove, {:x => x, :y => y, :mod => mod}])
     end
 
@@ -354,8 +353,6 @@ class ZRunner
     end
 
     def mouse(button, action, x, y, mod)
-        mod = mod.to_sym
-
         if(action == 1)
             @events.record([:mousePress,   {:button => button, :action => action, :mod => mod}])
         else
