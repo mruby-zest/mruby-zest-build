@@ -8,6 +8,13 @@ def limit(x, low, high)
     end
 end
 
+module Modifiers
+    SHIFT   = 1
+    CTRL    = 2
+    ALT     = 4
+    SUPER   = 8
+end
+
 class MouseButton
     attr_reader :pos
     attr_reader :buttons
@@ -26,7 +33,13 @@ class MouseButton
         else
             @buttons = []
         end
-        @mod = mod
+
+        @mod = []
+
+        @mod.append(:ctrl)  if(mod & Modifiers::CTRL  != 0)
+        @mod.append(:alt)   if(mod & Modifiers::ALT   != 0)
+        @mod.append(:shift) if(mod & Modifiers::SHIFT != 0)
+        @mod.append(:super) if(mod & Modifiers::SUPER != 0)
     end
 end
 
