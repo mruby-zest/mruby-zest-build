@@ -13,6 +13,17 @@ module Modifiers
     CTRL    = 2
     ALT     = 4
     SUPER   = 8
+
+    def self.get_list_from_int(mod)
+        list = []
+
+        list.append(:ctrl)  if(mod & Modifiers::CTRL  != 0)
+        list.append(:alt)   if(mod & Modifiers::ALT   != 0)
+        list.append(:shift) if(mod & Modifiers::SHIFT != 0)
+        list.append(:super) if(mod & Modifiers::SUPER != 0)
+
+        return list
+    end
 end
 
 class MouseButton
@@ -22,6 +33,7 @@ class MouseButton
 
     def initialize(enum, pos, mod)
         @pos = pos
+
         if(enum == 1)
             @buttons = [:leftButton]
         elsif(enum == 2)
@@ -34,12 +46,7 @@ class MouseButton
             @buttons = []
         end
 
-        @mod = []
-
-        @mod.append(:ctrl)  if(mod & Modifiers::CTRL  != 0)
-        @mod.append(:alt)   if(mod & Modifiers::ALT   != 0)
-        @mod.append(:shift) if(mod & Modifiers::SHIFT != 0)
-        @mod.append(:super) if(mod & Modifiers::SUPER != 0)
+        @mod = Modifiers::get_list_from_int(mod)
     end
 end
 

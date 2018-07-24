@@ -8,12 +8,13 @@ UiEventTypes = [
 ]
 
 class MouseScroll
-    attr_accessor :x, :y, :dx, :dy
-    def initialize(x,y,dx,dy)
+    attr_accessor :x, :y, :dx, :dy, :mod
+    def initialize(x,y,dx,dy,mod)
         @x  = x
         @y  = y
         @dx = dx
         @dy = dy
+        @mod = Modifiers::get_list_from_int(mod)
     end
 end
 

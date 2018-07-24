@@ -244,14 +244,15 @@ zest_mouse(zest_t *z, int button, int action, int x, int y, int mod)
 }
 
 EXPORT void
-zest_scroll(zest_t *z, int x, int y, int dx, int dy)
+zest_scroll(zest_t *z, int x, int y, int dx, int dy, int mod)
 {
     setlocale(LC_NUMERIC, "C");
-    mrb_funcall(z->mrb, z->runner, "scroll", 4,
+    mrb_funcall(z->mrb, z->runner, "scroll", 5,
             mrb_fixnum_value(x),
             mrb_fixnum_value(y),
             mrb_fixnum_value(dx),
-            mrb_fixnum_value(dy));
+            mrb_fixnum_value(dy),
+            mrb_fixnum_value(mod));
     check_error(z->mrb);
 }
 
