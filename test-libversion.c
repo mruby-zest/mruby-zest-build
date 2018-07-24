@@ -21,9 +21,9 @@ struct zest_handles {
     void (*zest_close)(zest_t*);
     void (*zest_setup)(zest_t*);
     void (*zest_draw)(zest_t*);
-    void (*zest_motion)(zest_t*, int x, int y);
+    void (*zest_motion)(zest_t*, int x, int y, int mod);
     void (*zest_scroll)(zest_t*, int x, int y, int dx, int dy);
-    void (*zest_mouse)();
+    void (*zest_mouse)(zest_t *z, int button, int action, int x, int y, int mod);
     void (*zest_key)(zest_t *, const char *key, int press);
     void (*zest_special)(zest_t *, int key, int press);
     void (*zest_resize)(zest_t *, int w, int h);
@@ -78,17 +78,17 @@ onSpecial(PuglView* view, bool press, PuglKey key)
 }
 
 static void
-onMotion(PuglView* view, int x, int y)
+onMotion(PuglView* view, int x, int y, int mod)
 {
     struct zest_handles *z = puglGetHandle(view);
     if(!z || !z->zest)
         return;
 
-    z->zest_motion(z->zest, x, y);
+    z->zest_motion(z->zest, x, y, mod);
 }
 
 static void
-onMouse(PuglView* view, int button, bool press, int x, int y)
+onMouse(PuglView* view, int button, bool press, int x, int y, int mod)
 {
     struct zest_handles *z = puglGetHandle(view);
     if(!z || !z->zest)
@@ -96,7 +96,7 @@ onMouse(PuglView* view, int button, bool press, int x, int y)
 
     if(z->dnd_source_status == PuglNotDndSource &&
        z->dnd_target_status == PuglNotDndTarget) {
-        z->zest_mouse(z->zest, button, press, x, y);
+        z->zest_mouse(z->zest, button, press, x, y, mod);
     }
 }
 
@@ -177,7 +177,7 @@ onEvent(PuglView* view, const PuglEvent* event)
         {
             const PuglEventButton* button = &event->button;
             onMouse(view, button->button, button->type == PUGL_BUTTON_PRESS,
-                    button->x, button->y);
+                    button->x, button->y, button->state);
             break;
         }
         case PUGL_CONFIGURE:
@@ -208,7 +208,7 @@ onEvent(PuglView* view, const PuglEvent* event)
         case PUGL_MOTION_NOTIFY:
         {
             const PuglEventMotion* motion = &event->motion;
-            onMotion(view, motion->x, motion->y);
+            onMotion(view, motion->x, motion->y, motion->state);
             break;
         }
         case PUGL_SCROLL:

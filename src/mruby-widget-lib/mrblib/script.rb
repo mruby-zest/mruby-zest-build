@@ -245,22 +245,22 @@ class ZRunner
         end
     end
 
-    def handleCursorPos(x,y)
+    def handleCursorPos(x,y,mod)
         old_aw = activeWidget(@mx, @my)
         @mx = x
         @my = y
         if(@clicked)
             aw = activeWidget(@clicked.x, @clicked.y, :onMousePress)
             if(aw.respond_to? :onMouseMove)
-                aw.onMouseMove MouseButton.new(0,Pos.new(x,y))
+                aw.onMouseMove MouseButton.new(0,Pos.new(x,y),mod)
             end
         else
             aw = activeWidget(x, y)
             if(aw.respond_to? :onMouseHover)
-                aw.onMouseHover MouseButton.new(0,Pos.new(x,y))
+                aw.onMouseHover MouseButton.new(0,Pos.new(x,y),mod)
             end
             if(aw != old_aw && aw.respond_to?(:onMouseEnter))
-                aw.onMouseEnter MouseButton.new(0,Pos.new(x,y))
+                aw.onMouseEnter MouseButton.new(0,Pos.new(x,y),mod)
             end
         end
     end
@@ -292,8 +292,9 @@ class ZRunner
         @events.record([:windowResize, {:w => w, :h => h}])
     end
 
-    def cursor(x,y)
-        @events.record([:mouseMove, {:x => x, :y => y}])
+    def cursor(x,y,mod)
+        mod = mod.to_sym
+        @events.record([:mouseMove, {:x => x, :y => y, :mod => mod}])
     end
 
     def key_mod(press, key)
@@ -352,8 +353,9 @@ class ZRunner
         end
     end
 
-    def mouse(button, action, x, y)
-        mod = nil
+    def mouse(button, action, x, y, mod)
+        mod = mod.to_sym
+
         if(action == 1)
             @events.record([:mousePress,   {:button => button, :action => action, :mod => mod}])
         else
@@ -408,13 +410,13 @@ class ZRunner
             cnt += 1
             GL::debug "handling #{ev}"
             if(ev[0] == :mousePress)
-                mouse = MouseButton.new(ev[1][:button], Pos.new(@mx, @my))
+                mouse = MouseButton.new(ev[1][:button], Pos.new(@mx, @my), ev[1][:mod])
                 handleMousePress(mouse)
             elsif(ev[0] == :mouseRelease)
-                mouse = MouseButton.new(ev[1][:button], Pos.new(@mx, @my))
+                mouse = MouseButton.new(ev[1][:button], Pos.new(@mx, @my), ev[1][:mod])
                 handleMouseRelease(mouse)
             elsif(ev[0] == :mouseMove)
-                handleCursorPos(ev[1][:x],ev[1][:y])
+                handleCursorPos(ev[1][:x],ev[1][:y],ev[1][:mod])
             elsif(ev[0] == :mouseScroll)
                 scroll = MouseScroll.new(ev[1][:x], ev[1][:y], ev[1][:dx], ev[1][:dy])
                 handleScroll(ev[1][:x],ev[1][:y], scroll)
