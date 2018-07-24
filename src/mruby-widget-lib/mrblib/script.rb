@@ -360,8 +360,8 @@ class ZRunner
         end
     end
 
-    def scroll(x, y, dx, dy)
-        @events.record([:mouseScroll,   {:x => x, :y => y, :dx => dx, :dy => dy}])
+    def scroll(x, y, dx, dy, mod)
+        @events.record([:mouseScroll,   {:x => x, :y => y, :dx => dx, :dy => dy, :mod => mod}])
     end
 
     def dnd_drop(data)
@@ -415,7 +415,7 @@ class ZRunner
             elsif(ev[0] == :mouseMove)
                 handleCursorPos(ev[1][:x],ev[1][:y],ev[1][:mod])
             elsif(ev[0] == :mouseScroll)
-                scroll = MouseScroll.new(ev[1][:x], ev[1][:y], ev[1][:dx], ev[1][:dy])
+                scroll = MouseScroll.new(ev[1][:x], ev[1][:y], ev[1][:dx], ev[1][:dy], ev[1][:mod])
                 handleScroll(ev[1][:x],ev[1][:y], scroll)
             elsif(ev[0] == :windowResize)
                 next if @w == ev[1][:w] && @h == ev[1][:h]

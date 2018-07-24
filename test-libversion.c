@@ -22,7 +22,7 @@ struct zest_handles {
     void (*zest_setup)(zest_t*);
     void (*zest_draw)(zest_t*);
     void (*zest_motion)(zest_t*, int x, int y, int mod);
-    void (*zest_scroll)(zest_t*, int x, int y, int dx, int dy);
+    void (*zest_scroll)(zest_t*, int x, int y, int dx, int dy, int mod);
     void (*zest_mouse)(zest_t *z, int button, int action, int x, int y, int mod);
     void (*zest_key)(zest_t *, const char *key, int press);
     void (*zest_special)(zest_t *, int key, int press);
@@ -101,13 +101,13 @@ onMouse(PuglView* view, int button, bool press, int x, int y, int mod)
 }
 
 static void
-onScroll(PuglView* view, int x, int y, float dx, float dy)
+onScroll(PuglView* view, int x, int y, float dx, float dy, int mod)
 {
     struct zest_handles *z = puglGetHandle(view);
     if(!z || !z->zest)
         return;
 
-    z->zest_scroll(z->zest, x, y, dx, dy);
+    z->zest_scroll(z->zest, x, y, dx, dy, mod);
 }
 
 static void
@@ -214,7 +214,7 @@ onEvent(PuglView* view, const PuglEvent* event)
         case PUGL_SCROLL:
         {
             const PuglEventScroll* scroll = &event->scroll;
-            onScroll(view, scroll->x, scroll->y, scroll->dx, scroll->dy);
+            onScroll(view, scroll->x, scroll->y, scroll->dx, scroll->dy, scroll->state);
             break;
         }
         case PUGL_FOCUS_IN: break;       /* Keyboard focus entered view */
