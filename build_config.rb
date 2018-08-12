@@ -118,7 +118,7 @@ build_type.new(build_name) do |conf|
           linker.libraries << 'GL'
           linker.libraries << 'X11'
         end
-        linker.flags_after_libraries  << "-lpthread -ldl"
+        linker.flags_after_libraries  << "-lpthread -ldl -lm"
       else
         linker.flags_after_libraries  << "-lws2_32 -lkernel32 -lpsapi -luserenv -liphlpapi"
         linker.flags_after_libraries  << "-lglu32 -lgdi32 -lopengl32"
