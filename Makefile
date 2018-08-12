@@ -7,9 +7,9 @@ all:
 	ruby ./rebuild-fcache.rb
 	cd deps/nanovg/src   && $(CC) nanovg.c -c -fPIC
 	$(AR) rc deps/libnanovg.a deps/nanovg/src/*.o
-#	cd deps/pugl         && ./waf configure --no-cairo --static
-	cd deps/pugl         && ./waf configure --no-cairo --static --debug
-	cd deps/pugl         && ./waf
+#	cd deps/pugl         && python2 ./waf configure --no-cairo --static
+	cd deps/pugl         && python2 ./waf configure --no-cairo --static --debug
+	cd deps/pugl         && python2 ./waf
 	cd src/osc-bridge    && CFLAGS="-I ../../deps/libuv-v1.9.1/include " make lib
 	cd mruby             && MRUBY_CONFIG=../build_config.rb rake
 	$(CC) -shared -o libzest.so `find mruby/build/host -type f | grep -e "\.o$$" | grep -v bin` ./deps/libnanovg.a \
@@ -22,9 +22,9 @@ osx:
 	ruby ./rebuild-fcache.rb
 	cd deps/nanovg/src   && $(CC) nanovg.c -c -fPIC
 	$(AR) rc deps/libnanovg.a deps/nanovg/src/*.o
-	cd deps/pugl         && ./waf configure --no-cairo --static
-#	cd deps/pugl         && ./waf configure --no-cairo --static --debug
-	cd deps/pugl         && ./waf
+	cd deps/pugl         && python2 ./waf configure --no-cairo --static
+#	cd deps/pugl         && python2 ./waf configure --no-cairo --static --debug
+	cd deps/pugl         && python2 ./waf
 	cd src/osc-bridge    && CFLAGS="-I ../../deps/libuv-v1.9.1/include " make lib
 	cd mruby             && MRUBY_CONFIG=../build_config.rb rake
 	$(CC) -shared -o libzest.so `find mruby/build/host -type f | grep -e "\.o$$" | grep -v bin` ./deps/libnanovg.a \
@@ -36,8 +36,8 @@ osx:
 windows:
 	cd deps/nanovg/src   && $(CC) -mstackrealign nanovg.c -c
 	$(AR) rc deps/libnanovg.a deps/nanovg/src/*.o
-	cd deps/pugl         && CFLAGS="-mstackrealign" ./waf configure --no-cairo --static --target=win32
-	cd deps/pugl         && ./waf
+	cd deps/pugl         && CFLAGS="-mstackrealign" python2 ./waf configure --no-cairo --static --target=win32
+	cd deps/pugl         && python2 ./waf
 	cd src/osc-bridge    && CFLAGS="-mstackrealign -I ../../deps/libuv-v1.9.1/include " make lib
 	cd mruby             && WINDOWS=1 MRUBY_CONFIG=../build_config.rb rake
 	$(CC) -mstackrealign -shared -o libzest.dll -static-libgcc `find mruby/build/w64 -type f | grep -e "\.o$$" | grep -v bin` \
