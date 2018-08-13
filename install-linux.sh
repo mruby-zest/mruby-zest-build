@@ -102,6 +102,13 @@ else
     ln -s /opt/zyn-fusion/ZynAddSubFX.lv2presets /usr/lib/lv2/
 fi
 
+echo "...bash completion"
+bashcompdir=$(pkg-config --variable=completionsdir bash-completion)
+if [ "$bashcompdir" ]
+then
+    echo ln -s /opt/zyn-fusion/completions/zyn-fusion $bashcompdir/zyn-fusion
+fi
+
 echo ""
 echo "Thank you for supporting Zyn-Fusion"
 echo "You can now use the 3.0.3 release via a LV2/VST plugin host or"

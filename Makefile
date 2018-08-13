@@ -156,13 +156,15 @@ pack:
 	mkdir package/schema
 	mkdir package/qml
 	mkdir package/font
+	mkdir package/completions
 	cp src/mruby-zest/qml/*             package/qml/
 	cp src/mruby-zest/example/*         package/qml/
 	cp src/osc-bridge/schema/test.json  package/schema/
 	cp deps/nanovg/example/*.ttf        package/font/
 	cp mruby/bin/mruby                  package/
 	cp libzest.so                       package/
-	cp zest     	                    package/
+	cp zest                             package/
+	cp completions/zyn-fusion           package/completions
 	echo 'Version 3.0.0-pre '       >>  package/VERSION
 	echo 'built on: '               >>  package/VERSION
 	echo `date`                     >>  package/VERSION

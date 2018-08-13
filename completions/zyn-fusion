@@ -1,0 +1,89 @@
+__zyn_fusion_get_ports()
+{
+    local mtool=ss
+    which $mtool >/dev/null 2>/dev/null || mtool=netstat
+    which $mtool >/dev/null 2>/dev/null || mtool=
+    
+    if [ "$mtool" ]
+    then
+        # ports must be local, and should not use
+        # reserved port names (like 'ntp')
+        $mtool -lu |
+            grep -o '\(127.0.0.1\|0.0.0.0\):[0-9]\+' |
+            sed 's/.*://' | tr '\n' ' '
+    fi
+}
+
+_zyn_fusion()
+{
+    local cword=$COMP_CWORD
+    local cur=${COMP_WORDS[COMP_CWORD]}
+    local params=
+    local normal_switches="--uri --script"
+    local filetypes=
+
+    local prev=
+    if [ "$cword" -gt 1 ]
+    then
+        prev=${COMP_WORDS[cword-1]}
+    fi
+    
+    case $prev in
+        --uri)
+            params=$(__zyn_fusion_get_ports)
+            ;;
+        --script)
+            filetypes=rb
+            ;;
+        *)
+            local help_params=
+            if [ "$cword" -eq 1 ]
+            then
+                help_params="--help"
+            fi
+            params="$normal_switches $help_params"
+            # filter out params we've already used
+            for i in ${!COMP_WORDS[@]}
+            do
+                if [[ ${COMP_WORDS[$i]} =~ ^--[^/]+$ ]]
+                then
+                    params=${params//${COMP_WORDS[$i]} /}
+                fi
+            done
+            ;;
+    esac
+    
+    if [ "$filetypes" ]
+    then
+        compopt -o nospace
+        if [[ "$cur" =~ ^~/? ]]
+        then
+            # special case
+            COMPREPLY=( $HOME/ )
+        else
+            local tmp
+            tmp=( $(compgen -o bashdefault -f -- ${cur}) )
+            for i in ${!tmp[@]}
+            do
+                if [ -d ${tmp[$i]} ]
+                then
+                    COMPREPLY+=( ${tmp[$i]}/ )
+                elif [[ ${tmp[$i]} =~ \.rb$ ]]
+                then
+                    COMPREPLY+=( ${tmp[$i]} )
+                fi
+            done
+            
+            if [ "${#COMPREPLY[@]}" -eq "1" ] && ! [ -d ${COMPREPLY[0]} ]
+            then
+                # we are done: escape path and jump to next arg
+                COMPREPLY[0]=$(printf '%q ' "${COMPREPLY[0]}")
+            fi
+        fi
+    else
+        COMPREPLY=( $(compgen -W "${params}" -- ${cur}) )
+    fi    
+}
+
+
+complete -F _zyn_fusion zest zyn-fusion

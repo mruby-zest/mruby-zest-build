@@ -601,7 +601,10 @@ int main(int argc, char **argv)
     {
         int next_script = 0;
         for(int i=1; i<argc; ++i) {
-            if(strstr(argv[i], "osc"))
+            if(!strcmp(argv[i], "--help")) {
+                fputs(help, stderr);
+                return 0;
+            } else if(strstr(argv[i], "osc"))
                 osc_path = argv[i];
             else if(next_script) {
                 FILE *f = fopen(argv[i], "r");
@@ -616,7 +619,6 @@ int main(int argc, char **argv)
                 fclose(f);
             } else if(!strcmp("--script", argv[i]))
                 next_script = 1;
-
         }
     }
 
