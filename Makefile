@@ -10,12 +10,12 @@ all:
 #	cd deps/pugl         && ./waf configure --no-cairo --static
 	cd deps/pugl         && ./waf configure --no-cairo --static --debug
 	cd deps/pugl         && ./waf
-	cd src/osc-bridge    && CFLAGS="-I ../../deps/libuv-v1.9.1/include " make lib
+	cd src/osc-bridge    && CFLAGS="-I ../../deps/$(UV_DIR)/include " make lib
 	cd mruby             && MRUBY_CONFIG=../build_config.rb rake
 	$(CC) -shared -o libzest.so `find mruby/build/host -type f | grep -e "\.o$$" | grep -v bin` ./deps/libnanovg.a \
 		./deps/libnanovg.a \
 		src/osc-bridge/libosc-bridge.a \
-		./deps/libuv-v1.9.1/.libs/libuv.a  -lm -lX11 -lGL -lpthread
+		./deps/$(UV_DIR)/.libs/libuv.a  -lm -lX11 -lGL -lpthread
 	$(CC) test-libversion.c deps/pugl/build/libpugl-0.a -ldl -o zest -lX11 -lGL -lpthread -I deps/pugl -std=gnu99
 
 osx:
@@ -25,12 +25,12 @@ osx:
 	cd deps/pugl         && ./waf configure --no-cairo --static
 #	cd deps/pugl         && ./waf configure --no-cairo --static --debug
 	cd deps/pugl         && ./waf
-	cd src/osc-bridge    && CFLAGS="-I ../../deps/libuv-v1.9.1/include " make lib
+	cd src/osc-bridge    && CFLAGS="-I ../../deps/$(UV_DIR)/include " make lib
 	cd mruby             && MRUBY_CONFIG=../build_config.rb rake
 	$(CC) -shared -o libzest.so `find mruby/build/host -type f | grep -e "\.o$$" | grep -v bin` ./deps/libnanovg.a \
 		./deps/libnanovg.a \
 		src/osc-bridge/libosc-bridge.a \
-		./deps/libuv-v1.9.1/.libs/libuv.a  -lm -framework OpenGL -lpthread
+		./deps/$(UV_DIR)/.libs/libuv.a  -lm -framework OpenGL -lpthread
 	$(CC) test-libversion.c deps/pugl/build/libpugl-0.a -ldl -o zest -framework OpenGL -framework AppKit -lpthread -I deps/pugl -std=gnu99
 
 windows:
@@ -38,31 +38,33 @@ windows:
 	$(AR) rc deps/libnanovg.a deps/nanovg/src/*.o
 	cd deps/pugl         && CFLAGS="-mstackrealign" ./waf configure --no-cairo --static --target=win32
 	cd deps/pugl         && ./waf
-	cd src/osc-bridge    && CFLAGS="-mstackrealign -I ../../deps/libuv-v1.9.1/include " make lib
+	cd src/osc-bridge    && CFLAGS="-mstackrealign -I ../../deps/$(UV_DIR)/include " make lib
 	cd mruby             && WINDOWS=1 MRUBY_CONFIG=../build_config.rb rake
 	$(CC) -mstackrealign -shared -o libzest.dll -static-libgcc `find mruby/build/w64 -type f | grep -e "\.o$$" | grep -v bin` \
         ./deps/libnanovg.a \
         src/osc-bridge/libosc-bridge.a \
-        ./deps/libuv-v1.9.1/.libs/libuv.a \
+        ./deps/$(UV_DIR)/.libs/libuv-win.a \
         -lm -lpthread -lws2_32 -lkernel32 -lpsapi -luserenv -liphlpapi -lglu32 -lgdi32 -lopengl32
 	$(CC) -mstackrealign -DWIN32 test-libversion.c deps/pugl/build/libpugl-0.a -o zest.exe -lpthread -I deps/pugl -std=c99 -lws2_32 -lkernel32 -lpsapi -luserenv -liphlpapi -lglu32 -lgdi32 -lopengl32
 
 
-builddep:
+builddep: deps/libuv.a
+deps/libuv.a:
 	cd deps/$(UV_DIR)    && ./autogen.sh
 	cd deps/$(UV_DIR)    && CFLAGS=-fPIC ./configure
 	cd deps/$(UV_DIR)    && CFLAGS=-fPIC make
 	cp deps/$(UV_DIR)/.libs/libuv.a deps/
 
-builddepwin:
+builddepwin: deps/libuv-win.a
+deps/libuv-win.a:
 	cd deps/$(UV_DIR)   && ./autogen.sh
 	cd deps/$(UV_DIR)   && CFLAGS="-mstackrealign" ./configure  --host=x86_64-w64-mingw32
 	cd deps/$(UV_DIR)   && LD=x86_64-w64-mingw32-gcc make
-	cp deps/$(UV_DIR)/.libs/libuv.a deps/
+	cp deps/$(UV_DIR)/.libs/libuv.a deps/libuv-win.a
 
-setup:
-	cd deps              && wget -4 $(UV_URL)
-	cd deps              && tar xvf $(UV_FILE)
+deps/$(UV_DIR):
+	cd deps              && wget -4 $(UV_URL) && tar xvf $(UV_FILE)
+setup: deps/$(UV_DIR)
 
 setupwin:
 	cd deps              && wget -4 $(UV_URL)
