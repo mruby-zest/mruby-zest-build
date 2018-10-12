@@ -653,9 +653,9 @@ int main(int argc, char **argv)
 #else
     void *handle = dlopen("./libzest.so", RTLD_LAZY);
     if(!handle)
-        handle = dlopen("/opt/zyn-fusion/libzest.so", RTLD_LAZY);
-    if(!handle)
         handle = dlopen("libzest.so", RTLD_LAZY);
+    if(!handle)
+        handle = dlopen("/opt/zyn-fusion/libzest.so", RTLD_LAZY);
 #endif
     if(!handle) {
         printf("[ERROR] Cannot Open libzest.so\n");
