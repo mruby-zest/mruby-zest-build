@@ -1,8 +1,11 @@
+# zyn-fusion(1) completion                                 -*- shell-script -*-
+# use shellcheck: "shellcheck -e bash <filename>"
+
 __zyn_fusion_get_ports()
 {
     local mtool=ss
-    which $mtool >/dev/null 2>/dev/null || mtool=netstat
-    which $mtool >/dev/null 2>/dev/null || mtool=
+    command -v $mtool >/dev/null 2>/dev/null || mtool=netstat
+    command -v $mtool >/dev/null 2>/dev/null || mtool=
     
     if [ "$mtool" ]
     then
@@ -50,7 +53,7 @@ _zyn_fusion()
             fi
             params="$normal_switches $help_params"
             # filter out params we've already used
-            for i in ${!COMP_WORDS[@]}
+            for i in "${!COMP_WORDS[@]}"
             do
                 if [[ ${COMP_WORDS[$i]} =~ ^--[^/]+$ ]]
                 then
@@ -64,18 +67,11 @@ _zyn_fusion()
     then
         # use completion routine provided by bash-completion
         # to fill $COMPREPLY
-        # this will never complete...
-        _filedir -d
-        # ... but if the file ending matches, do complete
-        if [ ${#COMPREPLY[@]} -eq 0 ]
-        then
-            if ! [[ "$cur" =~ /$ ]] && [ "$filetypes" ] && [[ "$cur" =~ \.($filetypes)$ ]]
-            then
-                COMPREPLY=( "$cur" )
-            fi
-        fi
+        _filedir "@($filetypes)"
     else
-        COMPREPLY=( $(compgen -W "${params}" -- ${cur}) )
+        # none of our parameters contain spaces, so deactivate shellcheck's warning
+        # shellcheck disable=SC2207
+        COMPREPLY=( $(compgen -W "${params}" -- "${cur}") )
     fi    
 }
 
