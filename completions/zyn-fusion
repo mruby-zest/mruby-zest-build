@@ -22,10 +22,17 @@ _zyn_fusion()
     local normal_switches="--uri --script"
     local filetypes=
 
+    # call routine provided by bash-completion
+    _init_completion || return
+
     local prev=
     if [ "$cword" -gt 1 ]
     then
         prev=${COMP_WORDS[cword-1]}
+        if [ "$prev" == --help ]
+        then
+            return
+        fi
     fi
     
     case $prev in
@@ -55,29 +62,16 @@ _zyn_fusion()
     
     if [ "$filetypes" ]
     then
-        compopt -o nospace
-        if [[ "$cur" =~ ^~/? ]]
+        # use completion routine provided by bash-completion
+        # to fill $COMPREPLY
+        # this will never complete...
+        _filedir -d
+        # ... but if the file ending matches, do complete
+        if [ ${#COMPREPLY[@]} -eq 0 ]
         then
-            # special case
-            COMPREPLY=( $HOME/ )
-        else
-            local tmp
-            tmp=( $(compgen -o bashdefault -f -- ${cur}) )
-            for i in ${!tmp[@]}
-            do
-                if [ -d ${tmp[$i]} ]
-                then
-                    COMPREPLY+=( ${tmp[$i]}/ )
-                elif [[ ${tmp[$i]} =~ \.rb$ ]]
-                then
-                    COMPREPLY+=( ${tmp[$i]} )
-                fi
-            done
-            
-            if [ "${#COMPREPLY[@]}" -eq "1" ] && ! [ -d ${COMPREPLY[0]} ]
+            if ! [[ "$cur" =~ /$ ]] && [ "$filetypes" ] && [[ "$cur" =~ \.($filetypes)$ ]]
             then
-                # we are done: escape path and jump to next arg
-                COMPREPLY[0]=$(printf '%q ' "${COMPREPLY[0]}")
+                COMPREPLY=( "$cur" )
             fi
         fi
     else
