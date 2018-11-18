@@ -727,8 +727,10 @@ int main(int argc, char **argv)
         puglProcessEvents(view);
         monotonic_clock_gettime(&post_events);
 
+        puglEnterContext(view);
         if(z.zest)
             needs_redraw = z.zest_tick(z.zest);
+        puglLeaveContext(view, 0);
         monotonic_clock_gettime(&post_tick);
 
 #define TIME_DIFF(a,b) (b.tv_sec-a.tv_sec + 1e-9 *(b.tv_nsec-a.tv_nsec))
