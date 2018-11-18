@@ -506,6 +506,22 @@ mrb_remote_settf(mrb_state *mrb, mrb_value self)
 }
 
 static mrb_value
+mrb_remote_sets(mrb_state *mrb, mrb_value self)
+{
+    remote_data *data = (remote_data*)mrb_data_get_ptr(mrb, self, &mrb_remote_type);
+    mrb_assert(data && data->br);
+
+    mrb_value path;
+    mrb_value value;
+    mrb_get_args(mrb, "oo", &path, &value);
+
+    br_set_value_string(data->br,
+            mrb_string_value_ptr(mrb, path),
+            mrb_string_value_ptr(mrb, value));
+    return self;
+}
+
+static mrb_value
 mrb_remote_getaddr(mrb_state* mrb, mrb_value self)
 {
     remote_data *data = (remote_data*)mrb_data_get_ptr(mrb, self, &mrb_remote_type);
@@ -1208,10 +1224,11 @@ mrb_mruby_widget_lib_gem_init(mrb_state* mrb) {
     mrb_define_method(mrb, remote, "initialize", mrb_remote_initalize, MRB_ARGS_REQ(1));
     mrb_define_method(mrb, remote, "tick",       mrb_remote_tick,      MRB_ARGS_NONE());
     mrb_define_method(mrb, remote, "seti",       mrb_remote_seti,      MRB_ARGS_REQ(2));
-    mrb_define_method(mrb, remote, "settf",       mrb_remote_settf,      MRB_ARGS_REQ(2));
+    mrb_define_method(mrb, remote, "settf",      mrb_remote_settf,     MRB_ARGS_REQ(2));
+    mrb_define_method(mrb, remote, "sets",       mrb_remote_sets,      MRB_ARGS_REQ(2));
     mrb_define_method(mrb, remote, "action",     mrb_remote_action,    MRB_ARGS_ANY());
     mrb_define_method(mrb, remote, "damage",     mrb_remote_damage,    MRB_ARGS_REQ(1));
-    mrb_define_method(mrb, remote, "default",     mrb_remote_default,    MRB_ARGS_REQ(1));
+    mrb_define_method(mrb, remote, "default",     mrb_remote_default,  MRB_ARGS_REQ(1));
     mrb_define_method(mrb, remote, "last_up_time", mrb_remote_last_up_time, MRB_ARGS_NONE());
     mrb_define_method(mrb, remote, "getaddr",    mrb_remote_getaddr,   MRB_ARGS_NONE());
     mrb_define_method(mrb, remote, "getport",    mrb_remote_getport,   MRB_ARGS_NONE());
