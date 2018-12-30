@@ -18,6 +18,20 @@ all:
 		./deps/$(UV_DIR)/.libs/libuv.a  -lm -lX11 -lGL -lpthread
 	$(CC) test-libversion.c deps/pugl/build/libpugl-0.a -ldl -o zest -lX11 -lGL -lpthread -I deps/pugl -std=gnu99
 
+lib: setup builddep
+	ruby ./rebuild-fcache.rb
+	cd deps/nanovg/src   && $(CC) nanovg.c -c -fPIC
+	$(AR) rc deps/libnanovg.a deps/nanovg/src/*.o
+#	cd deps/pugl         && python2 ./waf configure --no-cairo --static
+	cd deps/pugl         && python2 ./waf configure --no-cairo --static --debug
+	cd deps/pugl         && python2 ./waf
+	cd src/osc-bridge    && CFLAGS="-I ../../deps/$(UV_DIR)/include " make lib
+	cd mruby             && MRUBY_CONFIG=../build_config.rb rake
+	$(AR) crsT libzest.a `find mruby/build/host -type f | grep -e "\.o$$" | grep -v bin` ./deps/libnanovg.a \
+		./deps/libnanovg.a \
+		src/osc-bridge/libosc-bridge.a \
+		./deps/$(UV_DIR)/.libs/libuv.a
+
 osx:
 	ruby ./rebuild-fcache.rb
 	cd deps/nanovg/src   && $(CC) nanovg.c -c -fPIC
