@@ -87,9 +87,9 @@ class ZRunner
         @draw_seq.window = @window
         @widget = block.call
         if(!@widget)
-            GL::debug "[ERROR] No Widget was allocated"
-            GL::debug "[ERROR] This is typically a problem with running the code from the wrong subdirectory"
-            GL::debug "[ERROR] If mruby-zest cannot find the qml source files, then the UI cannot be created"
+            puts "[ERROR] No Widget was allocated"
+            puts "[ERROR] This is typically a problem with running the code from the wrong subdirectory"
+            puts "[ERROR] If mruby-zest cannot find the qml source files, then the UI cannot be created"
             raise "Impossible Widget"
         end
         GL::debug "[INFO] widget loaded"
@@ -117,9 +117,9 @@ class ZRunner
     def setup
         GL::debug "[INFO] setup..."
         if(!@widget)
-           GL::debug "[ERROR] No Widget was allocated"
-           GL::debug "[ERROR] This is typically a problem with running the code from the wrong subdirectory"
-           GL::debug "[ERROR] If mruby-zest cannot find the qml source files, then the UI cannot be created"
+           puts "[ERROR] No Widget was allocated"
+           puts "[ERROR] This is typically a problem with running the code from the wrong subdirectory"
+           puts "[ERROR] If mruby-zest cannot find the qml source files, then the UI cannot be created"
             raise "Impossible Widget"
         end
 
@@ -162,16 +162,16 @@ class ZRunner
         font_error = false
         sans = [search + "font/Roboto-Regular.ttf", "deps/nanovg/example/Roboto-Regular.ttf"]
         if(@vg.create_font('sans', sans[0]) == -1 && @vg.create_font('sans', sans[1]) == -1)
-           GL::debug "[ERROR] could not find sans font"
+           puts "[ERROR] could not find sans font"
             font_error = true
         end
 
         bold = [search + "font/Roboto-Bold.ttf", "deps/nanovg/example/Roboto-Bold.ttf"]
         if(@vg.create_font('bold', bold[0]) == -1 && @vg.create_font('bold', bold[1]) == -1)
-           GL::debug "[ERROR] could not find bold font"
+           puts "[ERROR] could not find bold font"
             font_error = true
         end
-        exit if font_error
+        raise "Font Error" if font_error
     end
 
     def init_gl
