@@ -3,6 +3,7 @@
 #include <stdlib.h>
 #include <string.h>
 #include "../../../deps/pugl/pugl/pugl.h"
+#include "zest-api.h"
 #include <locale.h>
 #ifndef WIN32
 #define __USE_GNU
@@ -52,9 +53,10 @@ check_error(mrb_state *mrb)
     }
 }
 
-typedef struct {
+typedef struct zest_t
+{
     mrb_state *mrb;
-    mrb_value  runner;
+    mrb_value runner;
 } zest_t;
 
 mrb_value
