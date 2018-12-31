@@ -9,7 +9,13 @@ require_relative 'src/mruby-qml-spawn/mrblib/build.rb'
 require_relative 'src/mruby-qml-spawn/mrblib/database.rb'
 require_relative 'src/mruby-qml-spawn/mrblib/loader.rb'
 
-ir = loadIR(nil)
+if (ARGV.length > 1)
+    throw "Too many arguments to script (usage: rebuild-fcache.rb [qml-search-path])"
+end
+
+search = ARGV[0] if !ARGV.empty?
+
+ir = loadIR(search)
 puts "length(IR) = #{ir.length}"
 $ruby_mode = :CRuby
 QmlIrToRuby.new(ir, nil, "src/mruby-widget-lib/mrblib/fcache.rb")

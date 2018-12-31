@@ -19,7 +19,11 @@ all:
 	$(CC) test-libversion.c deps/pugl/build/libpugl-0.a -ldl -o zest -lX11 -lGL -lpthread -I deps/pugl -std=gnu99
 
 lib: setup builddep
+ifeq ($(ZEST_QML_PATH),)
 	ruby ./rebuild-fcache.rb
+else
+	ruby ./rebuild-fcache.rb $(ZEST_QML_PATH)
+endif
 	cd deps/nanovg/src   && $(CC) nanovg.c -c -fPIC
 	$(AR) rc deps/libnanovg.a deps/nanovg/src/*.o
 #	cd deps/pugl         && python2 ./waf configure --no-cairo --static
