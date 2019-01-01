@@ -31,10 +31,10 @@ endif
 	cd deps/pugl         && python2 ./waf
 	cd src/osc-bridge    && CFLAGS="-I ../../deps/$(UV_DIR)/include " make lib
 	cd mruby             && MRUBY_CONFIG=../build_config.rb rake
-	$(AR) crsT libzest.a `find mruby/build/host -type f | grep -e "\.o$$" | grep -v bin` ./deps/libnanovg.a \
-		./deps/libnanovg.a \
-		src/osc-bridge/libosc-bridge.a \
-		./deps/$(UV_DIR)/.libs/libuv.a
+	$(AR) rc libzest.a `find mruby/build/host -type f | grep -e "\.o$$" | grep -v bin` \
+		deps/nanovg/src/*.o \
+		src/osc-bridge/*.o \
+		`find ./deps/$(UV_DIR)/ -type f | grep -e "\.o$$" | grep -v bin`
 
 osx:
 	ruby ./rebuild-fcache.rb
