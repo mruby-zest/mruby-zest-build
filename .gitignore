@@ -6,6 +6,7 @@ deps/libuv-v1.9.1.tar.gz
 deps/libuv-v1.9.1/
 deps/libuv.a
 libzest.so
+libzest.a
 mruby.trace
 package/
 zest-dist-x86.tar.bz2
