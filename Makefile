@@ -167,6 +167,10 @@ scratch:
 	 ./mruby/bin/mruby scratch.rb
 
 clean: ## Clean Build Data
+	make clean -C src/osc-bridge/
+	rm -rf ./libzest.a
+	rm -rf ./libzest.so
+	rm -rf ./zest
 	cd mruby             && MRUBY_CONFIG=../build_config.rb rake clean
 	cd mruby             && rm -rf build/w64
 
