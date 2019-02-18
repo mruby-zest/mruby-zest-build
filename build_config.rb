@@ -110,16 +110,17 @@ build_type.new(build_name) do |conf|
       #linker.library_paths  << "#{`pwd`.strip}/../deps/rtosc/build/"
       linker.library_paths  << "#{`pwd`.strip}/../src/osc-bridge/"
       linker.libraries << 'osc-bridge'
-      linker.flags_after_libraries  << "#{`pwd`.strip}/../deps/libuv.a"
       linker.flags_after_libraries  << "#{`pwd`.strip}/../deps/pugl/build/libpugl-0.a"
       linker.flags_after_libraries  << "#{`pwd`.strip}/../deps/libnanovg.a"
       if(!windows)
+        linker.flags_after_libraries  << "#{`pwd`.strip}/../deps/libuv.a"
         if(ENV['OS'] != "Mac")
           linker.libraries << 'GL'
           linker.libraries << 'X11'
         end
         linker.flags_after_libraries  << "-lpthread -ldl -lm"
       else
+        linker.flags_after_libraries  << "#{`pwd`.strip}/../deps/libuv-win.a"
         linker.flags_after_libraries  << "-lws2_32 -lkernel32 -lpsapi -luserenv -liphlpapi"
         linker.flags_after_libraries  << "-lglu32 -lgdi32 -lopengl32"
       end
