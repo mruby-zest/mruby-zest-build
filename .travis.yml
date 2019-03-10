@@ -1,6 +1,6 @@
 language: c
 sudo: false
-before_install:
-    - gem install ruby-prof
 script:
-    - make rtest
+    - make setup
+    - make builddep
+    - make
