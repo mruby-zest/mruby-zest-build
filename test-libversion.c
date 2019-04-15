@@ -556,7 +556,7 @@ void *setup_pugl(void *zest)
     puglSetDndTargetOfferTypeFunc(view, onDndTargetOfferType);
     puglSetDndTargetReceiveDataFunc(view, onDndTargetReceiveData);
 
-    puglCreateWindow(view, "ZynAddSubFX 3.0.4");
+    puglCreateWindow(view, "ZynAddSubFX 3.0.5");
     puglShowWindow(view);
     puglProcessEvents(view);
     return view;
