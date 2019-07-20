@@ -1018,7 +1018,7 @@ mrb_remote_param_set_value_ar(mrb_state *mrb, mrb_value self)
     mrb_assert(param->br);
     mrb_assert(param->uri);
 
-    int len = mrb_ary_len(mrb, value);
+    int len = RARRAY_LEN(value);
     rtosc_arg_t args[len];
     char        types[len+1];
     memset(types, 0, len+1);
@@ -1151,7 +1151,7 @@ mrb_opt_magnitude(mrb_state *mrb, mrb_value self)
     assert(args == 4);
 
     float b[3] = {0}, a[3] = {0};
-    int   order = mrb_ary_len(mrb, num);
+    int   order = RARRAY_LEN(num);
     assert(order == 3 || order == 2);
 
     for(int i=0; i<order; ++i) {
@@ -1159,7 +1159,7 @@ mrb_opt_magnitude(mrb_state *mrb, mrb_value self)
         a[i] = mrb_ary_ref(mrb, dem, i).value.f;
     }
 
-    int n = mrb_ary_len(mrb, freq);
+    int n = RARRAY_LEN(freq);
 
     output = mrb_ary_new(mrb);
 

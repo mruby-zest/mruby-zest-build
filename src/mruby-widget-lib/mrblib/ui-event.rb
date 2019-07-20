@@ -44,11 +44,13 @@ class UiEventSeq
 
     def record(event)
         #try to merge events
-        @ev.each do |ev|
-            if(ev[0] == :windowResize && event[0] == :windowResize)
-                ev[1][:w] = event[1][:w]
-                ev[1][:h] = event[1][:h]
-                return
+        if(event[0] == :windowResize)
+            @ev.each do |ev|
+                if(ev[0] == :windowResize)
+                    ev[1][:w] = event[1][:w]
+                    ev[1][:h] = event[1][:h]
+                    return
+                end
             end
         end
         if(@ignore == 0)

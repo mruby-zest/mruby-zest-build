@@ -233,10 +233,10 @@ mrb_draw_seq_render_seqs(mrb_state *mrb, mrb_value self)
 {
     GET_DATA(mrb_draw_seq);
     mrb_value dmg     = mrb_iv_get(mrb, self, mrb_intern_lit(mrb, "@damage"));
-    mrb_value base    = mrb_ary_new(mrb); 
-    mrb_value animate = mrb_ary_new(mrb); 
-    mrb_value overlay = mrb_ary_new(mrb); 
-    int n = mrb_ary_len(mrb, dmg);
+    mrb_value base    = mrb_ary_new(mrb);
+    mrb_value animate = mrb_ary_new(mrb);
+    mrb_value overlay = mrb_ary_new(mrb);
+    int n = RARRAY_LEN(dmg);
     for(int i=0; i<view->len; ++i) {
         mrb_draw_seq_node node = view->seq[i];
         int needs_redraw = 0;
