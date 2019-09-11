@@ -49,3 +49,15 @@
 [submodule "deps/mruby-complex"]
 	path = deps/mruby-complex
 	url = https://github.com/pbosetti/mruby-complex
+[submodule "deps/mruby-dir"]
+	path = deps/mruby-dir
+	url = https://github.com/iij/mruby-dir
+[submodule "deps/mruby-errno"]
+	path = deps/mruby-errno
+	url = https://github.com/iij/mruby-errno
+[submodule "deps/mruby-file-stat"]
+	path = deps/mruby-file-stat
+	url = https://github.com/ksss/mruby-file-stat
+[submodule "deps/mruby-process"]
+	path = deps/mruby-process
+	url = https://github.com/iij/mruby-process
