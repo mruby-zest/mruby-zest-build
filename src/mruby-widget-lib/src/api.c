@@ -119,7 +119,7 @@ zest_open(char *address)
     printf("[INFO:Zyn] Starting Zyn-Fusion Demo...\n");
 #else
     printf("[INFO:Zyn] Starting Zyn-Fusion\n");
-    printf("[INFO:Zyn] Thanks for supporting the developement of this project\n");
+    printf("[INFO:Zyn] Thanks for supporting the development of this project\n");
 #endif
 
     //Create mruby interpreter
