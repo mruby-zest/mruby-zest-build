@@ -23,12 +23,12 @@ jobs:
                 os:   ubuntu-latest,
                 deps:   "make setup && make builddep",
                 config: "",
-                build:  "cd build && make",
+                build:  "make",
             }
             - {
                 name: "macOS clang",
                 os:   macos-latest,
-                deps: "make setup && make builddep",
+                deps: "brew install autoconf && brew install automake && make setup && make builddep",
                 config: "",
                 build:  "OS=Mac make osx",
             }
