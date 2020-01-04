@@ -1,0 +1,45 @@
+name: Build CI
+
+on: [push]
+
+jobs:
+  build:
+    name:    ${{ matrix.config.name}}
+    runs-on: ${{matrix.config.os}}
+    strategy:
+        fail-fast: false
+        matrix:
+            config:
+                #            - {
+                #                name: "Windows MSVC",
+                #                os:   windows-latest,
+                #                deps: "",
+                #                config: "cmake .",
+                #                build:  "cmake --build .",
+                #                test:   "make test"
+                #            }
+            - {
+                name: "Ubuntu gcc",
+                os:   ubuntu-latest,
+                deps:   "make setup && make builddep",
+                config: "",
+                build:  "cd build && make",
+            }
+            - {
+                name: "macOS clang",
+                os:   macos-latest,
+                deps: "make setup && make builddep",
+                config: "",
+                build:  "OS=Mac make osx",
+            }
+
+    steps:
+    - uses: actions/checkout@v1
+    - name: submodules
+      run: git submodule update --init
+    - name: install_deps
+      run: ${{matrix.config.deps}}
+    - name: configure
+      run: ${{matrix.config.config}}
+    - name: make
+      run: ${{matrix.config.build}}
