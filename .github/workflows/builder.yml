@@ -21,7 +21,7 @@ jobs:
             - {
                 name: "Ubuntu gcc",
                 os:   ubuntu-latest,
-                deps:   "sudo apt install ruby && make setup && make builddep",
+                deps:   "sudo apt install ruby && sudo apt-get install libglu1-mesa-dev freeglut3-dev mesa-common-dev && make setup && make builddep",
                 config: "",
                 build:  "make",
             }
