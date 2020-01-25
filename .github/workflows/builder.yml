@@ -14,8 +14,8 @@ jobs:
                 name: "Ubuntu Mingw",
                 os:   ubuntu-latest,
                 deps: "sudo apt install git ruby ruby-dev bison g++-mingw-w64-x86-64 autotools-dev automake libtool premake4 cmake",
-                config: "",
-                build: "export CC=/usr/bin/x86_64-w64-mingw32-gcc CXX=/usr/bin/x86_64-w64-mingw32-g++ AR=/usr/bin/x86_64-w64-mingw32-ar LD=/usr/bin/x86_64-w64-mingw32-gcc CCLD=/usr/bin/x86_64-w64-mingw32-gcc CFLAGS='-g -I/usr/share/mingw-w64/include/ -I/usr/x86_64-w64-mingw32/include/' && make setupwin && make builddepwin && make windows",
+                config: "make setupwin && make builddepwin",
+                build: "export CC=/usr/bin/x86_64-w64-mingw32-gcc CXX=/usr/bin/x86_64-w64-mingw32-g++ AR=/usr/bin/x86_64-w64-mingw32-ar LD=/usr/bin/x86_64-w64-mingw32-gcc CCLD=/usr/bin/x86_64-w64-mingw32-gcc CFLAGS='-g -I/usr/share/mingw-w64/include/ -I/usr/x86_64-w64-mingw32/include/' && make windows",
                 }
             - {
                 name: "Ubuntu gcc",
