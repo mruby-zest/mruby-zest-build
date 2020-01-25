@@ -10,14 +10,13 @@ jobs:
         fail-fast: false
         matrix:
             config:
-                #            - {
-                #                name: "Windows MSVC",
-                #                os:   windows-latest,
-                #                deps: "",
-                #                config: "cmake .",
-                #                build:  "cmake --build .",
-                #                test:   "make test"
-                #            }
+            - {
+                name: "Windows Mingw",
+                os:   windows-latest,
+                deps: "",
+                config: "",
+                build: "CC=gcc CXX=g++ make windows",
+                }
             - {
                 name: "Ubuntu gcc",
                 os:   ubuntu-latest,
