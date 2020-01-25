@@ -11,11 +11,11 @@ jobs:
         matrix:
             config:
             - {
-                name: "Windows Mingw",
-                os:   windows-latest,
-                deps: "",
-                config: "",
-                build: "CC=gcc CXX=g++ make windows",
+                name: "Ubuntu Mingw",
+                os:   ubuntu-latest,
+                deps: "sudo apt install git ruby ruby-dev bison g++-mingw-w64-x86-64 autotools-dev automake libtool premake4 cmake",
+                config: "export CC=/usr/bin/x86_64-w64-mingw32-gcc CXX=/usr/bin/x86_64-w64-mingw32-g++ AR=/usr/bin/x86_64-w64-mingw32-ar LD=/usr/bin/x86_64-w64-mingw32-gcc CCLD=/usr/bin/x86_64-w64-mingw32-gcc CFLAGS='-g -I/usr/share/mingw-w64/include/ -I/usr/x86_64-w64-mingw32/include/'",
+                build: "make setupwin && make builddepwin && make windows",
                 }
             - {
                 name: "Ubuntu gcc",
