@@ -15,7 +15,7 @@ jobs:
                 os:   ubuntu-latest,
                 deps: "sudo apt-get update && sudo apt install git ruby ruby-dev bison g++-mingw-w64-x86-64 autotools-dev automake libtool premake4 cmake",
                 config: "make setupwin && make builddepwin",
-                patch: "cd deps/mruby-dir-glob && git apply ../../mruby-dir-glob-no-process.patch && cd ../.. && cd deps/mruby-io && git apply ../../mruby-io-libname.patch",
+                patch: "cd deps/mruby-dir-glob && git apply ../../mruby-dir-glob-no-process.patch",
                 build: "export CC=/usr/bin/x86_64-w64-mingw32-gcc CXX=/usr/bin/x86_64-w64-mingw32-g++ AR=/usr/bin/x86_64-w64-mingw32-ar LD=/usr/bin/x86_64-w64-mingw32-gcc CCLD=/usr/bin/x86_64-w64-mingw32-gcc CFLAGS='-g -I/usr/share/mingw-w64/include/ -I/usr/x86_64-w64-mingw32/include/' && make windows",
                 }
             - {
