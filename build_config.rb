@@ -39,6 +39,7 @@ build_type.new(build_name) do |conf|
 
   conf.cc.defines = %w(MRUBY_NANOVG_GL2 MRB_ENABLE_DEBUG_HOOK)
   conf.cc.flags << '-O3'
+  conf.host_target = 'x86_64-w64-mingw32' if windows
 
   #No default gems
   # Use standard print/puts/p
