@@ -79,7 +79,7 @@ build_type.new(build_name) do |conf|
   conf.gem 'deps/mruby-dir'
   conf.gem 'deps/mruby-dir-glob'
   conf.gem 'deps/mruby-errno'
-  conf.gem 'deps/mruby-file-stat'
+  conf.gem 'deps/mruby-file-stat' if(!windows)
   conf.gem 'deps/mruby-io'
   conf.gem 'deps/mruby-nanovg'
   conf.gem 'deps/mruby-process'
