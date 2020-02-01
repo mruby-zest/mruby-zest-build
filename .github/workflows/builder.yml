@@ -15,6 +15,7 @@ jobs:
                 os:   ubuntu-latest,
                 deps: "sudo apt install git ruby ruby-dev bison g++-mingw-w64-x86-64 autotools-dev automake libtool premake4 cmake",
                 config: "make setupwin && make builddepwin",
+                patch: "cd deps/mruby-dir-glob && git apply ../../mruby-dir-glob-no-process.patch && cd ../.. && cd deps/mruby-io && git apply ../../mruby-io-libname.patch"
                 build: "export CC=/usr/bin/x86_64-w64-mingw32-gcc CXX=/usr/bin/x86_64-w64-mingw32-g++ AR=/usr/bin/x86_64-w64-mingw32-ar LD=/usr/bin/x86_64-w64-mingw32-gcc CCLD=/usr/bin/x86_64-w64-mingw32-gcc CFLAGS='-g -I/usr/share/mingw-w64/include/ -I/usr/x86_64-w64-mingw32/include/' && make windows",
                 }
             - {
@@ -22,6 +23,7 @@ jobs:
                 os:   ubuntu-latest,
                 deps:   "sudo apt install ruby && sudo apt-get install libglu1-mesa-dev freeglut3-dev mesa-common-dev && sudo apt install bison && make setup && make builddep",
                 config: "",
+                patch: "",
                 build:  "make",
             }
             - {
@@ -29,6 +31,7 @@ jobs:
                 os:   macos-latest,
                 deps: "brew install autoconf && brew install automake && brew install libtool && make setup && make builddep",
                 config: "",
+                patch: "",
                 build:  "OS=Mac make osx",
             }
 
@@ -38,6 +41,8 @@ jobs:
       run: git submodule update --init
     - name: install_deps
       run: ${{matrix.config.deps}}
+    - name: patch
+      run: ${{matrix.config.patch}}
     - name: configure
       run: ${{matrix.config.config}}
     - name: make
