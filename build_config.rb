@@ -2,7 +2,7 @@ puts "Environment is:"
 puts ENV['OS']
 puts ENV.include? "WINDOWS"
 windows = ENV.include? "WINDOWS"
-RUBY_PLATFORM = "mingw" if ENV.include? "WINDOWS"
+#RUBY_PLATFORM = "mingw" if ENV.include? "WINDOWS"
 
 if(windows)
   puts" Setting up host build"
