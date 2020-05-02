@@ -802,11 +802,17 @@ remote_cb(const char *msg, void *data)
         remote_cb_int(msg, cb);
     else if(!strcmp("f", arg_str)) {
         float val = rtosc_argument(msg, 0).f;
-        if(cb->log) {
-            const float b = log(cb->min);
-            const float a = log(cb->max)-b;
-            val = (logf(val)-b)/a;
-        } else
+		if(cb->log) {
+			if (cb->min > 0){
+				const float b = log(cb->min);
+				const float a = log(cb->max)-b;
+				val = (logf(val)-b)/a; // inverse scaling function of exp-function in mrb_remote_param_set_value
+			}else { // min <= 0
+				const float a = log(4096);
+				const float b = log(cb->max)-a;
+				val = log1pf(val*4096/cb->max)/a; // inverse function of exp-function in mrb_remote_param_set_value
+			}
+		} else
             val = (val-cb->min)/(cb->max-cb->min);
         mrb_funcall(cb->mrb, cb->cb, "call", 1, mrb_float_value(cb->mrb, val));
     } else if(!strcmp("T", arg_str))
@@ -971,11 +977,17 @@ mrb_remote_param_set_value(mrb_state *mrb, mrb_value self)
     } else if(param->type == 'f') {
         const float x = value;
         float out = 0;
-        if(param->scale && strstr(param->scale, "log")) {
-            const float b = log(param->min);
-            const float a = log(param->max)-b;
-            out = expf(a*x+b);
-        } else
+		if(param->scale && strstr(param->scale, "log")) {
+			if (param->min > 0) {
+				const float b = log(param->min);
+				const float a = log(param->max)-b;
+				out = expf(a*x+b);
+			} else { // min <= 0 ( e.g. envelope time param )
+				const float a = log(4096.0);
+				const float b = log(param->max)-a;
+				out = expm1f(a*x)*param->max/4096.0;
+			}
+		} else
             out = (param->max-param->min)*value + param->min;
         br_set_value_float(param->br, param->uri, out);
     }
