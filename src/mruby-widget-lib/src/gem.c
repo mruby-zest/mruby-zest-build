@@ -809,7 +809,6 @@ remote_cb(const char *msg, void *data)
 				val = (logf(val)-b)/a; // inverse scaling function of exp-function in mrb_remote_param_set_value
 			}else { // min <= 0
 				const float a = log(4096);
-				const float b = log(cb->max)-a;
 				val = log1pf(val*4096/cb->max)/a; // inverse function of exp-function in mrb_remote_param_set_value
 			}
 		} else
@@ -984,7 +983,6 @@ mrb_remote_param_set_value(mrb_state *mrb, mrb_value self)
 				out = expf(a*x+b);
 			} else { // min <= 0 ( e.g. envelope time param )
 				const float a = log(4096.0);
-				const float b = log(param->max)-a;
 				out = expm1f(a*x)*param->max/4096.0;
 			}
 		} else
