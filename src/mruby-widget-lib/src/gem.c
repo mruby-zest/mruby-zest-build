@@ -290,7 +290,7 @@ mrb_fbo_deselect(mrb_state *mrb, mrb_value self)
     return self;
 }
 
-const struct mrb_data_type mrb_nvg_context_type;
+extern const struct mrb_data_type mrb_nvg_context_type;
 typedef void NVGcontext;
 int nvglCreateImageFromHandleGL2(NVGcontext* ctx, GLuint textureId, int w, int h, int imageFlags);
 
