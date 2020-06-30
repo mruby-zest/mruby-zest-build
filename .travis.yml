@@ -1,4 +1,8 @@
 language: c
+addons:
+  apt:
+    packages:
+    - mesa-common-dev
 sudo: false
 script:
     - make setup
