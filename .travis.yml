@@ -3,6 +3,7 @@ addons:
   apt:
     packages:
     - mesa-common-dev
+    - libgl1-mesa-dev
 sudo: false
 script:
     - make setup
