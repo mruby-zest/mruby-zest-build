@@ -163,7 +163,8 @@ static void
 onUtf8KeyEvent(PuglView* view, char* utf8, bool press)
 {
     struct zest_handles *z = puglGetHandle(view);
-    z->zest_key(z->zest, utf8, press);
+    if(z->zest)
+	    z->zest_key(z->zest, utf8, press);
 }
 
 // convert pugl-new-style event structs to pugl-old-style event callbacks

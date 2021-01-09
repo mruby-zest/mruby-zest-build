@@ -107,6 +107,7 @@ build_type.new(build_name) do |conf|
       cc.flags << "-mwindows"           if windows
       cc.flags << "-Wno-declaration-after-statement"
       cc.defines << "DEMO_MODE=#{demo_mode ? '1':'0'}"
+      cc.defines << "MRB_NO_BOXING"
   end
 
   conf.linker do |linker|

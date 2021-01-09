@@ -10,9 +10,10 @@ all:
 #	cd deps/pugl         && python2 ./waf configure --no-cairo --static
 	cd deps/pugl         && python2 ./waf configure --no-cairo --static --debug
 	cd deps/pugl         && python2 ./waf
+	cd deps/mruby-file-stat/src && ../configure
 	cd src/osc-bridge    && CFLAGS="-I ../../deps/$(UV_DIR)/include " make lib
 	cd mruby             && MRUBY_CONFIG=../build_config.rb rake
-	$(CC) -shared -o libzest.so `find mruby/build/host -type f | grep -e "\.o$$" | grep -v bin` ./deps/libnanovg.a \
+	$(CC) -shared -o libzest.so `find mruby/build/host -type f | grep -v mrbc | grep -e "\.o$$" | grep -v bin` ./deps/libnanovg.a \
 		./deps/libnanovg.a \
 		src/osc-bridge/libosc-bridge.a \
 		./deps/$(UV_DIR)/.libs/libuv.a  -lm -lX11 -lGL -lpthread
@@ -27,7 +28,7 @@ osx:
 	cd deps/pugl         && python2 ./waf
 	cd src/osc-bridge    && CFLAGS="-I ../../deps/$(UV_DIR)/include " make lib
 	cd mruby             && MRUBY_CONFIG=../build_config.rb rake
-	$(CC) -shared -o libzest.so `find mruby/build/host -type f | grep -e "\.o$$" | grep -v bin` ./deps/libnanovg.a \
+	$(CC) -shared -o libzest.so `find mruby/build/host -type f | grep -v mrbc | grep -e "\.o$$" | grep -v bin` ./deps/libnanovg.a \
 		./deps/libnanovg.a \
 		src/osc-bridge/libosc-bridge.a \
 		./deps/$(UV_DIR)/.libs/libuv.a  -lm -framework OpenGL -lpthread
