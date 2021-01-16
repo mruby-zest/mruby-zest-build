@@ -7,9 +7,6 @@ all:
 	ruby ./rebuild-fcache.rb
 	cd deps/nanovg/src   && $(CC) nanovg.c -c -fPIC
 	$(AR) rc deps/libnanovg.a deps/nanovg/src/*.o
-#	cd deps/pugl         && python2 ./waf configure --no-cairo --static
-	cd deps/pugl         && python2 ./waf configure --no-cairo --static --debug
-	cd deps/pugl         && python2 ./waf
 	cd deps/mruby-file-stat/src && ../configure
 	cd src/osc-bridge    && CFLAGS="-I ../../deps/$(UV_DIR)/include " make lib
 	cd mruby             && MRUBY_CONFIG=../build_config.rb rake
@@ -17,7 +14,9 @@ all:
 		./deps/libnanovg.a \
 		src/osc-bridge/libosc-bridge.a \
 		./deps/$(UV_DIR)/.libs/libuv.a  -lm -lX11 -lGL -lpthread
-	$(CC) test-libversion.c deps/pugl/build/libpugl-0.a -ldl -o zest -lX11 -lGL -lpthread -I deps/pugl -std=gnu99
+	$(CC) test-libversion.c deps/pugl/pugl/pugl_x11.c \
+		  -DPUGL_HAVE_GL \
+		  -ldl -o zest -lX11 -lGL -lpthread -I deps/pugl -std=gnu99
 
 osx:
 	ruby ./rebuild-fcache.rb

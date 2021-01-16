@@ -115,7 +115,6 @@ build_type.new(build_name) do |conf|
       #linker.library_paths  << "#{`pwd`.strip}/../deps/rtosc/build/"
       linker.library_paths  << "#{`pwd`.strip}/../src/osc-bridge/"
       linker.libraries << 'osc-bridge'
-      linker.flags_after_libraries  << "#{`pwd`.strip}/../deps/pugl/build/libpugl-0.a"
       linker.flags_after_libraries  << "#{`pwd`.strip}/../deps/libnanovg.a"
       if(!windows)
         linker.flags_after_libraries  << "#{`pwd`.strip}/../deps/libuv.a"
