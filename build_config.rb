@@ -82,7 +82,7 @@ build_type.new(build_name) do |conf|
   conf.gem 'deps/mruby-file-stat'
   conf.gem 'deps/mruby-io'
   conf.gem 'deps/mruby-nanovg'
-  conf.gem 'deps/mruby-process'
+#  conf.gem 'deps/mruby-process'
   conf.gem 'deps/mruby-regexp-pcre'
   conf.gem 'deps/mruby-set'
 
