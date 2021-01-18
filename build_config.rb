@@ -20,7 +20,22 @@ if(windows)
     conf.archiver do |archiver|
       archiver.command = 'ar'
     end
-    conf.gembox 'default'
+
+    # Our custom gem list based on 'default' gembox.
+    # CLI gems (e.g. mruby, mirb) are bypassed. This can avoid errors when linking them,
+    # and they're unnecessary to Windows build.
+    conf.gembox "stdlib"
+    conf.gembox "stdlib-ext"
+    conf.gembox "math"
+    conf.gembox "metaprog"
+
+    # Use stdlib-io except mruby-socket (also unnecessary for cross-building)
+    conf.gem :core => "mruby-io"
+    conf.gem :core => "mruby-print"
+
+    # Generate mrbc command
+    conf.gem :core => "mruby-bin-mrbc"
+
   end
 end
 
@@ -147,12 +162,29 @@ MRuby::Build.new('host-debug') do |conf|
 
   enable_debug
 
-  # include the default GEMs
-  conf.gembox 'default'
+  if(windows)
+    # Our custom gem list based on 'default' gembox.
+    # Bypass all CLIs here to avoid linker errors on Msys2.
+    conf.gembox "stdlib"
+    conf.gembox "stdlib-ext"
+    conf.gembox "math"
+    conf.gembox "metaprog"
+
+    # Use stdlib-io except mruby-socket (also unnecessary for cross-building debug targets)
+    conf.gem :core => "mruby-io"
+    conf.gem :core => "mruby-print"
+
+  else
+    # include default GEMs
+    conf.gembox 'default'
+  end
 
   # C compiler settings
   conf.cc.defines = %w(MRB_ENABLE_DEBUG_HOOK MRUBY_NANOVG_GL2)
 
   # Generate mruby debugger command (require mruby-eval)
-  conf.gem :core => "mruby-bin-debugger"
+  # Also bypass it when building for/on Windows
+  if(!windows)
+    conf.gem :core => "mruby-bin-debugger"
+  end
 end
