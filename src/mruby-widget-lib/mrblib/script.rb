@@ -259,6 +259,11 @@ class ZRunner
             if(aw.respond_to? :onMouseHover)
                 aw.onMouseHover MouseButton.new(0,Pos.new(x,y),mod)
             end
+            # It's important that onMouseLeave is called before onMouseEnter
+            # for tooltips to work properly.
+            if(aw != old_aw && old_aw.respond_to?(:onMouseLeave))
+                old_aw.onMouseLeave MouseButton.new(0,Pos.new(x,y),mod)
+            end
             if(aw != old_aw && aw.respond_to?(:onMouseEnter))
                 aw.onMouseEnter MouseButton.new(0,Pos.new(x,y),mod)
             end
