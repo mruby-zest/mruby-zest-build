@@ -40,9 +40,6 @@
 [submodule "src/mruby-qml-parse"]
 	path = src/mruby-qml-parse
 	url = https://github.com/mruby-zest/mruby-qml-parse
-[submodule "deps/pugl"]
-	path = deps/pugl
-	url = https://github.com/mruby-zest/pugl.git
 [submodule "deps/osc-bridge"]
 	path = src/osc-bridge
 	url = https://github.com/mruby-zest/osc-bridge
