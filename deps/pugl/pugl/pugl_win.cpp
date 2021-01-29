@@ -470,12 +470,12 @@ handleMessage(PuglView* view, UINT message, WPARAM wParam, LPARAM lParam)
 	case WM_CREATE:
 	case WM_SHOWWINDOW:
 	case WM_SIZE:
-		GetWindowRect(view->impl->hwnd, &rect);
+		GetClientRect(view->impl->hwnd, &rect);
 		event.configure.type   = PUGL_CONFIGURE;
 		event.configure.x      = rect.left;
 		event.configure.y      = rect.top;
-		view->width            = rect.right - rect.left;
-		view->height           = rect.bottom - rect.top;
+		view->width            = rect.right;
+		view->height           = rect.bottom;
 		event.configure.width  = view->width;
 		event.configure.height = view->height;
 		break;
