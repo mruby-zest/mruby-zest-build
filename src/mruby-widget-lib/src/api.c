@@ -67,10 +67,18 @@ mrb_value
 load_qml_obj(mrb_state *mrb, mrb_value self)
 {
     //printf("[INFO] (Hot?)Loading QML...\n");
+#ifdef UI_HOTLOAD
+    bool workaround=false;
+#else
+    bool workaround=true;
+#endif
     if(zest_search_path)
-        return mrb_funcall(mrb, mrb_nil_value(), "doFastLoad", 1, mrb_str_new_cstr(mrb, zest_search_path));
+      return mrb_funcall(mrb, mrb_nil_value(), "doFastLoad",
+                         2, mrb_str_new_cstr(mrb, zest_search_path),
+                         mrb_bool_value(workaround));
     else
-        return mrb_funcall(mrb, mrb_nil_value(), "doFastLoad", 0);
+      return mrb_funcall(mrb, mrb_nil_value(), "doFastLoad",
+                         2, mrb_nil_value(), mrb_bool_value(workaround));
 }
 
 EXPORT zest_t *
@@ -91,10 +99,10 @@ zest_open(char *address)
         FILE *f = fopen(dev_check, "r");
         if(f) {
             dev_mode = 1;
+            printf("[INFO:Zyn] running in dev mode\n");
             fclose(f);
         }
     }
-
 
     //Verify that the search path is usable
     char *path = get_search_path();
@@ -146,7 +154,11 @@ zest_open(char *address)
     check_error(z->mrb);
 
     //Configure application runner
+#ifdef UI_HOTLOAD
+    mrb_funcall(z->mrb, z->runner, "hotload=", 1, mrb_true_value());
+#else
     mrb_funcall(z->mrb, z->runner, "hotload=", 1, mrb_false_value());
+#endif
     check_error(z->mrb);
 
     if(!dev_mode) {
