@@ -121,13 +121,12 @@ build_type.new(build_name) do |conf|
       cc.flags << "-mstackrealign"      if windows
       cc.flags << "-mwindows"           if windows
       cc.flags << "-Wno-declaration-after-statement"
+      cc.defines << "UI_HOTLOAD"        if ENV.include?("UI_HOTLOAD")
       cc.defines << "DEMO_MODE=#{demo_mode ? '1':'0'}"
       cc.defines << "MRB_NO_BOXING"
   end
 
   conf.linker do |linker|
-      #linker.library_paths  << "#{`pwd`.strip}/../deps/nanovg/build/"
-      #linker.library_paths  << "#{`pwd`.strip}/../deps/rtosc/build/"
       linker.library_paths  << "#{`pwd`.strip}/../src/osc-bridge/"
       linker.libraries << 'osc-bridge'
       linker.flags_after_libraries  << "#{`pwd`.strip}/../deps/libnanovg.a"
