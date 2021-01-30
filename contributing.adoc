@@ -78,14 +78,11 @@ dev (e.g. listening to some music).
 Then from the mruby-zest-build repo:
 
 --------------------------------------------------------------------------------
-make setup
-make builddep
 make
 make run
 --------------------------------------------------------------------------------
 
-This will build the GUI and connect it to the remote zyn (note, you should not
-need to rerun setup/builddep from now on).
+This will build the GUI and connect it to the remote zyn.
 
 Ok, now the GUI is running and it should be connected to a running instance of
 zynaddsubfx. Now what?

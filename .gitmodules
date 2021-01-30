@@ -58,3 +58,6 @@
 [submodule "deps/mruby-process"]
 	path = deps/mruby-process
 	url = https://github.com/iij/mruby-process
+[submodule "deps/libuv"]
+	path = deps/libuv
+	url = https://github.com/libuv/libuv

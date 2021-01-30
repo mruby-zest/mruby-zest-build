@@ -1,44 +1,40 @@
-UV_DIR    = libuv-v1.9.1
-UV_FILE   = $(UV_DIR).tar.gz
-UV_URL    = http://dist.libuv.org/dist/v1.9.1/$(UV_FILE)
-	 
 
-all:
+all: deps/libuv.a
 	ruby ./rebuild-fcache.rb
 	cd deps/nanovg/src   && $(CC) nanovg.c -c -fPIC
 	$(AR) rc deps/libnanovg.a deps/nanovg/src/*.o
 	cd deps/mruby-file-stat/src && ../configure
-	cd src/osc-bridge    && CFLAGS="-I ../../deps/$(UV_DIR)/include " make lib
+	cd src/osc-bridge    && CFLAGS="-I ../../deps/libuv/include " make lib
 	cd mruby             && MRUBY_CONFIG=../build_config.rb rake
 	$(CC) -shared -o libzest.so `find mruby/build/host -type f | grep -v mrbc | grep -e "\.o$$" | grep -v bin` ./deps/libnanovg.a \
 		./deps/libnanovg.a \
 		src/osc-bridge/libosc-bridge.a \
-		./deps/$(UV_DIR)/.libs/libuv.a  -lm -lX11 -lGL -lpthread
+		./deps/libuv.a  -lm -lX11 -lGL -lpthread
 	$(CC) test-libversion.c deps/pugl/pugl/pugl_x11.c \
 		  -DPUGL_HAVE_GL \
 		  -ldl -o zest -lX11 -lGL -lpthread -I deps/pugl -std=gnu99
 
-osx:
+osx: deps/libuv.a
 	ruby ./rebuild-fcache.rb
 	cd deps/nanovg/src   && $(CC) nanovg.c -c -fPIC
 	$(AR) rc deps/libnanovg.a deps/nanovg/src/*.o
 	cd deps/pugl         && python2 ./waf configure --no-cairo --static
 #	cd deps/pugl         && python2 ./waf configure --no-cairo --static --debug
 	cd deps/pugl         && python2 ./waf
-	cd src/osc-bridge    && CFLAGS="-I ../../deps/$(UV_DIR)/include " make lib
+	cd src/osc-bridge    && CFLAGS="-I ../../deps/libuv/include " make lib
 	cd mruby             && MRUBY_CONFIG=../build_config.rb rake
 	$(CC) -shared -o libzest.so `find mruby/build/host -type f | grep -v mrbc | grep -e "\.o$$" | grep -v bin` ./deps/libnanovg.a \
 		./deps/libnanovg.a \
 		src/osc-bridge/libosc-bridge.a \
-		./deps/$(UV_DIR)/.libs/libuv.a  -lm -framework OpenGL -lpthread
+		./deps/libuv/.libs/libuv.a  -lm -framework OpenGL -lpthread
 	$(CC) test-libversion.c deps/pugl/build/libpugl-0.a -ldl -o zest -framework OpenGL -framework AppKit -lpthread -I deps/pugl -std=gnu99
 
-windows:
+windows: deps/libuv-win.a
 	cd deps/nanovg/src   && $(CC) -mstackrealign nanovg.c -c
 	$(AR) rc deps/libnanovg.a deps/nanovg/src/*.o
 	cd deps/pugl         && CFLAGS="-mstackrealign" python2 ./waf configure --no-cairo --static --target=win32
 	cd deps/pugl         && python2 ./waf
-	cd src/osc-bridge    && CFLAGS="-mstackrealign -I ../../deps/$(UV_DIR)/include " make lib
+	cd src/osc-bridge    && CFLAGS="-mstackrealign -I ../../deps/libuv/include " make lib
 	cd mruby             && WINDOWS=1 MRUBY_CONFIG=../build_config.rb rake
 	$(CC) -mstackrealign -shared -o libzest.dll -static-libgcc `find mruby/build/w64 -type f | grep -e "\.o$$" | grep -v bin` \
         ./deps/libnanovg.a \
@@ -47,28 +43,17 @@ windows:
         -lm -lpthread -lws2_32 -lkernel32 -lpsapi -luserenv -liphlpapi -lglu32 -lgdi32 -lopengl32
 	$(CC) -mstackrealign -DWIN32 test-libversion.c deps/pugl/build/libpugl-0.a -o zest.exe -lpthread -I deps/pugl -std=c99 -lws2_32 -lkernel32 -lpsapi -luserenv -liphlpapi -lglu32 -lgdi32 -lopengl32
 
-
-builddep: deps/libuv.a
 deps/libuv.a:
-	cd deps/$(UV_DIR)    && ./autogen.sh
-	cd deps/$(UV_DIR)    && CFLAGS=-fPIC ./configure
-	cd deps/$(UV_DIR)    && CFLAGS=-fPIC make
-	cp deps/$(UV_DIR)/.libs/libuv.a deps/
+	cd deps/libuv    && ./autogen.sh
+	cd deps/libuv    && CFLAGS=-fPIC ./configure
+	cd deps/libuv    && CFLAGS=-fPIC make
+	cp deps/libuv/.libs/libuv.a deps/
 
-builddepwin: deps/libuv-win.a
 deps/libuv-win.a:
-	cd deps/$(UV_DIR)   && ./autogen.sh
-	cd deps/$(UV_DIR)   && CFLAGS="-mstackrealign" ./configure  --host=x86_64-w64-mingw32
-	cd deps/$(UV_DIR)   && LD=x86_64-w64-mingw32-gcc make
-	cp deps/$(UV_DIR)/.libs/libuv.a deps/libuv-win.a
-
-deps/$(UV_DIR):
-	cd deps              && wget -4 $(UV_URL) && tar xvf $(UV_FILE)
-setup: deps/$(UV_DIR)
-
-setupwin:
-	cd deps              && wget -4 $(UV_URL)
-	cd deps              && tar xvf $(UV_FILE)
+	cd deps/libuv   && ./autogen.sh
+	cd deps/libuv   && CFLAGS="-mstackrealign" ./configure  --host=x86_64-w64-mingw32
+	cd deps/libuv   && LD=x86_64-w64-mingw32-gcc make
+	cp deps/libuv/.libs/libuv.a deps/libuv-win.a
 
 push:
 	cd src/osc-bridge      && git push
@@ -151,6 +136,7 @@ scratch:
 clean: ## Clean Build Data
 	cd mruby             && MRUBY_CONFIG=../build_config.rb rake clean
 	cd mruby             && rm -rf build/w64
+	rm -f deps/libuv.a deps/libuv-win.a
 
 pack:
 	rm -rf package
@@ -194,7 +180,6 @@ packsrc:
 
 putsrc:
 	scp zynaddsubfx-3.0.0.tar.bz2 mark@fundamental-code.com:/var/www/htdocs/zest/
-
 
 .PHONY: help
 
