@@ -17,7 +17,7 @@ all:
 		./deps/$(UV_DIR)/.libs/libuv.a  -lm -lX11 -lGL -lpthread
 	$(CC) test-libversion.c deps/pugl/pugl/pugl_x11.c \
 		  -DPUGL_HAVE_GL \
-		  -ldl -o zest -lX11 -lGL -lpthread -I deps/pugl -std=gnu99
+		  -ldl -o zest -lX11 -lGL -lpthread -I deps/pugl -std=gnu99 -Wno-trigraphs
 
 osx:
 	ruby ./rebuild-fcache.rb
