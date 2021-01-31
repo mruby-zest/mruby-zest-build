@@ -6,6 +6,4 @@ addons:
     - libgl1-mesa-dev
 sudo: false
 script:
-    - make setup
-    - make builddep
     - make
