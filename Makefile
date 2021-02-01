@@ -5,6 +5,7 @@ all:
 	$(AR) rc deps/libnanovg.a deps/nanovg/src/*.o
 	cd deps/mruby-file-stat/src && ../configure
 	cd src/osc-bridge    && make lib
+#	cd mruby             && UI_HOTLOAD=1 MRUBY_CONFIG=../build_config.rb rake
 	cd mruby             && MRUBY_CONFIG=../build_config.rb rake
 	$(CC) -shared -o libzest.so `find mruby/build/host -type f | grep -v mrbc | grep -e "\.o$$" | grep -v bin` ./deps/libnanovg.a \
 		./deps/libnanovg.a \
@@ -12,7 +13,7 @@ all:
 		$(pkg-config --libs libuv) -lm -lX11 -lGL -lpthread
 	$(CC) test-libversion.c deps/pugl/pugl/pugl_x11.c \
 		  -DPUGL_HAVE_GL \
-		  -ldl -o zest -lX11 -lGL -lpthread -I deps/pugl -std=gnu99
+		  -ldl -o zest -lX11 -lGL -lpthread -I deps/pugl -std=gnu99 -Wno-trigraphs
 
 osx: deps/libuv.a
 	ruby ./rebuild-fcache.rb
@@ -29,11 +30,9 @@ osx: deps/libuv.a
 		./deps/libuv/.libs/libuv.a  -lm -framework OpenGL -lpthread
 	$(CC) test-libversion.c deps/pugl/build/libpugl-0.a -ldl -o zest -framework OpenGL -framework AppKit -lpthread -I deps/pugl -std=gnu99
 
-windows: deps/libuv-win.a
+windows: buildpuglwin deps/libuv-win.a
 	cd deps/nanovg/src   && $(CC) -mstackrealign nanovg.c -c
 	$(AR) rc deps/libnanovg.a deps/nanovg/src/*.o
-	cd deps/pugl         && CFLAGS="-mstackrealign" python2 ./waf configure --no-cairo --static --target=win32
-	cd deps/pugl         && python2 ./waf
 	cd src/osc-bridge    && CFLAGS="-mstackrealign -I ../../deps/libuv/include " make lib
 	cd mruby             && WINDOWS=1 MRUBY_CONFIG=../build_config.rb rake
 	$(CC) -mstackrealign -shared -o libzest.dll -static-libgcc `find mruby/build/w64 -type f | grep -e "\.o$$" | grep -v bin` \
@@ -42,6 +41,17 @@ windows: deps/libuv-win.a
         ./deps/libuv-win.a \
         -lm -lpthread -lws2_32 -lkernel32 -lpsapi -luserenv -liphlpapi -lglu32 -lgdi32 -lopengl32
 	$(CC) -mstackrealign -DWIN32 test-libversion.c deps/pugl/build/libpugl-0.a -o zest.exe -lpthread -I deps/pugl -std=c99 -lws2_32 -lkernel32 -lpsapi -luserenv -liphlpapi -lglu32 -lgdi32 -lopengl32
+
+# Bypass PUGL's WAF builder by manually build according to WAF-generated cmdline
+buildpuglwin:
+	cd deps/pugl && rm -rf build && mkdir build
+	cd deps/pugl/pugl; \
+	$(CXX) \
+	-DNDEBUG -fshow-column -I../ -DHAVE_GL=1 -DPUGL_HAVE_GL=1 -DPUGL_VERSION="0.2.0" pugl_win.cpp \
+	-c -o ../build/pugl_win.cpp.2.o
+	cd deps/pugl/build/ && $(AR) rcs libpugl-0.a pugl_win.cpp.2.o
+
+.PHONY: buildpuglwin
 
 deps/libuv.a:
 	cd deps/libuv    && ./autogen.sh

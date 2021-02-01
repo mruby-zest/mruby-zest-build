@@ -2,11 +2,12 @@ Contributing To the MRuby-Zest Toolkit (and/or the zyn-fusion GUI)
 ==================================================================
 
 
-When working with mruby-zest a number of concepts. Down the road I'll likely
-add in links to the (likely) LAC paper on the framework, but for now here's
-some basic developer level information:
+When working with mruby-zest a number of concepts are useful.
+LAC paper: https://lac.linuxaudio.org/2018/pdf/38-paper.pdf
 
-In theory you shouldn't have to mess with anything in deps/ , 
+This file contains some basic developer level information.
+
+In theory you shouldn't have to mess with anything in deps/.
 
 src/mruby-zest
 --------------
@@ -23,21 +24,25 @@ the running GUI without restarting. Saving a file with errors may result in the
 running GUI crashing, but that's not a major issue as the GUI is out-of-process
 compared to the synthesis backend.
 
-To enable code hotloading, two major flags need to be toggled:
-'src/mruby-widget-lib/src/api.c' should normally say:
+To enable code hotloading, simply define the environment variable UI_HOTLOAD when
+compiling the code under mruby. This can be achieved by editing the top Makefile:
+
+Replace
 
 --------------------------------------------------------------------------------
-mrb_funcall(z->mrb, z->runner, "hotload=", 1, mrb_false_value());
+cd mruby             && MRUBY_CONFIG=../build_config.rb rake
 --------------------------------------------------------------------------------
 
-Just change the false argument to 'mrb_true_value()'.
+by
 
-In 'src/mruby-qml-spawn/mrblib/build.rb' change 'workaround=true' to
-'workaround=false'.
+--------------------------------------------------------------------------------
+cd mruby             && UI_HOTLOAD=1 MRUBY_CONFIG=../build_config.rb rake
+--------------------------------------------------------------------------------
 
-Then rebuild the GUI. This will slowdown the GUI's execution somewhat as the
-GUI will occasionally probe widget .qml files to see if they need to be
-reloaded.
+Then rebuild the GUI (you may need to touch src/mruby-widget-lib/src/api.c for
+the change to be taken into account). This will slow down the GUI's execution
+somewhat as the GUI will occasionally probe widget .qml files to see if they need
+to be reloaded.
 
 
 src/mruby-widget-lib
