@@ -1,15 +1,15 @@
 
-all: deps/libuv.a
+all:
 	ruby ./rebuild-fcache.rb
 	cd deps/nanovg/src   && $(CC) nanovg.c -c -fPIC
 	$(AR) rc deps/libnanovg.a deps/nanovg/src/*.o
 	cd deps/mruby-file-stat/src && ../configure
-	cd src/osc-bridge    && CFLAGS="-I ../../deps/libuv/include " make lib
+	cd src/osc-bridge    && make lib
 	cd mruby             && MRUBY_CONFIG=../build_config.rb rake
 	$(CC) -shared -o libzest.so `find mruby/build/host -type f | grep -v mrbc | grep -e "\.o$$" | grep -v bin` ./deps/libnanovg.a \
 		./deps/libnanovg.a \
 		src/osc-bridge/libosc-bridge.a \
-		./deps/libuv.a  -lm -lX11 -lGL -lpthread
+		$(pkg-config --libs libuv) -lm -lX11 -lGL -lpthread
 	$(CC) test-libversion.c deps/pugl/pugl/pugl_x11.c \
 		  -DPUGL_HAVE_GL \
 		  -ldl -o zest -lX11 -lGL -lpthread -I deps/pugl -std=gnu99

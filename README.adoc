@@ -12,13 +12,14 @@ git submodule init
 git submodule update
 ----
 
-== Building
+== Building on Linux
+
+Zynfusion depends on libuv and mesa (packages libuv1-dev, mesa-common-dev,
+libgl1-mesa-dev on Debian variants).
 
 To build you'll want to use the Makefile:
 [source,bash]
 ----
-make setup
-make builddep
 make
 ----
 and the ahead-of-time qml compiler 'rebuild-fcache.rb'.
@@ -30,8 +31,6 @@ run the make process as follows:
 
 [source,bash]
 ----
-make setup
-make builddep
 OS=Mac make osx
 ----
 There will be a number of deprecation warnings, these can be ignored.
