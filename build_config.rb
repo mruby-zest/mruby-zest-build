@@ -1,9 +1,10 @@
 puts "Environment is:"
 puts ENV['OS']
 
-linux = RbConfig::CONFIG['host_os'].include? "linux"
+linux   = RbConfig::CONFIG['host_os'].include? "linux"
 windows = ENV.include? "WINDOWS"
-mac = ENV['OS'] == "Mac"
+mac     = ENV['OS'] == "Mac"
+linux   = false if windows || mac
 
 RUBY_PLATFORM = "mingw" if windows
 
