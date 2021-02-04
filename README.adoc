@@ -14,7 +14,7 @@ git submodule update
 
 == Building on Linux
 
-Zynfusion depends on libuv and mesa (packages libuv1-dev, mesa-common-dev,
+Zyn-Fusion depends on libuv and mesa (packages libuv1-dev, mesa-common-dev,
 libgl1-mesa-dev on Debian variants).
 
 To build you'll want to use the Makefile:
