@@ -439,6 +439,12 @@ class ZRunner
         cnt
     end
 
+    def forget_all_state
+        # Explicity require Zest UI to update itself.
+        # Invoke this method when user changes a preset in VST host.
+        $remote.damage("/")
+    end
+
     ########################################
     #      Widget Hotloading Support       #
     ########################################

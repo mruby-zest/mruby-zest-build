@@ -421,3 +421,17 @@ zest_get_remote_url(zest_t *z)
     return mrb_string_value_ptr(mrb, out);
 }
 
+/**
+ * zest_forget_all_state()
+ * 
+ * Explicity require Zest UI to update itself.
+ * Invoke this method in DPF's DISTHRO::UI::stateChanged()
+ *   so that Zest UI can respond to preset changes in VST host.
+ */
+EXPORT void
+zest_forget_all_state(zest_t *z)
+{
+    mrb_state *mrb = z->mrb;
+    mrb_funcall(z->mrb, z->runner, "forget_all_state", 0);
+    check_error(z->mrb);
+}
