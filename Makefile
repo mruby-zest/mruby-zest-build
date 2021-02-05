@@ -10,7 +10,7 @@ all:
 	$(CC) -shared -o libzest.so `find mruby/build/host -type f | grep -v mrbc | grep -e "\.o$$" | grep -v bin` ./deps/libnanovg.a \
 		./deps/libnanovg.a \
 		src/osc-bridge/libosc-bridge.a \
-		$(pkg-config --libs libuv) -lm -lX11 -lGL -lpthread
+		`pkg-config --libs libuv` -lm -lX11 -lGL -lpthread
 	$(CC) test-libversion.c deps/pugl/pugl/pugl_x11.c \
 		  -DPUGL_HAVE_GL \
 		  -ldl -o zest -lX11 -lGL -lpthread -I deps/pugl -std=gnu99 -Wno-trigraphs
