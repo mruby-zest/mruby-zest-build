@@ -1,0 +1,12 @@
+; DO NOT EDIT (unless you know what you are doing)
+;
+; This subdirectory is a git "subrepo", and this file is maintained by the
+; git-subrepo command. See https://github.com/git-commands/git-subrepo#readme
+;
+[subrepo]
+	remote = git@github.com:mruby-zest/mruby-zest.git
+	branch = master
+	commit = 74b9e70e903b8aa571231eb92b1ce878efc84d94
+	parent = cea6b6eb72310cbbc81b0e1686ce855f5d823053
+	method = merge
+	cmdver = 0.4.3
