@@ -37,9 +37,6 @@
 [submodule "src/mruby-qml-parse"]
 	path = src/mruby-qml-parse
 	url = https://github.com/mruby-zest/mruby-qml-parse
-[submodule "deps/osc-bridge"]
-	path = src/osc-bridge
-	url = https://github.com/mruby-zest/osc-bridge
 [submodule "deps/mruby-complex"]
 	path = deps/mruby-complex
 	url = https://github.com/pbosetti/mruby-complex
