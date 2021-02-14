@@ -1,0 +1,33 @@
+{
+    "parameters" : [
+        { "path":      "/part[0-15]/Pvolume",
+          "name":      "Part Volume",
+          "shortname": "Vol.",
+          "tooltip":   "Volume Applied to a whole instrument",
+          "type":      "int",
+          "domain":    [0,127]},
+        { "path":      "/part[0-15]/Penabled",
+          "name":      "Part Enable",
+          "shortname": "Enable",
+          "tooltip":   "Enable Processing For Part",
+          "type":      "boolean"},
+        { "path":      "/part[0,15]/Pname",
+          "name":      "Instrument Name",
+          "shortname": "Name",
+          "tooltip":   "Name To Save Instrument As",
+          "type":      "string"}],
+    "actions" : [
+        { "path":      "/noteOn",
+          "args": [
+            { "type":   "int",
+              "domain": [0,127]},
+            { "type":   "int",
+              "domain": [0,127]},
+            { "type":   "int",
+              "domain": [0,127]}]},
+        { "path":      "/noteOff",
+          "args": [
+            { "type":   "int",
+              "domain": [0,127]},
+            { "type":   "int",
+              "domain": [0,127]}]}]}

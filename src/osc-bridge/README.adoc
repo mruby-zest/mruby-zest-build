@@ -1,0 +1,73 @@
+OSC-Bridge
+==========
+
+OSC-Bridge is a library for managing state stored in a remote OSC
+aware application. OSC-Bridge uses UDP to communicate with remote
+(or local) applications using libuv for cross platform portability.
+
+OSC-Bridge manages:
+
+- Loading an OSC API specification in the form of an OSC schema
+- Fetching parameters stored in a remote OSC client
+- Caching OSC parameters in sync with remote application for low
+  latency lookups
+- Managing callbacks for when parameter values change
+- Invoking arbitrary OSC actions
+- Repeating parameter requests if UDP packets are lost
+- Debouncing parameter values when remote application responds with a
+  notable delay
+- Simple parameter invalidation when presets are loaded
+- Setting up data watch points [ZynAddSubFX Specific]
+
+Roadmap
+-------
+
+Most of the intended functionality is implemented at the time of
+writing this README, though several additions are planed.
+
+Paths to OSC Schema files should not be assumed
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+Currently 'schema/test.json' is assumed to be the only valid OSC
+schema. Custom paths should be usable and for embedding purposes it
+should be possible to load directly from a preloaded const char *.
+
+OSC actions should be verified to be valid when they're sent
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+Currently, OSC mapped parameters are specified in the schema, but
+actions (basically remote procedure calls which can emit parameter
+changes or '/damage' messages).
+Actions aren't specified in the schema at all, but once they're sent,
+then br_action() should be capiable of verifying if an OSC message is
+going to be sent to a valid non-parameter OSC port.
+
+Loading default values from OSC schema
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+Many OSC parameters have either a default value or at least a default
+value dependent on another parameter.
+Default values make it possible to mitigate some of the overhead of
+latency introduced by OSC clients across the network.
+Current schema revisions don't include default values, but work is
+being done to draft an implementation.
+
+More efficient parameter lookup
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+Finding a parameter in the OSC schema is currently O(n) when it could
+be much closer to O(log(n)) as the current implementation iterates
+through all leaf nodes of the OSC tree and checks for matches, when it's
+possible to search one OSC path level at a time.
+
+Parameter randomization
+~~~~~~~~~~~~~~~~~~~~~~~
+
+Parameters provide a range of valid values, so (mostly a a fun option)
+it should be possible to apply a random value to any parameter.
+
+LICENSE
+-------
+
+OSC-Bridge was written by Mark McCurry and is available under the
+MIT License.

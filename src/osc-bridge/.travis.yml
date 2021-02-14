@@ -1,0 +1,20 @@
+language: c
+
+sudo: false
+
+before_script:
+    - mkdir uv-setup
+    - cd uv-setup
+    - wget http://dist.libuv.org/dist/v1.9.1/libuv-v1.9.1.tar.gz
+    - tar xvf libuv*.tar.gz
+    - cd libuv*
+    - ./autogen.sh
+    - CFLAGS=-fPIC ./configure --prefix=/tmp/
+    - CFLAGS=-fPIC make
+    - make install
+    - cd ../..
+script:
+  - export CFLAGS="-I/tmp/include/ -L/tmp/lib/"
+  - export LD_LIBRARY_PATH="/tmp/lib"
+  - make
+  - ./mock-test

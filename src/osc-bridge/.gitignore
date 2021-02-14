@@ -1,0 +1,4 @@
+libosc-bridge.a
+mock-test
+remote-test
+*.o
