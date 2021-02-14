@@ -1,0 +1,12 @@
+; DO NOT EDIT (unless you know what you are doing)
+;
+; This subdirectory is a git "subrepo", and this file is maintained by the
+; git-subrepo command. See https://github.com/git-commands/git-subrepo#readme
+;
+[subrepo]
+	remote = git@github.com:mruby-zest/osc-bridge.git
+	branch = master
+	commit = c678428bf164fc732ab4c7ee903bc8952bff6fbc
+	parent = 2a60e81eb72ec4e6cbf074461d93950be09677a0
+	method = merge
+	cmdver = 0.4.3
