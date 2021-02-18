@@ -1,12 +1,18 @@
+all: linux
 
-all:
+linux-hotload: HOTLOADING=UI_HOTLOAD=1
+linux-hotload: linux
+
+linux:
 	ruby ./rebuild-fcache.rb
 	cd deps/nanovg/src   && $(CC) nanovg.c -c -fPIC
 	$(AR) rc deps/libnanovg.a deps/nanovg/src/*.o
 	cd deps/mruby-file-stat/src && ../configure
 	cd src/osc-bridge    && make lib
 #	cd mruby             && UI_HOTLOAD=1 MRUBY_CONFIG=../build_config.rb rake
-	cd mruby             && MRUBY_CONFIG=../build_config.rb rake
+# force rebuilding all code that depends on hotloading.
+	touch src/mruby-widget-lib/src/api.c  
+	cd mruby             && $(HOTLOADING) MRUBY_CONFIG=../build_config.rb rake
 	$(CC) -shared -o libzest.so `find mruby/build/host -type f | grep -v mrbc | grep -e "\.o$$" | grep -v bin` ./deps/libnanovg.a \
 		./deps/libnanovg.a \
 		src/osc-bridge/libosc-bridge.a \
