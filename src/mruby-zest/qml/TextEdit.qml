@@ -4,6 +4,7 @@ Widget {
     property Color  textColor: Theme::TextColor
     property Float  height: 0.1
     property Object valueRef: nil
+    property Bool isInitialized: false
 
     function animate()
     {
@@ -30,7 +31,9 @@ Widget {
         text.valueRef = OSC::RemoteParam.new($remote, text.extern)
         text.valueRef.callback = Proc.new {|x|
             text.label = x;
-            text.damage_self}
+            text.isInitialized = true
+            text.damage_self
+        }
     }
 
     function class_name()
@@ -104,17 +107,19 @@ Widget {
         lastx = 0
 
         #Break into lines
-        @edit     ||= EditRegion.new(vg, input, w-20, height*h)
-
-        @edit.each_string do |x, y, str, cursor|
-            if(cursor == false)
-                vg.text(x+10, y, str)
-            else
-                if(@state)
-                vg.text_align NVG::ALIGN_CENTER | NVG::ALIGN_MIDDLE
-                    vg.text(x+10, y, str)
-                end
-            end
+        if (text.isInitialized)
+          @edit ||= EditRegion.new($vg, input, w-20, height*h)
+          @edit.each_string do |x, y, str, cursor|
+              if(cursor == false)
+                  vg.text(x+10, y, str)
+              else
+                  if(@state)
+                  vg.text_align NVG::ALIGN_CENTER | NVG::ALIGN_MIDDLE
+                      vg.text(x+10, y, str)
+                  end
+              end
+          end
         end
+
     }
 }
