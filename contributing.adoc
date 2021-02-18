@@ -5,7 +5,7 @@ Contributing To the MRuby-Zest Toolkit (and/or the zyn-fusion GUI)
 When working with mruby-zest a number of concepts are useful.
 LAC paper: https://lac.linuxaudio.org/2018/pdf/38-paper.pdf
 
-This file contains some basic developer level information.
+This file contains some basic developer level information on Linux.
 
 In theory you shouldn't have to mess with anything in deps/.
 
@@ -24,25 +24,16 @@ the running GUI without restarting. Saving a file with errors may result in the
 running GUI crashing, but that's not a major issue as the GUI is out-of-process
 compared to the synthesis backend.
 
-To enable code hotloading, simply define the environment variable UI_HOTLOAD when
-compiling the code under mruby. This can be achieved by editing the top Makefile:
-
-Replace
+To enable code hotloading, simply use the `linux-hotload` target instead of the
+default one: 
 
 --------------------------------------------------------------------------------
-cd mruby             && MRUBY_CONFIG=../build_config.rb rake
+make linux-hotload
 --------------------------------------------------------------------------------
 
-by
-
---------------------------------------------------------------------------------
-cd mruby             && UI_HOTLOAD=1 MRUBY_CONFIG=../build_config.rb rake
---------------------------------------------------------------------------------
-
-Then rebuild the GUI (you may need to touch src/mruby-widget-lib/src/api.c for
-the change to be taken into account). This will slow down the GUI's execution
-somewhat as the GUI will occasionally probe widget .qml files to see if they need
-to be reloaded.
+This will slow down the GUI's execution somewhat as the GUI will
+occasionally probe widget .qml files to see if they need to be
+reloaded.
 
 
 src/mruby-widget-lib
@@ -66,9 +57,6 @@ dispatch tree is getting modified (subject for later details)
 Running the app
 ---------------
 
-NOTE:: I'm assuming that you have setup widget hotloading if you're working
- with the widget level first.
-
 In one terminal start a zyn instance without a GUI bound to it with a known UDP
 port:
 
@@ -83,7 +71,7 @@ dev (e.g. listening to some music).
 Then from the mruby-zest-build repo:
 
 --------------------------------------------------------------------------------
-make
+make linux-hotload
 make run
 --------------------------------------------------------------------------------
 
@@ -95,7 +83,7 @@ Well, let's do a change and verify that everything is working correctly.
 
 First, open up 'src/mruby-zest/qml/Knob.qml'
 
-This defines a knob and it decends from the valuator base class.
+This defines a knob, it derives from the valuator base class.
 Let's take a look at the draw() function.
 Within the draw function add `background color("ffffff")` and then save the
 file.

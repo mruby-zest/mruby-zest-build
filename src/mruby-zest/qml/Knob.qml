@@ -45,7 +45,7 @@ Valuator {
 
     function draw(vg)
     {
-        #background color("123456")
+        #background color("ffffff")
         pi = 3.14159
         start = pi/4;
         end_   = pi*3.0/4.0;
