@@ -23,6 +23,8 @@ Group {
         Col {
             Selector {extern: box.extern+"PLFOtype"}
             ToggleButton   { label: "sync"; extern: box.extern+"Pcontinous"}
+            NumEntry {extern: box.extern + "numerator"; label: "Numerator"}
+            NumEntry {extern: box.extern + "denominator"; label: "Denominator"}
         }
     }
 }

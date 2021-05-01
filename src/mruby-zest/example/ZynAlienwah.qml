@@ -6,7 +6,7 @@ Group {
     function refresh() {
         return if rw.content.nil?
         return if rw.content.children.length < 4
-        rw.content.children[3..-1].each do |c|
+        rw.content.children[4..-1].each do |c|
             c.refresh
         end
     }
@@ -20,7 +20,18 @@ Group {
         }
         Knob { extern: wah.extern + "Pvolume"}
         Knob { extern: wah.extern + "Ppanning"}
-
+        Col {
+            NumEntry {
+                extern: wah.extern + "numerator"; 
+                value: 0
+                label: "Numerator"
+            }
+            NumEntry {
+                extern: wah.extern + "denominator";
+                value: 4
+                label: "Denominator"
+            }
+        } 
         Knob { extern: wah.extern + "Alienwah/Pfreq"   }
         Knob { extern: wah.extern + "Alienwah/Pfreqrnd"   }
         Selector     { extern: wah.extern + "Alienwah/PLFOtype" }

@@ -31,7 +31,10 @@ Widget {
     ParModuleRow {
         Knob { extern: dyn.extern + "Pvolume"}
         Knob { extern: dyn.extern + "Ppanning"}
-
+        Col {
+            NumEntry {extern: dyn.extern + "numerator"; label: "Numerator"}
+            NumEntry {extern: dyn.extern + "denominator"; label: "Denominator"}
+        } 
         Knob {         extern: dyn.extern + "DynamicFilter/Pfreq" }
         Knob {         extern: dyn.extern + "DynamicFilter/Pfreqrnd" }
         Selector {     extern: dyn.extern + "DynamicFilter/PLFOtype" }
