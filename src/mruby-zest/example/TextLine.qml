@@ -3,6 +3,7 @@ Widget {
     property Function whenValue: nil
     property Object   valueRef:  nil
     property Bool     upcase:    true
+    // TODO: this property is not used by any calling code. Delete?
     property String   ext:       nil
 
     onExtern: {

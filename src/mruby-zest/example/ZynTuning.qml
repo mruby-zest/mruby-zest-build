@@ -36,6 +36,7 @@ Widget {
         $remote.action("/load_scl", val) if @opt == ".scl"
         $remote.action("/microtonal/mapping")
         $remote.action("/microtonal/tunings")
+        $remote.action("/microtonal/Pname")
     }
 
     Widget {
