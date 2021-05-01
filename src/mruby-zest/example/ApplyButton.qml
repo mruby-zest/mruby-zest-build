@@ -41,7 +41,7 @@ Button {
 
         diameter = [2.0*ropt, 3.0*0.5*(self.w+self.h)].min
 
-        widget = Qml::RadialMenu.new(self.db)
+        widget = RadialMenu.new(self.db)
         widget.w = diameter
         widget.h = diameter
         widget.x = self.w/2-diameter/2

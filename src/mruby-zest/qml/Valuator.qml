@@ -51,7 +51,7 @@ Widget {
 
         diameter = [2.0*ropt, 3.0*0.5*(valuator.w+valuator.h)].min
 
-        widget = Qml::RadialMenu.new(valuator.db)
+        widget = RadialMenu.new(valuator.db)
         widget.w = diameter
         widget.h = diameter
         widget.x = valuator.w/2-diameter/2
