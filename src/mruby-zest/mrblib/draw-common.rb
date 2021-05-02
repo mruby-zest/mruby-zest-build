@@ -241,18 +241,38 @@ module Draw
             end
         end
 
-        def self.overlay_lfo(vg, bb, pts)
+        def self.overlay_lfo(vg, bb, pts, scale=1.0)
             n = pts.length/2
             sel_color    = Theme::VisualSelect
             dim_color    = Theme::VisualDimTrans
             (0...n).each do |i|
-                xx = bb.x + 0.2*bb.w + 0.8*bb.w*pts[2*i]
-                yy = bb.y + bb.h/2*(1-pts[2*i+1]/127.0)
+                xx = bb.x + 0.2*bb.w + 0.8*bb.w*pts[2.0*i]
+                yy = bb.y + bb.h/2.0*(1.0-pts[2*i+1]*scale)
 
                 vg.stroke_color sel_color
                 vg.fill_color   color(:black)
                 env_marker(vg, xx, yy, 3)
 
+                vg.path do |v|
+                    v.move_to(xx, bb.y)
+                    v.line_to(xx, bb.y + bb.h)
+                    v.stroke_color dim_color
+                    v.stroke
+                end
+            end
+        end
+        
+        def self.overlay_seq(vg, bb, pts, scale=1.0)
+            n = pts.length/2
+            sel_color    = Theme::VisualSelect
+            dim_color    = Theme::VisualDimTrans
+            (0...n).each do |i|
+                xx = bb.x + bb.w*pts[2*i]
+                yy = bb.y + bb.h/2.0*(1.0-pts[2*i+1]*scale)
+
+                vg.stroke_color sel_color
+                vg.fill_color   color(:black)
+                env_marker(vg, xx, yy, 3)
                 vg.path do |v|
                     v.move_to(xx, bb.y)
                     v.line_to(xx, bb.y + bb.h)
@@ -968,7 +988,7 @@ def draw_grid(vg, r, c, x, y, w, h)
 
     (1..r).each do |ln|
         vg.path do |v|
-            off = (ln/r)*(h/2)
+            off = (ln*1.0/r)*(h/2.0)
             vg.move_to(x,   y + h/2+off);
             vg.line_to(x+w, y + h/2+off)
             vg.move_to(x,   y + h/2-off);
@@ -997,6 +1017,31 @@ def draw_grid(vg, r, c, x, y, w, h)
                 v.stroke_width 1.0
             end
             v.stroke
+        end
+    end
+end
+
+#Draw a linear y grid
+def draw_pitchgrid(vg, r, x, y, w, h)
+    light_fill = NVG.rgba(0xcc,0xff,0x75,160)
+    med_fill   = NVG.rgba(0xcc,0xff,0x75,200)
+
+    (1..r).each do |ln|
+        vg.path do |v|
+            off = (ln*1.0/r)*h
+            vg.move_to(x,   y + off);
+            vg.line_to(x+w, y + off)
+
+            case ((ln+5.0)%12).to_i
+                when 1,3,5,7,8,10
+                    v.stroke_color light_fill
+                    v.stroke_width 2.0
+                    v.stroke
+                when 0
+                    v.stroke_color med_fill
+                    v.stroke_width 2.0
+                    v.stroke
+                end
         end
     end
 end
