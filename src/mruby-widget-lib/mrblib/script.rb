@@ -316,6 +316,12 @@ class ZRunner
         elsif(press == :release && key == :shift)
             @fine_mode = false
         end
+        
+        if(press == :press && key == :super)
+            @snap_mode = true
+        elsif(press == :release && key == :super)
+            @snap_mode = false
+        end
 
         begin
             aw = nil
@@ -791,7 +797,7 @@ class ZRunner
     #                 API For Running Widgets                                  #
     ############################################################################
 
-    attr_accessor :fine_mode, :learn_mode, :reset_mode
+    attr_accessor :fine_mode, :learn_mode, :reset_mode, :snap_mode
 
     #Force a draw sequence regeneration
     def smash_draw_seq()

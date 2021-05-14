@@ -94,6 +94,8 @@ Widget {
         freq_var.callback = lambda {|x|
             seqedit.period = 20.0 * Math.exp(Math.log(1500/20) * (1 - x))
             seqedit.damage_self}
+        
+        
             
     }
 
@@ -137,9 +139,10 @@ Widget {
             return if nactive.class != Qml::Slider
             if snap
                 puts( "@active_widget: " + @active_widget.inspect)
-                @active_widget.pos += fine*delta/@active_widget.dragScale
-                puts("@active_widget.pos: " + @active_widget.pos)
-                @active_widget.updatePosAbs((@active_widget.pos*38).round()/38)
+                puts( "@active_widget.dragScale: " + @active_widget.dragScale)
+                @pos += fine*delta/@active_widget.dragScale
+                puts("@active_widget.pos: " + @pos)
+                @active_widget.updatePosAbs((@pos*38).round()/38)
             else
                 @active_widget.updatePos(fine*delta/@active_widget.dragScale)
             end
@@ -171,7 +174,7 @@ Widget {
     }
     
     Widget {
-        id: run_view
+        id: seq_run_view
         //animation layer
         layer: 1
 
@@ -204,21 +207,21 @@ Widget {
         }
 
         onExtern: {
-            return if run_view.extern.nil?
+            return if seq_run_view.extern.nil?
 
-            run_view.valueRef = OSC::RemoteParam.new($remote, run_view.extern)
-            run_view.valueRef.set_watch
-            run_view.valueRef.callback = Proc.new {|x|
-                 if(run_view.runtime_points != x)
-                    run_view.runtime_points = x;
-                    run_view.damage_self
+            seq_run_view.valueRef = OSC::RemoteParam.new($remote, seq_run_view.extern)
+            seq_run_view.valueRef.set_watch
+            seq_run_view.valueRef.callback = Proc.new {|x|
+                 if(seq_run_view.runtime_points != x)
+                    seq_run_view.runtime_points = x;
+                    seq_run_view.damage_self
                 end
             }
         }
 
         function animate() {
-            return if run_view.valueRef.nil?
-            run_view.valueRef.watch run_view.extern
+            return if seq_run_view.valueRef.nil?
+            seq_run_view.valueRef.watch seq_run_view.extern
         }
 
         function draw(vg)
@@ -245,8 +248,7 @@ Widget {
             end
 
             draw_pitchgrid(vg, 38, 0, 0, w, (h*0.94))
-            Draw::WaveForm::overlay(vg, Rect.new(0,5,w,(h*0.94)/2-5), pts[inds[0]..inds[-1]+1]) if !inds.empty?
-            
+            Draw::WaveForm::overlay(vg, Rect.new(0,5,w,(h*0.94)/2-5), pts[inds[0]..inds[-1]+1]) if !inds.empty?            
         }
     }
 
