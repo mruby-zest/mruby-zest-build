@@ -58,6 +58,7 @@ build_type.new(build_name) do |conf|
 
   conf.cc.defines = %w(MRUBY_NANOVG_GL2 MRB_ENABLE_DEBUG_HOOK)
   conf.cc.flags << '-O3'
+  conf.host_target = 'x86_64-w64-mingw32' if windows
 
   #No default gems
   # Use standard print/puts/p
@@ -95,15 +96,21 @@ build_type.new(build_name) do |conf|
   conf.gem :core => "mruby-eval"
 
   #Non-STD lib gems
-  conf.gem 'deps/mruby-dir'
-  conf.gem 'deps/mruby-dir-glob'
   conf.gem 'deps/mruby-errno'
-  conf.gem 'deps/mruby-file-stat'
-  conf.gem 'deps/mruby-io'
+  conf.gem 'mruby/mrbgems/mruby-io'
   conf.gem 'deps/mruby-nanovg'
-  conf.gem 'deps/mruby-process'
   conf.gem 'deps/mruby-regexp-pcre'
   conf.gem 'deps/mruby-set'
+
+  if(!windows)
+    #Needed for hotloading, but we can ignore that on windows...
+    conf.gem 'deps/mruby-file-stat'
+    conf.gem 'deps/mruby-dir'
+    conf.gem 'deps/mruby-dir-glob'
+    #I don't think mruby-process is required for anything besides some tests
+    #which we don't run anyway
+    #conf.gem 'deps/mruby-process'
+  end
 
   demo_mode = false
   if(ENV.include?("BUILD_MODE"))
