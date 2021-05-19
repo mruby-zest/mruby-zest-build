@@ -109,7 +109,7 @@ build_type.new(build_name) do |conf|
     conf.gem 'deps/mruby-dir-glob'
     #I don't think mruby-process is required for anything besides some tests
     #which we don't run anyway
-    #conf.gem 'deps/mruby-process'
+    conf.gem 'deps/mruby-process'
   end
 
   demo_mode = false
