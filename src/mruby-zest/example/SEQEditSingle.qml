@@ -2,6 +2,7 @@ ColorBox {
     property Function whenValue: nil
     property Int      num: 0
     property Symbol   slidetype: nil
+    property Float    pos: 0.5;
     id: hes
     bg: nil
 
@@ -11,6 +12,7 @@ ColorBox {
     }
 
     Slider {
+
         value: 0.5
         pad: 0
         type: "f"

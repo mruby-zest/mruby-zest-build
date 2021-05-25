@@ -21,7 +21,7 @@ Valuator {
                 if active
                     v.fill_color Theme::SliderActive
                 else
-                    v.fill_color Theme::ButtonInactive
+                    v.fill_color Theme::SliderBackground
                 end
                 v.fill
             end

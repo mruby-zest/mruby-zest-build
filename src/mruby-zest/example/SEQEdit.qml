@@ -8,8 +8,7 @@ Widget {
     property Int      oldOff: 0
     property Int      curOff: 0
     property Float    depth: 0.0
-    property Float    period: 0.5
-    
+    property Float    period: 0.5    
 
     function cb() { whenValue.call if whenValue }
 
@@ -67,6 +66,13 @@ Widget {
 
     function onSetup(old=nil)
     {
+
+        self.valueRef = OSC::RemoteParam.new($remote, self.extern + "steps")
+        self.valueRef.callback = lambda {|x| self.update_steps(x)}
+        self.valueRef.mode = :options
+        self.valueRef.refresh
+        self.update_steps(1)
+        
         return if children.length() > 1
         (0...32).each do |ev|
             step           = Qml::SEQEditSingle.new(db)
@@ -74,14 +80,10 @@ Widget {
             step.extern    = self.extern
             step.slidetype = self.type
             step.whenValue = lambda {seqedit.cb}
+            step.pos       = step.children[0].value
             Qml::add_child(self, step)
         end
-         
-        self.valueRef = OSC::RemoteParam.new($remote, self.extern + "steps")
-        self.valueRef.callback = lambda {|x| self.update_steps(x)}
-        self.valueRef.mode = :options
-        self.valueRef.refresh
-        self.update_steps(1)
+        
         
         depth_var = OSC::RemoteParam.new($remote, self.extern + "intensity")
         depth_var.type = "f"
@@ -138,11 +140,8 @@ Widget {
             delta = +(ev.pos.y - @prev.y)
             return if nactive.class != Qml::Slider
             if snap
-                puts( "@active_widget: " + @active_widget.inspect)
-                puts( "@active_widget.dragScale: " + @active_widget.dragScale)
-                @pos += fine*delta/@active_widget.dragScale
-                puts("@active_widget.pos: " + @pos)
-                @active_widget.updatePosAbs((@pos*38).round()/38)
+                @active_widget.parent.pos -= fine*delta/@active_widget.dragScale
+                @active_widget.updatePosAbs((@active_widget.parent.pos * 38.0).round() / 38.0)
             else
                 @active_widget.updatePos(fine*delta/@active_widget.dragScale)
             end
@@ -247,8 +246,9 @@ Widget {
                 inds.push(id) if pts[id] > 0 && pts[id] < 32 && id%2==0
             end
 
-            draw_pitchgrid(vg, 38, 0, 0, w, (h*0.94))
-            Draw::WaveForm::overlay(vg, Rect.new(0,5,w,(h*0.94)/2-5), pts[inds[0]..inds[-1]+1]) if !inds.empty?            
+            
+            Draw::WaveForm::overlay(vg, Rect.new(0,5,w,(h*0.94)/2-5), pts[inds[0]..inds[-1]+1]) if !inds.empty?    
+            draw_pitchgrid(vg, 38, 0, 0, w, (h*0.94))        
         }
     }
 

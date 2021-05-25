@@ -1023,8 +1023,8 @@ end
 
 #Draw a linear y grid
 def draw_pitchgrid(vg, r, x, y, w, h)
-    light_fill = NVG.rgba(0xcc,0xff,0x75,160)
-    med_fill   = NVG.rgba(0xcc,0xff,0x75,200)
+    med_fill     = Theme::GridLine
+    light_fill   = Theme::GridLine
 
     (1..r).each do |ln|
         vg.path do |v|
@@ -1035,7 +1035,7 @@ def draw_pitchgrid(vg, r, x, y, w, h)
             case ((ln+5.0)%12).to_i
                 when 1,3,5,7,8,10
                     v.stroke_color light_fill
-                    v.stroke_width 2.0
+                    v.stroke_width 1.0
                     v.stroke
                 when 0
                     v.stroke_color med_fill
