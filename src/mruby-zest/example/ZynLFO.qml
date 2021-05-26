@@ -17,6 +17,7 @@ Group {
         id: bot
         Knob     { type: :float; extern: box.extern+"delay"}
         Knob     { type: :float; extern: box.extern+"fadein"}
+        Knob     { type: :float; extern: box.extern+"fadeout"}
         Knob     {extern: box.extern+"Prandomness"}
         Knob     {extern: box.extern+"Pfreqrand"}
         Col {
