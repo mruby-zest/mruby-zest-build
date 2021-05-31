@@ -18,8 +18,8 @@ Group {
     function change_cat()
     {
         root.change_view()
-        if cat.selected == 3
-            # Moog filter has no stages implemented (yet?)
+        if cat.selected >= 3
+            # Moog and Comb filter have no stages
             stages.changeMax(1)
         else
             stages.changeMax(defaultMaxStages)
@@ -30,6 +30,7 @@ Group {
             dest = self.extern + "Ptype"    if cat.selected == 0
             dest = self.extern + "type-svf" if cat.selected == 2
             dest = self.extern + "type-moog" if cat.selected == 3
+            dest = self.extern + "type-comb" if cat.selected == 4
             if(typ.extern != dest)
                 typ.extern = dest
                 typ.extern()
