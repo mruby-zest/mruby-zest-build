@@ -180,14 +180,61 @@ module Draw
             vg.stroke_width 1.0
         end
 
-        def self.env_plot(vg, bb, dat, stroke, selected)
+        def self.env_plot(vg, bb, dat, dat2, stroke, selected, emode)
             n = dat.length
+            pts = 32
             vg.path do
                 vg.move_to(bb.x + bb.w*dat[0].x,
                            bb.y + bb.h/2*(1-dat[0].y))
-                (0...n).each do |i|
+                (1...n).each_slice(2) do |h, i|
+                    a = dat[i-2].y # starting point
+                    b = dat[h].y   # bezier control point
+                    c = dat[i].y   # end point
+                    vg.move_to(bb.x + bb.w*dat[i-2].x,
+                               bb.y + bb.h/2*(1-a))
+                    (1...pts).each do |pt|
+                        w2 = pt.to_f/pts.to_f # weight of end point
+                        w1 = 1.0-w2           # weight of starting point
+
+                        if (i==2) # treatment for "first segment linear" in envout_dB for ADSR_dB
+                            case emode
+                            when 1, 2 # ADSR_lin or ADSR_dB
+                                v1 = (10.0**((a))-0.01)/0.99
+                                v2 = (10.0**((c))-0.01)/0.99
+                                rap = v1 + (v2 - v1) * w2
+                                y = (Math.log10((rap) * 0.99 + 0.01))
+                            when 3 # ASR_freqlfo
+                                v1 = (2.0**(6.0 * a.abs )-1)
+                                if (a<0)
+                                    v1 = -v1
+                                end
+
+                                v2 = (2.0**(6.0 * c.abs )-1)
+                                if (c<0)
+                                    v2 = -v2
+                                end
+
+                                rap = v1 + (v2 - v1) * w2
+
+                                y = (rap>=0) ? ((Math.log(rap + 1.0) / (6.0 * Math.log(2.0))) ) : (-(Math.log(1.0 - rap) / (6.0 * Math.log(2.0))) )
+
+                            else # ADSR_filter = 4; ASR_bw = 5;
+
+                                y = a + (c - a) * w2
+
+                            end
+
+                            vg.line_to(bb.x+bb.w*dat[i-2].x + bb.w*(dat[i].x-dat[i-2].x)*w2,
+                                            bb.y + bb.h/2.0 * (1.0-y))
+
+                        else
+                            vg.line_to(bb.x+bb.w*dat[i-2].x + bb.w*(dat[i].x-dat[i-2].x)*w2,
+                                    bb.y + bb.h/2.0 * (1.0-(w1*w1*a + 2*w1*w2*b + w2*w2*c)))
+                        end
+                    end
                     vg.line_to(bb.x + bb.w*dat[i].x,
-                               bb.y + bb.h/2*(1-dat[i].y))
+                               bb.y + bb.h/2.0*(1.0-c))
+
                 end
                 vg.line_join NVG::ROUND
                 vg.stroke_width 2.0
@@ -198,12 +245,13 @@ module Draw
 
             sel_color    = Theme::VisualSelect
             bright       = Theme::VisualBright
+            n = dat2.length
             (0...n).each do |i|
-                xx = bb.x + bb.w*dat[i].x;
-                yy = bb.y + bb.h/2*(1-dat[i].y);
+                xx = bb.x + bb.w*dat2[i].x;
+                yy = bb.y + bb.h/2*(1-dat2[i].y);
                 scale = 3
-                vg.stroke_color sel_color if(selected == i)
-                vg.stroke_color bright    if(selected != i)
+                vg.stroke_color sel_color if((selected==i+1 and selected!=0) or (selected==0 and i==0))
+                vg.stroke_color bright    if(!((selected==i+1 and selected!=0) or (selected==0 and i==0)))
                 vg.fill_color   Theme::EnvelopePoint
                 Draw::WaveForm::env_marker(vg, xx, yy, scale)
             end
@@ -279,7 +327,7 @@ module Draw
                 (0...10).each do |shift|
                     delta = Math.log((shift+1)*1.0)/(log10*(max_-min_))
                     dy = bb.h*(base+delta);
-                    
+
                     next if(dy < 0 || dy > bb.h)
                     vg.path do |v|
                         v.move_to(bb.x,      bb.y+dy);
@@ -362,7 +410,7 @@ module Draw
             med_fill     = Theme::GridLine
             light_fill   = Theme::GridLine
             c = max
-            
+
             x = (bb.x).floor
             y = (bb.y).floor
             w = (bb.w).floor
@@ -691,6 +739,32 @@ module Draw
         o = []
         n = [x.length, y.length].min
         (0...n).each do |i|
+            o << Pos.new(x[i], y[i])
+        end
+        o
+    end
+
+    def self.zipToPosCP(x,y,c)
+        o = []
+        n = [x.length, y.length, c.length].min
+        o << Pos.new(x[0], y[0])
+        (1...n).each do |i|
+            xcp = (x[i]+x[i-1])/2
+            ycp = (y[i]+y[i-1])/2 + c[i]
+            o << Pos.new(xcp, ycp)
+            o << Pos.new(x[i], y[i])
+        end
+        o
+    end
+
+    def self.zipToPosPlotEnv(x,y,c)
+        o = []
+        n = [x.length, y.length, c.length].min
+        o << Pos.new(x[0], y[0])
+        (1...n).each do |i|
+            xcp = (x[i]+x[i-1])/2
+            ycp = (y[i]+y[i-1])/2 + 2*c[i]
+            o << Pos.new(xcp, ycp)
             o << Pos.new(x[i], y[i])
         end
         o

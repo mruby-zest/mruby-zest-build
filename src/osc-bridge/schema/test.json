@@ -634,8 +634,8 @@
         "tooltip"  : "Attack Time",
         "scale"    : "logarithmic",
         "type"     : "f",
-        "range"    : [0.0f,41.0f],
-        "default"  : "0.0f"
+        "range"    : [0.0001f,41.0f],
+        "default"  : "0.0001f"
 
     },
     {
@@ -664,7 +664,7 @@
         "tooltip"  : "Decay Time",
         "scale"    : "logarithmic",
         "type"     : "f",
-        "range"    : [0.0f,41.0f],
+        "range"    : [0.0001f,41.0f],
         "default"  : "0.009f"
 
     },
@@ -800,8 +800,8 @@
         "tooltip"  : "Attack Time",
         "scale"    : "logarithmic",
         "type"     : "f",
-        "range"    : [0.0f,41.0f],
-        "default"  : "0.0f"
+        "range"    : [0.0001f,41.0f],
+        "default"  : "0.0001f"
 
     },
     {
@@ -830,7 +830,7 @@
         "tooltip"  : "Decay Time",
         "scale"    : "logarithmic",
         "type"     : "f",
-        "range"    : [0.0f,41.0f],
+        "range"    : [0.0001f,41.0f],
         "default"  : "0.009f"
 
     },
@@ -966,8 +966,8 @@
         "tooltip"  : "Attack Time",
         "scale"    : "logarithmic",
         "type"     : "f",
-        "range"    : [0.0f,41.0f],
-        "default"  : "0.0f"
+        "range"    : [0.0001f,41.0f],
+        "default"  : "0.0001f"
 
     },
     {
@@ -996,7 +996,7 @@
         "tooltip"  : "Decay Time",
         "scale"    : "logarithmic",
         "type"     : "f",
-        "range"    : [0.0f,41.0f],
+        "range"    : [0.0001f,41.0f],
         "default"  : "0.009f"
 
     },
@@ -2308,7 +2308,7 @@
         },
         {
             "id"     : 1,
-            "value"  : "Rectanglar"
+            "value"  : "Rectangular"
         },
         {
             "id"     : 2,
@@ -2397,7 +2397,7 @@
         "path"     : "/part[0,15]/kit[0,15]/padpars/Php.amp.type",
         "shortname": "mult",
         "name"     : "Php.amp.type",
-        "tooltip"  : "Type of amplitude multipler",
+        "tooltip"  : "Type of amplitude multiplier",
         "type"     : "i",
         "default"  : "Off"
 ,
@@ -4647,8 +4647,8 @@
         "tooltip"  : "Attack Time",
         "scale"    : "logarithmic",
         "type"     : "f",
-        "range"    : [0.0f,41.0f],
-        "default"  : "0.0f"
+        "range"    : [0.0001f,41.0f],
+        "default"  : "0.0001f"
 
     },
     {
@@ -4677,7 +4677,7 @@
         "tooltip"  : "Decay Time",
         "scale"    : "logarithmic",
         "type"     : "f",
-        "range"    : [0.0f,41.0f],
+        "range"    : [0.0001f,41.0f],
         "default"  : "0.009f"
 
     },
@@ -4813,8 +4813,8 @@
         "tooltip"  : "Attack Time",
         "scale"    : "logarithmic",
         "type"     : "f",
-        "range"    : [0.0f,41.0f],
-        "default"  : "0.0f"
+        "range"    : [0.0001f,41.0f],
+        "default"  : "0.0001f"
 
     },
     {
@@ -4843,7 +4843,7 @@
         "tooltip"  : "Decay Time",
         "scale"    : "logarithmic",
         "type"     : "f",
-        "range"    : [0.0f,41.0f],
+        "range"    : [0.0001f,41.0f],
         "default"  : "0.009f"
 
     },
@@ -4979,8 +4979,8 @@
         "tooltip"  : "Attack Time",
         "scale"    : "logarithmic",
         "type"     : "f",
-        "range"    : [0.0f,41.0f],
-        "default"  : "0.0f"
+        "range"    : [0.0001f,41.0f],
+        "default"  : "0.0001f"
 
     },
     {
@@ -5009,7 +5009,7 @@
         "tooltip"  : "Decay Time",
         "scale"    : "logarithmic",
         "type"     : "f",
-        "range"    : [0.0f,41.0f],
+        "range"    : [0.0001f,41.0f],
         "default"  : "0.009f"
 
     },
@@ -5145,8 +5145,8 @@
         "tooltip"  : "Attack Time",
         "scale"    : "logarithmic",
         "type"     : "f",
-        "range"    : [0.0f,41.0f],
-        "default"  : "0.0f"
+        "range"    : [0.0001f,41.0f],
+        "default"  : "0.0001f"
 
     },
     {
@@ -5175,7 +5175,7 @@
         "tooltip"  : "Decay Time",
         "scale"    : "logarithmic",
         "type"     : "f",
-        "range"    : [0.0f,41.0f],
+        "range"    : [0.0001f,41.0f],
         "default"  : "0.009f"
 
     },
@@ -5311,8 +5311,8 @@
         "tooltip"  : "Attack Time",
         "scale"    : "logarithmic",
         "type"     : "f",
-        "range"    : [0.0f,41.0f],
-        "default"  : "0.0f"
+        "range"    : [0.0001f,41.0f],
+        "default"  : "0.0001f"
 
     },
     {
@@ -5341,7 +5341,7 @@
         "tooltip"  : "Decay Time",
         "scale"    : "logarithmic",
         "type"     : "f",
-        "range"    : [0.0f,41.0f],
+        "range"    : [0.0001f,41.0f],
         "default"  : "0.009f"
 
     },
@@ -6995,8 +6995,8 @@
         "tooltip"  : "Attack Time",
         "scale"    : "logarithmic",
         "type"     : "f",
-        "range"    : [0.0f,41.0f],
-        "default"  : "0.0f"
+        "range"    : [0.0001f,41.0f],
+        "default"  : "0.0001f"
 
     },
     {
@@ -7025,7 +7025,7 @@
         "tooltip"  : "Decay Time",
         "scale"    : "logarithmic",
         "type"     : "f",
-        "range"    : [0.0f,41.0f],
+        "range"    : [0.0001f,41.0f],
         "default"  : "0.009f"
 
     },
@@ -7161,8 +7161,8 @@
         "tooltip"  : "Attack Time",
         "scale"    : "logarithmic",
         "type"     : "f",
-        "range"    : [0.0f,41.0f],
-        "default"  : "0.0f"
+        "range"    : [0.0001f,41.0f],
+        "default"  : "0.0001f"
 
     },
     {
@@ -7191,7 +7191,7 @@
         "tooltip"  : "Decay Time",
         "scale"    : "logarithmic",
         "type"     : "f",
-        "range"    : [0.0f,41.0f],
+        "range"    : [0.0001f,41.0f],
         "default"  : "0.009f"
 
     },
@@ -7327,8 +7327,8 @@
         "tooltip"  : "Attack Time",
         "scale"    : "logarithmic",
         "type"     : "f",
-        "range"    : [0.0f,41.0f],
-        "default"  : "0.0f"
+        "range"    : [0.0001f,41.0f],
+        "default"  : "0.0001f"
 
     },
     {
@@ -7357,7 +7357,7 @@
         "tooltip"  : "Decay Time",
         "scale"    : "logarithmic",
         "type"     : "f",
-        "range"    : [0.0f,41.0f],
+        "range"    : [0.0001f,41.0f],
         "default"  : "0.009f"
 
     },
@@ -8332,8 +8332,8 @@
         "tooltip"  : "Attack Time",
         "scale"    : "logarithmic",
         "type"     : "f",
-        "range"    : [0.0f,41.0f],
-        "default"  : "0.0f"
+        "range"    : [0.0001f,41.0f],
+        "default"  : "0.0001f"
 
     },
     {
@@ -8362,7 +8362,7 @@
         "tooltip"  : "Decay Time",
         "scale"    : "logarithmic",
         "type"     : "f",
-        "range"    : [0.0f,41.0f],
+        "range"    : [0.0001f,41.0f],
         "default"  : "0.009f"
 
     },
@@ -8498,8 +8498,8 @@
         "tooltip"  : "Attack Time",
         "scale"    : "logarithmic",
         "type"     : "f",
-        "range"    : [0.0f,41.0f],
-        "default"  : "0.0f"
+        "range"    : [0.0001f,41.0f],
+        "default"  : "0.0001f"
 
     },
     {
@@ -8528,7 +8528,7 @@
         "tooltip"  : "Decay Time",
         "scale"    : "logarithmic",
         "type"     : "f",
-        "range"    : [0.0f,41.0f],
+        "range"    : [0.0001f,41.0f],
         "default"  : "0.009f"
 
     },
@@ -8664,8 +8664,8 @@
         "tooltip"  : "Attack Time",
         "scale"    : "logarithmic",
         "type"     : "f",
-        "range"    : [0.0f,41.0f],
-        "default"  : "0.0f"
+        "range"    : [0.0001f,41.0f],
+        "default"  : "0.0001f"
 
     },
     {
@@ -8694,7 +8694,7 @@
         "tooltip"  : "Decay Time",
         "scale"    : "logarithmic",
         "type"     : "f",
-        "range"    : [0.0f,41.0f],
+        "range"    : [0.0001f,41.0f],
         "default"  : "0.009f"
 
     },
@@ -8830,8 +8830,8 @@
         "tooltip"  : "Attack Time",
         "scale"    : "logarithmic",
         "type"     : "f",
-        "range"    : [0.0f,41.0f],
-        "default"  : "0.0f"
+        "range"    : [0.0001f,41.0f],
+        "default"  : "0.0001f"
 
     },
     {
@@ -8860,7 +8860,7 @@
         "tooltip"  : "Decay Time",
         "scale"    : "logarithmic",
         "type"     : "f",
-        "range"    : [0.0f,41.0f],
+        "range"    : [0.0001f,41.0f],
         "default"  : "0.009f"
 
     },
@@ -11174,7 +11174,7 @@
         "name"     : "portamento.automode",
         "tooltip"  : "Portamento Auto mode",
         "type"     : "t",
-        "default"  : "false"
+        "default"  : "true"
 
     },
     {
@@ -11578,7 +11578,7 @@
     {
         "path"     : "/part[0,15]/polyType",
         "name"     : "polyType",
-        "tooltip"  : "Synthesis polyphony type\nPolyphonic - Each note is played independently\nMonophonic - A single note is played at a time with envelopes resetting between notes\nLegato     - A single note is played at a time without envelopes resetting between notes\nLatch     - Notes are released when a new one is hit  after key release\n",
+        "tooltip"  : "Synthesis polyphony type\n",
         "type"     : "i",
         "options"  : [
         {
@@ -15226,6 +15226,14 @@
         "tooltip"  : "Portamento Enable",
         "type"     : "t",
         "default"  : "false"
+
+    },
+    {
+        "path"     : "/ctl/portamento.automode",
+        "name"     : "portamento.automode",
+        "tooltip"  : "Portamento Auto mode",
+        "type"     : "t",
+        "default"  : "true"
 
     },
     {

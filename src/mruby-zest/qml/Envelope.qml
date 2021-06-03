@@ -3,8 +3,10 @@ Widget {
 
     property Object prev: nil;
     property Int    selected: nil;
+    property Int    selectedcp: nil;
     property Array  xpoints: [0.0, 0.2, 0.7, 0.8, 1.0]
     property Array  ypoints: [0.0, 0.5, 0.3, -0.9, 0.0]
+    property Array  cpoints: [0.0, 0.0, 0.0, 0.0, 0.0]
 
     property Int    points: 5
     property Int    sustain_point: 3
@@ -16,23 +18,27 @@ Widget {
     function setup_valuerefs()
     {
         ext = env.extern
-        xpts = OSC::RemoteParam.new($remote, ext + "envdt")
-        ypts = OSC::RemoteParam.new($remote, ext + "envval")
-        pts = OSC::RemoteParam.new($remote, ext + "Penvpoints")
+        xvalues = OSC::RemoteParam.new($remote, ext + "envdt") # array of x values
+        yvalues = OSC::RemoteParam.new($remote, ext + "envval") # array of y values
+        cvalues = OSC::RemoteParam.new($remote, ext + "envcpval") # array of control point y values
+        pts = OSC::RemoteParam.new($remote, ext + "Penvpoints") # number of points
         pts.mode = :selector
         sus = OSC::RemoteParam.new($remote, ext + "Penvsustain")
         sus.mode = :full
         free = OSC::RemoteParam.new($remote, ext + "Pfreemode")
         mode = OSC::RemoteParam.new($remote, ext + "Envmode")
         mode.mode = :selector
-        xpts.callback = lambda { |x|
+        xvalues.callback = lambda { |x|
             env.xpoints = x
             env.damage_self
             whenTime.call if whenTime
         }
-        ypts.callback = lambda { |x|
+        yvalues.callback = lambda { |x|
             env.ypoints = x.map {|xx| 2*xx-1}
             env.damage_self
+        }
+        cvalues.callback = lambda { |x|
+            env.cpoints = x
         }
         pts.callback = lambda { |x|
             env.points = x
@@ -49,7 +55,7 @@ Widget {
         mode.callback = lambda { |x|
             env.emode = x
         }
-        env.valueRef = [xpts, ypts, pts, sus, free, mode]
+        env.valueRef = [xvalues, yvalues, cvalues, pts, sus, free, mode]
 
         run_view.extern = env.extern+"out"
     }
@@ -80,7 +86,7 @@ Widget {
     function warp(x)
     {
         wp = get_x_points()
-        y  = []
+        y = []
         x.each_with_index do |xx, i|
             if((i%2) == 1)
                 y << xx
@@ -107,23 +113,28 @@ Widget {
         #valuator.prev = ev.pos
         xdat = get_x_points()
         ydat = env.ypoints
-        n = [xdat.length, ydat.length].min
+        cdat = env.cpoints
+        # zip x y and insert control points
+        xydat = Draw::zipToPosCP(xdat, ydat, cdat)
+
+        n = xydat.length
         next_sel = 0
         best_dist = 1e10
 
         mx = ev.pos.x-global_x
         my = ev.pos.y-global_y
         (0...n).each do |i|
-            xx = w*xdat[i];
-            yy = h/2-h/2*ydat[i];
+            xx = w*xydat[i].x;
+            yy = h/2-h/2*xydat[i].y;
 
             dst = (mx-xx)**2 + (my-yy)**2
-            if(dst < best_dist)
+            if(dst < best_dist and i != 1)
                 best_dist = dst
                 next_sel  = i
             end
         end
-        if(env.selected != next_sel)
+
+        if(env.selected != next_sel )
             env.selected = next_sel
             env.root.damage_item env
         end
@@ -146,23 +157,28 @@ Widget {
         #return if !self.mouse_enable
 
         if(env.selected)
-            scalex = 4*(env.xpoints[env.selected]+10)
+            scalex = 4*(env.xpoints[(env.selected/2).floor]+10)
             dy = 2*(ev.pos.y - env.prev.y)/env.h
             dx = scalex*(ev.pos.x - env.prev.x)/env.w
             n  = [env.xpoints.length, env.ypoints.length].min
             if(env.selected == 0 || env.selected == n-1)
-                env.ypoints[env.selected] -= dy
+                env.ypoints[(env.selected/2).floor] -= dy
+            elsif (env.selected % 2 == 0)
+                env.xpoints[(env.selected/2).floor] += dx
+                env.ypoints[(env.selected/2).floor] -= dy
             else
-                env.xpoints[env.selected] += dx
-                env.ypoints[env.selected] -= dy
+                env.cpoints[(env.selected/2).floor+1] -= dy
             end
 
             bound_points(env.xpoints,  0.0, 40950.0)
             bound_points(env.ypoints, -1.0, 1.0)
+            bound_points(env.cpoints, -2.0, 2.0)
 
             send_points() if mouse_enable
             update_nonfree_x(env.xpoints) if !mouse_enable
             update_nonfree_y(env.ypoints) if !mouse_enable
+            valueRef[2].value = env.cpoints if !mouse_enable
+            inspect env.cpoints
 
             env.prev = ev.pos
             env.root.damage_item env
@@ -239,6 +255,7 @@ Widget {
         ry = ypoints.map {|xx| (xx+1)/2}
         valueRef[0].value = env.xpoints
         valueRef[1].value = ry
+        valueRef[2].value = env.cpoints
     }
 
     function class_name()
@@ -250,6 +267,7 @@ Widget {
     {
         xdat = get_x_points()
         ydat = env.ypoints
+        cdat = env.cpoints
 
         fill_color    = Theme::VisualBackground
         stroke_color  = Theme::VisualStroke
@@ -262,7 +280,11 @@ Widget {
         padfactor = 12
         bb = Draw::indent(Rect.new(0,0,w,h), padfactor, padfactor)
 
-        pts = Draw::zipToPos(xdat, ydat)
+        # insert control points
+
+        #pts = Draw::zipToPos(xdat, ydat)
+        ptsENV = Draw::zipToPosPlotEnv(xdat, ydat, cdat)
+        ptsCP = Draw::zipToPosCP(xdat, ydat, cdat)
 
         background(fill_color)
 
@@ -277,17 +299,18 @@ Widget {
         vg.translate(-0.5, -0.5)
 
         #Draw Highlights
-        Draw::WaveForm::under_highlight(vg, bb, pts, light_fill)
-        Draw::WaveForm::over_highlight(vg,  bb, pts, light_fill)
+        Draw::WaveForm::under_highlight(vg, bb, ptsCP, light_fill)
+        Draw::WaveForm::over_highlight(vg,  bb, ptsCP, light_fill)
 
         #Draw Zero Line
         Draw::WaveForm::zero_line(vg, bb, dim)
 
         #Indicate Sustain Point
-        Draw::WaveForm::env_sel_line(vg, bb, self.sustain_point, pts, sustain_color)
+        Draw::WaveForm::env_sel_line(vg, bb, self.sustain_point*2, ptsENV, sustain_color)
 
         #Draw Actual Line
-        Draw::WaveForm::env_plot(vg, bb, pts, bright, selected)
+        ptsCP.delete_at(1)
+        Draw::WaveForm::env_plot(vg, bb, ptsENV, ptsCP, bright, selected, emode)
 
     }
     Widget {
@@ -313,7 +336,7 @@ Widget {
         {
             @value_ref
         }
-        
+
         function runtime_points()
         {
             return @runtime_points

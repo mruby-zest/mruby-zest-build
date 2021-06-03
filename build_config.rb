@@ -83,6 +83,9 @@ build_type.new(build_name) do |conf|
   # Use Object class extension
   conf.gem :core => "mruby-object-ext"
 
+  # Use Enum class extension
+  conf.gem :core => "mruby-enum-ext"
+
   # Use toplevel object (main) methods extension
   conf.gem :core => "mruby-toplevel-ext"
 
