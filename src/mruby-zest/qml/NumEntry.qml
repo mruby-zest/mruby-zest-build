@@ -26,7 +26,7 @@ Widget {
 
     function changeMin(wantedMin)
     {
-        if (self.value > wantedMin)
+        if (self.value < wantedMin)
             delta = wantedMin - self.value
             updatePos(delta)
         end
