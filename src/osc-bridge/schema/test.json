@@ -1004,6 +1004,10 @@
         {
             "id"     : 2,
             "value"  : "st.var."
+        },
+        {
+            "id"     : 3,
+            "value"  : "moog"
         }
         ]
     },
@@ -1212,6 +1216,27 @@
         {
             "id"     : 3,
             "value"  : "notch"
+        }
+        ]
+    },
+    {
+        "path"     : "/part[0,15]/kit[0,15]/padpars/GlobalFilter/type-moog",
+        "shortname": "type",
+        "name"     : "type-moog",
+        "tooltip"  : "Filter Type",
+        "type"     : "i",
+        "options"  : [
+        {
+            "id"     : 0,
+            "value"  : "HP"
+        },
+        {
+            "id"     : 1,
+            "value"  : "BP"
+        },
+        {
+            "id"     : 2,
+            "value"  : "LP"
         }
         ]
     },
@@ -5221,6 +5246,10 @@
         {
             "id"     : 2,
             "value"  : "st.var."
+        },
+        {
+            "id"     : 3,
+            "value"  : "moog"
         }
         ]
     },
@@ -5429,6 +5458,27 @@
         {
             "id"     : 3,
             "value"  : "notch"
+        }
+        ]
+    },
+    {
+        "path"     : "/part[0,15]/kit[0,15]/adpars/VoicePar[0,7]/VoiceFilter/type-moog",
+        "shortname": "type",
+        "name"     : "type-moog",
+        "tooltip"  : "Filter Type",
+        "type"     : "i",
+        "options"  : [
+        {
+            "id"     : 0,
+            "value"  : "HP"
+        },
+        {
+            "id"     : 1,
+            "value"  : "BP"
+        },
+        {
+            "id"     : 2,
+            "value"  : "LP"
         }
         ]
     },
@@ -7121,6 +7171,10 @@
         {
             "id"     : 2,
             "value"  : "st.var."
+        },
+        {
+            "id"     : 3,
+            "value"  : "moog"
         }
         ]
     },
@@ -7329,6 +7383,27 @@
         {
             "id"     : 3,
             "value"  : "notch"
+        }
+        ]
+    },
+    {
+        "path"     : "/part[0,15]/kit[0,15]/adpars/GlobalPar/GlobalFilter/type-moog",
+        "shortname": "type",
+        "name"     : "type-moog",
+        "tooltip"  : "Filter Type",
+        "type"     : "i",
+        "options"  : [
+        {
+            "id"     : 0,
+            "value"  : "HP"
+        },
+        {
+            "id"     : 1,
+            "value"  : "BP"
+        },
+        {
+            "id"     : 2,
+            "value"  : "LP"
         }
         ]
     },
@@ -8574,6 +8649,10 @@
         {
             "id"     : 2,
             "value"  : "st.var."
+        },
+        {
+            "id"     : 3,
+            "value"  : "moog"
         }
         ]
     },
@@ -8786,6 +8865,27 @@
         ]
     },
     {
+        "path"     : "/part[0,15]/kit[0,15]/subpars/GlobalFilter/type-moog",
+        "shortname": "type",
+        "name"     : "type-moog",
+        "tooltip"  : "Filter Type",
+        "type"     : "i",
+        "options"  : [
+        {
+            "id"     : 0,
+            "value"  : "HP"
+        },
+        {
+            "id"     : 1,
+            "value"  : "BP"
+        },
+        {
+            "id"     : 2,
+            "value"  : "LP"
+        }
+        ]
+    },
+    {
         "path"     : "/part[0,15]/kit[0,15]/subpars/GlobalFilter/Pvowels[0,5]/Pformants[0,11]/freq",
         "shortname": "f.freq",
         "name"     : "freq",
@@ -8961,6 +9061,10 @@
         {
             "id"     : 2,
             "value"  : "st.var."
+        },
+        {
+            "id"     : 3,
+            "value"  : "moog"
         }
         ]
     },
@@ -9169,6 +9273,27 @@
         {
             "id"     : 3,
             "value"  : "notch"
+        }
+        ]
+    },
+    {
+        "path"     : "/part[0,15]/partefx[0,2]/filterpars/type-moog",
+        "shortname": "type",
+        "name"     : "type-moog",
+        "tooltip"  : "Filter Type",
+        "type"     : "i",
+        "options"  : [
+        {
+            "id"     : 0,
+            "value"  : "HP"
+        },
+        {
+            "id"     : 1,
+            "value"  : "BP"
+        },
+        {
+            "id"     : 2,
+            "value"  : "LP"
         }
         ]
     },
@@ -11115,6 +11240,10 @@
         {
             "id"     : 2,
             "value"  : "st.var."
+        },
+        {
+            "id"     : 3,
+            "value"  : "moog"
         }
         ]
     },
@@ -11323,6 +11452,27 @@
         {
             "id"     : 3,
             "value"  : "notch"
+        }
+        ]
+    },
+    {
+        "path"     : "/sysefx[0,3]/filterpars/type-moog",
+        "shortname": "type",
+        "name"     : "type-moog",
+        "tooltip"  : "Filter Type",
+        "type"     : "i",
+        "options"  : [
+        {
+            "id"     : 0,
+            "value"  : "HP"
+        },
+        {
+            "id"     : 1,
+            "value"  : "BP"
+        },
+        {
+            "id"     : 2,
+            "value"  : "LP"
         }
         ]
     },
@@ -12712,6 +12862,10 @@
         {
             "id"     : 2,
             "value"  : "st.var."
+        },
+        {
+            "id"     : 3,
+            "value"  : "moog"
         }
         ]
     },
@@ -12920,6 +13074,27 @@
         {
             "id"     : 3,
             "value"  : "notch"
+        }
+        ]
+    },
+    {
+        "path"     : "/insefx[0,7]/filterpars/type-moog",
+        "shortname": "type",
+        "name"     : "type-moog",
+        "tooltip"  : "Filter Type",
+        "type"     : "i",
+        "options"  : [
+        {
+            "id"     : 0,
+            "value"  : "HP"
+        },
+        {
+            "id"     : 1,
+            "value"  : "BP"
+        },
+        {
+            "id"     : 2,
+            "value"  : "LP"
         }
         ]
     },
