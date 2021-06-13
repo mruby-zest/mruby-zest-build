@@ -67,8 +67,8 @@ deps/libuv.a:
 
 deps/libuv-win.a:
 	cd deps/libuv   && ./autogen.sh
-	cd deps/libuv   && CFLAGS="-mstackrealign" ./configure  --host=x86_64-w64-mingw32 --disable-shared --enable-static
-	cd deps/libuv   && LD=x86_64-w64-mingw32-gcc make
+	cd deps/libuv   && CC="" CCLD="" CXX="" AR="" LD="" CFLAGS="-mstackrealign" ./configure  --host=x86_64-w64-mingw32 --disable-shared --enable-static
+	cd deps/libuv   && CC="" CCLD="" CXX="" AR="" LD=x86_64-w64-mingw32-gcc make
 	cp deps/libuv/.libs/libuv.a deps/libuv-win.a
 
 push:
