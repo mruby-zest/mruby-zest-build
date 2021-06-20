@@ -593,9 +593,10 @@ run_callbacks(bridge_t *br, param_cache_t *line)
 
 
     //run callbacks
-    for(int i=0; i<br->callback_len; ++i)
-        if(!strcmp(br->callback[i].path, line->path))
-            br->callback[i].cb(buffer, br->callback[i].data);
+    if(len)
+        for(int i=0; i<br->callback_len; ++i)
+            if(!strcmp(br->callback[i].path, line->path))
+                br->callback[i].cb(buffer, br->callback[i].data);
 }
 
 void br_randomize(bridge_t *br, uri_t uri)
