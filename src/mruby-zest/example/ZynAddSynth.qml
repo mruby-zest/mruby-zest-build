@@ -31,10 +31,8 @@ Widget {
             layoutOpts: [:no_constraint];
             label: "oscilloscope"
             whenValue: lambda {
-            root.set_view_pos(:subview, :global)
-            root.set_view_pos(:vis, :oscilloscope)
-            root.change_view
-            center.turn_off_tab()  
+                root.set_view_pos(:subview, :oscilloscope)
+                root.change_view
              }
         }
 
@@ -145,16 +143,4 @@ Widget {
 
     Swappable { id: swap }
 
-    function turn_off_tab()
-    {
-        n = 7
-        (2..n).each do |ch_id|
-            child = header.children[ch_id]
-           
-                if(child.value)
-                    child.value = false
-                    child.damage_self
-                end
-            end
-    }
 }
