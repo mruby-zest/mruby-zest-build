@@ -5,7 +5,7 @@ Widget {
     TabGroup {
         id: subtabs
         TabButton {label: "harmonic" }
-        TabButton {label: "global" }
+        TabButton {label: "global"; whenClick: lambda {root.set_view_pos(:vis, :envelope)}; }
         TabButton {label: "bandwidth" }
 
         TriggerButton {
