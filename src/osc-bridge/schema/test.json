@@ -124,6 +124,30 @@
 
     },
     {
+        "path"     : "/part[0,15]/kit[0,15]/padpars/FreqLfo/fadein",
+        "shortname": "f.in",
+        "name"     : "fadein",
+        "tooltip"  : "Time to ramp up LFO amplitude\n               0..10 seconds",
+        "units"    : "S",
+        "scale"    : "linear",
+        "type"     : "f",
+        "range"    : [0.0,10.0f],
+        "default"  : "0.0f"
+
+    },
+    {
+        "path"     : "/part[0,15]/kit[0,15]/padpars/FreqLfo/fadeout",
+        "shortname": "f.out",
+        "name"     : "fadeout",
+        "tooltip"  : "Time to ramp down LFO amplitude on key release\n                0..10 seconds, 10=off (default)",
+        "units"    : "S",
+        "scale"    : "linear",
+        "type"     : "f",
+        "range"    : [0.001,10.0f],
+        "default"  : "10.0f"
+
+    },
+    {
         "path"     : "/part[0,15]/kit[0,15]/padpars/FreqLfo/Pcontinous",
         "shortname": "c",
         "name"     : "Pcontinous",
@@ -260,6 +284,30 @@
 
     },
     {
+        "path"     : "/part[0,15]/kit[0,15]/padpars/AmpLfo/fadein",
+        "shortname": "f.in",
+        "name"     : "fadein",
+        "tooltip"  : "Time to ramp up LFO amplitude\n               0..10 seconds",
+        "units"    : "S",
+        "scale"    : "linear",
+        "type"     : "f",
+        "range"    : [0.0,10.0f],
+        "default"  : "0.0f"
+
+    },
+    {
+        "path"     : "/part[0,15]/kit[0,15]/padpars/AmpLfo/fadeout",
+        "shortname": "f.out",
+        "name"     : "fadeout",
+        "tooltip"  : "Time to ramp down LFO amplitude on key release\n                0..10 seconds, 10=off (default)",
+        "units"    : "S",
+        "scale"    : "linear",
+        "type"     : "f",
+        "range"    : [0.001,10.0f],
+        "default"  : "10.0f"
+
+    },
+    {
         "path"     : "/part[0,15]/kit[0,15]/padpars/AmpLfo/Pcontinous",
         "shortname": "c",
         "name"     : "Pcontinous",
@@ -393,6 +441,30 @@
         "type"     : "f",
         "range"    : [0.0,4.0],
         "default"  : "0"
+
+    },
+    {
+        "path"     : "/part[0,15]/kit[0,15]/padpars/FilterLfo/fadein",
+        "shortname": "f.in",
+        "name"     : "fadein",
+        "tooltip"  : "Time to ramp up LFO amplitude\n               0..10 seconds",
+        "units"    : "S",
+        "scale"    : "linear",
+        "type"     : "f",
+        "range"    : [0.0,10.0f],
+        "default"  : "0.0f"
+
+    },
+    {
+        "path"     : "/part[0,15]/kit[0,15]/padpars/FilterLfo/fadeout",
+        "shortname": "f.out",
+        "name"     : "fadeout",
+        "tooltip"  : "Time to ramp down LFO amplitude on key release\n                0..10 seconds, 10=off (default)",
+        "units"    : "S",
+        "scale"    : "linear",
+        "type"     : "f",
+        "range"    : [0.001,10.0f],
+        "default"  : "10.0f"
 
     },
     {
@@ -3937,6 +4009,30 @@
 
     },
     {
+        "path"     : "/part[0,15]/kit[0,15]/adpars/VoicePar[0,7]/FreqLfo/fadein",
+        "shortname": "f.in",
+        "name"     : "fadein",
+        "tooltip"  : "Time to ramp up LFO amplitude\n               0..10 seconds",
+        "units"    : "S",
+        "scale"    : "linear",
+        "type"     : "f",
+        "range"    : [0.0,10.0f],
+        "default"  : "0.0f"
+
+    },
+    {
+        "path"     : "/part[0,15]/kit[0,15]/adpars/VoicePar[0,7]/FreqLfo/fadeout",
+        "shortname": "f.out",
+        "name"     : "fadeout",
+        "tooltip"  : "Time to ramp down LFO amplitude on key release\n                0..10 seconds, 10=off (default)",
+        "units"    : "S",
+        "scale"    : "linear",
+        "type"     : "f",
+        "range"    : [0.001,10.0f],
+        "default"  : "10.0f"
+
+    },
+    {
         "path"     : "/part[0,15]/kit[0,15]/adpars/VoicePar[0,7]/FreqLfo/Pcontinous",
         "shortname": "c",
         "name"     : "Pcontinous",
@@ -4073,6 +4169,30 @@
 
     },
     {
+        "path"     : "/part[0,15]/kit[0,15]/adpars/VoicePar[0,7]/AmpLfo/fadein",
+        "shortname": "f.in",
+        "name"     : "fadein",
+        "tooltip"  : "Time to ramp up LFO amplitude\n               0..10 seconds",
+        "units"    : "S",
+        "scale"    : "linear",
+        "type"     : "f",
+        "range"    : [0.0,10.0f],
+        "default"  : "0.0f"
+
+    },
+    {
+        "path"     : "/part[0,15]/kit[0,15]/adpars/VoicePar[0,7]/AmpLfo/fadeout",
+        "shortname": "f.out",
+        "name"     : "fadeout",
+        "tooltip"  : "Time to ramp down LFO amplitude on key release\n                0..10 seconds, 10=off (default)",
+        "units"    : "S",
+        "scale"    : "linear",
+        "type"     : "f",
+        "range"    : [0.001,10.0f],
+        "default"  : "10.0f"
+
+    },
+    {
         "path"     : "/part[0,15]/kit[0,15]/adpars/VoicePar[0,7]/AmpLfo/Pcontinous",
         "shortname": "c",
         "name"     : "Pcontinous",
@@ -4206,6 +4326,30 @@
         "type"     : "f",
         "range"    : [0.0,4.0],
         "default"  : "0"
+
+    },
+    {
+        "path"     : "/part[0,15]/kit[0,15]/adpars/VoicePar[0,7]/FilterLfo/fadein",
+        "shortname": "f.in",
+        "name"     : "fadein",
+        "tooltip"  : "Time to ramp up LFO amplitude\n               0..10 seconds",
+        "units"    : "S",
+        "scale"    : "linear",
+        "type"     : "f",
+        "range"    : [0.0,10.0f],
+        "default"  : "0.0f"
+
+    },
+    {
+        "path"     : "/part[0,15]/kit[0,15]/adpars/VoicePar[0,7]/FilterLfo/fadeout",
+        "shortname": "f.out",
+        "name"     : "fadeout",
+        "tooltip"  : "Time to ramp down LFO amplitude on key release\n                0..10 seconds, 10=off (default)",
+        "units"    : "S",
+        "scale"    : "linear",
+        "type"     : "f",
+        "range"    : [0.001,10.0f],
+        "default"  : "10.0f"
 
     },
     {
@@ -6097,6 +6241,30 @@
 
     },
     {
+        "path"     : "/part[0,15]/kit[0,15]/adpars/GlobalPar/FreqLfo/fadein",
+        "shortname": "f.in",
+        "name"     : "fadein",
+        "tooltip"  : "Time to ramp up LFO amplitude\n               0..10 seconds",
+        "units"    : "S",
+        "scale"    : "linear",
+        "type"     : "f",
+        "range"    : [0.0,10.0f],
+        "default"  : "0.0f"
+
+    },
+    {
+        "path"     : "/part[0,15]/kit[0,15]/adpars/GlobalPar/FreqLfo/fadeout",
+        "shortname": "f.out",
+        "name"     : "fadeout",
+        "tooltip"  : "Time to ramp down LFO amplitude on key release\n                0..10 seconds, 10=off (default)",
+        "units"    : "S",
+        "scale"    : "linear",
+        "type"     : "f",
+        "range"    : [0.001,10.0f],
+        "default"  : "10.0f"
+
+    },
+    {
         "path"     : "/part[0,15]/kit[0,15]/adpars/GlobalPar/FreqLfo/Pcontinous",
         "shortname": "c",
         "name"     : "Pcontinous",
@@ -6233,6 +6401,30 @@
 
     },
     {
+        "path"     : "/part[0,15]/kit[0,15]/adpars/GlobalPar/AmpLfo/fadein",
+        "shortname": "f.in",
+        "name"     : "fadein",
+        "tooltip"  : "Time to ramp up LFO amplitude\n               0..10 seconds",
+        "units"    : "S",
+        "scale"    : "linear",
+        "type"     : "f",
+        "range"    : [0.0,10.0f],
+        "default"  : "0.0f"
+
+    },
+    {
+        "path"     : "/part[0,15]/kit[0,15]/adpars/GlobalPar/AmpLfo/fadeout",
+        "shortname": "f.out",
+        "name"     : "fadeout",
+        "tooltip"  : "Time to ramp down LFO amplitude on key release\n                0..10 seconds, 10=off (default)",
+        "units"    : "S",
+        "scale"    : "linear",
+        "type"     : "f",
+        "range"    : [0.001,10.0f],
+        "default"  : "10.0f"
+
+    },
+    {
         "path"     : "/part[0,15]/kit[0,15]/adpars/GlobalPar/AmpLfo/Pcontinous",
         "shortname": "c",
         "name"     : "Pcontinous",
@@ -6366,6 +6558,30 @@
         "type"     : "f",
         "range"    : [0.0,4.0],
         "default"  : "0"
+
+    },
+    {
+        "path"     : "/part[0,15]/kit[0,15]/adpars/GlobalPar/FilterLfo/fadein",
+        "shortname": "f.in",
+        "name"     : "fadein",
+        "tooltip"  : "Time to ramp up LFO amplitude\n               0..10 seconds",
+        "units"    : "S",
+        "scale"    : "linear",
+        "type"     : "f",
+        "range"    : [0.0,10.0f],
+        "default"  : "0.0f"
+
+    },
+    {
+        "path"     : "/part[0,15]/kit[0,15]/adpars/GlobalPar/FilterLfo/fadeout",
+        "shortname": "f.out",
+        "name"     : "fadeout",
+        "tooltip"  : "Time to ramp down LFO amplitude on key release\n                0..10 seconds, 10=off (default)",
+        "units"    : "S",
+        "scale"    : "linear",
+        "type"     : "f",
+        "range"    : [0.001,10.0f],
+        "default"  : "10.0f"
 
     },
     {
