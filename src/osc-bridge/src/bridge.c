@@ -156,7 +156,7 @@ static int cache_set_vector(bridge_t *br, uri_t uri, char *types, rtosc_arg_t *a
     //the vector fields differ in type OR
     //the vector fields differ in value
     if(!line->valid || line->type != 'v' || strcmp(line->vec_type, types) ||
-            memcmp(&line->vec_value, &args, sizeof(args[0])*line_size))
+            memcmp(line->vec_value, args, sizeof(args[0])*strlen(line->vec_type)))
     {
         if(line->type == 'v')
             declone_vec_value(line->vec_type, line->vec_value);
