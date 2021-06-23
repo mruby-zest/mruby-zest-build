@@ -925,7 +925,9 @@ void br_tick(bridge_t *br)
     double thresh = now - delta;
     for(int i=br->debounce_len-1; i >= 0; --i) {
         if(br->bounce[i].last_set < thresh) {
-            run_callbacks(br, cache_get(br, br->bounce[i].path));
+            param_cache_t *cline = cache_get(br, br->bounce[i].path);
+            if(cline->valid)
+                run_callbacks(br, cline);
             debounce_pop(br, i);
         }
     }
