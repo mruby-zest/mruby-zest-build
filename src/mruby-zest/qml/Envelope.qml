@@ -172,29 +172,29 @@ Widget {
     function cvt_x(x)
     {
         fval = Math::log2(x/10.0 + 1.0) * 127.0/12.0
-        [0, [127, fval.round].min].max.to_i
+        (2**(12*([0.0, [127.0, fval].min].max)/127.0)-1)/100.0
     }
 
     function update_nonfree_x(pts)
     {
         if(emode == 1)
-            $remote.seti(extern + "PA_dt", cvt_x(pts[1]))
-            $remote.seti(extern + "PD_dt", cvt_x(pts[2]))
-            $remote.seti(extern + "PR_dt", cvt_x(pts[3]))
+            $remote.setf(extern + "A_dt", cvt_x(pts[1]))
+            $remote.setf(extern + "D_dt", cvt_x(pts[2]))
+            $remote.setf(extern + "R_dt", cvt_x(pts[3]))
         elsif(emode == 2)
-            $remote.seti(extern + "PA_dt", cvt_x(pts[1]))
-            $remote.seti(extern + "PD_dt", cvt_x(pts[2]))
-            $remote.seti(extern + "PR_dt", cvt_x(pts[3]))
+            $remote.setf(extern + "A_dt", cvt_x(pts[1]))
+            $remote.setf(extern + "D_dt", cvt_x(pts[2]))
+            $remote.setf(extern + "R_dt", cvt_x(pts[3]))
         elsif(emode == 3)
-            $remote.seti(extern + "PA_dt", cvt_x(pts[1]))
-            $remote.seti(extern + "PR_dt", cvt_x(pts[2]))
+            $remote.setf(extern + "A_dt", cvt_x(pts[1]))
+            $remote.setf(extern + "R_dt", cvt_x(pts[2]))
         elsif(emode == 4)
-            $remote.seti(extern + "PA_dt", cvt_x(pts[1]))
-            $remote.seti(extern + "PD_dt", cvt_x(pts[2]))
-            $remote.seti(extern + "PR_dt", cvt_x(pts[3]))
+            $remote.setf(extern + "A_dt", cvt_x(pts[1]))
+            $remote.setf(extern + "D_dt", cvt_x(pts[2]))
+            $remote.setf(extern + "R_dt", cvt_x(pts[3]))
         elsif(emode == 5)
-            $remote.seti(extern + "PA_dt", cvt_x(pts[1]))
-            $remote.seti(extern + "PR_dt", cvt_x(pts[2]))
+            $remote.setf(extern + "A_dt", cvt_x(pts[1]))
+            $remote.setf(extern + "R_dt", cvt_x(pts[2]))
         end
         whenTime.call if whenTime
     }
