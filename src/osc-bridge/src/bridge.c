@@ -170,12 +170,13 @@ static int cache_set_vector(bridge_t *br, uri_t uri, char *types, rtosc_arg_t *a
         line->requests = 0;
 
         //check if cache line is currently debounced...
-        //int debounced = false;
-        //for(int i=0; i<br->debounce_len; ++i)
-        //    if(!strcmp(br->bounce[i].path, line->path))
-        //        debounced = true;
+        int debounced = false;
+        for(int i=0; i<br->debounce_len; ++i) {
+            if(!strcmp(br->bounce[i].path, line->path))
+                debounced = true;
+        }
 
-        //if(!debounced)
+        if(!debounced)
             run_callbacks(br, line);
 
         return true;
