@@ -11435,7 +11435,7 @@
     {
         "path"     : "/part[0,15]/polyType",
         "name"     : "polyType",
-        "tooltip"  : "Synthesis polyphony type\nPolyphonic - Each note is played independently\nMonophonic - A single note is played at a time with envelopes resetting between notes\nLegato     - A single note is played at a time without envelopes resetting between notes\n",
+        "tooltip"  : "Synthesis polyphony type\nPolyphonic - Each note is played independently\nMonophonic - A single note is played at a time with envelopes resetting between notes\nLegato     - A single note is played at a time without envelopes resetting between notes\nLatch     - Notes are released when a new one is hit  after key release\n",
         "type"     : "i",
         "options"  : [
         {
@@ -11449,6 +11449,10 @@
         {
             "id"     : 2,
             "value"  : "Legato"
+        },
+        {
+            "id"     : 3,
+            "value"  : "Latch"
         }
         ]
     },
