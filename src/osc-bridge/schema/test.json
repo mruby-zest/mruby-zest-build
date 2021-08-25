@@ -167,6 +167,28 @@
 
     },
     {
+        "path"     : "/part[0,15]/kit[0,15]/padpars/FreqLfo/numerator",
+        "shortname": "num",
+        "name"     : "numerator",
+        "tooltip"  : "Numerator of ratio to bpm",
+        "scale"    : "linear",
+        "type"     : "i",
+        "range"    : [0,127],
+        "default"  : "0"
+
+    },
+    {
+        "path"     : "/part[0,15]/kit[0,15]/padpars/FreqLfo/denominator",
+        "shortname": "dem",
+        "name"     : "denominator",
+        "tooltip"  : "Denominator of ratio to bpm",
+        "scale"    : "linear",
+        "type"     : "i",
+        "range"    : [0,127],
+        "default"  : "4"
+
+    },
+    {
         "path"     : "/part[0,15]/kit[0,15]/padpars/AmpLfo/freq",
         "shortname": "freq",
         "name"     : "freq",
@@ -327,6 +349,28 @@
 
     },
     {
+        "path"     : "/part[0,15]/kit[0,15]/padpars/AmpLfo/numerator",
+        "shortname": "num",
+        "name"     : "numerator",
+        "tooltip"  : "Numerator of ratio to bpm",
+        "scale"    : "linear",
+        "type"     : "i",
+        "range"    : [0,127],
+        "default"  : "0"
+
+    },
+    {
+        "path"     : "/part[0,15]/kit[0,15]/padpars/AmpLfo/denominator",
+        "shortname": "dem",
+        "name"     : "denominator",
+        "tooltip"  : "Denominator of ratio to bpm",
+        "scale"    : "linear",
+        "type"     : "i",
+        "range"    : [0,127],
+        "default"  : "4"
+
+    },
+    {
         "path"     : "/part[0,15]/kit[0,15]/padpars/FilterLfo/freq",
         "shortname": "freq",
         "name"     : "freq",
@@ -484,6 +528,28 @@
         "type"     : "i",
         "range"    : [0,127],
         "default"  : "64"
+
+    },
+    {
+        "path"     : "/part[0,15]/kit[0,15]/padpars/FilterLfo/numerator",
+        "shortname": "num",
+        "name"     : "numerator",
+        "tooltip"  : "Numerator of ratio to bpm",
+        "scale"    : "linear",
+        "type"     : "i",
+        "range"    : [0,127],
+        "default"  : "0"
+
+    },
+    {
+        "path"     : "/part[0,15]/kit[0,15]/padpars/FilterLfo/denominator",
+        "shortname": "dem",
+        "name"     : "denominator",
+        "tooltip"  : "Denominator of ratio to bpm",
+        "scale"    : "linear",
+        "type"     : "i",
+        "range"    : [0,127],
+        "default"  : "4"
 
     },
     {
@@ -1945,6 +2011,10 @@
         {
             "id"     : 13,
             "value"  : "s"
+        },
+        {
+            "id"     : 14,
+            "value"  : "lpsk"
         }
         ]
     },
@@ -3106,6 +3176,10 @@
         {
             "id"     : 13,
             "value"  : "s"
+        },
+        {
+            "id"     : 14,
+            "value"  : "lpsk"
         }
         ]
     },
@@ -3743,6 +3817,10 @@
         {
             "id"     : 13,
             "value"  : "s"
+        },
+        {
+            "id"     : 14,
+            "value"  : "lpsk"
         }
         ]
     },
@@ -4077,6 +4155,28 @@
 
     },
     {
+        "path"     : "/part[0,15]/kit[0,15]/adpars/VoicePar[0,7]/FreqLfo/numerator",
+        "shortname": "num",
+        "name"     : "numerator",
+        "tooltip"  : "Numerator of ratio to bpm",
+        "scale"    : "linear",
+        "type"     : "i",
+        "range"    : [0,127],
+        "default"  : "0"
+
+    },
+    {
+        "path"     : "/part[0,15]/kit[0,15]/adpars/VoicePar[0,7]/FreqLfo/denominator",
+        "shortname": "dem",
+        "name"     : "denominator",
+        "tooltip"  : "Denominator of ratio to bpm",
+        "scale"    : "linear",
+        "type"     : "i",
+        "range"    : [0,127],
+        "default"  : "4"
+
+    },
+    {
         "path"     : "/part[0,15]/kit[0,15]/adpars/VoicePar[0,7]/AmpLfo/freq",
         "shortname": "freq",
         "name"     : "freq",
@@ -4237,6 +4337,28 @@
 
     },
     {
+        "path"     : "/part[0,15]/kit[0,15]/adpars/VoicePar[0,7]/AmpLfo/numerator",
+        "shortname": "num",
+        "name"     : "numerator",
+        "tooltip"  : "Numerator of ratio to bpm",
+        "scale"    : "linear",
+        "type"     : "i",
+        "range"    : [0,127],
+        "default"  : "0"
+
+    },
+    {
+        "path"     : "/part[0,15]/kit[0,15]/adpars/VoicePar[0,7]/AmpLfo/denominator",
+        "shortname": "dem",
+        "name"     : "denominator",
+        "tooltip"  : "Denominator of ratio to bpm",
+        "scale"    : "linear",
+        "type"     : "i",
+        "range"    : [0,127],
+        "default"  : "4"
+
+    },
+    {
         "path"     : "/part[0,15]/kit[0,15]/adpars/VoicePar[0,7]/FilterLfo/freq",
         "shortname": "freq",
         "name"     : "freq",
@@ -4394,6 +4516,28 @@
         "type"     : "i",
         "range"    : [0,127],
         "default"  : "64"
+
+    },
+    {
+        "path"     : "/part[0,15]/kit[0,15]/adpars/VoicePar[0,7]/FilterLfo/numerator",
+        "shortname": "num",
+        "name"     : "numerator",
+        "tooltip"  : "Numerator of ratio to bpm",
+        "scale"    : "linear",
+        "type"     : "i",
+        "range"    : [0,127],
+        "default"  : "0"
+
+    },
+    {
+        "path"     : "/part[0,15]/kit[0,15]/adpars/VoicePar[0,7]/FilterLfo/denominator",
+        "shortname": "dem",
+        "name"     : "denominator",
+        "tooltip"  : "Denominator of ratio to bpm",
+        "scale"    : "linear",
+        "type"     : "i",
+        "range"    : [0,127],
+        "default"  : "4"
 
     },
     {
@@ -6334,6 +6478,28 @@
 
     },
     {
+        "path"     : "/part[0,15]/kit[0,15]/adpars/GlobalPar/FreqLfo/numerator",
+        "shortname": "num",
+        "name"     : "numerator",
+        "tooltip"  : "Numerator of ratio to bpm",
+        "scale"    : "linear",
+        "type"     : "i",
+        "range"    : [0,127],
+        "default"  : "0"
+
+    },
+    {
+        "path"     : "/part[0,15]/kit[0,15]/adpars/GlobalPar/FreqLfo/denominator",
+        "shortname": "dem",
+        "name"     : "denominator",
+        "tooltip"  : "Denominator of ratio to bpm",
+        "scale"    : "linear",
+        "type"     : "i",
+        "range"    : [0,127],
+        "default"  : "4"
+
+    },
+    {
         "path"     : "/part[0,15]/kit[0,15]/adpars/GlobalPar/AmpLfo/freq",
         "shortname": "freq",
         "name"     : "freq",
@@ -6494,6 +6660,28 @@
 
     },
     {
+        "path"     : "/part[0,15]/kit[0,15]/adpars/GlobalPar/AmpLfo/numerator",
+        "shortname": "num",
+        "name"     : "numerator",
+        "tooltip"  : "Numerator of ratio to bpm",
+        "scale"    : "linear",
+        "type"     : "i",
+        "range"    : [0,127],
+        "default"  : "0"
+
+    },
+    {
+        "path"     : "/part[0,15]/kit[0,15]/adpars/GlobalPar/AmpLfo/denominator",
+        "shortname": "dem",
+        "name"     : "denominator",
+        "tooltip"  : "Denominator of ratio to bpm",
+        "scale"    : "linear",
+        "type"     : "i",
+        "range"    : [0,127],
+        "default"  : "4"
+
+    },
+    {
         "path"     : "/part[0,15]/kit[0,15]/adpars/GlobalPar/FilterLfo/freq",
         "shortname": "freq",
         "name"     : "freq",
@@ -6651,6 +6839,28 @@
         "type"     : "i",
         "range"    : [0,127],
         "default"  : "64"
+
+    },
+    {
+        "path"     : "/part[0,15]/kit[0,15]/adpars/GlobalPar/FilterLfo/numerator",
+        "shortname": "num",
+        "name"     : "numerator",
+        "tooltip"  : "Numerator of ratio to bpm",
+        "scale"    : "linear",
+        "type"     : "i",
+        "range"    : [0,127],
+        "default"  : "0"
+
+    },
+    {
+        "path"     : "/part[0,15]/kit[0,15]/adpars/GlobalPar/FilterLfo/denominator",
+        "shortname": "dem",
+        "name"     : "denominator",
+        "tooltip"  : "Denominator of ratio to bpm",
+        "scale"    : "linear",
+        "type"     : "i",
+        "range"    : [0,127],
+        "default"  : "4"
 
     },
     {
@@ -9360,6 +9570,28 @@
 
     },
     {
+        "path"     : "/part[0,15]/partefx[0,2]/numerator",
+        "shortname": "num",
+        "name"     : "numerator",
+        "tooltip"  : "Numerator of ratio to bpm",
+        "scale"    : "linear",
+        "type"     : "i",
+        "range"    : [0,99],
+        "default"  : "0"
+
+    },
+    {
+        "path"     : "/part[0,15]/partefx[0,2]/denominator",
+        "shortname": "dem",
+        "name"     : "denominator",
+        "tooltip"  : "Denominator of ratio to bpm",
+        "scale"    : "linear",
+        "type"     : "i",
+        "range"    : [0,99],
+        "default"  : "4"
+
+    },
+    {
         "path"     : "/part[0,15]/partefx[0,2]/efftype",
         "name"     : "efftype",
         "tooltip"  : "Get Effect Type",
@@ -11539,6 +11771,28 @@
 
     },
     {
+        "path"     : "/sysefx[0,3]/numerator",
+        "shortname": "num",
+        "name"     : "numerator",
+        "tooltip"  : "Numerator of ratio to bpm",
+        "scale"    : "linear",
+        "type"     : "i",
+        "range"    : [0,99],
+        "default"  : "0"
+
+    },
+    {
+        "path"     : "/sysefx[0,3]/denominator",
+        "shortname": "dem",
+        "name"     : "denominator",
+        "tooltip"  : "Denominator of ratio to bpm",
+        "scale"    : "linear",
+        "type"     : "i",
+        "range"    : [0,99],
+        "default"  : "4"
+
+    },
+    {
         "path"     : "/sysefx[0,3]/efftype",
         "name"     : "efftype",
         "tooltip"  : "Get Effect Type",
@@ -13158,6 +13412,28 @@
         "tooltip"  : "Effect Preset Selector",
         "type"     : "i",
         "default"  : "0"
+
+    },
+    {
+        "path"     : "/insefx[0,7]/numerator",
+        "shortname": "num",
+        "name"     : "numerator",
+        "tooltip"  : "Numerator of ratio to bpm",
+        "scale"    : "linear",
+        "type"     : "i",
+        "range"    : [0,99],
+        "default"  : "0"
+
+    },
+    {
+        "path"     : "/insefx[0,7]/denominator",
+        "shortname": "dem",
+        "name"     : "denominator",
+        "tooltip"  : "Denominator of ratio to bpm",
+        "scale"    : "linear",
+        "type"     : "i",
+        "range"    : [0,99],
+        "default"  : "4"
 
     },
     {
@@ -14990,6 +15266,18 @@
         "tooltip"  : "sysefx to sysefx routing gain",
         "type"     : "i",
         "default"  : "[0...]"
+
+    },
+    {
+        "path"     : "/tempo",
+        "shortname": "Tempo",
+        "name"     : "tempo",
+        "tooltip"  : "Tempo / Beats per minute",
+        "units"    : "BPM",
+        "scale"    : "linear",
+        "type"     : "i",
+        "range"    : [40,200],
+        "default"  : "120"
 
     },
     {

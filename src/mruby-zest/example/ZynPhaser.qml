@@ -6,7 +6,10 @@ Group {
     function refresh() {
         return if rw.content.nil?
         return if rw.content.children.length < 4
-        rw.content.children[3..-1].each do |c|
+        rw.content.children[4..-1].each do |c|
+            c.refresh
+        end
+        rw.content.children[3].children.each do |c|
             c.refresh
         end
         rw2.content.children.each do |c|
@@ -36,7 +39,18 @@ Group {
 
         Knob { extern: phaser.extern + "Pvolume"}
         Knob { extern: phaser.extern + "Ppanning"}
-
+        Col {
+            NumEntry {extern: phaser.extern + "numerator"; 
+                label: "Numerator"
+                value: 0
+                whenValue: lambda { phaser.refresh }
+            }
+            NumEntry {extern: phaser.extern + "denominator"; 
+                label: "Denominator"
+                value: 4
+                whenValue: lambda { phaser.refresh }
+            }
+        } 
         Knob { extern: phaser.extern + "Phaser/lfo.Pfreq" }
         Knob { extern: phaser.extern + "Phaser/lfo.Prandomness" }
         Selector { extern: phaser.extern + "Phaser/lfo.PLFOtype" }

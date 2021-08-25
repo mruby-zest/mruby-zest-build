@@ -5,6 +5,14 @@ ParModule {
     label:  "generic lfo"
     id:    lfo_mod
     Knob     {extern: lfo_mod.extern+"Pfreq"}
+    Col {
+        NumEntry {extern: lfo_mod.extern + "numerator"; 
+            label: "Numerator"
+        }
+        NumEntry {extern: lfo_mod.extern + "denominator"; 
+            label: "Denominator"
+        }
+    }
     Knob     {extern: lfo_mod.extern+"Pintensity"}
     Knob     {extern: lfo_mod.extern+"Pcutoff"}
     Knob     {extern: lfo_mod.extern+"Pstartphase"}
