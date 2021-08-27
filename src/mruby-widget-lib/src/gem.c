@@ -503,8 +503,6 @@ mrb_remote_setf(mrb_state *mrb, mrb_value self)
 }
 
 static mrb_value
-
-static mrb_value
 mrb_remote_settf(mrb_state *mrb, mrb_value self)
 {
     remote_data *data = (remote_data*)mrb_data_get_ptr(mrb, self, &mrb_remote_type);
