@@ -1,8 +1,11 @@
 Widget {
+    id: settings
     Forms {
         label: "Global Settings"
         TextField {tooltip: "Sample Rate:"; label: "48 kHz"}
-        ToggleButton {tooltip: "Swap Stereo:"}
+        ToggleButton {tooltip: "Swap Stereo:"; label: "Swap Stereo"}
+        ToggleButton {tooltip: "Enable Output Compressor:"; 
+            label: "Audio Compressor"; extern: settings.extern+"io/audio-compressor"}
         TextField {tooltip: "Oscil Size:";  label: "256 samples"}
         TextField {tooltip: "Buffer Size:"; label: "128 samples"}
         NumEntry {tooltip: "XML Compression:"}
