@@ -1074,6 +1074,10 @@
         {
             "id"     : 3,
             "value"  : "moog"
+        },
+        {
+            "id"     : 4,
+            "value"  : "comb"
         }
         ]
     },
@@ -1303,6 +1307,27 @@
         {
             "id"     : 2,
             "value"  : "LP"
+        }
+        ]
+    },
+    {
+        "path"     : "/part[0,15]/kit[0,15]/padpars/GlobalFilter/type-comb",
+        "shortname": "type",
+        "name"     : "type-comb",
+        "tooltip"  : "Comb Filter Type",
+        "type"     : "i",
+        "options"  : [
+        {
+            "id"     : 0,
+            "value"  : "BWD"
+        },
+        {
+            "id"     : 1,
+            "value"  : "FWD"
+        },
+        {
+            "id"     : 2,
+            "value"  : "both"
         }
         ]
     },
@@ -5394,6 +5419,10 @@
         {
             "id"     : 3,
             "value"  : "moog"
+        },
+        {
+            "id"     : 4,
+            "value"  : "comb"
         }
         ]
     },
@@ -5623,6 +5652,27 @@
         {
             "id"     : 2,
             "value"  : "LP"
+        }
+        ]
+    },
+    {
+        "path"     : "/part[0,15]/kit[0,15]/adpars/VoicePar[0,7]/VoiceFilter/type-comb",
+        "shortname": "type",
+        "name"     : "type-comb",
+        "tooltip"  : "Comb Filter Type",
+        "type"     : "i",
+        "options"  : [
+        {
+            "id"     : 0,
+            "value"  : "BWD"
+        },
+        {
+            "id"     : 1,
+            "value"  : "FWD"
+        },
+        {
+            "id"     : 2,
+            "value"  : "both"
         }
         ]
     },
@@ -7385,6 +7435,10 @@
         {
             "id"     : 3,
             "value"  : "moog"
+        },
+        {
+            "id"     : 4,
+            "value"  : "comb"
         }
         ]
     },
@@ -7614,6 +7668,27 @@
         {
             "id"     : 2,
             "value"  : "LP"
+        }
+        ]
+    },
+    {
+        "path"     : "/part[0,15]/kit[0,15]/adpars/GlobalPar/GlobalFilter/type-comb",
+        "shortname": "type",
+        "name"     : "type-comb",
+        "tooltip"  : "Comb Filter Type",
+        "type"     : "i",
+        "options"  : [
+        {
+            "id"     : 0,
+            "value"  : "BWD"
+        },
+        {
+            "id"     : 1,
+            "value"  : "FWD"
+        },
+        {
+            "id"     : 2,
+            "value"  : "both"
         }
         ]
     },
@@ -8863,6 +8938,10 @@
         {
             "id"     : 3,
             "value"  : "moog"
+        },
+        {
+            "id"     : 4,
+            "value"  : "comb"
         }
         ]
     },
@@ -9096,6 +9175,27 @@
         ]
     },
     {
+        "path"     : "/part[0,15]/kit[0,15]/subpars/GlobalFilter/type-comb",
+        "shortname": "type",
+        "name"     : "type-comb",
+        "tooltip"  : "Comb Filter Type",
+        "type"     : "i",
+        "options"  : [
+        {
+            "id"     : 0,
+            "value"  : "BWD"
+        },
+        {
+            "id"     : 1,
+            "value"  : "FWD"
+        },
+        {
+            "id"     : 2,
+            "value"  : "both"
+        }
+        ]
+    },
+    {
         "path"     : "/part[0,15]/kit[0,15]/subpars/GlobalFilter/Pvowels[0,5]/Pformants[0,11]/freq",
         "shortname": "f.freq",
         "name"     : "freq",
@@ -9275,6 +9375,10 @@
         {
             "id"     : 3,
             "value"  : "moog"
+        },
+        {
+            "id"     : 4,
+            "value"  : "comb"
         }
         ]
     },
@@ -9508,6 +9612,27 @@
         ]
     },
     {
+        "path"     : "/part[0,15]/partefx[0,2]/filterpars/type-comb",
+        "shortname": "type",
+        "name"     : "type-comb",
+        "tooltip"  : "Comb Filter Type",
+        "type"     : "i",
+        "options"  : [
+        {
+            "id"     : 0,
+            "value"  : "BWD"
+        },
+        {
+            "id"     : 1,
+            "value"  : "FWD"
+        },
+        {
+            "id"     : 2,
+            "value"  : "both"
+        }
+        ]
+    },
+    {
         "path"     : "/part[0,15]/partefx[0,2]/filterpars/Pvowels[0,5]/Pformants[0,11]/freq",
         "shortname": "f.freq",
         "name"     : "freq",
@@ -9587,7 +9712,7 @@
         "tooltip"  : "Denominator of ratio to bpm",
         "scale"    : "linear",
         "type"     : "i",
-        "range"    : [0,99],
+        "range"    : [1,99],
         "default"  : "4"
 
     },
@@ -11480,6 +11605,10 @@
         {
             "id"     : 3,
             "value"  : "moog"
+        },
+        {
+            "id"     : 4,
+            "value"  : "comb"
         }
         ]
     },
@@ -11713,6 +11842,27 @@
         ]
     },
     {
+        "path"     : "/sysefx[0,3]/filterpars/type-comb",
+        "shortname": "type",
+        "name"     : "type-comb",
+        "tooltip"  : "Comb Filter Type",
+        "type"     : "i",
+        "options"  : [
+        {
+            "id"     : 0,
+            "value"  : "BWD"
+        },
+        {
+            "id"     : 1,
+            "value"  : "FWD"
+        },
+        {
+            "id"     : 2,
+            "value"  : "both"
+        }
+        ]
+    },
+    {
         "path"     : "/sysefx[0,3]/filterpars/Pvowels[0,5]/Pformants[0,11]/freq",
         "shortname": "f.freq",
         "name"     : "freq",
@@ -11792,7 +11942,7 @@
         "tooltip"  : "Denominator of ratio to bpm",
         "scale"    : "linear",
         "type"     : "i",
-        "range"    : [0,99],
+        "range"    : [1,99],
         "default"  : "4"
 
     },
@@ -13124,6 +13274,10 @@
         {
             "id"     : 3,
             "value"  : "moog"
+        },
+        {
+            "id"     : 4,
+            "value"  : "comb"
         }
         ]
     },
@@ -13357,6 +13511,27 @@
         ]
     },
     {
+        "path"     : "/insefx[0,7]/filterpars/type-comb",
+        "shortname": "type",
+        "name"     : "type-comb",
+        "tooltip"  : "Comb Filter Type",
+        "type"     : "i",
+        "options"  : [
+        {
+            "id"     : 0,
+            "value"  : "BWD"
+        },
+        {
+            "id"     : 1,
+            "value"  : "FWD"
+        },
+        {
+            "id"     : 2,
+            "value"  : "both"
+        }
+        ]
+    },
+    {
         "path"     : "/insefx[0,7]/filterpars/Pvowels[0,5]/Pformants[0,11]/freq",
         "shortname": "f.freq",
         "name"     : "freq",
@@ -13436,7 +13611,7 @@
         "tooltip"  : "Denominator of ratio to bpm",
         "scale"    : "linear",
         "type"     : "i",
-        "range"    : [0,99],
+        "range"    : [1,99],
         "default"  : "4"
 
     },

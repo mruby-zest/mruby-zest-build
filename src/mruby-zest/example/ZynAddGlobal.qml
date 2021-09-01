@@ -198,7 +198,7 @@ Widget {
             self.valueRef = OSC::RemoteParam.new($remote, path)
             self.valueRef.mode = :full
             self.valueRef.callback = lambda {|x|
-                addglobal.filtertype = [:analog, :formant, :statevar][x]
+                addglobal.filtertype = [:analog, :formant, :statevar, :comb][x]
             }
         end
         set_view()
