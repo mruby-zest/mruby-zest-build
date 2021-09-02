@@ -9587,7 +9587,7 @@
         "tooltip"  : "Denominator of ratio to bpm",
         "scale"    : "linear",
         "type"     : "i",
-        "range"    : [0,99],
+        "range"    : [1,99],
         "default"  : "4"
 
     },
@@ -11792,7 +11792,7 @@
         "tooltip"  : "Denominator of ratio to bpm",
         "scale"    : "linear",
         "type"     : "i",
-        "range"    : [0,99],
+        "range"    : [1,99],
         "default"  : "4"
 
     },
@@ -13436,7 +13436,7 @@
         "tooltip"  : "Denominator of ratio to bpm",
         "scale"    : "linear",
         "type"     : "i",
-        "range"    : [0,99],
+        "range"    : [1,99],
         "default"  : "4"
 
     },
@@ -15403,6 +15403,12 @@
         "path"     : "/config/cfg.SwapStereo",
         "name"     : "cfg.SwapStereo",
         "tooltip"  : "Swap Left And Right Channels",
+        "type"     : "t"
+    },
+    {
+        "path"     : "/config/cfg.AudioOutputCompressor",
+        "name"     : "cfg.AudioOutputCompressor",
+        "tooltip"  : "Apply Compressor to Audio Output",
         "type"     : "t"
     },
     {
