@@ -2,17 +2,37 @@ Widget {
     id: settings
     Forms {
         label: "Global Settings"
-        TextField {tooltip: "Sample Rate:"; label: "48 kHz"} 
-        ToggleButton {tooltip: "Swap Stereo:"; label: "Swap Stereo"; 
-            extern: settings.extern+"config/cfg.SwapStereo"}
-        ToggleButton {tooltip: "Enable Output Compressor:"; 
-            label: "Audio Compressor"; extern: settings.extern+"config/cfg.AudioOutputCompressor"}
-        TextField {tooltip: "Oscil Size:";  label: "256 samples"}
-        TextField {tooltip: "Buffer Size:"; label: "128 samples"}
-        NumEntry {tooltip: "XML Compression:"; 
-            extern: settings.extern+"config/cfg.GzipCompression"}
-        ToggleButton {tooltip: "Ignore MIDI Program Change:"; label: "MIDI PGM Chg"; 
-        extern: settings.extern+"config/cfg.IgnoreProgramChange"}
+        TextField {
+            tooltip: "Sample Rate:"
+            label: "48 kHz"
+        }
+        ToggleButton {
+            tooltip: "Swap Stereo:"
+            label: "Swap Stereo"
+            extern: settings.extern+"config/cfg.SwapStereo"
+        }
+        ToggleButton {
+            tooltip: "Enable Output Compressor:"
+            label: "Audio Compressor"
+            extern: settings.extern+"config/cfg.AudioOutputCompressor"
+        }
+        TextField {
+            tooltip: "Oscil Size:"
+            label: "256 samples"
+        }
+        TextField {
+            tooltip: "Buffer Size:"
+            label: "128 samples"
+        }
+        NumEntry {
+            tooltip: "XML Compression:"
+            extern: settings.extern+"config/cfg.GzipCompression"
+        }
+        ToggleButton {
+            tooltip: "Ignore MIDI Program Change:"
+            label: "MIDI PGM Chg"
+            extern: settings.extern+"config/cfg.IgnoreProgramChange"
+        }
     }
     Widget{
     function draw(vg) {
