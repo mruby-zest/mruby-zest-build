@@ -15581,6 +15581,12 @@
         "type"     : "t"
     },
     {
+        "path"     : "/config/cfg.AudioOutputCompressor",
+        "name"     : "cfg.AudioOutputCompressor",
+        "tooltip"  : "Apply Compressor to Audio Output",
+        "type"     : "t"
+    },
+    {
         "path"     : "/config/cfg.BankUIAutoClose",
         "name"     : "cfg.BankUIAutoClose",
         "tooltip"  : "Automatic Closing of BackUI After Patch Selection",
