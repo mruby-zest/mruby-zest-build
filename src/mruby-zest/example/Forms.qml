@@ -1,5 +1,6 @@
 Widget {
     id: forms
+
     Text {
         label: forms.label
     }
@@ -33,10 +34,10 @@ Widget {
             0, 0, 0, 0)
         (1...n).each do |i|
             l.fixed_long(children[i+n-1], selfBox,
-                0, i/n, 0.75, 0.5/n, 
+                0, i*1.0/n, 0.75, 0.5/n,
                 10, 0, 0, 0)
             l.fixed_long(children[i], selfBox,
-                0.25, (i+0.5)/n, 0.75, 0.5/n, 
+                0.25, (i+0.5)/n, 0.75, 0.5/n,
                 0, 0, -10, 0)
         end
     }
