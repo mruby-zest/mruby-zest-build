@@ -348,7 +348,7 @@ Widget {
 
         function animate()
         {
-            run_view.valueRef.watch run_view.extern
+            run_view.valueRef.watch
             now     = Time.new
             @last ||= now
             update_points([]) if((now-@last)>0.1)

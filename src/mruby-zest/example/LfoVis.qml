@@ -287,7 +287,7 @@ Widget {
 
         function animate() {
             return if run_view.valueRef.nil?
-            run_view.valueRef.watch run_view.extern
+            run_view.valueRef.watch
         }
 
         function draw(vg)
