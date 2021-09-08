@@ -296,13 +296,15 @@ static void send_cb(uv_udp_send_t* req, int status)
 //I know that 300 messages within a single frame results in lost packets, so
 //lets identify a reasonable limit of 100 messages per frame
 
-static void do_send(bridge_t *br, char *buffer, unsigned len)
+//Returns 0 on success
+//        1 on error (aka the rate limit is reached)
+static int do_send(bridge_t *br, char *buffer, unsigned len)
 {
     if(br->frame_messages >= BR_RATE_LIMIT) {
         br->rlimit_len++;
         br->rlimit = (char**)realloc(br->rlimit, sizeof(char**)*br->rlimit_len);
         br->rlimit[br->rlimit_len-1] = buffer;
-        return;
+        return 1;
     }
     br->frame_messages++;
     req_t *request = (req_t*)malloc(sizeof(req_t));
@@ -313,6 +315,7 @@ static void do_send(bridge_t *br, char *buffer, unsigned len)
     uv_ip4_addr(br->address, br->port, &send_addr);
     uv_udp_send(&request->send_req, &br->socket, &buf, 1, (const struct sockaddr *)&send_addr, send_cb);
     uv_run(br->loop, UV_RUN_NOWAIT);
+    return 0;
 }
 
 void osc_request(bridge_t *br, const char *path)
@@ -870,19 +873,22 @@ void br_tick(bridge_t *br)
     br->frame_messages = 0;
     if(br->rlimit) {
         //printf("[INFO] Reading through rate limited fields\n");
+        int messages_sent = 0;
         for(int i=0; i<br->rlimit_len && i<BR_RATE_LIMIT; ++i) {
             char *msg = br->rlimit[i];
             //printf("[DEBUG] message = \"%s\"\n", msg);
-            do_send(br, msg, rtosc_message_length(msg, -1));
+            if(do_send(br, msg, rtosc_message_length(msg, -1)))
+                break;
+            messages_sent++;
         }
-        if(br->frame_messages == br->rlimit_len) {
+        if(messages_sent == br->rlimit_len) {
             //printf("[INFO] Clearing rate limit queue\n");
             br->rlimit_len = 0;
             free(br->rlimit);
             br->rlimit = 0;
         } else {
             char **base = br->rlimit;
-            int N = br->frame_messages;
+            int N = messages_sent;
             int M = br->rlimit_len;
             //printf("[INFO] Shrinking rate limit queue %d=>%d\n", M, M-N);
             memmove(base, base+N, sizeof(void*)*(M-N));
