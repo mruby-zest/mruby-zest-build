@@ -18,6 +18,9 @@ end
 
 class EditRegion
     def initialize(vg, string, width, height)
+
+        check_args(vg, string, width, height)
+
         @vg     = vg
         @string = string
         @width  = width
@@ -52,12 +55,32 @@ class EditRegion
         calc_cursor_x
     end
 
-    def lines
-        @lines
+    def check_args(vg, string, width, height)
+        if(!([Float,Integer].include? width.class))
+            raise TypeError.new("Invalid width <#{width.inspect}> expected Integer/Float, got #{width.class}")
+        end
+
+        if(!([Float,Integer].include? height.class))
+            raise TypeError.new("Invalid height <#{height.inspect}> expected Integer/Float, got #{height.class}")
+        end
+
+        if(string.class != String)
+            raise TypeError.new("Expected input string String, got #{string.class}")
+        end
+
+        string.each_char do |chr|
+            bounds = vg.text_bounds(0, 0, chr)
+            if(bounds.class != Float)
+                raise ArgumentError.new("Invalid bounds for character #{chr.inspect} got #{bounds.inspect}")
+            end
+            if(bounds < 0)
+                raise ArgumentError.new("Negative bounds for character #{chr.inspect} got #{bounds.inspect}")
+            end
+        end
     end
-    def line_widths
-        @line_widths
-    end
+
+    attr_reader :lines
+    attr_reader :line_widths
 
     def flush_word_buffer
         if(@activew < @width)
@@ -67,8 +90,8 @@ class EditRegion
             @line_widths[@active_line] = @lastw
             @active_line += 1
             @lines[@active_line] = ""
-            @activew = 0
-            @lastw   = 0
+            @activew = 0.0
+            @lastw   = 0.0
             n = @word_buffer.length
             (0...n).each do |i|
                 push_char(@word_buffer[i], @word_buf_w[i])
@@ -132,17 +155,20 @@ class EditRegion
         @line_widths[@active_line] = @lastw
     end
 
+    #Move cursor left
     def left()
         @cursor_col -= 1 if @cursor_col > 0
         calc_cursor_x
     end
 
+    #Move cursor right once
     def right()
         n = @lines[@cursor_row].length
         @cursor_col += 1 if @cursor_col < n
         calc_cursor_x
     end
 
+    #Move cursor up a row
     def up()
         @cursor_row -= 1 if @cursor_row > 0
         n = @lines[@cursor_row].length
@@ -165,6 +191,7 @@ class EditRegion
         calc_cursor_x
     end
 
+    #Move cursor down a row
     def down()
         @cursor_row += 1 if @cursor_row < @lines.length-1
         n = @lines[@cursor_row].length
@@ -195,6 +222,7 @@ class EditRegion
         end
     end
 
+    #Update horizontal position of cursor
     def calc_cursor_x
         @vg.font_face("bold")
         @vg.font_size @row_h
