@@ -95,9 +95,11 @@ build_type.new(build_name) do |conf|
   #Eval for runtime reloads
   conf.gem :core => "mruby-eval"
 
+  # IO for debugging
+  conf.gem :core => 'mruby-io'
+
   #Non-STD lib gems
   conf.gem 'deps/mruby-errno'
-  conf.gem 'mruby/mrbgems/mruby-io'
   conf.gem 'deps/mruby-nanovg'
   conf.gem 'deps/mruby-regexp-pcre'
   conf.gem 'deps/mruby-set'

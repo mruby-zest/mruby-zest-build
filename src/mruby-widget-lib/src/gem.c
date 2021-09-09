@@ -1292,3 +1292,7 @@ void
 mrb_mruby_widget_lib_gem_final(mrb_state* mrb) {
     /* finalizer */
 }
+
+//Workaround for mruby's read only data sector detection
+char __ehdr_start[] = {0};
+char __init_array_start[] = {0};
