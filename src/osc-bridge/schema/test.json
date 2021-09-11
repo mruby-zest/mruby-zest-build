@@ -4177,6 +4177,17 @@
 
     },
     {
+        "path"     : "/part[0,15]/kit[0,15]/adpars/VoicePar[0,7]/FreqSeq/intensity",
+        "shortname": "depth",
+        "name"     : "intensity",
+        "tooltip"  : "Intensity of SEQ",
+        "scale"    : "linear",
+        "type"     : "f",
+        "range"    : [0.0,2.0],
+        "default"  : "1.0"
+
+    },
+    {
         "path"     : "/part[0,15]/kit[0,15]/adpars/VoicePar[0,7]/AmpLfo/freq",
         "shortname": "freq",
         "name"     : "freq",
@@ -4359,6 +4370,17 @@
 
     },
     {
+        "path"     : "/part[0,15]/kit[0,15]/adpars/VoicePar[0,7]/AmpSeq/intensity",
+        "shortname": "depth",
+        "name"     : "intensity",
+        "tooltip"  : "Intensity of SEQ",
+        "scale"    : "linear",
+        "type"     : "f",
+        "range"    : [0.0,2.0],
+        "default"  : "1.0"
+
+    },
+    {
         "path"     : "/part[0,15]/kit[0,15]/adpars/VoicePar[0,7]/FilterLfo/freq",
         "shortname": "freq",
         "name"     : "freq",
@@ -4538,6 +4560,17 @@
         "type"     : "i",
         "range"    : [0,127],
         "default"  : "4"
+
+    },
+    {
+        "path"     : "/part[0,15]/kit[0,15]/adpars/VoicePar[0,7]/FilterSeq/intensity",
+        "shortname": "depth",
+        "name"     : "intensity",
+        "tooltip"  : "Intensity of SEQ",
+        "scale"    : "linear",
+        "type"     : "f",
+        "range"    : [0.0,2.0],
+        "default"  : "1.0"
 
     },
     {
@@ -6500,6 +6533,17 @@
 
     },
     {
+        "path"     : "/part[0,15]/kit[0,15]/adpars/GlobalPar/FreqSeq/intensity",
+        "shortname": "depth",
+        "name"     : "intensity",
+        "tooltip"  : "Intensity of SEQ",
+        "scale"    : "linear",
+        "type"     : "f",
+        "range"    : [0.0,2.0],
+        "default"  : "1.0"
+
+    },
+    {
         "path"     : "/part[0,15]/kit[0,15]/adpars/GlobalPar/AmpLfo/freq",
         "shortname": "freq",
         "name"     : "freq",
@@ -6679,6 +6723,17 @@
         "type"     : "i",
         "range"    : [0,127],
         "default"  : "4"
+
+    },
+    {
+        "path"     : "/part[0,15]/kit[0,15]/adpars/GlobalPar/AmpSeq/intensity",
+        "shortname": "depth",
+        "name"     : "intensity",
+        "tooltip"  : "Intensity of SEQ",
+        "scale"    : "linear",
+        "type"     : "f",
+        "range"    : [0.0,2.0],
+        "default"  : "1.0"
 
     },
     {
@@ -6864,6 +6919,17 @@
 
     },
     {
+
+    },
+    {
+        "path"     : "/part[0,15]/kit[0,15]/adpars/GlobalPar/FilterSeq/intensity",
+        "shortname": "depth",
+        "name"     : "intensity",
+        "tooltip"  : "Intensity of SEQ",
+        "scale"    : "linear",
+        "type"     : "f",
+        "range"    : [0.0,2.0],
+        "default"  : "1.0"
         "path"     : "/part[0,15]/kit[0,15]/adpars/GlobalPar/FreqEnvelope/Pfreemode",
         "name"     : "Pfreemode",
         "tooltip"  : "Complex Envelope Definitions",
