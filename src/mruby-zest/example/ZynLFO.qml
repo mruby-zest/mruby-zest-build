@@ -31,6 +31,7 @@ Group {
         Col {
             Selector {extern: box.extern+"PLFOtype"}
             ToggleButton   { label: "sync"; extern: box.extern+"Pcontinous"}
+            TextBox {}
             NumEntry {
                 id: numerator
                 extern: box.extern + "numerator"; 
