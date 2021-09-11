@@ -12,7 +12,7 @@ Group {
         Col {
             ParModuleRow {
                 id: top
-                Knob { type: :float; extern: box.extern+"freq" }
+                Knob { id: freq; type: :float; extern: box.extern+"freq" }
                 Knob { extern: box.extern+"Pintensity"}
                 Knob { extern: box.extern+"Pcutoff"}
                 Knob { extern: box.extern+"Pstartphase"}
@@ -31,7 +31,16 @@ Group {
         Col {
             Selector {extern: box.extern+"PLFOtype"}
             ToggleButton   { label: "sync"; extern: box.extern+"Pcontinous"}
-            NumEntry {extern: box.extern + "numerator"; label: "Numerator"}
+            NumEntry {
+                id: numerator
+                extern: box.extern + "numerator"; 
+                label: "Numerator"
+                whenValue: lambda {
+                    freq.active = true if numerator.value == 0
+                    freq.active = false if numerator.value != 0
+                    box.damage_self
+                }
+            }
             NumEntry {extern: box.extern + "denominator"; label: "Denominator"}
         }
     }
