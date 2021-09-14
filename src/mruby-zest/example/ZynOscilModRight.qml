@@ -36,6 +36,9 @@ Widget {
             Knob {
                 extern: base.extern + "Unison_vibratto_speed"
             }
+             Knob {
+                extern: base.extern + "Unison_phase_randomness"
+            }
             Selector {
                 extern: base.extern + "Unison_invert_phase"
             }
