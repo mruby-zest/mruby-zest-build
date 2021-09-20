@@ -537,6 +537,26 @@ module Draw
 
         def self.hfill(l, selfBox, b, w, pad=0, fixed_pad=0)
             off = pad/2.0
+            
+            b.each do |bb|
+                inspect(bb.children[0])
+            end 
+            
+            b.each_with_index do |bb,i|
+                l.fixed_long(bb, selfBox, off, 0, w[i], 1,
+                            fixed_pad, 0, -2*fixed_pad, 0)
+                off += w[i] + pad
+            end
+            selfBox
+        end
+        
+        def self.hfillSmart(l, selfBox, b, w, pad=0, fixed_pad=0)
+            off = pad/2.0
+            
+            b.each do |bb|
+                inspect(bb.children[0].children[0])
+            end 
+            
             b.each_with_index do |bb,i|
                 l.fixed_long(bb, selfBox, off, 0, w[i], 1,
                             fixed_pad, 0, -2*fixed_pad, 0)
