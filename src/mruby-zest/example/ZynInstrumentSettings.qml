@@ -50,6 +50,9 @@ Group {
                 label: "mode";
                 layoutOpts: [:no_constraint, :long_mode]
             }
+            NumEntry {
+                extern: insset.extern + "Pvoicelimit"
+            }
         }
         function layout(l, selfBox) {
             Draw::Layout::vfill(l, selfBox, children, [0.40, 0.40,0.2],0,2)
