@@ -11575,11 +11575,11 @@
         "options"  : [
         {
             "id"     : 0,
-            "value"  : "Polyphonic"
+            "value"  : "Poly"
         },
         {
             "id"     : 1,
-            "value"  : "Monophonic"
+            "value"  : "Mono"
         },
         {
             "id"     : 2,
