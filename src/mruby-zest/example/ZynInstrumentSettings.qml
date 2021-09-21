@@ -41,17 +41,18 @@ Group {
                 extern: insset.extern + "Prcvchn";
                 label: "midi chan"
             }
-            ToggleButton {
-                extern: insset.extern + "ctl/portamento.portamento";
-                label: "portamento"
-            }
             Selector {
                 extern: insset.extern + "polyType";
                 label: "mode";
                 layoutOpts: [:no_constraint, :long_mode]
             }
+            TextBox {
+                label: vlimit.label
+            }
             NumEntry {
-                extern: insset.extern + "Pvoicelimit"
+                id: vlimit;
+                extern: insset.extern + "Pvoicelimit";
+                label: "Voice Limit"
             }
         }
         function layout(l, selfBox) {
