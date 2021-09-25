@@ -156,6 +156,7 @@ build_type.new(build_name) do |conf|
         linker.flags_after_libraries  << "#{`pwd`.strip}/../deps/libuv-win.a"
         linker.flags_after_libraries  << "-lws2_32 -lkernel32 -lpsapi -luserenv -liphlpapi"
         linker.flags_after_libraries  << "-lglu32 -lgdi32 -lopengl32"
+        linker.flags_after_libraries  << "-lrt"
       end
   end
 
