@@ -137,6 +137,9 @@ build_type.new(build_name) do |conf|
       cc.defines << "UI_HOTLOAD"        if ENV.include?("UI_HOTLOAD")
       cc.defines << "DEMO_MODE=#{demo_mode ? '1':'0'}"
       cc.defines << "MRB_NO_BOXING"
+      #ugh, this is an ugly hack, but until a replacement regex engine is put in
+      #place there's going to be conflicting defines in the cross/mingw build
+      cc.defines << '_POSIX_TIMERS=-42' if windows
   end
 
   conf.linker do |linker|
@@ -156,7 +159,6 @@ build_type.new(build_name) do |conf|
         linker.flags_after_libraries  << "#{`pwd`.strip}/../deps/libuv-win.a"
         linker.flags_after_libraries  << "-lws2_32 -lkernel32 -lpsapi -luserenv -liphlpapi"
         linker.flags_after_libraries  << "-lglu32 -lgdi32 -lopengl32"
-        linker.flags_after_libraries  << "-lrt"
       end
   end
 
