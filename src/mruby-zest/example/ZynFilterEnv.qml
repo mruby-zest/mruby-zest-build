@@ -37,5 +37,6 @@ Group {
         Knob { whenValue: lambda { box.cb }; extern: box.extern+"PD_val"}
         Knob { whenValue: lambda { box.cb }; extern: box.extern+"PR_val"}
         Knob { whenValue: lambda { box.cb }; extern: box.extern+"Penvstretch"}
+        Knob { type:   :float; whenValue: lambda { box.cb }; extern: box.extern+"vStretch"}
     }
 }
