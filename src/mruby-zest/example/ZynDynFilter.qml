@@ -3,7 +3,7 @@ Widget {
 
     property Object valueRef: nil
     property Symbol filtertype: nil
-    
+
     onExtern: {
         dyn.add_cat()
     }
@@ -16,10 +16,26 @@ Widget {
             self.valueRef = OSC::RemoteParam.new($remote, path)
             self.valueRef.mode = :full
             self.valueRef.callback = lambda {|x|
-                dyn.filtertype = [:analog, :formant, :statevar][x]
-                swapp.content  = Qml::ZynDAFilter if dyn.filtertype != :formant
-                swapp.content  = Qml::ZynDFFilter if dyn.filtertype == :formant
+                dyn.filtertype = [:analog, :formant, :statevar, :moog, :comb][x]
             }
+        end
+    }
+
+    function set_view()
+    {
+        if(filtertype == :formant)
+            swapp.content  = Qml::ZynDFFilter if dyn.filtertype == :formant
+        else
+            swapp.content  = Qml::ZynDAFilter if dyn.filtertype != :formant
+        end
+    }
+
+    function animate()
+    {
+        if(swapp.content == Qml::ZynDFFilter && dyn.filtertype != :formant)
+            set_view()
+        elsif(swapp.content == Qml::ZynDAFilter && dyn.filtertype == :formant)
+            set_view()
         end
     }
 
@@ -28,13 +44,14 @@ Widget {
         extern: dyn.extern
         content: Qml::ZynDAFilter
     }
+
     ParModuleRow {
         Knob { extern: dyn.extern + "Pvolume"}
         Knob { extern: dyn.extern + "Ppanning"}
         Col {
             NumEntry {extern: dyn.extern + "numerator"; label: "Numerator"}
             NumEntry {extern: dyn.extern + "denominator"; label: "Denominator"}
-        } 
+        }
         Knob {         extern: dyn.extern + "DynamicFilter/Pfreq" }
         Knob {         extern: dyn.extern + "DynamicFilter/Pfreqrnd" }
         Selector {     extern: dyn.extern + "DynamicFilter/PLFOtype" }
@@ -43,11 +60,7 @@ Widget {
         Knob {         extern: dyn.extern + "DynamicFilter/Pampsns" }
         ToggleButton { extern: dyn.extern + "DynamicFilter/Pampsnsinv" }
         Knob {         extern: dyn.extern + "DynamicFilter/Pampsmooth" }
-        Selector {
-            id: cat
-            //whenValue: lambda { box.change_cat};
-            extern: dyn.extern + "filterpars/Pcategory"
-        }
+        Selector {     extern: dyn.extern + "filterpars/Pcategory" }
     }
     function draw(vg) {
         Draw::GradBox(vg, Rect.new(0, 0, w, h))
