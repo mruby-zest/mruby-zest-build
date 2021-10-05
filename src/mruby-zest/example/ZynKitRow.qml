@@ -19,7 +19,7 @@ Widget {
         extern: kit_item.extern + "Pname"
         label: "kit name"
     }
-    HSlider {
+    HSliderKeySelect {
         id: minkey
         extern: kit_item.extern + "Pminkey"
         value_label: true
@@ -31,7 +31,7 @@ Widget {
             maxkey.refresh
         }
     }
-    HSlider {
+    HSliderKeySelect {
         id: maxkey
         extern: kit_item.extern + "Pmaxkey"
         value_label: true
