@@ -32,7 +32,7 @@ Valuator {
     function getkeystring()
     {
         mval=self.valueRef.display_value
-        cval = -2+mval.to_i/12
+        cval = -1+mval.to_i/12
         eval = mval.to_i%12
         oval="C"if (eval==0)
         oval="C#" if (eval==1) 
