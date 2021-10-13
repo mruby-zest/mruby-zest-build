@@ -30,6 +30,11 @@ Group {
             type:   :float
         }
         Knob     { whenValue: lambda { box.cb }; extern: box.extern+"Penvstretch"}
+        Knob     { 
+            type:   :float;
+            whenValue: lambda { box.cb }; 
+            extern: box.extern+"vStretch"
+        }
         Col {
             ToggleButton   { label: "FRCR"; whenValue: lambda { box.cb }; extern: box.extern+"Pforcedrelease"}
             ToggleButton   { label: "lin/log"; whenValue: lambda { box.cb }; extern: box.extern+"Plinearenvelope"}
