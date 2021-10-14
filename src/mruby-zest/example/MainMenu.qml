@@ -41,6 +41,7 @@ Widget {
         win = window()
         wid = Qml::FileSelector.new(db)
         wid.whenValue = lambda { |x| menu.file_value(x)}
+        wid.windowTitle = opt
         wid.x = 0#-global_x
         wid.y = 0#-global_y
         wid.w = win.w

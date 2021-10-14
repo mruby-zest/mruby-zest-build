@@ -26,8 +26,7 @@ Widget {
             ntype = [:sine, :triangle, :square, :rampup,
                 :rampdown, :exp1, :exp2, :random][x]
             return if(ntype == lfo_vis.type)
-            lfo_vis.type = [:sine, :triangle, :square, :rampup,
-                :rampdown, :exp1, :exp2, :random][x]}
+            lfo_vis.type = ntype}
 
         depth_var = OSC::RemoteParam.new($remote, base+"Pintensity")
         depth_var.callback = lambda {|x|
@@ -150,7 +149,7 @@ Widget {
         when :exp2
             Proc.new {|phase| (0.001 ** phase) * 2.0 - 1.0}
 	when :random
-	    Proc.new {|phase| 0 } #TODO: proper RAN LFO display
+	    Proc.new {|phase| 2*rand - 1 } #TODO: proper RAN LFO display
         else
             Proc.new {|x| Math.sin(2*3.14*x) }
         end
@@ -160,8 +159,8 @@ Widget {
         # func points
         resolution = 128
         (0..resolution).each do |i|
-            x = 0.2+0.8*i/resolution
-            phase = i/resolution + lfo_vis.phase
+            x = 0.2+0.8*i*1.0/resolution
+            phase = i*1.0/resolution + lfo_vis.phase
             phase -= 1 if phase > 1
 
             y = shape.call(phase)

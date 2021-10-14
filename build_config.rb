@@ -137,6 +137,9 @@ build_type.new(build_name) do |conf|
       cc.defines << "UI_HOTLOAD"        if ENV.include?("UI_HOTLOAD")
       cc.defines << "DEMO_MODE=#{demo_mode ? '1':'0'}"
       cc.defines << "MRB_NO_BOXING"
+      #ugh, this is an ugly hack, but until a replacement regex engine is put in
+      #place there's going to be conflicting defines in the cross/mingw build
+      cc.defines << '_POSIX_TIMERS=-42' if windows
   end
 
   conf.linker do |linker|

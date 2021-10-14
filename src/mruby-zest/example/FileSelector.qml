@@ -6,6 +6,7 @@ Widget {
 
     property String ext:       nil
     property String pat:       nil
+    property String windowTitle:     nil
 
     SelColumn {
         id: folders
@@ -100,6 +101,16 @@ Widget {
         }
     }
 
+    Text {
+        id: wintitle; 
+        label: file.windowTitle; 
+        layer: 2;
+        layoutOpts: [:no_constraint]
+        function draw(vg) {
+            parent.draw_text(vg, w, h, self.label)
+        }
+    }
+
     function draw_text(vg, w, h, text, textScale=0.8)
     {
         vg.font_face("bold")
@@ -140,7 +151,8 @@ Widget {
         xpad    = 280/mockx
         xskip   = 20/mockx
 
-        top_y  = 30/mocky
+        top_y  = 10/mocky
+        top_y2  = 45/mocky
         top_h  = 34/mocky
         top_w  = (813-280)/mockx
         top_x  = xpad
@@ -170,10 +182,12 @@ Widget {
         select     = children[3]
         favs       = children[4]
         add_favs   = children[5]
+        wtitle      = children[6]
         sel_folder.fixed(l, selfBox, ff_x,   ff_y,  ff_w,   ff_h)
         sel_column.fixed(l, selfBox, ff_x2,  ff_y,  ff_w,   ff_h)
-        line.fixed(l,       selfBox, top_x,  top_y, top_w,  top_h)
-        select.fixed(l,     selfBox, top_x2, top_y, top_w2, top_h)
+        wtitle.fixed(l,     selfBox, top_x,  top_y, top_w,  top_h)
+        line.fixed(l,       selfBox, top_x,  top_y2,top_w,  top_h)
+        select.fixed(l,     selfBox, top_x2, top_y2,top_w2, top_h)
         favs.fixed(l,       selfBox, fv_x,   fv_y,  fv_w,   fv_h)
         add_favs.fixed(l,   selfBox, fv_x2,  fv_y,  fv_w2,  fv_h)
         selfBox

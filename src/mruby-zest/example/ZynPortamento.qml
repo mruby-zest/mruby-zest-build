@@ -3,16 +3,28 @@ Group {
     label: "portamento"
     copyable: false
     ParModuleRow {
-        Col{
-            ToggleButton { extern: port.extern+"portamento.receive"}
-            ToggleButton { extern: port.extern+"portamento.pitchthreshtype"}
+        ToggleButton {
+            extern: port.extern+"portamento.receive"
         }
-        NumEntry   { extern: port.extern+"portamento.pitchthresh"}
+        Text { }
+        ToggleButton {
+            extern: port.extern+"portamento.portamento"
+            label: "enable"
+        }
         Knob   { extern: port.extern+"portamento.time"}
         Knob   { extern: port.extern+"portamento.updowntimestretch"}
     }
     ParModuleRow {
-        ToggleButton { extern: port.extern+"portamento.proportional"}
+        ToggleButton {
+            extern: port.extern+"portamento.pitchthreshtype"
+        }
+        NumEntry {
+            extern: port.extern+"portamento.pitchthresh"
+        }
+        ToggleButton {
+            extern: port.extern+"portamento.proportional"
+            label: "prop."
+        }
         Knob   { extern: port.extern+"portamento.propRate"}
         Knob   { extern: port.extern+"portamento.propDepth"}
     }

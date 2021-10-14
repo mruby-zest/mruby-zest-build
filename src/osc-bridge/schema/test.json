@@ -11318,6 +11318,16 @@
 
     },
     {
+        "path"     : "/part[0,15]/Pvoicelimit",
+        "shortname": "vlimit",
+        "name"     : "Pvoicelimit",
+        "tooltip"  : "Voice limit per part",
+        "type"     : "i",
+        "range"    : [0,60],
+        "default"  : "0"
+
+    },
+    {
         "path"     : "/part[0,15]/Pminkey",
         "shortname": "min",
         "name"     : "Pminkey",
@@ -11565,11 +11575,11 @@
         "options"  : [
         {
             "id"     : 0,
-            "value"  : "Polyphonic"
+            "value"  : "Poly"
         },
         {
             "id"     : 1,
-            "value"  : "Monophonic"
+            "value"  : "Mono"
         },
         {
             "id"     : 2,

@@ -653,6 +653,10 @@ int main(int argc, char **argv)
     void *handle = LoadLibrary("./libzest.dll");
 #else
     void *handle = dlopen("./libzest.so", RTLD_LAZY);
+    if(handle)
+        printf("[INFO] Succeeded in loading development libzest.so\n");
+    else
+        printf("[INFO] Loading system libzest.so\n");
     if(!handle)
         handle = dlopen("libzest.so", RTLD_LAZY);
     if(!handle)

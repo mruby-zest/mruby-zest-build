@@ -15,6 +15,19 @@ Group {
         whenModified.call if whenModified
     }
 
+    function animate()
+    {
+        return if @pending_change.nil?
+
+        @pending_change = nil
+        change_cat()
+    }
+
+    function pending_change_cat()
+    {
+        @pending_change = true
+    }
+
     function change_cat()
     {
         root.change_view()
@@ -27,8 +40,8 @@ Group {
         if(cat.selected == 1)
             typ.active = false
         else
-            dest = self.extern + "Ptype"    if cat.selected == 0
-            dest = self.extern + "type-svf" if cat.selected == 2
+            dest = self.extern + "Ptype"     if cat.selected == 0
+            dest = self.extern + "type-svf"  if cat.selected == 2
             dest = self.extern + "type-moog" if cat.selected == 3
             dest = self.extern + "type-comb" if cat.selected == 4
             if(typ.extern != dest)
@@ -95,7 +108,7 @@ Group {
         }
         Selector {
             id: cat
-            whenValue: lambda { box.change_cat};
+            whenValue: lambda { box.pending_change_cat};
             extern: box.extern + "Pcategory"
         }
         Selector {
