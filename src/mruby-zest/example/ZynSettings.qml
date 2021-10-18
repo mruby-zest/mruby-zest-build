@@ -29,6 +29,11 @@ Widget {
             extern: settings.extern+"config/cfg.GzipCompression"
         }
         ToggleButton {
+            tooltip: "Include disabled parts in save:"
+            label: "Include Disabled Parts in Save"
+            extern: settings.extern+"config/cfg.SaveFullXml"
+        }
+        ToggleButton {
             tooltip: "Ignore MIDI Program Change:"
             label: "MIDI PGM Chg"
             extern: settings.extern+"config/cfg.IgnoreProgramChange"
