@@ -15615,6 +15615,12 @@
         "type"     : "i"
     },
     {
+        "path"     : "/config/cfg.SaveFullXml",
+        "name"     : "cfg.SaveFullXml",
+        "tooltip"  : "Include Disabled parts in save",
+        "type"     : "t"
+    },
+    {
         "path"     : "/config/cfg.CheckPADsynth",
         "name"     : "cfg.CheckPADsynth",
         "tooltip"  : "Old Check For PADsynth functionality within a patch",
