@@ -825,7 +825,7 @@ void br_recv(bridge_t *br, const char *msg)
     const int nargs = rtosc_narguments(msg);
     if(nargs == 1)
         cache_set(br, msg, rtosc_type(msg, 0), rtosc_argument(msg, 0), 0);
-    else {
+    else if(nargs > 1) {
         //Try to handle the vector message cases
         //printf("BRIDGE RECEIVE A VECTOR MESSAGE\n");
         //TODO verify that we've got some sort of uniformity?
