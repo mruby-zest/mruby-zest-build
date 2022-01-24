@@ -1573,128 +1573,6 @@
         "range"    : [-64,63]
     },
     {
-        "path"     : "/part[0,15]/kit[0,15]/padpars/oscilgen/Prand",
-        "shortname": "phase rnd",
-        "name"     : "Prand",
-        "tooltip"  : "Oscillator Phase Randomness: smaller than 0 is \"group\", larger than 0 is for each harmonic",
-        "scale"    : "linear",
-        "type"     : "i",
-        "range"    : [0,127]
-    },
-    {
-        "path"     : "/part[0,15]/kit[0,15]/padpars/oscilgen/Pamprandpower",
-        "shortname": "variance",
-        "name"     : "Pamprandpower",
-        "tooltip"  : "Variance of harmonic randomness",
-        "type"     : "i",
-        "range"    : [0,127],
-        "default"  : "64"
-
-    },
-    {
-        "path"     : "/part[0,15]/kit[0,15]/padpars/oscilgen/Pamprandtype",
-        "shortname": "distribution",
-        "name"     : "Pamprandtype",
-        "tooltip"  : "Harmonic random distribution to select from",
-        "type"     : "i",
-        "default"  : "None"
-,
-        "options"  : [
-        {
-            "id"     : 0,
-            "value"  : "None"
-        },
-        {
-            "id"     : 1,
-            "value"  : "Pow"
-        },
-        {
-            "id"     : 2,
-            "value"  : "Sin"
-        }
-        ]
-    },
-    {
-        "path"     : "/part[0,15]/kit[0,15]/padpars/oscilgen/Padaptiveharmonics",
-        "shortname": "adapt",
-        "name"     : "Padaptiveharmonics",
-        "tooltip"  : "Adaptive Harmonics Mode",
-        "type"     : "i",
-        "default"  : "OFF"
-,
-        "options"  : [
-        {
-            "id"     : 0,
-            "value"  : "OFF"
-        },
-        {
-            "id"     : 1,
-            "value"  : "ON"
-        },
-        {
-            "id"     : 2,
-            "value"  : "Square"
-        },
-        {
-            "id"     : 3,
-            "value"  : "2xSub"
-        },
-        {
-            "id"     : 4,
-            "value"  : "2xAdd"
-        },
-        {
-            "id"     : 5,
-            "value"  : "3xSub"
-        },
-        {
-            "id"     : 6,
-            "value"  : "3xAdd"
-        },
-        {
-            "id"     : 7,
-            "value"  : "4xSub"
-        },
-        {
-            "id"     : 8,
-            "value"  : "4xAdd"
-        }
-        ]
-    },
-    {
-        "path"     : "/part[0,15]/kit[0,15]/padpars/oscilgen/Padaptiveharmonicsbasefreq",
-        "shortname": "c. freq",
-        "name"     : "Padaptiveharmonicsbasefreq",
-        "tooltip"  : "Base frequency of adaptive harmonic (30..3000Hz)",
-        "scale"    : "linear",
-        "type"     : "i",
-        "range"    : [0,255],
-        "default"  : "128"
-
-    },
-    {
-        "path"     : "/part[0,15]/kit[0,15]/padpars/oscilgen/Padaptiveharmonicspower",
-        "shortname": "amount",
-        "name"     : "Padaptiveharmonicspower",
-        "tooltip"  : "Adaptive Harmonic Strength",
-        "scale"    : "linear",
-        "type"     : "i",
-        "range"    : [0,200],
-        "default"  : "100"
-
-    },
-    {
-        "path"     : "/part[0,15]/kit[0,15]/padpars/oscilgen/Padaptiveharmonicspar",
-        "shortname": "power",
-        "name"     : "Padaptiveharmonicspar",
-        "tooltip"  : "Adaptive Harmonics Postprocessing Power",
-        "scale"    : "linear",
-        "type"     : "i",
-        "range"    : [0,100],
-        "default"  : "50"
-
-    },
-    {
         "path"     : "/part[0,15]/kit[0,15]/padpars/oscilgen/Phmagtype",
         "shortname": "scale",
         "name"     : "Phmagtype",
@@ -2214,6 +2092,128 @@
 
     },
     {
+        "path"     : "/part[0,15]/kit[0,15]/padpars/oscilgen/Prand",
+        "shortname": "phase rnd",
+        "name"     : "Prand",
+        "tooltip"  : "Oscillator Phase Randomness: smaller than 0 is \"group\", larger than 0 is for each harmonic",
+        "scale"    : "linear",
+        "type"     : "i",
+        "range"    : [0,127]
+    },
+    {
+        "path"     : "/part[0,15]/kit[0,15]/padpars/oscilgen/Pamprandpower",
+        "shortname": "variance",
+        "name"     : "Pamprandpower",
+        "tooltip"  : "Variance of harmonic randomness",
+        "type"     : "i",
+        "range"    : [0,127],
+        "default"  : "64"
+
+    },
+    {
+        "path"     : "/part[0,15]/kit[0,15]/padpars/oscilgen/Pamprandtype",
+        "shortname": "distribution",
+        "name"     : "Pamprandtype",
+        "tooltip"  : "Harmonic random distribution to select from",
+        "type"     : "i",
+        "default"  : "None"
+,
+        "options"  : [
+        {
+            "id"     : 0,
+            "value"  : "None"
+        },
+        {
+            "id"     : 1,
+            "value"  : "Pow"
+        },
+        {
+            "id"     : 2,
+            "value"  : "Sin"
+        }
+        ]
+    },
+    {
+        "path"     : "/part[0,15]/kit[0,15]/padpars/oscilgen/Padaptiveharmonics",
+        "shortname": "adapt",
+        "name"     : "Padaptiveharmonics",
+        "tooltip"  : "Adaptive Harmonics Mode",
+        "type"     : "i",
+        "default"  : "OFF"
+,
+        "options"  : [
+        {
+            "id"     : 0,
+            "value"  : "OFF"
+        },
+        {
+            "id"     : 1,
+            "value"  : "ON"
+        },
+        {
+            "id"     : 2,
+            "value"  : "Square"
+        },
+        {
+            "id"     : 3,
+            "value"  : "2xSub"
+        },
+        {
+            "id"     : 4,
+            "value"  : "2xAdd"
+        },
+        {
+            "id"     : 5,
+            "value"  : "3xSub"
+        },
+        {
+            "id"     : 6,
+            "value"  : "3xAdd"
+        },
+        {
+            "id"     : 7,
+            "value"  : "4xSub"
+        },
+        {
+            "id"     : 8,
+            "value"  : "4xAdd"
+        }
+        ]
+    },
+    {
+        "path"     : "/part[0,15]/kit[0,15]/padpars/oscilgen/Padaptiveharmonicsbasefreq",
+        "shortname": "c. freq",
+        "name"     : "Padaptiveharmonicsbasefreq",
+        "tooltip"  : "Base frequency of adaptive harmonic (30..3000Hz)",
+        "scale"    : "linear",
+        "type"     : "i",
+        "range"    : [0,255],
+        "default"  : "128"
+
+    },
+    {
+        "path"     : "/part[0,15]/kit[0,15]/padpars/oscilgen/Padaptiveharmonicspower",
+        "shortname": "amount",
+        "name"     : "Padaptiveharmonicspower",
+        "tooltip"  : "Adaptive Harmonic Strength",
+        "scale"    : "linear",
+        "type"     : "i",
+        "range"    : [0,200],
+        "default"  : "100"
+
+    },
+    {
+        "path"     : "/part[0,15]/kit[0,15]/padpars/oscilgen/Padaptiveharmonicspar",
+        "shortname": "power",
+        "name"     : "Padaptiveharmonicspar",
+        "tooltip"  : "Adaptive Harmonics Postprocessing Power",
+        "scale"    : "linear",
+        "type"     : "i",
+        "range"    : [0,100],
+        "default"  : "50"
+
+    },
+    {
         "path"     : "/part[0,15]/kit[0,15]/padpars/resonance/Penabled",
         "shortname": "enable",
         "name"     : "Penabled",
@@ -2308,7 +2308,7 @@
         },
         {
             "id"     : 1,
-            "value"  : "Rectanglar"
+            "value"  : "Rectangular"
         },
         {
             "id"     : 2,
@@ -2397,7 +2397,7 @@
         "path"     : "/part[0,15]/kit[0,15]/padpars/Php.amp.type",
         "shortname": "mult",
         "name"     : "Php.amp.type",
-        "tooltip"  : "Type of amplitude multipler",
+        "tooltip"  : "Type of amplitude multiplier",
         "type"     : "i",
         "default"  : "Off"
 ,
@@ -2735,1288 +2735,6 @@
         "type"     : "i",
         "range"    : [0,1000],
         "default"  : "500"
-
-    },
-    {
-        "path"     : "/part[0,15]/kit[0,15]/adpars/VoicePar[0,7]/OscilSmp/Prand",
-        "shortname": "phase rnd",
-        "name"     : "Prand",
-        "tooltip"  : "Oscillator Phase Randomness: smaller than 0 is \"group\", larger than 0 is for each harmonic",
-        "scale"    : "linear",
-        "type"     : "i",
-        "range"    : [0,127]
-    },
-    {
-        "path"     : "/part[0,15]/kit[0,15]/adpars/VoicePar[0,7]/OscilSmp/Pamprandpower",
-        "shortname": "variance",
-        "name"     : "Pamprandpower",
-        "tooltip"  : "Variance of harmonic randomness",
-        "type"     : "i",
-        "range"    : [0,127],
-        "default"  : "64"
-
-    },
-    {
-        "path"     : "/part[0,15]/kit[0,15]/adpars/VoicePar[0,7]/OscilSmp/Pamprandtype",
-        "shortname": "distribution",
-        "name"     : "Pamprandtype",
-        "tooltip"  : "Harmonic random distribution to select from",
-        "type"     : "i",
-        "default"  : "None"
-,
-        "options"  : [
-        {
-            "id"     : 0,
-            "value"  : "None"
-        },
-        {
-            "id"     : 1,
-            "value"  : "Pow"
-        },
-        {
-            "id"     : 2,
-            "value"  : "Sin"
-        }
-        ]
-    },
-    {
-        "path"     : "/part[0,15]/kit[0,15]/adpars/VoicePar[0,7]/OscilSmp/Padaptiveharmonics",
-        "shortname": "adapt",
-        "name"     : "Padaptiveharmonics",
-        "tooltip"  : "Adaptive Harmonics Mode",
-        "type"     : "i",
-        "default"  : "OFF"
-,
-        "options"  : [
-        {
-            "id"     : 0,
-            "value"  : "OFF"
-        },
-        {
-            "id"     : 1,
-            "value"  : "ON"
-        },
-        {
-            "id"     : 2,
-            "value"  : "Square"
-        },
-        {
-            "id"     : 3,
-            "value"  : "2xSub"
-        },
-        {
-            "id"     : 4,
-            "value"  : "2xAdd"
-        },
-        {
-            "id"     : 5,
-            "value"  : "3xSub"
-        },
-        {
-            "id"     : 6,
-            "value"  : "3xAdd"
-        },
-        {
-            "id"     : 7,
-            "value"  : "4xSub"
-        },
-        {
-            "id"     : 8,
-            "value"  : "4xAdd"
-        }
-        ]
-    },
-    {
-        "path"     : "/part[0,15]/kit[0,15]/adpars/VoicePar[0,7]/OscilSmp/Padaptiveharmonicsbasefreq",
-        "shortname": "c. freq",
-        "name"     : "Padaptiveharmonicsbasefreq",
-        "tooltip"  : "Base frequency of adaptive harmonic (30..3000Hz)",
-        "scale"    : "linear",
-        "type"     : "i",
-        "range"    : [0,255],
-        "default"  : "128"
-
-    },
-    {
-        "path"     : "/part[0,15]/kit[0,15]/adpars/VoicePar[0,7]/OscilSmp/Padaptiveharmonicspower",
-        "shortname": "amount",
-        "name"     : "Padaptiveharmonicspower",
-        "tooltip"  : "Adaptive Harmonic Strength",
-        "scale"    : "linear",
-        "type"     : "i",
-        "range"    : [0,200],
-        "default"  : "100"
-
-    },
-    {
-        "path"     : "/part[0,15]/kit[0,15]/adpars/VoicePar[0,7]/OscilSmp/Padaptiveharmonicspar",
-        "shortname": "power",
-        "name"     : "Padaptiveharmonicspar",
-        "tooltip"  : "Adaptive Harmonics Postprocessing Power",
-        "scale"    : "linear",
-        "type"     : "i",
-        "range"    : [0,100],
-        "default"  : "50"
-
-    },
-    {
-        "path"     : "/part[0,15]/kit[0,15]/adpars/VoicePar[0,7]/OscilSmp/Phmagtype",
-        "shortname": "scale",
-        "name"     : "Phmagtype",
-        "tooltip"  : "Type of magnitude for harmonics",
-        "type"     : "i",
-        "default"  : "linear"
-,
-        "options"  : [
-        {
-            "id"     : 0,
-            "value"  : "linear"
-        },
-        {
-            "id"     : 1,
-            "value"  : "dB scale (-40)"
-        },
-        {
-            "id"     : 2,
-            "value"  : "dB scale (-60)"
-        },
-        {
-            "id"     : 3,
-            "value"  : "dB scale (-80)"
-        },
-        {
-            "id"     : 4,
-            "value"  : "dB scale (-100)"
-        }
-        ]
-    },
-    {
-        "path"     : "/part[0,15]/kit[0,15]/adpars/VoicePar[0,7]/OscilSmp/Pcurrentbasefunc",
-        "shortname": "base",
-        "name"     : "Pcurrentbasefunc",
-        "tooltip"  : "Base Waveform for harmonics",
-        "type"     : "i",
-        "default"  : "sine"
-,
-        "options"  : [
-        {
-            "id"     : 0,
-            "value"  : "sine"
-        },
-        {
-            "id"     : 1,
-            "value"  : "triangle"
-        },
-        {
-            "id"     : 2,
-            "value"  : "pulse"
-        },
-        {
-            "id"     : 3,
-            "value"  : "saw"
-        },
-        {
-            "id"     : 4,
-            "value"  : "power"
-        },
-        {
-            "id"     : 5,
-            "value"  : "gauss"
-        },
-        {
-            "id"     : 6,
-            "value"  : "diode"
-        },
-        {
-            "id"     : 7,
-            "value"  : "abssine"
-        },
-        {
-            "id"     : 8,
-            "value"  : "pulsesine"
-        },
-        {
-            "id"     : 9,
-            "value"  : "stretchsine"
-        },
-        {
-            "id"     : 10,
-            "value"  : "chirp"
-        },
-        {
-            "id"     : 11,
-            "value"  : "absstretchsine"
-        },
-        {
-            "id"     : 12,
-            "value"  : "chebyshev"
-        },
-        {
-            "id"     : 13,
-            "value"  : "sqr"
-        },
-        {
-            "id"     : 14,
-            "value"  : "spike"
-        },
-        {
-            "id"     : 15,
-            "value"  : "circle"
-        },
-        {
-            "id"     : 16,
-            "value"  : "powersinus"
-        },
-        {
-            "id"     : 127,
-            "value"  : "use-as-base waveform"
-        }
-        ]
-    },
-    {
-        "path"     : "/part[0,15]/kit[0,15]/adpars/VoicePar[0,7]/OscilSmp/Pbasefuncpar",
-        "shortname": "shape",
-        "name"     : "Pbasefuncpar",
-        "tooltip"  : "Morph between possible base function shapes (e.g. rising sawtooth vs a falling sawtooth)",
-        "type"     : "i",
-        "range"    : [0,127],
-        "default"  : "64"
-
-    },
-    {
-        "path"     : "/part[0,15]/kit[0,15]/adpars/VoicePar[0,7]/OscilSmp/Pbasefuncmodulation",
-        "shortname": "mod",
-        "name"     : "Pbasefuncmodulation",
-        "tooltip"  : "Modulation applied to Base function spectra",
-        "type"     : "i",
-        "default"  : "None"
-,
-        "options"  : [
-        {
-            "id"     : 0,
-            "value"  : "None"
-        },
-        {
-            "id"     : 1,
-            "value"  : "Rev"
-        },
-        {
-            "id"     : 2,
-            "value"  : "Sine"
-        },
-        {
-            "id"     : 3,
-            "value"  : "Power"
-        },
-        {
-            "id"     : 4,
-            "value"  : "Chop"
-        }
-        ]
-    },
-    {
-        "path"     : "/part[0,15]/kit[0,15]/adpars/VoicePar[0,7]/OscilSmp/Pbasefuncmodulationpar1",
-        "shortname": "p1",
-        "name"     : "Pbasefuncmodulationpar1",
-        "tooltip"  : "Base function modulation parameter",
-        "type"     : "i",
-        "range"    : [0,127],
-        "default"  : "64"
-
-    },
-    {
-        "path"     : "/part[0,15]/kit[0,15]/adpars/VoicePar[0,7]/OscilSmp/Pbasefuncmodulationpar2",
-        "shortname": "p2",
-        "name"     : "Pbasefuncmodulationpar2",
-        "tooltip"  : "Base function modulation parameter",
-        "type"     : "i",
-        "range"    : [0,127],
-        "default"  : "64"
-
-    },
-    {
-        "path"     : "/part[0,15]/kit[0,15]/adpars/VoicePar[0,7]/OscilSmp/Pbasefuncmodulationpar3",
-        "shortname": "p3",
-        "name"     : "Pbasefuncmodulationpar3",
-        "tooltip"  : "Base function modulation parameter",
-        "type"     : "i",
-        "range"    : [0,127],
-        "default"  : "32"
-
-    },
-    {
-        "path"     : "/part[0,15]/kit[0,15]/adpars/VoicePar[0,7]/OscilSmp/Pwaveshaping",
-        "shortname": "amount",
-        "name"     : "Pwaveshaping",
-        "tooltip"  : "Degree Of Waveshaping",
-        "type"     : "i",
-        "range"    : [0,127],
-        "default"  : "64"
-
-    },
-    {
-        "path"     : "/part[0,15]/kit[0,15]/adpars/VoicePar[0,7]/OscilSmp/Pwaveshapingfunction",
-        "shortname": "distort",
-        "name"     : "Pwaveshapingfunction",
-        "tooltip"  : "Shape of distortion to be applied",
-        "type"     : "i",
-        "default"  : "Undistorted"
-,
-        "options"  : [
-        {
-            "id"     : 0,
-            "value"  : "Undistorted"
-        },
-        {
-            "id"     : 1,
-            "value"  : "Arctangent"
-        },
-        {
-            "id"     : 2,
-            "value"  : "Asymmetric"
-        },
-        {
-            "id"     : 3,
-            "value"  : "Pow"
-        },
-        {
-            "id"     : 4,
-            "value"  : "Sine"
-        },
-        {
-            "id"     : 5,
-            "value"  : "Quantisize"
-        },
-        {
-            "id"     : 6,
-            "value"  : "Zigzag"
-        },
-        {
-            "id"     : 7,
-            "value"  : "Limiter"
-        },
-        {
-            "id"     : 8,
-            "value"  : "Upper Limiter"
-        },
-        {
-            "id"     : 9,
-            "value"  : "Lower Limiter"
-        },
-        {
-            "id"     : 10,
-            "value"  : "Inverse Limiter"
-        },
-        {
-            "id"     : 11,
-            "value"  : "Clip"
-        },
-        {
-            "id"     : 12,
-            "value"  : "Asym2"
-        },
-        {
-            "id"     : 13,
-            "value"  : "Pow2"
-        },
-        {
-            "id"     : 14,
-            "value"  : "sigmoid"
-        },
-        {
-            "id"     : 15,
-            "value"  : "Tanh"
-        },
-        {
-            "id"     : 16,
-            "value"  : "Cubic"
-        },
-        {
-            "id"     : 17,
-            "value"  : "Square"
-        }
-        ]
-    },
-    {
-        "path"     : "/part[0,15]/kit[0,15]/adpars/VoicePar[0,7]/OscilSmp/Pfiltertype",
-        "shortname": "filter",
-        "name"     : "Pfiltertype",
-        "tooltip"  : "Harmonic Filter",
-        "type"     : "i",
-        "default"  : "\"No Filter\"S"
-,
-        "options"  : [
-        {
-            "id"     : 0,
-            "value"  : "No Filter"
-        },
-        {
-            "id"     : 1,
-            "value"  : "lp"
-        },
-        {
-            "id"     : 2,
-            "value"  : "hp1"
-        },
-        {
-            "id"     : 3,
-            "value"  : "hp1b"
-        },
-        {
-            "id"     : 4,
-            "value"  : "bp1"
-        },
-        {
-            "id"     : 5,
-            "value"  : "bs1"
-        },
-        {
-            "id"     : 6,
-            "value"  : "lp2"
-        },
-        {
-            "id"     : 7,
-            "value"  : "hp2"
-        },
-        {
-            "id"     : 8,
-            "value"  : "bp2"
-        },
-        {
-            "id"     : 9,
-            "value"  : "bs2"
-        },
-        {
-            "id"     : 10,
-            "value"  : "cos"
-        },
-        {
-            "id"     : 11,
-            "value"  : "sin"
-        },
-        {
-            "id"     : 12,
-            "value"  : "low_shelf"
-        },
-        {
-            "id"     : 13,
-            "value"  : "s"
-        },
-        {
-            "id"     : 14,
-            "value"  : "lpsk"
-        }
-        ]
-    },
-    {
-        "path"     : "/part[0,15]/kit[0,15]/adpars/VoicePar[0,7]/OscilSmp/Pfilterpar1",
-        "shortname": "p1",
-        "name"     : "Pfilterpar1",
-        "tooltip"  : "Filter parameter",
-        "type"     : "i",
-        "range"    : [0,127],
-        "default"  : "64"
-
-    },
-    {
-        "path"     : "/part[0,15]/kit[0,15]/adpars/VoicePar[0,7]/OscilSmp/Pfilterpar2",
-        "shortname": "p2",
-        "name"     : "Pfilterpar2",
-        "tooltip"  : "Filter parameter",
-        "type"     : "i",
-        "range"    : [0,127],
-        "default"  : "64"
-
-    },
-    {
-        "path"     : "/part[0,15]/kit[0,15]/adpars/VoicePar[0,7]/OscilSmp/Pfilterbeforews",
-        "shortname": "pre/post",
-        "name"     : "Pfilterbeforews",
-        "tooltip"  : "Filter before waveshaping spectra;When enabled oscilfilter(freqs); then waveshape(freqs);, otherwise waveshape(freqs); then oscilfilter(freqs);",
-        "type"     : "t",
-        "default"  : "false"
-
-    },
-    {
-        "path"     : "/part[0,15]/kit[0,15]/adpars/VoicePar[0,7]/OscilSmp/Psatype",
-        "shortname": "spec. adj.",
-        "name"     : "Psatype",
-        "tooltip"  : "Spectral Adjustment Type",
-        "type"     : "i",
-        "default"  : "None"
-,
-        "options"  : [
-        {
-            "id"     : 0,
-            "value"  : "None"
-        },
-        {
-            "id"     : 1,
-            "value"  : "Pow"
-        },
-        {
-            "id"     : 2,
-            "value"  : "ThrsD"
-        },
-        {
-            "id"     : 3,
-            "value"  : "ThrsU"
-        }
-        ]
-    },
-    {
-        "path"     : "/part[0,15]/kit[0,15]/adpars/VoicePar[0,7]/OscilSmp/Psapar",
-        "shortname": "p1",
-        "name"     : "Psapar",
-        "tooltip"  : "Spectral Adjustment Parameter",
-        "type"     : "i",
-        "range"    : [0,127],
-        "default"  : "64"
-
-    },
-    {
-        "path"     : "/part[0,15]/kit[0,15]/adpars/VoicePar[0,7]/OscilSmp/Pharmonicshift",
-        "shortname": "shift",
-        "name"     : "Pharmonicshift",
-        "tooltip"  : "Amount of shift on harmonics",
-        "scale"    : "linear",
-        "type"     : "i",
-        "range"    : [-64,64],
-        "default"  : "0"
-
-    },
-    {
-        "path"     : "/part[0,15]/kit[0,15]/adpars/VoicePar[0,7]/OscilSmp/Pharmonicshiftfirst",
-        "shortname": "pre/post",
-        "name"     : "Pharmonicshiftfirst",
-        "tooltip"  : "If harmonics are shifted before waveshaping/filtering",
-        "type"     : "t",
-        "default"  : "false"
-
-    },
-    {
-        "path"     : "/part[0,15]/kit[0,15]/adpars/VoicePar[0,7]/OscilSmp/Pmodulation",
-        "shortname": "FM",
-        "name"     : "Pmodulation",
-        "tooltip"  : "Frequency Modulation To Combined Spectra",
-        "type"     : "i",
-        "default"  : "None"
-,
-        "options"  : [
-        {
-            "id"     : 0,
-            "value"  : "None"
-        },
-        {
-            "id"     : 1,
-            "value"  : "Rev"
-        },
-        {
-            "id"     : 2,
-            "value"  : "Sine"
-        },
-        {
-            "id"     : 3,
-            "value"  : "Power"
-        }
-        ]
-    },
-    {
-        "path"     : "/part[0,15]/kit[0,15]/adpars/VoicePar[0,7]/OscilSmp/Pmodulationpar1",
-        "shortname": "p1",
-        "name"     : "Pmodulationpar1",
-        "tooltip"  : "modulation parameter",
-        "type"     : "i",
-        "range"    : [0,127],
-        "default"  : "64"
-
-    },
-    {
-        "path"     : "/part[0,15]/kit[0,15]/adpars/VoicePar[0,7]/OscilSmp/Pmodulationpar2",
-        "shortname": "p2",
-        "name"     : "Pmodulationpar2",
-        "tooltip"  : "modulation parameter",
-        "type"     : "i",
-        "range"    : [0,127],
-        "default"  : "64"
-
-    },
-    {
-        "path"     : "/part[0,15]/kit[0,15]/adpars/VoicePar[0,7]/OscilSmp/Pmodulationpar3",
-        "shortname": "p3",
-        "name"     : "Pmodulationpar3",
-        "tooltip"  : "modulation parameter",
-        "type"     : "i",
-        "range"    : [0,127],
-        "default"  : "32"
-
-    },
-    {
-        "path"     : "/part[0,15]/kit[0,15]/adpars/VoicePar[0,7]/OscilSmp/ADvsPAD",
-        "shortname": "If it is used by PADSynth",
-        "name"     : "ADvsPAD",
-        "tooltip"  : "If it is used by PADSynth (and not ADSynth)",
-        "type"     : "t"
-    },
-    {
-        "path"     : "/part[0,15]/kit[0,15]/adpars/VoicePar[0,7]/OscilSmp/phase[0,127]",
-        "name"     : "phase#128",
-        "tooltip"  : "Sets harmonic phase",
-        "scale"    : "linear",
-        "type"     : "i",
-        "range"    : [0,127],
-        "default"  : "[64 ...]"
-
-    },
-    {
-        "path"     : "/part[0,15]/kit[0,15]/adpars/VoicePar[0,7]/OscilSmp/magnitude[0,127]",
-        "name"     : "magnitude#128",
-        "tooltip"  : "Sets harmonic magnitude",
-        "scale"    : "linear",
-        "type"     : "i",
-        "range"    : [0,127],
-        "default"  : "[127 64 64 ...]"
-
-    },
-    {
-        "path"     : "/part[0,15]/kit[0,15]/adpars/VoicePar[0,7]/FMSmp/Prand",
-        "shortname": "phase rnd",
-        "name"     : "Prand",
-        "tooltip"  : "Oscillator Phase Randomness: smaller than 0 is \"group\", larger than 0 is for each harmonic",
-        "scale"    : "linear",
-        "type"     : "i",
-        "range"    : [0,127]
-    },
-    {
-        "path"     : "/part[0,15]/kit[0,15]/adpars/VoicePar[0,7]/FMSmp/Pamprandpower",
-        "shortname": "variance",
-        "name"     : "Pamprandpower",
-        "tooltip"  : "Variance of harmonic randomness",
-        "type"     : "i",
-        "range"    : [0,127],
-        "default"  : "64"
-
-    },
-    {
-        "path"     : "/part[0,15]/kit[0,15]/adpars/VoicePar[0,7]/FMSmp/Pamprandtype",
-        "shortname": "distribution",
-        "name"     : "Pamprandtype",
-        "tooltip"  : "Harmonic random distribution to select from",
-        "type"     : "i",
-        "default"  : "None"
-,
-        "options"  : [
-        {
-            "id"     : 0,
-            "value"  : "None"
-        },
-        {
-            "id"     : 1,
-            "value"  : "Pow"
-        },
-        {
-            "id"     : 2,
-            "value"  : "Sin"
-        }
-        ]
-    },
-    {
-        "path"     : "/part[0,15]/kit[0,15]/adpars/VoicePar[0,7]/FMSmp/Padaptiveharmonics",
-        "shortname": "adapt",
-        "name"     : "Padaptiveharmonics",
-        "tooltip"  : "Adaptive Harmonics Mode",
-        "type"     : "i",
-        "default"  : "OFF"
-,
-        "options"  : [
-        {
-            "id"     : 0,
-            "value"  : "OFF"
-        },
-        {
-            "id"     : 1,
-            "value"  : "ON"
-        },
-        {
-            "id"     : 2,
-            "value"  : "Square"
-        },
-        {
-            "id"     : 3,
-            "value"  : "2xSub"
-        },
-        {
-            "id"     : 4,
-            "value"  : "2xAdd"
-        },
-        {
-            "id"     : 5,
-            "value"  : "3xSub"
-        },
-        {
-            "id"     : 6,
-            "value"  : "3xAdd"
-        },
-        {
-            "id"     : 7,
-            "value"  : "4xSub"
-        },
-        {
-            "id"     : 8,
-            "value"  : "4xAdd"
-        }
-        ]
-    },
-    {
-        "path"     : "/part[0,15]/kit[0,15]/adpars/VoicePar[0,7]/FMSmp/Padaptiveharmonicsbasefreq",
-        "shortname": "c. freq",
-        "name"     : "Padaptiveharmonicsbasefreq",
-        "tooltip"  : "Base frequency of adaptive harmonic (30..3000Hz)",
-        "scale"    : "linear",
-        "type"     : "i",
-        "range"    : [0,255],
-        "default"  : "128"
-
-    },
-    {
-        "path"     : "/part[0,15]/kit[0,15]/adpars/VoicePar[0,7]/FMSmp/Padaptiveharmonicspower",
-        "shortname": "amount",
-        "name"     : "Padaptiveharmonicspower",
-        "tooltip"  : "Adaptive Harmonic Strength",
-        "scale"    : "linear",
-        "type"     : "i",
-        "range"    : [0,200],
-        "default"  : "100"
-
-    },
-    {
-        "path"     : "/part[0,15]/kit[0,15]/adpars/VoicePar[0,7]/FMSmp/Padaptiveharmonicspar",
-        "shortname": "power",
-        "name"     : "Padaptiveharmonicspar",
-        "tooltip"  : "Adaptive Harmonics Postprocessing Power",
-        "scale"    : "linear",
-        "type"     : "i",
-        "range"    : [0,100],
-        "default"  : "50"
-
-    },
-    {
-        "path"     : "/part[0,15]/kit[0,15]/adpars/VoicePar[0,7]/FMSmp/Phmagtype",
-        "shortname": "scale",
-        "name"     : "Phmagtype",
-        "tooltip"  : "Type of magnitude for harmonics",
-        "type"     : "i",
-        "default"  : "linear"
-,
-        "options"  : [
-        {
-            "id"     : 0,
-            "value"  : "linear"
-        },
-        {
-            "id"     : 1,
-            "value"  : "dB scale (-40)"
-        },
-        {
-            "id"     : 2,
-            "value"  : "dB scale (-60)"
-        },
-        {
-            "id"     : 3,
-            "value"  : "dB scale (-80)"
-        },
-        {
-            "id"     : 4,
-            "value"  : "dB scale (-100)"
-        }
-        ]
-    },
-    {
-        "path"     : "/part[0,15]/kit[0,15]/adpars/VoicePar[0,7]/FMSmp/Pcurrentbasefunc",
-        "shortname": "base",
-        "name"     : "Pcurrentbasefunc",
-        "tooltip"  : "Base Waveform for harmonics",
-        "type"     : "i",
-        "default"  : "sine"
-,
-        "options"  : [
-        {
-            "id"     : 0,
-            "value"  : "sine"
-        },
-        {
-            "id"     : 1,
-            "value"  : "triangle"
-        },
-        {
-            "id"     : 2,
-            "value"  : "pulse"
-        },
-        {
-            "id"     : 3,
-            "value"  : "saw"
-        },
-        {
-            "id"     : 4,
-            "value"  : "power"
-        },
-        {
-            "id"     : 5,
-            "value"  : "gauss"
-        },
-        {
-            "id"     : 6,
-            "value"  : "diode"
-        },
-        {
-            "id"     : 7,
-            "value"  : "abssine"
-        },
-        {
-            "id"     : 8,
-            "value"  : "pulsesine"
-        },
-        {
-            "id"     : 9,
-            "value"  : "stretchsine"
-        },
-        {
-            "id"     : 10,
-            "value"  : "chirp"
-        },
-        {
-            "id"     : 11,
-            "value"  : "absstretchsine"
-        },
-        {
-            "id"     : 12,
-            "value"  : "chebyshev"
-        },
-        {
-            "id"     : 13,
-            "value"  : "sqr"
-        },
-        {
-            "id"     : 14,
-            "value"  : "spike"
-        },
-        {
-            "id"     : 15,
-            "value"  : "circle"
-        },
-        {
-            "id"     : 16,
-            "value"  : "powersinus"
-        },
-        {
-            "id"     : 127,
-            "value"  : "use-as-base waveform"
-        }
-        ]
-    },
-    {
-        "path"     : "/part[0,15]/kit[0,15]/adpars/VoicePar[0,7]/FMSmp/Pbasefuncpar",
-        "shortname": "shape",
-        "name"     : "Pbasefuncpar",
-        "tooltip"  : "Morph between possible base function shapes (e.g. rising sawtooth vs a falling sawtooth)",
-        "type"     : "i",
-        "range"    : [0,127],
-        "default"  : "64"
-
-    },
-    {
-        "path"     : "/part[0,15]/kit[0,15]/adpars/VoicePar[0,7]/FMSmp/Pbasefuncmodulation",
-        "shortname": "mod",
-        "name"     : "Pbasefuncmodulation",
-        "tooltip"  : "Modulation applied to Base function spectra",
-        "type"     : "i",
-        "default"  : "None"
-,
-        "options"  : [
-        {
-            "id"     : 0,
-            "value"  : "None"
-        },
-        {
-            "id"     : 1,
-            "value"  : "Rev"
-        },
-        {
-            "id"     : 2,
-            "value"  : "Sine"
-        },
-        {
-            "id"     : 3,
-            "value"  : "Power"
-        },
-        {
-            "id"     : 4,
-            "value"  : "Chop"
-        }
-        ]
-    },
-    {
-        "path"     : "/part[0,15]/kit[0,15]/adpars/VoicePar[0,7]/FMSmp/Pbasefuncmodulationpar1",
-        "shortname": "p1",
-        "name"     : "Pbasefuncmodulationpar1",
-        "tooltip"  : "Base function modulation parameter",
-        "type"     : "i",
-        "range"    : [0,127],
-        "default"  : "64"
-
-    },
-    {
-        "path"     : "/part[0,15]/kit[0,15]/adpars/VoicePar[0,7]/FMSmp/Pbasefuncmodulationpar2",
-        "shortname": "p2",
-        "name"     : "Pbasefuncmodulationpar2",
-        "tooltip"  : "Base function modulation parameter",
-        "type"     : "i",
-        "range"    : [0,127],
-        "default"  : "64"
-
-    },
-    {
-        "path"     : "/part[0,15]/kit[0,15]/adpars/VoicePar[0,7]/FMSmp/Pbasefuncmodulationpar3",
-        "shortname": "p3",
-        "name"     : "Pbasefuncmodulationpar3",
-        "tooltip"  : "Base function modulation parameter",
-        "type"     : "i",
-        "range"    : [0,127],
-        "default"  : "32"
-
-    },
-    {
-        "path"     : "/part[0,15]/kit[0,15]/adpars/VoicePar[0,7]/FMSmp/Pwaveshaping",
-        "shortname": "amount",
-        "name"     : "Pwaveshaping",
-        "tooltip"  : "Degree Of Waveshaping",
-        "type"     : "i",
-        "range"    : [0,127],
-        "default"  : "64"
-
-    },
-    {
-        "path"     : "/part[0,15]/kit[0,15]/adpars/VoicePar[0,7]/FMSmp/Pwaveshapingfunction",
-        "shortname": "distort",
-        "name"     : "Pwaveshapingfunction",
-        "tooltip"  : "Shape of distortion to be applied",
-        "type"     : "i",
-        "default"  : "Undistorted"
-,
-        "options"  : [
-        {
-            "id"     : 0,
-            "value"  : "Undistorted"
-        },
-        {
-            "id"     : 1,
-            "value"  : "Arctangent"
-        },
-        {
-            "id"     : 2,
-            "value"  : "Asymmetric"
-        },
-        {
-            "id"     : 3,
-            "value"  : "Pow"
-        },
-        {
-            "id"     : 4,
-            "value"  : "Sine"
-        },
-        {
-            "id"     : 5,
-            "value"  : "Quantisize"
-        },
-        {
-            "id"     : 6,
-            "value"  : "Zigzag"
-        },
-        {
-            "id"     : 7,
-            "value"  : "Limiter"
-        },
-        {
-            "id"     : 8,
-            "value"  : "Upper Limiter"
-        },
-        {
-            "id"     : 9,
-            "value"  : "Lower Limiter"
-        },
-        {
-            "id"     : 10,
-            "value"  : "Inverse Limiter"
-        },
-        {
-            "id"     : 11,
-            "value"  : "Clip"
-        },
-        {
-            "id"     : 12,
-            "value"  : "Asym2"
-        },
-        {
-            "id"     : 13,
-            "value"  : "Pow2"
-        },
-        {
-            "id"     : 14,
-            "value"  : "sigmoid"
-        },
-        {
-            "id"     : 15,
-            "value"  : "Tanh"
-        },
-        {
-            "id"     : 16,
-            "value"  : "Cubic"
-        },
-        {
-            "id"     : 17,
-            "value"  : "Square"
-        }
-        ]
-    },
-    {
-        "path"     : "/part[0,15]/kit[0,15]/adpars/VoicePar[0,7]/FMSmp/Pfiltertype",
-        "shortname": "filter",
-        "name"     : "Pfiltertype",
-        "tooltip"  : "Harmonic Filter",
-        "type"     : "i",
-        "default"  : "\"No Filter\"S"
-,
-        "options"  : [
-        {
-            "id"     : 0,
-            "value"  : "No Filter"
-        },
-        {
-            "id"     : 1,
-            "value"  : "lp"
-        },
-        {
-            "id"     : 2,
-            "value"  : "hp1"
-        },
-        {
-            "id"     : 3,
-            "value"  : "hp1b"
-        },
-        {
-            "id"     : 4,
-            "value"  : "bp1"
-        },
-        {
-            "id"     : 5,
-            "value"  : "bs1"
-        },
-        {
-            "id"     : 6,
-            "value"  : "lp2"
-        },
-        {
-            "id"     : 7,
-            "value"  : "hp2"
-        },
-        {
-            "id"     : 8,
-            "value"  : "bp2"
-        },
-        {
-            "id"     : 9,
-            "value"  : "bs2"
-        },
-        {
-            "id"     : 10,
-            "value"  : "cos"
-        },
-        {
-            "id"     : 11,
-            "value"  : "sin"
-        },
-        {
-            "id"     : 12,
-            "value"  : "low_shelf"
-        },
-        {
-            "id"     : 13,
-            "value"  : "s"
-        },
-        {
-            "id"     : 14,
-            "value"  : "lpsk"
-        }
-        ]
-    },
-    {
-        "path"     : "/part[0,15]/kit[0,15]/adpars/VoicePar[0,7]/FMSmp/Pfilterpar1",
-        "shortname": "p1",
-        "name"     : "Pfilterpar1",
-        "tooltip"  : "Filter parameter",
-        "type"     : "i",
-        "range"    : [0,127],
-        "default"  : "64"
-
-    },
-    {
-        "path"     : "/part[0,15]/kit[0,15]/adpars/VoicePar[0,7]/FMSmp/Pfilterpar2",
-        "shortname": "p2",
-        "name"     : "Pfilterpar2",
-        "tooltip"  : "Filter parameter",
-        "type"     : "i",
-        "range"    : [0,127],
-        "default"  : "64"
-
-    },
-    {
-        "path"     : "/part[0,15]/kit[0,15]/adpars/VoicePar[0,7]/FMSmp/Pfilterbeforews",
-        "shortname": "pre/post",
-        "name"     : "Pfilterbeforews",
-        "tooltip"  : "Filter before waveshaping spectra;When enabled oscilfilter(freqs); then waveshape(freqs);, otherwise waveshape(freqs); then oscilfilter(freqs);",
-        "type"     : "t",
-        "default"  : "false"
-
-    },
-    {
-        "path"     : "/part[0,15]/kit[0,15]/adpars/VoicePar[0,7]/FMSmp/Psatype",
-        "shortname": "spec. adj.",
-        "name"     : "Psatype",
-        "tooltip"  : "Spectral Adjustment Type",
-        "type"     : "i",
-        "default"  : "None"
-,
-        "options"  : [
-        {
-            "id"     : 0,
-            "value"  : "None"
-        },
-        {
-            "id"     : 1,
-            "value"  : "Pow"
-        },
-        {
-            "id"     : 2,
-            "value"  : "ThrsD"
-        },
-        {
-            "id"     : 3,
-            "value"  : "ThrsU"
-        }
-        ]
-    },
-    {
-        "path"     : "/part[0,15]/kit[0,15]/adpars/VoicePar[0,7]/FMSmp/Psapar",
-        "shortname": "p1",
-        "name"     : "Psapar",
-        "tooltip"  : "Spectral Adjustment Parameter",
-        "type"     : "i",
-        "range"    : [0,127],
-        "default"  : "64"
-
-    },
-    {
-        "path"     : "/part[0,15]/kit[0,15]/adpars/VoicePar[0,7]/FMSmp/Pharmonicshift",
-        "shortname": "shift",
-        "name"     : "Pharmonicshift",
-        "tooltip"  : "Amount of shift on harmonics",
-        "scale"    : "linear",
-        "type"     : "i",
-        "range"    : [-64,64],
-        "default"  : "0"
-
-    },
-    {
-        "path"     : "/part[0,15]/kit[0,15]/adpars/VoicePar[0,7]/FMSmp/Pharmonicshiftfirst",
-        "shortname": "pre/post",
-        "name"     : "Pharmonicshiftfirst",
-        "tooltip"  : "If harmonics are shifted before waveshaping/filtering",
-        "type"     : "t",
-        "default"  : "false"
-
-    },
-    {
-        "path"     : "/part[0,15]/kit[0,15]/adpars/VoicePar[0,7]/FMSmp/Pmodulation",
-        "shortname": "FM",
-        "name"     : "Pmodulation",
-        "tooltip"  : "Frequency Modulation To Combined Spectra",
-        "type"     : "i",
-        "default"  : "None"
-,
-        "options"  : [
-        {
-            "id"     : 0,
-            "value"  : "None"
-        },
-        {
-            "id"     : 1,
-            "value"  : "Rev"
-        },
-        {
-            "id"     : 2,
-            "value"  : "Sine"
-        },
-        {
-            "id"     : 3,
-            "value"  : "Power"
-        }
-        ]
-    },
-    {
-        "path"     : "/part[0,15]/kit[0,15]/adpars/VoicePar[0,7]/FMSmp/Pmodulationpar1",
-        "shortname": "p1",
-        "name"     : "Pmodulationpar1",
-        "tooltip"  : "modulation parameter",
-        "type"     : "i",
-        "range"    : [0,127],
-        "default"  : "64"
-
-    },
-    {
-        "path"     : "/part[0,15]/kit[0,15]/adpars/VoicePar[0,7]/FMSmp/Pmodulationpar2",
-        "shortname": "p2",
-        "name"     : "Pmodulationpar2",
-        "tooltip"  : "modulation parameter",
-        "type"     : "i",
-        "range"    : [0,127],
-        "default"  : "64"
-
-    },
-    {
-        "path"     : "/part[0,15]/kit[0,15]/adpars/VoicePar[0,7]/FMSmp/Pmodulationpar3",
-        "shortname": "p3",
-        "name"     : "Pmodulationpar3",
-        "tooltip"  : "modulation parameter",
-        "type"     : "i",
-        "range"    : [0,127],
-        "default"  : "32"
-
-    },
-    {
-        "path"     : "/part[0,15]/kit[0,15]/adpars/VoicePar[0,7]/FMSmp/ADvsPAD",
-        "shortname": "If it is used by PADSynth",
-        "name"     : "ADvsPAD",
-        "tooltip"  : "If it is used by PADSynth (and not ADSynth)",
-        "type"     : "t"
-    },
-    {
-        "path"     : "/part[0,15]/kit[0,15]/adpars/VoicePar[0,7]/FMSmp/phase[0,127]",
-        "name"     : "phase#128",
-        "tooltip"  : "Sets harmonic phase",
-        "scale"    : "linear",
-        "type"     : "i",
-        "range"    : [0,127],
-        "default"  : "[64 ...]"
-
-    },
-    {
-        "path"     : "/part[0,15]/kit[0,15]/adpars/VoicePar[0,7]/FMSmp/magnitude[0,127]",
-        "name"     : "magnitude#128",
-        "tooltip"  : "Sets harmonic magnitude",
-        "scale"    : "linear",
-        "type"     : "i",
-        "range"    : [0,127],
-        "default"  : "[127 64 64 ...]"
 
     },
     {
@@ -5396,6 +4114,172 @@
 
     },
     {
+        "path"     : "/part[0,15]/kit[0,15]/adpars/VoicePar[0,7]/WaveEnvelope/Pfreemode",
+        "name"     : "Pfreemode",
+        "tooltip"  : "Complex Envelope Definitions",
+        "type"     : "t",
+        "default"  : "false"
+
+    },
+    {
+        "path"     : "/part[0,15]/kit[0,15]/adpars/VoicePar[0,7]/WaveEnvelope/Penvsustain",
+        "name"     : "Penvsustain",
+        "tooltip"  : "Location of the sustain point",
+        "type"     : "i",
+        "range"    : [0,127],
+        "default"  : "2"
+
+    },
+    {
+        "path"     : "/part[0,15]/kit[0,15]/adpars/VoicePar[0,7]/WaveEnvelope/Penvdt[0,39]",
+        "name"     : "Penvdt#40",
+        "tooltip"  : "Envelope Delay Times",
+        "type"     : "i"
+    },
+    {
+        "path"     : "/part[0,15]/kit[0,15]/adpars/VoicePar[0,7]/WaveEnvelope/Penvval[0,39]",
+        "name"     : "Penvval#40",
+        "tooltip"  : "Envelope Values",
+        "type"     : "i"
+    },
+    {
+        "path"     : "/part[0,15]/kit[0,15]/adpars/VoicePar[0,7]/WaveEnvelope/Penvstretch",
+        "shortname": "stretch",
+        "name"     : "Penvstretch",
+        "tooltip"  : "Stretch with respect to frequency",
+        "type"     : "i",
+        "range"    : [0,127],
+        "default"  : "64"
+
+    },
+    {
+        "path"     : "/part[0,15]/kit[0,15]/adpars/VoicePar[0,7]/WaveEnvelope/Pforcedrelease",
+        "shortname": "frcr",
+        "name"     : "Pforcedrelease",
+        "tooltip"  : "Force Envelope to fully evaluate",
+        "type"     : "t",
+        "default"  : "false"
+
+    },
+    {
+        "path"     : "/part[0,15]/kit[0,15]/adpars/VoicePar[0,7]/WaveEnvelope/Plinearenvelope",
+        "shortname": "lin/log",
+        "name"     : "Plinearenvelope",
+        "tooltip"  : "Linear or Logarithmic Envelopes",
+        "type"     : "t",
+        "default"  : "false"
+
+    },
+    {
+        "path"     : "/part[0,15]/kit[0,15]/adpars/VoicePar[0,7]/WaveEnvelope/Prepeating",
+        "shortname": "repeat",
+        "name"     : "Prepeating",
+        "tooltip"  : "Repeat the Envelope",
+        "type"     : "t",
+        "default"  : "false"
+
+    },
+    {
+        "path"     : "/part[0,15]/kit[0,15]/adpars/VoicePar[0,7]/WaveEnvelope/PA_dt",
+        "shortname": "a.dt",
+        "name"     : "PA_dt",
+        "tooltip"  : "Attack Time",
+        "scale"    : "linear",
+        "type"     : "i",
+        "range"    : [0,127]
+    },
+    {
+        "path"     : "/part[0,15]/kit[0,15]/adpars/VoicePar[0,7]/WaveEnvelope/A_dt",
+        "shortname": "a.dt",
+        "name"     : "A_dt",
+        "tooltip"  : "Attack Time",
+        "scale"    : "logarithmic",
+        "type"     : "f",
+        "range"    : [0.0f,41.0f],
+        "default"  : "0.0f"
+
+    },
+    {
+        "path"     : "/part[0,15]/kit[0,15]/adpars/VoicePar[0,7]/WaveEnvelope/PA_val",
+        "shortname": "a.val",
+        "name"     : "PA_val",
+        "tooltip"  : "Attack Value",
+        "type"     : "i",
+        "range"    : [0,127],
+        "default"  : "64"
+
+    },
+    {
+        "path"     : "/part[0,15]/kit[0,15]/adpars/VoicePar[0,7]/WaveEnvelope/PD_dt",
+        "shortname": "d.dt",
+        "name"     : "PD_dt",
+        "tooltip"  : "Decay Time",
+        "scale"    : "linear",
+        "type"     : "i",
+        "range"    : [0,127]
+    },
+    {
+        "path"     : "/part[0,15]/kit[0,15]/adpars/VoicePar[0,7]/WaveEnvelope/D_dt",
+        "shortname": "d.dt",
+        "name"     : "D_dt",
+        "tooltip"  : "Decay Time",
+        "scale"    : "logarithmic",
+        "type"     : "f",
+        "range"    : [0.0f,41.0f],
+        "default"  : "0.009f"
+
+    },
+    {
+        "path"     : "/part[0,15]/kit[0,15]/adpars/VoicePar[0,7]/WaveEnvelope/PD_val",
+        "shortname": "d.val",
+        "name"     : "PD_val",
+        "tooltip"  : "Decay Value",
+        "type"     : "i",
+        "range"    : [0,127],
+        "default"  : "64"
+
+    },
+    {
+        "path"     : "/part[0,15]/kit[0,15]/adpars/VoicePar[0,7]/WaveEnvelope/PS_val",
+        "shortname": "s.val",
+        "name"     : "PS_val",
+        "tooltip"  : "Sustain Value",
+        "type"     : "i",
+        "range"    : [0,127],
+        "default"  : "64"
+
+    },
+    {
+        "path"     : "/part[0,15]/kit[0,15]/adpars/VoicePar[0,7]/WaveEnvelope/PR_dt",
+        "shortname": "r.dt",
+        "name"     : "PR_dt",
+        "tooltip"  : "Release Time",
+        "scale"    : "linear",
+        "type"     : "i",
+        "range"    : [0,127]
+    },
+    {
+        "path"     : "/part[0,15]/kit[0,15]/adpars/VoicePar[0,7]/WaveEnvelope/R_dt",
+        "shortname": "r.dt",
+        "name"     : "R_dt",
+        "tooltip"  : "Release Time",
+        "scale"    : "logarithmic",
+        "type"     : "f",
+        "range"    : [0.009f,41.0f],
+        "default"  : "0.499f"
+
+    },
+    {
+        "path"     : "/part[0,15]/kit[0,15]/adpars/VoicePar[0,7]/WaveEnvelope/PR_val",
+        "shortname": "r.val",
+        "name"     : "PR_val",
+        "tooltip"  : "Release Value",
+        "type"     : "i",
+        "range"    : [0,127],
+        "default"  : "64"
+
+    },
+    {
         "path"     : "/part[0,15]/kit[0,15]/adpars/VoicePar[0,7]/VoiceFilter/Pcategory",
         "shortname": "class",
         "name"     : "Pcategory",
@@ -5844,26 +4728,6 @@
 
     },
     {
-        "path"     : "/part[0,15]/kit[0,15]/adpars/VoicePar[0,7]/Pextoscil",
-        "shortname": "ext.",
-        "name"     : "Pextoscil",
-        "tooltip"  : "External Oscillator Selection",
-        "type"     : "i",
-        "range"    : [-1,16],
-        "default"  : "-1"
-
-    },
-    {
-        "path"     : "/part[0,15]/kit[0,15]/adpars/VoicePar[0,7]/PextFMoscil",
-        "shortname": "ext.",
-        "name"     : "PextFMoscil",
-        "tooltip"  : "External FM Oscillator Selection",
-        "type"     : "i",
-        "range"    : [-1,16],
-        "default"  : "-1"
-
-    },
-    {
         "path"     : "/part[0,15]/kit[0,15]/adpars/VoicePar[0,7]/Poscilphase",
         "shortname": "phase",
         "name"     : "Poscilphase",
@@ -5890,6 +4754,26 @@
         "tooltip"  : "Filter Bypass",
         "type"     : "t",
         "default"  : "false"
+
+    },
+    {
+        "path"     : "/part[0,15]/kit[0,15]/adpars/VoicePar[0,7]/Pextoscil",
+        "shortname": "ext.",
+        "name"     : "Pextoscil",
+        "tooltip"  : "External Oscillator Selection",
+        "type"     : "i",
+        "range"    : [-1,16],
+        "default"  : "-1"
+
+    },
+    {
+        "path"     : "/part[0,15]/kit[0,15]/adpars/VoicePar[0,7]/PextFMoscil",
+        "shortname": "ext.",
+        "name"     : "PextFMoscil",
+        "tooltip"  : "External FM Oscillator Selection",
+        "type"     : "i",
+        "range"    : [-1,16],
+        "default"  : "-1"
 
     },
     {
@@ -6113,43 +4997,6 @@
 
     },
     {
-        "path"     : "/part[0,15]/kit[0,15]/adpars/VoicePar[0,7]/PFMEnabled",
-        "shortname": "mode",
-        "name"     : "PFMEnabled",
-        "tooltip"  : "Modulator mode",
-        "scale"    : "linear",
-        "type"     : "i",
-        "range"    : [0,127],
-        "default"  : "none"
-,
-        "options"  : [
-        {
-            "id"     : 0,
-            "value"  : "none"
-        },
-        {
-            "id"     : 1,
-            "value"  : "mix"
-        },
-        {
-            "id"     : 2,
-            "value"  : "ring"
-        },
-        {
-            "id"     : 3,
-            "value"  : "phase"
-        },
-        {
-            "id"     : 4,
-            "value"  : "frequency"
-        },
-        {
-            "id"     : 5,
-            "value"  : "pulse"
-        }
-        ]
-    },
-    {
         "path"     : "/part[0,15]/kit[0,15]/adpars/VoicePar[0,7]/PFMVoice",
         "shortname": "voice",
         "name"     : "PFMVoice",
@@ -6265,6 +5112,56 @@
 
     },
     {
+        "path"     : "/part[0,15]/kit[0,15]/adpars/VoicePar[0,7]/PWaveEnvelopeEnabled",
+        "shortname": "enable",
+        "name"     : "PWaveEnvelopeEnabled",
+        "tooltip"  : "Wavetable Modulation Envelope",
+        "type"     : "t",
+        "default"  : "false"
+
+    },
+    {
+        "path"     : "/part[0,15]/kit[0,15]/adpars/VoicePar[0,7]/PFMEnabled",
+        "shortname": "mode",
+        "name"     : "PFMEnabled",
+        "tooltip"  : "",
+        "scale"    : "linear",
+        "type"     : "i",
+        "range"    : [0,127],
+        "default"  : "none"
+,
+        "options"  : [
+        {
+            "id"     : 0,
+            "value"  : "none"
+        },
+        {
+            "id"     : 1,
+            "value"  : "mix"
+        },
+        {
+            "id"     : 2,
+            "value"  : "ring"
+        },
+        {
+            "id"     : 3,
+            "value"  : "phase"
+        },
+        {
+            "id"     : 4,
+            "value"  : "frequency"
+        },
+        {
+            "id"     : 5,
+            "value"  : "pulse"
+        },
+        {
+            "id"     : 6,
+            "value"  : "wave"
+        }
+        ]
+    },
+    {
         "path"     : "/part[0,15]/kit[0,15]/adpars/VoicePar[0,7]/octave",
         "shortname": "octave",
         "name"     : "octave",
@@ -6301,6 +5198,1288 @@
         "scale"    : "linear",
         "type"     : "i",
         "range"    : [-64,63]
+    },
+    {
+        "path"     : "/part[0,15]/kit[0,15]/adpars/VoicePar[0,7]/OscilSmp/Phmagtype",
+        "shortname": "scale",
+        "name"     : "Phmagtype",
+        "tooltip"  : "Type of magnitude for harmonics",
+        "type"     : "i",
+        "default"  : "linear"
+,
+        "options"  : [
+        {
+            "id"     : 0,
+            "value"  : "linear"
+        },
+        {
+            "id"     : 1,
+            "value"  : "dB scale (-40)"
+        },
+        {
+            "id"     : 2,
+            "value"  : "dB scale (-60)"
+        },
+        {
+            "id"     : 3,
+            "value"  : "dB scale (-80)"
+        },
+        {
+            "id"     : 4,
+            "value"  : "dB scale (-100)"
+        }
+        ]
+    },
+    {
+        "path"     : "/part[0,15]/kit[0,15]/adpars/VoicePar[0,7]/OscilSmp/Pcurrentbasefunc",
+        "shortname": "base",
+        "name"     : "Pcurrentbasefunc",
+        "tooltip"  : "Base Waveform for harmonics",
+        "type"     : "i",
+        "default"  : "sine"
+,
+        "options"  : [
+        {
+            "id"     : 0,
+            "value"  : "sine"
+        },
+        {
+            "id"     : 1,
+            "value"  : "triangle"
+        },
+        {
+            "id"     : 2,
+            "value"  : "pulse"
+        },
+        {
+            "id"     : 3,
+            "value"  : "saw"
+        },
+        {
+            "id"     : 4,
+            "value"  : "power"
+        },
+        {
+            "id"     : 5,
+            "value"  : "gauss"
+        },
+        {
+            "id"     : 6,
+            "value"  : "diode"
+        },
+        {
+            "id"     : 7,
+            "value"  : "abssine"
+        },
+        {
+            "id"     : 8,
+            "value"  : "pulsesine"
+        },
+        {
+            "id"     : 9,
+            "value"  : "stretchsine"
+        },
+        {
+            "id"     : 10,
+            "value"  : "chirp"
+        },
+        {
+            "id"     : 11,
+            "value"  : "absstretchsine"
+        },
+        {
+            "id"     : 12,
+            "value"  : "chebyshev"
+        },
+        {
+            "id"     : 13,
+            "value"  : "sqr"
+        },
+        {
+            "id"     : 14,
+            "value"  : "spike"
+        },
+        {
+            "id"     : 15,
+            "value"  : "circle"
+        },
+        {
+            "id"     : 16,
+            "value"  : "powersinus"
+        },
+        {
+            "id"     : 127,
+            "value"  : "use-as-base waveform"
+        }
+        ]
+    },
+    {
+        "path"     : "/part[0,15]/kit[0,15]/adpars/VoicePar[0,7]/OscilSmp/Pbasefuncpar",
+        "shortname": "shape",
+        "name"     : "Pbasefuncpar",
+        "tooltip"  : "Morph between possible base function shapes (e.g. rising sawtooth vs a falling sawtooth)",
+        "type"     : "i",
+        "range"    : [0,127],
+        "default"  : "64"
+
+    },
+    {
+        "path"     : "/part[0,15]/kit[0,15]/adpars/VoicePar[0,7]/OscilSmp/Pbasefuncmodulation",
+        "shortname": "mod",
+        "name"     : "Pbasefuncmodulation",
+        "tooltip"  : "Modulation applied to Base function spectra",
+        "type"     : "i",
+        "default"  : "None"
+,
+        "options"  : [
+        {
+            "id"     : 0,
+            "value"  : "None"
+        },
+        {
+            "id"     : 1,
+            "value"  : "Rev"
+        },
+        {
+            "id"     : 2,
+            "value"  : "Sine"
+        },
+        {
+            "id"     : 3,
+            "value"  : "Power"
+        },
+        {
+            "id"     : 4,
+            "value"  : "Chop"
+        }
+        ]
+    },
+    {
+        "path"     : "/part[0,15]/kit[0,15]/adpars/VoicePar[0,7]/OscilSmp/Pbasefuncmodulationpar1",
+        "shortname": "p1",
+        "name"     : "Pbasefuncmodulationpar1",
+        "tooltip"  : "Base function modulation parameter",
+        "type"     : "i",
+        "range"    : [0,127],
+        "default"  : "64"
+
+    },
+    {
+        "path"     : "/part[0,15]/kit[0,15]/adpars/VoicePar[0,7]/OscilSmp/Pbasefuncmodulationpar2",
+        "shortname": "p2",
+        "name"     : "Pbasefuncmodulationpar2",
+        "tooltip"  : "Base function modulation parameter",
+        "type"     : "i",
+        "range"    : [0,127],
+        "default"  : "64"
+
+    },
+    {
+        "path"     : "/part[0,15]/kit[0,15]/adpars/VoicePar[0,7]/OscilSmp/Pbasefuncmodulationpar3",
+        "shortname": "p3",
+        "name"     : "Pbasefuncmodulationpar3",
+        "tooltip"  : "Base function modulation parameter",
+        "type"     : "i",
+        "range"    : [0,127],
+        "default"  : "32"
+
+    },
+    {
+        "path"     : "/part[0,15]/kit[0,15]/adpars/VoicePar[0,7]/OscilSmp/Pwaveshaping",
+        "shortname": "amount",
+        "name"     : "Pwaveshaping",
+        "tooltip"  : "Degree Of Waveshaping",
+        "type"     : "i",
+        "range"    : [0,127],
+        "default"  : "64"
+
+    },
+    {
+        "path"     : "/part[0,15]/kit[0,15]/adpars/VoicePar[0,7]/OscilSmp/Pwaveshapingfunction",
+        "shortname": "distort",
+        "name"     : "Pwaveshapingfunction",
+        "tooltip"  : "Shape of distortion to be applied",
+        "type"     : "i",
+        "default"  : "Undistorted"
+,
+        "options"  : [
+        {
+            "id"     : 0,
+            "value"  : "Undistorted"
+        },
+        {
+            "id"     : 1,
+            "value"  : "Arctangent"
+        },
+        {
+            "id"     : 2,
+            "value"  : "Asymmetric"
+        },
+        {
+            "id"     : 3,
+            "value"  : "Pow"
+        },
+        {
+            "id"     : 4,
+            "value"  : "Sine"
+        },
+        {
+            "id"     : 5,
+            "value"  : "Quantisize"
+        },
+        {
+            "id"     : 6,
+            "value"  : "Zigzag"
+        },
+        {
+            "id"     : 7,
+            "value"  : "Limiter"
+        },
+        {
+            "id"     : 8,
+            "value"  : "Upper Limiter"
+        },
+        {
+            "id"     : 9,
+            "value"  : "Lower Limiter"
+        },
+        {
+            "id"     : 10,
+            "value"  : "Inverse Limiter"
+        },
+        {
+            "id"     : 11,
+            "value"  : "Clip"
+        },
+        {
+            "id"     : 12,
+            "value"  : "Asym2"
+        },
+        {
+            "id"     : 13,
+            "value"  : "Pow2"
+        },
+        {
+            "id"     : 14,
+            "value"  : "sigmoid"
+        },
+        {
+            "id"     : 15,
+            "value"  : "Tanh"
+        },
+        {
+            "id"     : 16,
+            "value"  : "Cubic"
+        },
+        {
+            "id"     : 17,
+            "value"  : "Square"
+        }
+        ]
+    },
+    {
+        "path"     : "/part[0,15]/kit[0,15]/adpars/VoicePar[0,7]/OscilSmp/Pfiltertype",
+        "shortname": "filter",
+        "name"     : "Pfiltertype",
+        "tooltip"  : "Harmonic Filter",
+        "type"     : "i",
+        "default"  : "\"No Filter\"S"
+,
+        "options"  : [
+        {
+            "id"     : 0,
+            "value"  : "No Filter"
+        },
+        {
+            "id"     : 1,
+            "value"  : "lp"
+        },
+        {
+            "id"     : 2,
+            "value"  : "hp1"
+        },
+        {
+            "id"     : 3,
+            "value"  : "hp1b"
+        },
+        {
+            "id"     : 4,
+            "value"  : "bp1"
+        },
+        {
+            "id"     : 5,
+            "value"  : "bs1"
+        },
+        {
+            "id"     : 6,
+            "value"  : "lp2"
+        },
+        {
+            "id"     : 7,
+            "value"  : "hp2"
+        },
+        {
+            "id"     : 8,
+            "value"  : "bp2"
+        },
+        {
+            "id"     : 9,
+            "value"  : "bs2"
+        },
+        {
+            "id"     : 10,
+            "value"  : "cos"
+        },
+        {
+            "id"     : 11,
+            "value"  : "sin"
+        },
+        {
+            "id"     : 12,
+            "value"  : "low_shelf"
+        },
+        {
+            "id"     : 13,
+            "value"  : "s"
+        },
+        {
+            "id"     : 14,
+            "value"  : "lpsk"
+        }
+        ]
+    },
+    {
+        "path"     : "/part[0,15]/kit[0,15]/adpars/VoicePar[0,7]/OscilSmp/Pfilterpar1",
+        "shortname": "p1",
+        "name"     : "Pfilterpar1",
+        "tooltip"  : "Filter parameter",
+        "type"     : "i",
+        "range"    : [0,127],
+        "default"  : "64"
+
+    },
+    {
+        "path"     : "/part[0,15]/kit[0,15]/adpars/VoicePar[0,7]/OscilSmp/Pfilterpar2",
+        "shortname": "p2",
+        "name"     : "Pfilterpar2",
+        "tooltip"  : "Filter parameter",
+        "type"     : "i",
+        "range"    : [0,127],
+        "default"  : "64"
+
+    },
+    {
+        "path"     : "/part[0,15]/kit[0,15]/adpars/VoicePar[0,7]/OscilSmp/Pfilterbeforews",
+        "shortname": "pre/post",
+        "name"     : "Pfilterbeforews",
+        "tooltip"  : "Filter before waveshaping spectra;When enabled oscilfilter(freqs); then waveshape(freqs);, otherwise waveshape(freqs); then oscilfilter(freqs);",
+        "type"     : "t",
+        "default"  : "false"
+
+    },
+    {
+        "path"     : "/part[0,15]/kit[0,15]/adpars/VoicePar[0,7]/OscilSmp/Psatype",
+        "shortname": "spec. adj.",
+        "name"     : "Psatype",
+        "tooltip"  : "Spectral Adjustment Type",
+        "type"     : "i",
+        "default"  : "None"
+,
+        "options"  : [
+        {
+            "id"     : 0,
+            "value"  : "None"
+        },
+        {
+            "id"     : 1,
+            "value"  : "Pow"
+        },
+        {
+            "id"     : 2,
+            "value"  : "ThrsD"
+        },
+        {
+            "id"     : 3,
+            "value"  : "ThrsU"
+        }
+        ]
+    },
+    {
+        "path"     : "/part[0,15]/kit[0,15]/adpars/VoicePar[0,7]/OscilSmp/Psapar",
+        "shortname": "p1",
+        "name"     : "Psapar",
+        "tooltip"  : "Spectral Adjustment Parameter",
+        "type"     : "i",
+        "range"    : [0,127],
+        "default"  : "64"
+
+    },
+    {
+        "path"     : "/part[0,15]/kit[0,15]/adpars/VoicePar[0,7]/OscilSmp/Pharmonicshift",
+        "shortname": "shift",
+        "name"     : "Pharmonicshift",
+        "tooltip"  : "Amount of shift on harmonics",
+        "scale"    : "linear",
+        "type"     : "i",
+        "range"    : [-64,64],
+        "default"  : "0"
+
+    },
+    {
+        "path"     : "/part[0,15]/kit[0,15]/adpars/VoicePar[0,7]/OscilSmp/Pharmonicshiftfirst",
+        "shortname": "pre/post",
+        "name"     : "Pharmonicshiftfirst",
+        "tooltip"  : "If harmonics are shifted before waveshaping/filtering",
+        "type"     : "t",
+        "default"  : "false"
+
+    },
+    {
+        "path"     : "/part[0,15]/kit[0,15]/adpars/VoicePar[0,7]/OscilSmp/Pmodulation",
+        "shortname": "FM",
+        "name"     : "Pmodulation",
+        "tooltip"  : "Frequency Modulation To Combined Spectra",
+        "type"     : "i",
+        "default"  : "None"
+,
+        "options"  : [
+        {
+            "id"     : 0,
+            "value"  : "None"
+        },
+        {
+            "id"     : 1,
+            "value"  : "Rev"
+        },
+        {
+            "id"     : 2,
+            "value"  : "Sine"
+        },
+        {
+            "id"     : 3,
+            "value"  : "Power"
+        }
+        ]
+    },
+    {
+        "path"     : "/part[0,15]/kit[0,15]/adpars/VoicePar[0,7]/OscilSmp/Pmodulationpar1",
+        "shortname": "p1",
+        "name"     : "Pmodulationpar1",
+        "tooltip"  : "modulation parameter",
+        "type"     : "i",
+        "range"    : [0,127],
+        "default"  : "64"
+
+    },
+    {
+        "path"     : "/part[0,15]/kit[0,15]/adpars/VoicePar[0,7]/OscilSmp/Pmodulationpar2",
+        "shortname": "p2",
+        "name"     : "Pmodulationpar2",
+        "tooltip"  : "modulation parameter",
+        "type"     : "i",
+        "range"    : [0,127],
+        "default"  : "64"
+
+    },
+    {
+        "path"     : "/part[0,15]/kit[0,15]/adpars/VoicePar[0,7]/OscilSmp/Pmodulationpar3",
+        "shortname": "p3",
+        "name"     : "Pmodulationpar3",
+        "tooltip"  : "modulation parameter",
+        "type"     : "i",
+        "range"    : [0,127],
+        "default"  : "32"
+
+    },
+    {
+        "path"     : "/part[0,15]/kit[0,15]/adpars/VoicePar[0,7]/OscilSmp/ADvsPAD",
+        "shortname": "If it is used by PADSynth",
+        "name"     : "ADvsPAD",
+        "tooltip"  : "If it is used by PADSynth (and not ADSynth)",
+        "type"     : "t"
+    },
+    {
+        "path"     : "/part[0,15]/kit[0,15]/adpars/VoicePar[0,7]/OscilSmp/phase[0,127]",
+        "name"     : "phase#128",
+        "tooltip"  : "Sets harmonic phase",
+        "scale"    : "linear",
+        "type"     : "i",
+        "range"    : [0,127],
+        "default"  : "[64 ...]"
+
+    },
+    {
+        "path"     : "/part[0,15]/kit[0,15]/adpars/VoicePar[0,7]/OscilSmp/magnitude[0,127]",
+        "name"     : "magnitude#128",
+        "tooltip"  : "Sets harmonic magnitude",
+        "scale"    : "linear",
+        "type"     : "i",
+        "range"    : [0,127],
+        "default"  : "[127 64 64 ...]"
+
+    },
+    {
+        "path"     : "/part[0,15]/kit[0,15]/adpars/VoicePar[0,7]/OscilSmp/Prand",
+        "shortname": "phase rnd",
+        "name"     : "Prand",
+        "tooltip"  : "Oscillator Phase Randomness: smaller than 0 is \"group\", larger than 0 is for each harmonic",
+        "scale"    : "linear",
+        "type"     : "i",
+        "range"    : [0,127]
+    },
+    {
+        "path"     : "/part[0,15]/kit[0,15]/adpars/VoicePar[0,7]/OscilSmp/Pamprandpower",
+        "shortname": "variance",
+        "name"     : "Pamprandpower",
+        "tooltip"  : "Variance of harmonic randomness",
+        "type"     : "i",
+        "range"    : [0,127],
+        "default"  : "64"
+
+    },
+    {
+        "path"     : "/part[0,15]/kit[0,15]/adpars/VoicePar[0,7]/OscilSmp/Pamprandtype",
+        "shortname": "distribution",
+        "name"     : "Pamprandtype",
+        "tooltip"  : "Harmonic random distribution to select from",
+        "type"     : "i",
+        "default"  : "None"
+,
+        "options"  : [
+        {
+            "id"     : 0,
+            "value"  : "None"
+        },
+        {
+            "id"     : 1,
+            "value"  : "Pow"
+        },
+        {
+            "id"     : 2,
+            "value"  : "Sin"
+        }
+        ]
+    },
+    {
+        "path"     : "/part[0,15]/kit[0,15]/adpars/VoicePar[0,7]/OscilSmp/Padaptiveharmonics",
+        "shortname": "adapt",
+        "name"     : "Padaptiveharmonics",
+        "tooltip"  : "Adaptive Harmonics Mode",
+        "type"     : "i",
+        "default"  : "OFF"
+,
+        "options"  : [
+        {
+            "id"     : 0,
+            "value"  : "OFF"
+        },
+        {
+            "id"     : 1,
+            "value"  : "ON"
+        },
+        {
+            "id"     : 2,
+            "value"  : "Square"
+        },
+        {
+            "id"     : 3,
+            "value"  : "2xSub"
+        },
+        {
+            "id"     : 4,
+            "value"  : "2xAdd"
+        },
+        {
+            "id"     : 5,
+            "value"  : "3xSub"
+        },
+        {
+            "id"     : 6,
+            "value"  : "3xAdd"
+        },
+        {
+            "id"     : 7,
+            "value"  : "4xSub"
+        },
+        {
+            "id"     : 8,
+            "value"  : "4xAdd"
+        }
+        ]
+    },
+    {
+        "path"     : "/part[0,15]/kit[0,15]/adpars/VoicePar[0,7]/OscilSmp/Padaptiveharmonicsbasefreq",
+        "shortname": "c. freq",
+        "name"     : "Padaptiveharmonicsbasefreq",
+        "tooltip"  : "Base frequency of adaptive harmonic (30..3000Hz)",
+        "scale"    : "linear",
+        "type"     : "i",
+        "range"    : [0,255],
+        "default"  : "128"
+
+    },
+    {
+        "path"     : "/part[0,15]/kit[0,15]/adpars/VoicePar[0,7]/OscilSmp/Padaptiveharmonicspower",
+        "shortname": "amount",
+        "name"     : "Padaptiveharmonicspower",
+        "tooltip"  : "Adaptive Harmonic Strength",
+        "scale"    : "linear",
+        "type"     : "i",
+        "range"    : [0,200],
+        "default"  : "100"
+
+    },
+    {
+        "path"     : "/part[0,15]/kit[0,15]/adpars/VoicePar[0,7]/OscilSmp/Padaptiveharmonicspar",
+        "shortname": "power",
+        "name"     : "Padaptiveharmonicspar",
+        "tooltip"  : "Adaptive Harmonics Postprocessing Power",
+        "scale"    : "linear",
+        "type"     : "i",
+        "range"    : [0,100],
+        "default"  : "50"
+
+    },
+    {
+        "path"     : "/part[0,15]/kit[0,15]/adpars/VoicePar[0,7]/FMSmp/Phmagtype",
+        "shortname": "scale",
+        "name"     : "Phmagtype",
+        "tooltip"  : "Type of magnitude for harmonics",
+        "type"     : "i",
+        "default"  : "linear"
+,
+        "options"  : [
+        {
+            "id"     : 0,
+            "value"  : "linear"
+        },
+        {
+            "id"     : 1,
+            "value"  : "dB scale (-40)"
+        },
+        {
+            "id"     : 2,
+            "value"  : "dB scale (-60)"
+        },
+        {
+            "id"     : 3,
+            "value"  : "dB scale (-80)"
+        },
+        {
+            "id"     : 4,
+            "value"  : "dB scale (-100)"
+        }
+        ]
+    },
+    {
+        "path"     : "/part[0,15]/kit[0,15]/adpars/VoicePar[0,7]/FMSmp/Pcurrentbasefunc",
+        "shortname": "base",
+        "name"     : "Pcurrentbasefunc",
+        "tooltip"  : "Base Waveform for harmonics",
+        "type"     : "i",
+        "default"  : "sine"
+,
+        "options"  : [
+        {
+            "id"     : 0,
+            "value"  : "sine"
+        },
+        {
+            "id"     : 1,
+            "value"  : "triangle"
+        },
+        {
+            "id"     : 2,
+            "value"  : "pulse"
+        },
+        {
+            "id"     : 3,
+            "value"  : "saw"
+        },
+        {
+            "id"     : 4,
+            "value"  : "power"
+        },
+        {
+            "id"     : 5,
+            "value"  : "gauss"
+        },
+        {
+            "id"     : 6,
+            "value"  : "diode"
+        },
+        {
+            "id"     : 7,
+            "value"  : "abssine"
+        },
+        {
+            "id"     : 8,
+            "value"  : "pulsesine"
+        },
+        {
+            "id"     : 9,
+            "value"  : "stretchsine"
+        },
+        {
+            "id"     : 10,
+            "value"  : "chirp"
+        },
+        {
+            "id"     : 11,
+            "value"  : "absstretchsine"
+        },
+        {
+            "id"     : 12,
+            "value"  : "chebyshev"
+        },
+        {
+            "id"     : 13,
+            "value"  : "sqr"
+        },
+        {
+            "id"     : 14,
+            "value"  : "spike"
+        },
+        {
+            "id"     : 15,
+            "value"  : "circle"
+        },
+        {
+            "id"     : 16,
+            "value"  : "powersinus"
+        },
+        {
+            "id"     : 127,
+            "value"  : "use-as-base waveform"
+        }
+        ]
+    },
+    {
+        "path"     : "/part[0,15]/kit[0,15]/adpars/VoicePar[0,7]/FMSmp/Pbasefuncpar",
+        "shortname": "shape",
+        "name"     : "Pbasefuncpar",
+        "tooltip"  : "Morph between possible base function shapes (e.g. rising sawtooth vs a falling sawtooth)",
+        "type"     : "i",
+        "range"    : [0,127],
+        "default"  : "64"
+
+    },
+    {
+        "path"     : "/part[0,15]/kit[0,15]/adpars/VoicePar[0,7]/FMSmp/Pbasefuncmodulation",
+        "shortname": "mod",
+        "name"     : "Pbasefuncmodulation",
+        "tooltip"  : "Modulation applied to Base function spectra",
+        "type"     : "i",
+        "default"  : "None"
+,
+        "options"  : [
+        {
+            "id"     : 0,
+            "value"  : "None"
+        },
+        {
+            "id"     : 1,
+            "value"  : "Rev"
+        },
+        {
+            "id"     : 2,
+            "value"  : "Sine"
+        },
+        {
+            "id"     : 3,
+            "value"  : "Power"
+        },
+        {
+            "id"     : 4,
+            "value"  : "Chop"
+        }
+        ]
+    },
+    {
+        "path"     : "/part[0,15]/kit[0,15]/adpars/VoicePar[0,7]/FMSmp/Pbasefuncmodulationpar1",
+        "shortname": "p1",
+        "name"     : "Pbasefuncmodulationpar1",
+        "tooltip"  : "Base function modulation parameter",
+        "type"     : "i",
+        "range"    : [0,127],
+        "default"  : "64"
+
+    },
+    {
+        "path"     : "/part[0,15]/kit[0,15]/adpars/VoicePar[0,7]/FMSmp/Pbasefuncmodulationpar2",
+        "shortname": "p2",
+        "name"     : "Pbasefuncmodulationpar2",
+        "tooltip"  : "Base function modulation parameter",
+        "type"     : "i",
+        "range"    : [0,127],
+        "default"  : "64"
+
+    },
+    {
+        "path"     : "/part[0,15]/kit[0,15]/adpars/VoicePar[0,7]/FMSmp/Pbasefuncmodulationpar3",
+        "shortname": "p3",
+        "name"     : "Pbasefuncmodulationpar3",
+        "tooltip"  : "Base function modulation parameter",
+        "type"     : "i",
+        "range"    : [0,127],
+        "default"  : "32"
+
+    },
+    {
+        "path"     : "/part[0,15]/kit[0,15]/adpars/VoicePar[0,7]/FMSmp/Pwaveshaping",
+        "shortname": "amount",
+        "name"     : "Pwaveshaping",
+        "tooltip"  : "Degree Of Waveshaping",
+        "type"     : "i",
+        "range"    : [0,127],
+        "default"  : "64"
+
+    },
+    {
+        "path"     : "/part[0,15]/kit[0,15]/adpars/VoicePar[0,7]/FMSmp/Pwaveshapingfunction",
+        "shortname": "distort",
+        "name"     : "Pwaveshapingfunction",
+        "tooltip"  : "Shape of distortion to be applied",
+        "type"     : "i",
+        "default"  : "Undistorted"
+,
+        "options"  : [
+        {
+            "id"     : 0,
+            "value"  : "Undistorted"
+        },
+        {
+            "id"     : 1,
+            "value"  : "Arctangent"
+        },
+        {
+            "id"     : 2,
+            "value"  : "Asymmetric"
+        },
+        {
+            "id"     : 3,
+            "value"  : "Pow"
+        },
+        {
+            "id"     : 4,
+            "value"  : "Sine"
+        },
+        {
+            "id"     : 5,
+            "value"  : "Quantisize"
+        },
+        {
+            "id"     : 6,
+            "value"  : "Zigzag"
+        },
+        {
+            "id"     : 7,
+            "value"  : "Limiter"
+        },
+        {
+            "id"     : 8,
+            "value"  : "Upper Limiter"
+        },
+        {
+            "id"     : 9,
+            "value"  : "Lower Limiter"
+        },
+        {
+            "id"     : 10,
+            "value"  : "Inverse Limiter"
+        },
+        {
+            "id"     : 11,
+            "value"  : "Clip"
+        },
+        {
+            "id"     : 12,
+            "value"  : "Asym2"
+        },
+        {
+            "id"     : 13,
+            "value"  : "Pow2"
+        },
+        {
+            "id"     : 14,
+            "value"  : "sigmoid"
+        },
+        {
+            "id"     : 15,
+            "value"  : "Tanh"
+        },
+        {
+            "id"     : 16,
+            "value"  : "Cubic"
+        },
+        {
+            "id"     : 17,
+            "value"  : "Square"
+        }
+        ]
+    },
+    {
+        "path"     : "/part[0,15]/kit[0,15]/adpars/VoicePar[0,7]/FMSmp/Pfiltertype",
+        "shortname": "filter",
+        "name"     : "Pfiltertype",
+        "tooltip"  : "Harmonic Filter",
+        "type"     : "i",
+        "default"  : "\"No Filter\"S"
+,
+        "options"  : [
+        {
+            "id"     : 0,
+            "value"  : "No Filter"
+        },
+        {
+            "id"     : 1,
+            "value"  : "lp"
+        },
+        {
+            "id"     : 2,
+            "value"  : "hp1"
+        },
+        {
+            "id"     : 3,
+            "value"  : "hp1b"
+        },
+        {
+            "id"     : 4,
+            "value"  : "bp1"
+        },
+        {
+            "id"     : 5,
+            "value"  : "bs1"
+        },
+        {
+            "id"     : 6,
+            "value"  : "lp2"
+        },
+        {
+            "id"     : 7,
+            "value"  : "hp2"
+        },
+        {
+            "id"     : 8,
+            "value"  : "bp2"
+        },
+        {
+            "id"     : 9,
+            "value"  : "bs2"
+        },
+        {
+            "id"     : 10,
+            "value"  : "cos"
+        },
+        {
+            "id"     : 11,
+            "value"  : "sin"
+        },
+        {
+            "id"     : 12,
+            "value"  : "low_shelf"
+        },
+        {
+            "id"     : 13,
+            "value"  : "s"
+        },
+        {
+            "id"     : 14,
+            "value"  : "lpsk"
+        }
+        ]
+    },
+    {
+        "path"     : "/part[0,15]/kit[0,15]/adpars/VoicePar[0,7]/FMSmp/Pfilterpar1",
+        "shortname": "p1",
+        "name"     : "Pfilterpar1",
+        "tooltip"  : "Filter parameter",
+        "type"     : "i",
+        "range"    : [0,127],
+        "default"  : "64"
+
+    },
+    {
+        "path"     : "/part[0,15]/kit[0,15]/adpars/VoicePar[0,7]/FMSmp/Pfilterpar2",
+        "shortname": "p2",
+        "name"     : "Pfilterpar2",
+        "tooltip"  : "Filter parameter",
+        "type"     : "i",
+        "range"    : [0,127],
+        "default"  : "64"
+
+    },
+    {
+        "path"     : "/part[0,15]/kit[0,15]/adpars/VoicePar[0,7]/FMSmp/Pfilterbeforews",
+        "shortname": "pre/post",
+        "name"     : "Pfilterbeforews",
+        "tooltip"  : "Filter before waveshaping spectra;When enabled oscilfilter(freqs); then waveshape(freqs);, otherwise waveshape(freqs); then oscilfilter(freqs);",
+        "type"     : "t",
+        "default"  : "false"
+
+    },
+    {
+        "path"     : "/part[0,15]/kit[0,15]/adpars/VoicePar[0,7]/FMSmp/Psatype",
+        "shortname": "spec. adj.",
+        "name"     : "Psatype",
+        "tooltip"  : "Spectral Adjustment Type",
+        "type"     : "i",
+        "default"  : "None"
+,
+        "options"  : [
+        {
+            "id"     : 0,
+            "value"  : "None"
+        },
+        {
+            "id"     : 1,
+            "value"  : "Pow"
+        },
+        {
+            "id"     : 2,
+            "value"  : "ThrsD"
+        },
+        {
+            "id"     : 3,
+            "value"  : "ThrsU"
+        }
+        ]
+    },
+    {
+        "path"     : "/part[0,15]/kit[0,15]/adpars/VoicePar[0,7]/FMSmp/Psapar",
+        "shortname": "p1",
+        "name"     : "Psapar",
+        "tooltip"  : "Spectral Adjustment Parameter",
+        "type"     : "i",
+        "range"    : [0,127],
+        "default"  : "64"
+
+    },
+    {
+        "path"     : "/part[0,15]/kit[0,15]/adpars/VoicePar[0,7]/FMSmp/Pharmonicshift",
+        "shortname": "shift",
+        "name"     : "Pharmonicshift",
+        "tooltip"  : "Amount of shift on harmonics",
+        "scale"    : "linear",
+        "type"     : "i",
+        "range"    : [-64,64],
+        "default"  : "0"
+
+    },
+    {
+        "path"     : "/part[0,15]/kit[0,15]/adpars/VoicePar[0,7]/FMSmp/Pharmonicshiftfirst",
+        "shortname": "pre/post",
+        "name"     : "Pharmonicshiftfirst",
+        "tooltip"  : "If harmonics are shifted before waveshaping/filtering",
+        "type"     : "t",
+        "default"  : "false"
+
+    },
+    {
+        "path"     : "/part[0,15]/kit[0,15]/adpars/VoicePar[0,7]/FMSmp/Pmodulation",
+        "shortname": "FM",
+        "name"     : "Pmodulation",
+        "tooltip"  : "Frequency Modulation To Combined Spectra",
+        "type"     : "i",
+        "default"  : "None"
+,
+        "options"  : [
+        {
+            "id"     : 0,
+            "value"  : "None"
+        },
+        {
+            "id"     : 1,
+            "value"  : "Rev"
+        },
+        {
+            "id"     : 2,
+            "value"  : "Sine"
+        },
+        {
+            "id"     : 3,
+            "value"  : "Power"
+        }
+        ]
+    },
+    {
+        "path"     : "/part[0,15]/kit[0,15]/adpars/VoicePar[0,7]/FMSmp/Pmodulationpar1",
+        "shortname": "p1",
+        "name"     : "Pmodulationpar1",
+        "tooltip"  : "modulation parameter",
+        "type"     : "i",
+        "range"    : [0,127],
+        "default"  : "64"
+
+    },
+    {
+        "path"     : "/part[0,15]/kit[0,15]/adpars/VoicePar[0,7]/FMSmp/Pmodulationpar2",
+        "shortname": "p2",
+        "name"     : "Pmodulationpar2",
+        "tooltip"  : "modulation parameter",
+        "type"     : "i",
+        "range"    : [0,127],
+        "default"  : "64"
+
+    },
+    {
+        "path"     : "/part[0,15]/kit[0,15]/adpars/VoicePar[0,7]/FMSmp/Pmodulationpar3",
+        "shortname": "p3",
+        "name"     : "Pmodulationpar3",
+        "tooltip"  : "modulation parameter",
+        "type"     : "i",
+        "range"    : [0,127],
+        "default"  : "32"
+
+    },
+    {
+        "path"     : "/part[0,15]/kit[0,15]/adpars/VoicePar[0,7]/FMSmp/ADvsPAD",
+        "shortname": "If it is used by PADSynth",
+        "name"     : "ADvsPAD",
+        "tooltip"  : "If it is used by PADSynth (and not ADSynth)",
+        "type"     : "t"
+    },
+    {
+        "path"     : "/part[0,15]/kit[0,15]/adpars/VoicePar[0,7]/FMSmp/phase[0,127]",
+        "name"     : "phase#128",
+        "tooltip"  : "Sets harmonic phase",
+        "scale"    : "linear",
+        "type"     : "i",
+        "range"    : [0,127],
+        "default"  : "[64 ...]"
+
+    },
+    {
+        "path"     : "/part[0,15]/kit[0,15]/adpars/VoicePar[0,7]/FMSmp/magnitude[0,127]",
+        "name"     : "magnitude#128",
+        "tooltip"  : "Sets harmonic magnitude",
+        "scale"    : "linear",
+        "type"     : "i",
+        "range"    : [0,127],
+        "default"  : "[127 64 64 ...]"
+
+    },
+    {
+        "path"     : "/part[0,15]/kit[0,15]/adpars/VoicePar[0,7]/FMSmp/Prand",
+        "shortname": "phase rnd",
+        "name"     : "Prand",
+        "tooltip"  : "Oscillator Phase Randomness: smaller than 0 is \"group\", larger than 0 is for each harmonic",
+        "scale"    : "linear",
+        "type"     : "i",
+        "range"    : [0,127]
+    },
+    {
+        "path"     : "/part[0,15]/kit[0,15]/adpars/VoicePar[0,7]/FMSmp/Pamprandpower",
+        "shortname": "variance",
+        "name"     : "Pamprandpower",
+        "tooltip"  : "Variance of harmonic randomness",
+        "type"     : "i",
+        "range"    : [0,127],
+        "default"  : "64"
+
+    },
+    {
+        "path"     : "/part[0,15]/kit[0,15]/adpars/VoicePar[0,7]/FMSmp/Pamprandtype",
+        "shortname": "distribution",
+        "name"     : "Pamprandtype",
+        "tooltip"  : "Harmonic random distribution to select from",
+        "type"     : "i",
+        "default"  : "None"
+,
+        "options"  : [
+        {
+            "id"     : 0,
+            "value"  : "None"
+        },
+        {
+            "id"     : 1,
+            "value"  : "Pow"
+        },
+        {
+            "id"     : 2,
+            "value"  : "Sin"
+        }
+        ]
+    },
+    {
+        "path"     : "/part[0,15]/kit[0,15]/adpars/VoicePar[0,7]/FMSmp/Padaptiveharmonics",
+        "shortname": "adapt",
+        "name"     : "Padaptiveharmonics",
+        "tooltip"  : "Adaptive Harmonics Mode",
+        "type"     : "i",
+        "default"  : "OFF"
+,
+        "options"  : [
+        {
+            "id"     : 0,
+            "value"  : "OFF"
+        },
+        {
+            "id"     : 1,
+            "value"  : "ON"
+        },
+        {
+            "id"     : 2,
+            "value"  : "Square"
+        },
+        {
+            "id"     : 3,
+            "value"  : "2xSub"
+        },
+        {
+            "id"     : 4,
+            "value"  : "2xAdd"
+        },
+        {
+            "id"     : 5,
+            "value"  : "3xSub"
+        },
+        {
+            "id"     : 6,
+            "value"  : "3xAdd"
+        },
+        {
+            "id"     : 7,
+            "value"  : "4xSub"
+        },
+        {
+            "id"     : 8,
+            "value"  : "4xAdd"
+        }
+        ]
+    },
+    {
+        "path"     : "/part[0,15]/kit[0,15]/adpars/VoicePar[0,7]/FMSmp/Padaptiveharmonicsbasefreq",
+        "shortname": "c. freq",
+        "name"     : "Padaptiveharmonicsbasefreq",
+        "tooltip"  : "Base frequency of adaptive harmonic (30..3000Hz)",
+        "scale"    : "linear",
+        "type"     : "i",
+        "range"    : [0,255],
+        "default"  : "128"
+
+    },
+    {
+        "path"     : "/part[0,15]/kit[0,15]/adpars/VoicePar[0,7]/FMSmp/Padaptiveharmonicspower",
+        "shortname": "amount",
+        "name"     : "Padaptiveharmonicspower",
+        "tooltip"  : "Adaptive Harmonic Strength",
+        "scale"    : "linear",
+        "type"     : "i",
+        "range"    : [0,200],
+        "default"  : "100"
+
+    },
+    {
+        "path"     : "/part[0,15]/kit[0,15]/adpars/VoicePar[0,7]/FMSmp/Padaptiveharmonicspar",
+        "shortname": "power",
+        "name"     : "Padaptiveharmonicspar",
+        "tooltip"  : "Adaptive Harmonics Postprocessing Power",
+        "scale"    : "linear",
+        "type"     : "i",
+        "range"    : [0,100],
+        "default"  : "50"
+
     },
     {
         "path"     : "/part[0,15]/kit[0,15]/adpars/VoicePar[0,7]/Enabled",
@@ -11170,14 +11349,6 @@
 
     },
     {
-        "path"     : "/part[0,15]/ctl/portamento.automode",
-        "name"     : "portamento.automode",
-        "tooltip"  : "Portamento Auto mode",
-        "type"     : "t",
-        "default"  : "false"
-
-    },
-    {
         "path"     : "/part[0,15]/ctl/portamento.time",
         "shortname": "time",
         "name"     : "portamento.time",
@@ -11578,7 +11749,7 @@
     {
         "path"     : "/part[0,15]/polyType",
         "name"     : "polyType",
-        "tooltip"  : "Synthesis polyphony type\nPolyphonic - Each note is played independently\nMonophonic - A single note is played at a time with envelopes resetting between notes\nLegato     - A single note is played at a time without envelopes resetting between notes\nLatch     - Notes are released when a new one is hit  after key release\n",
+        "tooltip"  : "Synthesis polyphony type\n",
         "type"     : "i",
         "options"  : [
         {

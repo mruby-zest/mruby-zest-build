@@ -36,11 +36,15 @@ Widget {
             label: "frequency";
             highlight_pos: :top
         }
+        TabButton {
+            label: "wavetable";
+            highlight_pos: :top
+        }
 
         function set_tab(wid)
         {
             id = get_tab wid
-            vs = [:amplitude, :frequency]
+            vs = [:amplitude, :frequency, :wavetable]
             root.set_view_pos(:subsubview, vs[id])
             root.change_view
         }
@@ -55,7 +59,7 @@ Widget {
     function set_view()
     {
         subsubview = root.get_view_pos(:subsubview)
-        vs = [:amplitude, :frequency]
+        vs = [:amplitude, :frequency, :wavetable]
         if(!vs.include?(subsubview))
             subsubview = :amplitude
             root.set_view_pos(:subsubview, subsubview)
@@ -76,22 +80,39 @@ Widget {
                 elm = vis.children[0]
                 elm.refresh if elm.respond_to? :refresh
             }
-        else
-            footer.children[1].value = true
-            gen.extern  = basemod.extern
-            env.extern  = basemod.extern + "FMFreqEnvelope/"
-            vis.extern  = basemod.extern + "FMFreqEnvelope/"
-            gen.content = Qml::ZynFreqMod
-            env.content = Qml::ZynFreqEnv
-            vis.content = Qml::ZynEnvEdit
-            vis.children[0].layoutOpts = Hash.new
-            vis.children[0].layoutOpts[:main_width] = 0.8
+        else if(subsubview == :wavetable)
+                footer.children[2].value = true
+                gen.extern  = basemod.extern
+                env.extern  = basemod.extern + "WaveEnvelope/"
+                vis.extern  = basemod.extern + "WaveEnvelope/"
+                gen.content = Qml::ZynAmpMod
+                env.content = Qml::ZynAmpEnv
+                vis.content = Qml::ZynEnvEdit
+                vis.children[0].layoutOpts = Hash.new
+                vis.children[0].layoutOpts[:main_width] = 0.8
 
-            env.children[0].toggleable   = basemod.extern + "PFMFreqEnvelopeEnabled"
-            env.children[0].whenModified = lambda {
-                elm = vis.children[0]
-                elm.refresh if elm.respond_to? :refresh
-            }
+                env.children[0].toggleable   = basemod.extern + "PWaveEnvelopeEnabled"
+                env.children[0].whenModified = lambda {
+                    elm = vis.children[0]
+                    elm.refresh if elm.respond_to? :refresh
+                }
+            else
+                footer.children[1].value = true
+                gen.extern  = basemod.extern
+                env.extern  = basemod.extern + "FMFreqEnvelope/"
+                vis.extern  = basemod.extern + "FMFreqEnvelope/"
+                gen.content = Qml::ZynFreqMod
+                env.content = Qml::ZynFreqEnv
+                vis.content = Qml::ZynEnvEdit
+                vis.children[0].layoutOpts = Hash.new
+                vis.children[0].layoutOpts[:main_width] = 0.8
+
+                env.children[0].toggleable   = basemod.extern + "PFMFreqEnvelopeEnabled"
+                env.children[0].whenModified = lambda {
+                    elm = vis.children[0]
+                    elm.refresh if elm.respond_to? :refresh
+                }
+            end
         end
         db.update_values
     }
