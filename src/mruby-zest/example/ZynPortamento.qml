@@ -6,7 +6,10 @@ Group {
         ToggleButton {
             extern: port.extern+"portamento.receive"
         }
-        Text { }
+        ToggleButton {
+            extern: port.extern+"portamento.automode"
+            label: "auto"
+        }
         ToggleButton {
             extern: port.extern+"portamento.portamento"
             label: "enable"
