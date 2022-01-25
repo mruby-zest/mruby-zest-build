@@ -11170,6 +11170,14 @@
 
     },
     {
+        "path"     : "/part[0,15]/ctl/portamento.automode",
+        "name"     : "portamento.automode",
+        "tooltip"  : "Portamento Auto mode",
+        "type"     : "t",
+        "default"  : "false"
+
+    },
+    {
         "path"     : "/part[0,15]/ctl/portamento.time",
         "shortname": "time",
         "name"     : "portamento.time",
