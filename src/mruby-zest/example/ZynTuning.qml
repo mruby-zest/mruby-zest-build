@@ -5,6 +5,7 @@ Widget {
         @opt = type
         win = window()
         wid = Qml::FileSelector.new(db)
+        wid.windowTitle = "Loading #{type}"
         wid.whenValue = lambda { |x| scale.load_scale_file(x)}
         wid.x = 0
         wid.y = 0
@@ -21,7 +22,7 @@ Widget {
             root.damage_item(win, :all)
         end
     }
-    
+
     function setup_widget(w)
     {
         w.onSetup()
