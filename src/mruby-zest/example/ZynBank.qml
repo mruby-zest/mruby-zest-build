@@ -52,6 +52,8 @@ Widget {
         part = root.get_view_pos(:part)
         if not ins_sel.selected_val.nil?
             $remote.action("/bank/save_to_slot", part, ins_sel.selected_val.to_i)
+            # Reload list because contents will have been changed due to save
+            bank.setBank
         else
             return
         end
@@ -72,6 +74,7 @@ Widget {
     function doRescan()
     {
         $remote.action("/bank/rescan")
+        doBank
     }
 
     Widget {
@@ -146,6 +149,7 @@ Widget {
                     children[0].value = false
                     children[1].value = true
                 end
+                bank.doBank
                 children[0].damage_self
                 children[1].damage_self
             }
