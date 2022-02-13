@@ -1,5 +1,7 @@
 Widget {
+    id: log
     property Int lines: 2
+    property Object extRef: nil
 
     function display_log(type, message, src)
     {
@@ -7,6 +9,11 @@ Widget {
             self.label = message
             damage_self
         end
+    }
+
+    onExtern: {
+        log.extRef = OSC::RemoteParam.new($remote, log.extern)
+        log.extRef.callback = Proc.new {|x| display_log(:user_value, x, "extern") }
     }
 
     function onSetup(old)
