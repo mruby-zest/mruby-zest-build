@@ -12,6 +12,7 @@ Widget {
 
         LogWidget {
             label: "console log"
+            extern: "/alert"
         }
     }
 
