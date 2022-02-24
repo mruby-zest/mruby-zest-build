@@ -56,21 +56,32 @@ Widget {
             self.root.log(:user_value, "Can't save - no patch slot selected")
         else
             $remote.action("/bank/save_to_slot", part, ins_sel.selected_val.to_i)
+            self.root.log(:user_value, "Save to slot " + ins_sel.selected_val)
             # Reload list because contents may have changed due to save
             bank.setBank
         end
     }
     
-    function doSavePart()
+    function doOverwrite()
     {
         part = root.get_view_pos(:part)
         $remote.action("/part#{part}/savexml")
+        if (ins_sel.selected_val.empty?)
+            self.root.log(:user_value, "overwrite current patch")
+        else
+            self.root.log(:user_value, "write to: " + ins_sel.selected_val)
+        end
+    }
+
+    function doWrite()
+    {
+        doOverwrite() if bank.mode == :read
+        doSave() if bank.mode == :write
     }
 
     function doInsSelect()
     {
         doLoad if self.mode == :read
-        doSave if self.mode == :write
     }
     
     function doRescan()
@@ -134,7 +145,7 @@ Widget {
             }
             TriggerButton {
                 label: "overwrite"
-                whenValue: lambda { bank.doSavePart() }
+                whenValue: lambda { bank.doWrite() }
             }
             TriggerButton {
                 label: "rescan"
@@ -152,8 +163,15 @@ Widget {
                     children[1].value = true
                 end
                 bank.doBank
+                children[0].tooltip = "read mode (overwrite re-saves latest loaded patch)"
+                children[1].tooltip = "write mode (to write: select slot, then press overwrite)"
                 children[0].damage_self
                 children[1].damage_self
+                # Clear selection, so that a previous read selection does
+                # not remain in write mode (the selections in read mode
+                # are path name strings, and slot numbers in write mode;
+                # so a string will be converted to slot 0).
+                ins_sel.clear_sel
             }
 
             function layout(l, selfBox) {
