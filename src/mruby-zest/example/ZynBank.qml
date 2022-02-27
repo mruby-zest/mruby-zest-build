@@ -102,19 +102,22 @@ Widget {
                 label:  "bank"
                 skip:   true
                 extern: "/bank/bank_list"
-                whenValue: lambda { bank.doBank }
+                whenValue: lambda { ins_sel.clear_sel
+                                    bank.doBank }
             }
             SelColumn {
                 id: bank_type
                 label: "type"
                 extern: "/bank/types"
-                whenValue: lambda { bank.doType }
+                whenValue: lambda { ins_sel.clear_sel
+                                    bank.doType }
             }
             SelColumn {
                 id: bank_tag
                 label: "tag"
                 extern: "/bank/tags"
-                whenValue: lambda { bank.doSearch }
+                whenValue: lambda { ins_sel.clear_sel
+                                    bank.doSearch }
             }
             function layout(l, selfBox) {
                 Draw::Layout::hfill(l, selfBox, children, [0.3, 0.3, 0.4])
