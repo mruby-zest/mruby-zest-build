@@ -51,12 +51,12 @@ Widget {
     {
         part = root.get_view_pos(:part)
         if bank_name.selected_val.empty?
-            self.root.log(:user_value, "Can't save - no bank selected")
+            self.root.log(:warning, "Can't save - no bank selected")
         elsif ins_sel.selected_val.empty?
-            self.root.log(:user_value, "Can't save - no patch slot selected")
+            self.root.log(:warning, "Can't save - no patch slot selected")
         else
             $remote.action("/bank/save_to_slot", part, ins_sel.selected_val.to_i)
-            self.root.log(:user_value, "Save to slot " + ins_sel.selected_val)
+            self.root.log(:success, "Save to slot " + ins_sel.selected_val)
             # Reload list because contents may have changed due to save
             bank.setBank
         end
@@ -67,9 +67,9 @@ Widget {
         part = root.get_view_pos(:part)
         $remote.action("/part#{part}/savexml")
         if (ins_sel.selected_val.empty?)
-            self.root.log(:user_value, "overwrite current patch")
+            self.root.log(:success, "overwrite current patch")
         else
-            self.root.log(:user_value, "write to: " + ins_sel.selected_val)
+            self.root.log(:success, "write to: " + ins_sel.selected_val)
         end
     }
 

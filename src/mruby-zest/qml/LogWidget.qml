@@ -2,18 +2,20 @@ Widget {
     id: log
     property Int lines: 2
     property Object extRef: nil
+    property Symbol type: :tooltip
 
     function display_log(type, message, src)
     {
         if(self.label != message)
             self.label = message
+            self.type = type
             damage_self
         end
     }
 
     onExtern: {
         log.extRef = OSC::RemoteParam.new($remote, log.extern)
-        log.extRef.callback = Proc.new {|x| display_log(:user_value, x, "extern") }
+        log.extRef.callback = Proc.new {|x| display_log(:warning, x, "extern") }
     }
 
     function onSetup(old)
@@ -23,7 +25,9 @@ Widget {
 
     function draw(vg)
     {
-        textColor  = color("3ac5ec")
+        textColor  = color("3ac5ec") # Default, for tooltips
+        textColor  = color("ea152c") if(self.type == :warning) # Red-ish
+        textColor  = color("1ac52c") if(self.type == :success) # Green-ish
         splitColor = color("133A4C")
 
         vg.path do |vg|
