@@ -119,10 +119,18 @@ Widget {
                 else
                     rows[x*stride]
                 end
-                ch.tooltip = if(x*stride+1>=rows.length)
-                    ""
+                if (skip)
+                    ch.tooltip = if(x*stride+1>=rows.length)
+                        ""
+                    else
+                        rows[x*stride+1]
+                    end
                 else
-                    rows[x*stride+1]
+                    ch.tooltip = if(x*stride>=rows.length)
+                        ""
+                    else
+                        rows[x*stride]
+                    end
                 end
             end
             ch.layoutOpts = [:no_constraint]
