@@ -9,6 +9,7 @@ Object {
     property String label: ""
 
     property String tooltip: ""
+    property String childTooltipPrefix: ""
 
     property Array layoutOpts: []
 
@@ -150,7 +151,7 @@ Object {
     
     function onMouseEnter(ev) {
         if(self.tooltip != "" and self.root.respond_to?(:log))
-            self.root.log(:tooltip, self.tooltip)
+            self.root.log(:tooltip, self.parent.childTooltipPrefix + self.tooltip)
         end
     }
 
