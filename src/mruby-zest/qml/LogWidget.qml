@@ -3,11 +3,19 @@ Widget {
     property Int lines: 2
     property Object extRef: nil
     property Symbol type: :tooltip
+    property String statusMsg: ""
 
     function display_log(type, message, src)
     {
-        if(self.label != message)
+        if(type == :warning)
+            if(self.statusMsg != message)
+                self.statusMsg = message
+                self.type = type
+                damage_self
+            end
+        elsif(self.label != message)
             self.label = message
+            self.statusMsg = ""
             self.type = type
             damage_self
         end
@@ -26,8 +34,8 @@ Widget {
     function draw(vg)
     {
         textColor  = color("3ac5ec") # Default, for tooltips
-        textColor  = color("ea152c") if(self.type == :warning) # Red-ish
         textColor  = color("1ac52c") if(self.type == :success) # Green-ish
+        msgColor  = color("ea152c") # Red-ish
         splitColor = color("133A4C")
 
         vg.path do |vg|
@@ -43,5 +51,7 @@ Widget {
         vg.text_align NVG::ALIGN_LEFT | NVG::ALIGN_MIDDLE
         vg.fill_color(textColor)
         vg.text_box(0,h/4,w,self.label.upcase)
+        vg.fill_color(msgColor)
+        vg.text_box(0,3*h/4,w,self.statusMsg.upcase)
     }
 }
