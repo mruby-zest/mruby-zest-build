@@ -147,6 +147,7 @@ Widget {
                 layoutOpts: [:no_constraint]
             }
             TriggerButton {
+                id: trigger
                 label: "overwrite"
                 whenValue: lambda { bank.doWrite() }
             }
@@ -158,16 +159,22 @@ Widget {
             {
                 if(x == 0)
                     bank.mode = :read
+                    ins_sel.childTooltipPrefix = "File: "
+                    trigger.label = "overwrite"
+                    trigger.damage_self
                     children[0].value = true
                     children[1].value = false
                 else
                     bank.mode = :write
+                    ins_sel.childTooltipPrefix = "Slot  "
+                    trigger.label = "execute"
+                    trigger.damage_self
                     children[0].value = false
                     children[1].value = true
                 end
                 bank.doBank
                 children[0].tooltip = "read mode (overwrite re-saves latest loaded patch)"
-                children[1].tooltip = "write mode (to write: select slot, then press overwrite)"
+                children[1].tooltip = "write mode (to write: select slot, then press execute)"
                 children[0].damage_self
                 children[1].damage_self
                 # Clear selection, so that a previous read selection does
@@ -188,6 +195,7 @@ Widget {
                 label: "preset"
                 number: false
                 skip:   true
+                childTooltipPrefix: "File: "
                 whenValue: lambda {bank.doInsSelect}
             }
             ZynPatchInfo {}
