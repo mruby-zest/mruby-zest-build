@@ -21,7 +21,14 @@ Widget {
 
     function setBank()
     {
-        $remote.action("/bank/blist", bank_name.selected_val)
+        # If no bank is selected, clear the patch column, otherwise
+        # it will display EMPTY PRESET in each slot, but with no
+        # bank to write to, it's not possible to write anything.
+        if (bank_name.selected_val.empty?)
+            ins_sel.clear_all
+        else
+            $remote.action("/bank/blist", bank_name.selected_val)
+        end
     }
 
     function doType()
