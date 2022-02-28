@@ -41,6 +41,12 @@ Widget {
         end
     }
 
+    function clear_all()
+    {
+        clear_sel
+        setValue([])
+    }
+
     function clear_sel()
     {
         self.value_sel = nil
