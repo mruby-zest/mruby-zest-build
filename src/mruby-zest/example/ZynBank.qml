@@ -146,7 +146,6 @@ Widget {
                     children[0].value = false
                     children[1].value = true
                 end
-                bank_type.clear
                 children[0].damage_self
                 children[1].damage_self
             }
