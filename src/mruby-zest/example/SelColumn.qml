@@ -140,8 +140,12 @@ Widget {
             Qml::add_child(self, ch)
 
             if(!$scrollvalue.nil?)
-                scroll.value = $scrollvalue
-                col.tryScroll
+                if(!$scrollvalue[col.extern].nil?)
+                    scroll.value = $scrollvalue[col.extern]
+                    col.tryScroll
+                end
+            else
+                $scrollvalue = Hash.new
             end
         end
 
@@ -151,7 +155,7 @@ Widget {
     {
         return if rows.nil?
 
-        $scrollvalue = scroll.value
+        $scrollvalue[col.extern] = scroll.value
 
         stride = getStride()
         n = rows.length/stride
