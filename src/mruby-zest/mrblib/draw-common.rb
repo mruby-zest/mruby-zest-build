@@ -180,27 +180,30 @@ module Draw
             vg.stroke_width 1.0
         end
 
-        def self.env_plot(vg, bb, dat, dat2, stroke, selected, emode)
+        def self.env_plot(vg, bb, dat, stroke, selected, emode)
             n = dat.length
             pts = 32
             vg.path do
                 vg.move_to(bb.x + bb.w*dat[0].x,
                            bb.y + bb.h/2*(1-dat[0].y))
-                (1...n).each_slice(2) do |h, i|
-                    a = dat[i-2].y # starting point
-                    b = dat[h].y   # bezier control point
-                    c = dat[i].y   # end point
-                    vg.move_to(bb.x + bb.w*dat[i-2].x,
+
+                (1...n).each_slice(3) do |i,j,k|
+                    h = i-1
+                    a = dat[h].y # starting point
+                    b = dat[i].y   # bezier control point
+                    c = dat[j].y   # bezier control point 2
+                    d = dat[k].y   # end point
+                    vg.move_to(bb.x + bb.w*dat[i-1].x,
                                bb.y + bb.h/2*(1-a))
                     (1...pts).each do |pt|
                         w2 = pt.to_f/pts.to_f # weight of end point
                         w1 = 1.0-w2           # weight of starting point
 
-                        if (i==2) # treatment for "first segment linear" in envout_dB for ADSR_dB
+                        if (h==0) # treatment for "first segment linear" in envout_dB for ADSR_dB
                             case emode
                             when 1, 2 # ADSR_lin or ADSR_dB
                                 v1 = (10.0**((a))-0.01)/0.99
-                                v2 = (10.0**((c))-0.01)/0.99
+                                v2 = (10.0**((d))-0.01)/0.99
                                 rap = v1 + (v2 - v1) * w2
                                 y = (Math.log10((rap) * 0.99 + 0.01))
                             when 3 # ASR_freqlfo
@@ -209,7 +212,7 @@ module Draw
                                     v1 = -v1
                                 end
 
-                                v2 = (2.0**(6.0 * c.abs )-1)
+                                v2 = (2.0**(6.0 * d.abs )-1)
                                 if (c<0)
                                     v2 = -v2
                                 end
@@ -220,20 +223,20 @@ module Draw
 
                             else # ADSR_filter = 4; ASR_bw = 5;
 
-                                y = a + (c - a) * w2
+                                y = a + (d - a) * w2
 
                             end
 
-                            vg.line_to(bb.x+bb.w*dat[i-2].x + bb.w*(dat[i].x-dat[i-2].x)*w2,
+                            vg.line_to(bb.x+bb.w*dat[i-1].x + bb.w*(dat[k].x-dat[i-1].x)*w2,
                                             bb.y + bb.h/2.0 * (1.0-y))
 
                         else
-                            vg.line_to(bb.x+bb.w*dat[i-2].x + bb.w*(dat[i].x-dat[i-2].x)*w2,
-                                    bb.y + bb.h/2.0 * (1.0-(w1*w1*a + 2*w1*w2*b + w2*w2*c)))
+                            vg.line_to(bb.x+bb.w*dat[h].x + bb.w*(dat[k].x-dat[h].x)*w2,
+                                    bb.y + bb.h/2.0 * (1.0-(w1*w1*w1*a + 3*w1*w1*w2*b + 3*w1*w2*w2*c + w2*w2*w2*d)))
                         end
                     end
-                    vg.line_to(bb.x + bb.w*dat[i].x,
-                               bb.y + bb.h/2.0*(1.0-c))
+                    vg.line_to(bb.x + bb.w*dat[k].x,
+                               bb.y + bb.h/2.0*(1.0-d))
 
                 end
                 vg.line_join NVG::ROUND
@@ -241,21 +244,35 @@ module Draw
                 vg.stroke_color stroke
                 vg.stroke
             end
-            vg.stroke_width 1.0
 
-            sel_color    = Theme::VisualSelect
-            bright       = Theme::VisualBright
-            n = dat2.length
-            (0...n).each do |i|
-                xx = bb.x + bb.w*dat2[i].x;
-                yy = bb.y + bb.h/2*(1-dat2[i].y);
-                scale = 3
-                vg.stroke_color sel_color if((selected==i+1 and selected!=0) or (selected==0 and i==0))
-                vg.stroke_color bright    if(!((selected==i+1 and selected!=0) or (selected==0 and i==0)))
-                vg.fill_color   Theme::EnvelopePoint
-                Draw::WaveForm::env_marker(vg, xx, yy, scale)
+        end
+
+        def self.env_draw_markers(vg, bb, dat, stroke, selected, emode)
+            n = dat.length
+            vg.path do
+                vg.stroke_width 1.0
+
+                sel_color    = Theme::VisualSelect
+                bright       = Theme::VisualBright
+                bright2      = Theme::VisualBright2
+                (0...n).each do |i|
+                    next if([1,2].include?(i))
+                    xx = bb.x + bb.w*dat[i].x;
+                    yy = bb.y + bb.h/2*(1-dat[i].y);
+                    scale = 3
+                    if(selected == i)
+                        vg.stroke_color sel_color
+                    elsif (i % 3 == 0)
+                        vg.stroke_color bright
+                    else
+                        vg.stroke_color bright2
+                    end
+                    vg.fill_color   Theme::EnvelopePoint
+                    Draw::WaveForm::env_marker(vg, xx, yy, scale)
+                end
             end
         end
+
 
         def self.env_marker(vg, x, y, scale)
             vg.path do
@@ -744,27 +761,35 @@ module Draw
         o
     end
 
-    def self.zipToPosCP(x,y,c)
+    def self.zipToPosEnv(x,y,c)
         o = []
-        n = [x.length, y.length, c.length].min
+        n = [x.length, y.length, c.length/2].min
         o << Pos.new(x[0], y[0])
         (1...n).each do |i|
-            xcp = (x[i]+x[i-1])/2
-            ycp = (y[i]+y[i-1])/2 + c[i]
-            o << Pos.new(xcp, ycp)
+            xcp1 = (x[i]+3*x[i-1])/4
+            ycp1 = (y[i]+3*y[i-1])/4 + 2*c[i*2-1]
+            o << Pos.new(xcp1, ycp1)
+            xcp2 = (3*x[i]+x[i-1])/4
+            ycp2 = (3*y[i]+y[i-1])/4 + 2*c[i*2]
+            o << Pos.new(xcp2, ycp2)
+
             o << Pos.new(x[i], y[i])
         end
         o
     end
 
-    def self.zipToPosPlotEnv(x,y,c)
+    def self.zipToPosCP(x,y,c)
         o = []
-        n = [x.length, y.length, c.length].min
+        n = [x.length, y.length, c.length/2].min
         o << Pos.new(x[0], y[0])
         (1...n).each do |i|
-            xcp = (x[i]+x[i-1])/2
-            ycp = (y[i]+y[i-1])/2 + 2*c[i]
-            o << Pos.new(xcp, ycp)
+            xcp1 = (x[i]+3*x[i-1])/4
+            ycp1 = (y[i]+3*y[i-1])/4 + 1*c[i*2-1]
+            o << Pos.new(xcp1, ycp1)
+            xcp2 = (3*x[i]+x[i-1])/4
+            ycp2 = (3*y[i]+y[i-1])/4 + 1*c[i*2]
+            o << Pos.new(xcp2, ycp2)
+
             o << Pos.new(x[i], y[i])
         end
         o
@@ -848,6 +873,7 @@ module Theme
 
     SustainPoint        = color("005f8a")
     EnvelopePoint       = color("232c36")
+    EnvelopeCPoint       = color("23362c")
 
     #Keyboard Widget
     KeyWhiteGrad1       = color("B0B7C0")
@@ -864,6 +890,7 @@ module Theme
     VisualStroke        = color("014767")
     VisualLightFill     = color("014767",55)
     VisualBright        = color("3ac5ec")
+    VisualBright2        = color("3ac560")
     VisualDim           = color("143644")
     VisualDimTrans      = color("143644", 155)
     VisualSelect        = color("00ff00")

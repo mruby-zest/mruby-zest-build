@@ -6,7 +6,7 @@ Widget {
     property Int    selectedcp: nil;
     property Array  xpoints: [0.0, 0.2, 0.7, 0.8, 1.0]
     property Array  ypoints: [0.0, 0.5, 0.3, -0.9, 0.0]
-    property Array  cpoints: [0.0, 0.0, 0.0, 0.0, 0.0]
+    property Array  cpoints: [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0]
 
     property Int    points: 5
     property Int    sustain_point: 3
@@ -20,7 +20,8 @@ Widget {
         ext = env.extern
         xvalues = OSC::RemoteParam.new($remote, ext + "envdt") # array of x values
         yvalues = OSC::RemoteParam.new($remote, ext + "envval") # array of y values
-        cvalues = OSC::RemoteParam.new($remote, ext + "envcpval") # array of control point y values
+        #~ cxvalues = OSC::RemoteParam.new($remote, ext + "envcpx") # array of control point x values
+        cyvalues = OSC::RemoteParam.new($remote, ext + "envcpy") # array of control point y values
         pts = OSC::RemoteParam.new($remote, ext + "Penvpoints") # number of points
         pts.mode = :selector
         sus = OSC::RemoteParam.new($remote, ext + "Penvsustain")
@@ -37,8 +38,10 @@ Widget {
             env.ypoints = x.map {|xx| 2*xx-1}
             env.damage_self
         }
-        cvalues.callback = lambda { |x|
+        cyvalues.callback = lambda { |x|
             env.cpoints = x
+            #~ puts(x.class)
+            #~ puts(x)
         }
         pts.callback = lambda { |x|
             env.points = x
@@ -55,7 +58,7 @@ Widget {
         mode.callback = lambda { |x|
             env.emode = x
         }
-        env.valueRef = [xvalues, yvalues, cvalues, pts, sus, free, mode]
+        env.valueRef = [xvalues, yvalues, cyvalues, pts, sus, free, mode]
 
         run_view.extern = env.extern+"out"
     }
@@ -115,20 +118,21 @@ Widget {
         ydat = env.ypoints
         cdat = env.cpoints
         # zip x y and insert control points
-        xydat = Draw::zipToPosCP(xdat, ydat, cdat)
+        ptsCP = Draw::zipToPosCP(xdat, ydat, cdat)
 
-        n = xydat.length
+        n = ptsCP.length
         next_sel = 0
         best_dist = 1e10
 
         mx = ev.pos.x-global_x
         my = ev.pos.y-global_y
         (0...n).each do |i|
-            xx = w*xydat[i].x;
-            yy = h/2-h/2*xydat[i].y;
+            next if([1,2].include?(i))
+            xx = w*ptsCP[i].x;
+            yy = h/2-(h/2)*ptsCP[i].y;
 
             dst = (mx-xx)**2 + (my-yy)**2
-            if(dst < best_dist and i != 1)
+            if(dst < best_dist)
                 best_dist = dst
                 next_sel  = i
             end
@@ -161,13 +165,16 @@ Widget {
             dy = 2*(ev.pos.y - env.prev.y)/env.h
             dx = scalex*(ev.pos.x - env.prev.x)/env.w
             n  = [env.xpoints.length, env.ypoints.length].min
+
             if(env.selected == 0 || env.selected == n-1)
                 env.ypoints[(env.selected/2).floor] -= dy
-            elsif (env.selected % 2 == 0)
-                env.xpoints[(env.selected/2).floor] += dx
-                env.ypoints[(env.selected/2).floor] -= dy
-            else
-                env.cpoints[(env.selected/2).floor+1] -= dy
+            elsif (env.selected % 3 == 0)
+                env.xpoints[(env.selected/3).floor] += dx
+                env.ypoints[(env.selected/3).floor] -= dy
+            elsif (env.selected % 3 == 1)
+                env.cpoints[(env.selected/3).floor*2+1] -= dy
+            elsif (env.selected % 3 == 2)
+                env.cpoints[(env.selected/3).floor*2+2] -= dy
             end
 
             bound_points(env.xpoints,  0.0, 40950.0)
@@ -178,7 +185,6 @@ Widget {
             update_nonfree_x(env.xpoints) if !mouse_enable
             update_nonfree_y(env.ypoints) if !mouse_enable
             valueRef[2].value = env.cpoints if !mouse_enable
-            inspect env.cpoints
 
             env.prev = ev.pos
             env.root.damage_item env
@@ -281,10 +287,8 @@ Widget {
         bb = Draw::indent(Rect.new(0,0,w,h), padfactor, padfactor)
 
         # insert control points
-
-        #pts = Draw::zipToPos(xdat, ydat)
-        ptsENV = Draw::zipToPosPlotEnv(xdat, ydat, cdat)
         ptsCP = Draw::zipToPosCP(xdat, ydat, cdat)
+        ptsEnv = Draw::zipToPosEnv(xdat, ydat, cdat)
 
         background(fill_color)
 
@@ -306,11 +310,11 @@ Widget {
         Draw::WaveForm::zero_line(vg, bb, dim)
 
         #Indicate Sustain Point
-        Draw::WaveForm::env_sel_line(vg, bb, self.sustain_point*2, ptsENV, sustain_color)
+        Draw::WaveForm::env_sel_line(vg, bb, self.sustain_point*3, ptsCP, sustain_color)
 
         #Draw Actual Line
-        ptsCP.delete_at(1)
-        Draw::WaveForm::env_plot(vg, bb, ptsENV, ptsCP, bright, selected, emode)
+        Draw::WaveForm::env_plot(vg, bb, ptsEnv, bright, selected, emode)
+        Draw::WaveForm::env_draw_markers(vg, bb, ptsCP, bright, selected, emode)
 
     }
     Widget {
