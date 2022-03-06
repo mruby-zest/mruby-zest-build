@@ -138,6 +138,15 @@ Widget {
                 ch.bg = Theme::BankOdd if x%2 == 1
             end
             Qml::add_child(self, ch)
+
+            if(!$scrollvalue.nil?)
+                if(!$scrollvalue[col.extern].nil?)
+                    scroll.value = $scrollvalue[col.extern]
+                    col.tryScroll
+                end
+            else
+                $scrollvalue = Hash.new
+            end
         end
 
     }
@@ -145,6 +154,8 @@ Widget {
     function tryScroll()
     {
         return if rows.nil?
+
+        $scrollvalue[col.extern] = scroll.value
 
         stride = getStride()
         n = rows.length/stride
