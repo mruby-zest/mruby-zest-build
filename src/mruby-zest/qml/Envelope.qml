@@ -303,8 +303,8 @@ Widget {
         vg.translate(-0.5, -0.5)
 
         #Draw Highlights
-        Draw::WaveForm::under_highlight(vg, bb, ptsCP, light_fill)
-        Draw::WaveForm::over_highlight(vg,  bb, ptsCP, light_fill)
+        Draw::WaveForm::under_highlight(vg, bb, ptsEnv, light_fill)
+        Draw::WaveForm::over_highlight(vg,  bb, ptsEnv, light_fill)
 
         #Draw Zero Line
         Draw::WaveForm::zero_line(vg, bb, dim)
