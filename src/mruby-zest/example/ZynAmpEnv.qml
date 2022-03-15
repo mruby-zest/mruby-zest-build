@@ -10,13 +10,13 @@ Group {
 
     ParModuleRow {
         id: top
-        Knob { 
-            whenValue: lambda { box.cb }; 
+        Knob {
+            whenValue: lambda { box.cb };
             extern: box.extern+"A_dt"
             type:   :float
         }
-        Knob { 
-            whenValue: lambda { box.cb }; 
+        Knob {
+            whenValue: lambda { box.cb };
             extern: box.extern+"D_dt"
             type:   :float
         }
@@ -24,8 +24,8 @@ Group {
     }
     ParModuleRow {
         id: bot
-        Knob     { 
-            whenValue: lambda { box.cb }; 
+        Knob     {
+            whenValue: lambda { box.cb };
             extern: box.extern+"R_dt"
             type:   :float
         }
