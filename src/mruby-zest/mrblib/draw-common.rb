@@ -1137,7 +1137,7 @@ def formant_filter_response(xpts, formants, q_value,
 
         #printf("NFORMANT %d\n", nformant);
         #printf("CHARACTERISTICS: FREQ %f Q %f AMP %f\n", filter_freq, filter_q, filter_amp);
-        sample_rate = 48000
+        sample_rate = 48000.0
 
         next if(filter_freq > (sample_rate / 2 - 100))
 
