@@ -11025,6 +11025,30 @@
 
     },
     {
+        "path"     : "/part[0,15]/partefx[0,2]/Sympathetic/preset",
+        "name"     : "preset",
+        "tooltip"  : "Instrument Presets",
+        "type"     : "i",
+        "options"  : [
+        {
+            "id"     : 0,
+            "value"  : "Piano"
+        },
+        {
+            "id"     : 1,
+            "value"  : "Grand"
+        },
+        {
+            "id"     : 2,
+            "value"  : "Guitar"
+        },
+        {
+            "id"     : 3,
+            "value"  : "12-String"
+        }
+        ]
+    },
+    {
         "path"     : "/part[0,15]/partefx[0,2]/Sympathetic/Pvolume",
         "shortname": "amt",
         "name"     : "Pvolume",
@@ -11128,7 +11152,7 @@
         "tooltip"  : "Number of Unison Strings",
         "scale"    : "linear",
         "type"     : "i",
-        "range"    : [1,7],
+        "range"    : [1,3],
         "default"  : "1"
 
     },
@@ -11139,7 +11163,7 @@
         "tooltip"  : "Number of Strings",
         "scale"    : "linear",
         "type"     : "i",
-        "range"    : [0,127],
+        "range"    : [0,76],
         "default"  : "0"
 
     },
@@ -13418,6 +13442,30 @@
 
     },
     {
+        "path"     : "/sysefx[0,3]/Sympathetic/preset",
+        "name"     : "preset",
+        "tooltip"  : "Instrument Presets",
+        "type"     : "i",
+        "options"  : [
+        {
+            "id"     : 0,
+            "value"  : "Piano"
+        },
+        {
+            "id"     : 1,
+            "value"  : "Grand"
+        },
+        {
+            "id"     : 2,
+            "value"  : "Guitar"
+        },
+        {
+            "id"     : 3,
+            "value"  : "12-String"
+        }
+        ]
+    },
+    {
         "path"     : "/sysefx[0,3]/Sympathetic/Pvolume",
         "shortname": "amt",
         "name"     : "Pvolume",
@@ -13521,7 +13569,7 @@
         "tooltip"  : "Number of Unison Strings",
         "scale"    : "linear",
         "type"     : "i",
-        "range"    : [1,7],
+        "range"    : [1,3],
         "default"  : "1"
 
     },
@@ -13532,7 +13580,7 @@
         "tooltip"  : "Number of Strings",
         "scale"    : "linear",
         "type"     : "i",
-        "range"    : [0,127],
+        "range"    : [0,76],
         "default"  : "0"
 
     },
@@ -15240,6 +15288,30 @@
 
     },
     {
+        "path"     : "/insefx[0,7]/Sympathetic/preset",
+        "name"     : "preset",
+        "tooltip"  : "Instrument Presets",
+        "type"     : "i",
+        "options"  : [
+        {
+            "id"     : 0,
+            "value"  : "Piano"
+        },
+        {
+            "id"     : 1,
+            "value"  : "Grand"
+        },
+        {
+            "id"     : 2,
+            "value"  : "Guitar"
+        },
+        {
+            "id"     : 3,
+            "value"  : "12-String"
+        }
+        ]
+    },
+    {
         "path"     : "/insefx[0,7]/Sympathetic/Pvolume",
         "shortname": "amt",
         "name"     : "Pvolume",
@@ -15343,7 +15415,7 @@
         "tooltip"  : "Number of Unison Strings",
         "scale"    : "linear",
         "type"     : "i",
-        "range"    : [1,7],
+        "range"    : [1,3],
         "default"  : "1"
 
     },
@@ -15354,7 +15426,7 @@
         "tooltip"  : "Number of Strings",
         "scale"    : "linear",
         "type"     : "i",
-        "range"    : [0,127],
+        "range"    : [0,76],
         "default"  : "0"
 
     },

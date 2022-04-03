@@ -28,7 +28,7 @@ Widget {
 
     ParModuleRow {
             Selector {
-            extern: sym.extern + "Phaser/preset"
+            extern: sym.extern + "Sympathetic/preset"
             whenValue: lambda { sym.refresh }
         }
         Knob { extern: sym.extern + "Pvolume"}
