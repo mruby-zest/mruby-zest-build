@@ -40,7 +40,6 @@ Widget {
         Knob { extern: sym.extern + "Sympathetic/Punison_size"}
         Knob { extern: sym.extern + "Sympathetic/Punison_frequency_spread"}
         Knob { extern: sym.extern + "Sympathetic/Pbasenote"}
-        Knob { extern: sym.extern + "Sympathetic/Pcrossgain"}
         Knob { extern: sym.extern + "Sympathetic/Plpf"}
         Knob { extern: sym.extern + "Sympathetic/Phpf"}
     }

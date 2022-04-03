@@ -11179,17 +11179,6 @@
 
     },
     {
-        "path"     : "/part[0,15]/partefx[0,2]/Sympathetic/Pcrossgain",
-        "shortname": "cross",
-        "name"     : "Pcrossgain",
-        "tooltip"  : "Crossgain between neigbouring notes",
-        "scale"    : "linear",
-        "type"     : "i",
-        "range"    : [0,127],
-        "default"  : "0"
-
-    },
-    {
         "path"     : "/part[0,15]/partefx[0,2]/Sympathetic/freqs[0,87]",
         "name"     : "freqs#88",
         "tooltip"  : "String Frequencies",
@@ -13596,17 +13585,6 @@
 
     },
     {
-        "path"     : "/sysefx[0,3]/Sympathetic/Pcrossgain",
-        "shortname": "cross",
-        "name"     : "Pcrossgain",
-        "tooltip"  : "Crossgain between neigbouring notes",
-        "scale"    : "linear",
-        "type"     : "i",
-        "range"    : [0,127],
-        "default"  : "0"
-
-    },
-    {
         "path"     : "/sysefx[0,3]/Sympathetic/freqs[0,87]",
         "name"     : "freqs#88",
         "tooltip"  : "String Frequencies",
@@ -15439,17 +15417,6 @@
         "type"     : "i",
         "range"    : [0,127],
         "default"  : "57"
-
-    },
-    {
-        "path"     : "/insefx[0,7]/Sympathetic/Pcrossgain",
-        "shortname": "cross",
-        "name"     : "Pcrossgain",
-        "tooltip"  : "Crossgain between neigbouring notes",
-        "scale"    : "linear",
-        "type"     : "i",
-        "range"    : [0,127],
-        "default"  : "0"
 
     },
     {
