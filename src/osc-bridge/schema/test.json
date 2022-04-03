@@ -15437,17 +15437,6 @@
 
     },
     {
-        "path"     : "/insefx[0,7]/Sympathetic/Pcrossgain",
-        "shortname": "cross",
-        "name"     : "Pcrossgain",
-        "tooltip"  : "Crossgain between neigbouring notes",
-        "scale"    : "linear",
-        "type"     : "i",
-        "range"    : [0,127],
-        "default"  : "0"
-
-    },
-    {
         "path"     : "/insefx[0,7]/Sympathetic/freqs[0,87]",
         "name"     : "freqs#88",
         "tooltip"  : "String Frequencies",
