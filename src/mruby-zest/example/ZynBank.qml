@@ -94,7 +94,6 @@ Widget {
     function doRescan()
     {
         $remote.action("/bank/rescan")
-        doBank
     }
 
     Widget {
