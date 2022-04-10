@@ -160,7 +160,8 @@ Widget {
             }
             TriggerButton {
                 label: "rescan"
-                whenValue: lambda { bank.doRescan() }
+                whenValue: lambda { bank_name.clear
+                                    bank.doRescan() }
             }
             function setrw(x)
             {
