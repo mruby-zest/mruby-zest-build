@@ -56,6 +56,7 @@ Widget {
     function onScroll(ev)
     {
         return if !scroll.active
+        return if self.rows.nil?
         num_visible_rows = self.rows.length.to_f / getStride()
         scroll.updatePos(ev.dy.to_f/(self.nrows-num_visible_rows))
     }
