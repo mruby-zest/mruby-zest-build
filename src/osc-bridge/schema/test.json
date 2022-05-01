@@ -634,7 +634,7 @@
         "tooltip"  : "Attack Time",
         "scale"    : "logarithmic",
         "type"     : "f",
-        "range"    : [0.0f,41.0f],
+        "range"    : [0.0001f,41.0f],
         "default"  : "0.0f"
 
     },
@@ -664,7 +664,7 @@
         "tooltip"  : "Decay Time",
         "scale"    : "logarithmic",
         "type"     : "f",
-        "range"    : [0.0f,41.0f],
+        "range"    : [0.0001f,41.0f],
         "default"  : "0.009f"
 
     },
@@ -800,7 +800,7 @@
         "tooltip"  : "Attack Time",
         "scale"    : "logarithmic",
         "type"     : "f",
-        "range"    : [0.0f,41.0f],
+        "range"    : [0.0001f,41.0f],
         "default"  : "0.0f"
 
     },
@@ -830,7 +830,7 @@
         "tooltip"  : "Decay Time",
         "scale"    : "logarithmic",
         "type"     : "f",
-        "range"    : [0.0f,41.0f],
+        "range"    : [0.0001f,41.0f],
         "default"  : "0.009f"
 
     },
@@ -966,7 +966,7 @@
         "tooltip"  : "Attack Time",
         "scale"    : "logarithmic",
         "type"     : "f",
-        "range"    : [0.0f,41.0f],
+        "range"    : [0.0001f,41.0f],
         "default"  : "0.0f"
 
     },
@@ -996,7 +996,7 @@
         "tooltip"  : "Decay Time",
         "scale"    : "logarithmic",
         "type"     : "f",
-        "range"    : [0.0f,41.0f],
+        "range"    : [0.0001f,41.0f],
         "default"  : "0.009f"
 
     },
@@ -2308,7 +2308,7 @@
         },
         {
             "id"     : 1,
-            "value"  : "Rectanglar"
+            "value"  : "Rectangular"
         },
         {
             "id"     : 2,
@@ -2397,7 +2397,7 @@
         "path"     : "/part[0,15]/kit[0,15]/padpars/Php.amp.type",
         "shortname": "mult",
         "name"     : "Php.amp.type",
-        "tooltip"  : "Type of amplitude multipler",
+        "tooltip"  : "Type of amplitude multiplier",
         "type"     : "i",
         "default"  : "Off"
 ,
@@ -4647,7 +4647,7 @@
         "tooltip"  : "Attack Time",
         "scale"    : "logarithmic",
         "type"     : "f",
-        "range"    : [0.0f,41.0f],
+        "range"    : [0.0001f,41.0f],
         "default"  : "0.0f"
 
     },
@@ -4677,7 +4677,7 @@
         "tooltip"  : "Decay Time",
         "scale"    : "logarithmic",
         "type"     : "f",
-        "range"    : [0.0f,41.0f],
+        "range"    : [0.0001f,41.0f],
         "default"  : "0.009f"
 
     },
@@ -4813,7 +4813,7 @@
         "tooltip"  : "Attack Time",
         "scale"    : "logarithmic",
         "type"     : "f",
-        "range"    : [0.0f,41.0f],
+        "range"    : [0.0001f,41.0f],
         "default"  : "0.0f"
 
     },
@@ -4843,7 +4843,7 @@
         "tooltip"  : "Decay Time",
         "scale"    : "logarithmic",
         "type"     : "f",
-        "range"    : [0.0f,41.0f],
+        "range"    : [0.0001f,41.0f],
         "default"  : "0.009f"
 
     },
@@ -4979,7 +4979,7 @@
         "tooltip"  : "Attack Time",
         "scale"    : "logarithmic",
         "type"     : "f",
-        "range"    : [0.0f,41.0f],
+        "range"    : [0.0001f,41.0f],
         "default"  : "0.0f"
 
     },
@@ -5009,7 +5009,7 @@
         "tooltip"  : "Decay Time",
         "scale"    : "logarithmic",
         "type"     : "f",
-        "range"    : [0.0f,41.0f],
+        "range"    : [0.0001f,41.0f],
         "default"  : "0.009f"
 
     },
@@ -5145,7 +5145,7 @@
         "tooltip"  : "Attack Time",
         "scale"    : "logarithmic",
         "type"     : "f",
-        "range"    : [0.0f,41.0f],
+        "range"    : [0.0001f,41.0f],
         "default"  : "0.0f"
 
     },
@@ -5175,7 +5175,7 @@
         "tooltip"  : "Decay Time",
         "scale"    : "logarithmic",
         "type"     : "f",
-        "range"    : [0.0f,41.0f],
+        "range"    : [0.0001f,41.0f],
         "default"  : "0.009f"
 
     },
@@ -5311,7 +5311,7 @@
         "tooltip"  : "Attack Time",
         "scale"    : "logarithmic",
         "type"     : "f",
-        "range"    : [0.0f,41.0f],
+        "range"    : [0.0001f,41.0f],
         "default"  : "0.0f"
 
     },
@@ -5341,7 +5341,7 @@
         "tooltip"  : "Decay Time",
         "scale"    : "logarithmic",
         "type"     : "f",
-        "range"    : [0.0f,41.0f],
+        "range"    : [0.0001f,41.0f],
         "default"  : "0.009f"
 
     },
@@ -6995,7 +6995,7 @@
         "tooltip"  : "Attack Time",
         "scale"    : "logarithmic",
         "type"     : "f",
-        "range"    : [0.0f,41.0f],
+        "range"    : [0.0001f,41.0f],
         "default"  : "0.0f"
 
     },
@@ -7025,7 +7025,7 @@
         "tooltip"  : "Decay Time",
         "scale"    : "logarithmic",
         "type"     : "f",
-        "range"    : [0.0f,41.0f],
+        "range"    : [0.0001f,41.0f],
         "default"  : "0.009f"
 
     },
@@ -7161,7 +7161,7 @@
         "tooltip"  : "Attack Time",
         "scale"    : "logarithmic",
         "type"     : "f",
-        "range"    : [0.0f,41.0f],
+        "range"    : [0.0001f,41.0f],
         "default"  : "0.0f"
 
     },
@@ -7191,7 +7191,7 @@
         "tooltip"  : "Decay Time",
         "scale"    : "logarithmic",
         "type"     : "f",
-        "range"    : [0.0f,41.0f],
+        "range"    : [0.0001f,41.0f],
         "default"  : "0.009f"
 
     },
@@ -7327,7 +7327,7 @@
         "tooltip"  : "Attack Time",
         "scale"    : "logarithmic",
         "type"     : "f",
-        "range"    : [0.0f,41.0f],
+        "range"    : [0.0001f,41.0f],
         "default"  : "0.0f"
 
     },
@@ -7357,7 +7357,7 @@
         "tooltip"  : "Decay Time",
         "scale"    : "logarithmic",
         "type"     : "f",
-        "range"    : [0.0f,41.0f],
+        "range"    : [0.0001f,41.0f],
         "default"  : "0.009f"
 
     },
@@ -8332,7 +8332,7 @@
         "tooltip"  : "Attack Time",
         "scale"    : "logarithmic",
         "type"     : "f",
-        "range"    : [0.0f,41.0f],
+        "range"    : [0.0001f,41.0f],
         "default"  : "0.0f"
 
     },
@@ -8362,7 +8362,7 @@
         "tooltip"  : "Decay Time",
         "scale"    : "logarithmic",
         "type"     : "f",
-        "range"    : [0.0f,41.0f],
+        "range"    : [0.0001f,41.0f],
         "default"  : "0.009f"
 
     },
@@ -8498,7 +8498,7 @@
         "tooltip"  : "Attack Time",
         "scale"    : "logarithmic",
         "type"     : "f",
-        "range"    : [0.0f,41.0f],
+        "range"    : [0.0001f,41.0f],
         "default"  : "0.0f"
 
     },
@@ -8528,7 +8528,7 @@
         "tooltip"  : "Decay Time",
         "scale"    : "logarithmic",
         "type"     : "f",
-        "range"    : [0.0f,41.0f],
+        "range"    : [0.0001f,41.0f],
         "default"  : "0.009f"
 
     },
@@ -8664,7 +8664,7 @@
         "tooltip"  : "Attack Time",
         "scale"    : "logarithmic",
         "type"     : "f",
-        "range"    : [0.0f,41.0f],
+        "range"    : [0.0001f,41.0f],
         "default"  : "0.0f"
 
     },
@@ -8694,7 +8694,7 @@
         "tooltip"  : "Decay Time",
         "scale"    : "logarithmic",
         "type"     : "f",
-        "range"    : [0.0f,41.0f],
+        "range"    : [0.0001f,41.0f],
         "default"  : "0.009f"
 
     },
@@ -8830,7 +8830,7 @@
         "tooltip"  : "Attack Time",
         "scale"    : "logarithmic",
         "type"     : "f",
-        "range"    : [0.0f,41.0f],
+        "range"    : [0.0001f,41.0f],
         "default"  : "0.0f"
 
     },
@@ -8860,7 +8860,7 @@
         "tooltip"  : "Decay Time",
         "scale"    : "logarithmic",
         "type"     : "f",
-        "range"    : [0.0f,41.0f],
+        "range"    : [0.0001f,41.0f],
         "default"  : "0.009f"
 
     },
@@ -11174,7 +11174,7 @@
         "name"     : "portamento.automode",
         "tooltip"  : "Portamento Auto mode",
         "type"     : "t",
-        "default"  : "false"
+        "default"  : "true"
 
     },
     {
@@ -11578,7 +11578,7 @@
     {
         "path"     : "/part[0,15]/polyType",
         "name"     : "polyType",
-        "tooltip"  : "Synthesis polyphony type\nPolyphonic - Each note is played independently\nMonophonic - A single note is played at a time with envelopes resetting between notes\nLegato     - A single note is played at a time without envelopes resetting between notes\nLatch     - Notes are released when a new one is hit  after key release\n",
+        "tooltip"  : "Synthesis polyphony type\n",
         "type"     : "i",
         "options"  : [
         {
@@ -15229,6 +15229,14 @@
 
     },
     {
+        "path"     : "/ctl/portamento.automode",
+        "name"     : "portamento.automode",
+        "tooltip"  : "Portamento Auto mode",
+        "type"     : "t",
+        "default"  : "true"
+
+    },
+    {
         "path"     : "/ctl/portamento.time",
         "shortname": "time",
         "name"     : "portamento.time",
@@ -15515,6 +15523,28 @@
         "type"     : "i",
         "default"  : "-1"
 
+    },
+    {
+        "path"     : "/automate/slot[0,15]/internal",
+        "name"     : "internal",
+        "tooltip"  : "Access assigned internal mod type \n 0=NONE 1=ENV 2=LFO",
+        "type"     : "i",
+        "default"  : "NONE"
+,
+        "options"  : [
+        {
+            "id"     : 0,
+            "value"  : "NONE"
+        },
+        {
+            "id"     : 1,
+            "value"  : "ENV"
+        },
+        {
+            "id"     : 2,
+            "value"  : "LFO"
+        }
+        ]
     },
     {
         "path"     : "/automate/slot[0,15]/active",
