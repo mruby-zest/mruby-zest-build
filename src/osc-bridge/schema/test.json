@@ -6914,6 +6914,188 @@
 
     },
     {
+        "path"     : "/part[0,15]/kit[0,15]/adpars/GlobalPar/GenericLfo/freq",
+        "shortname": "freq",
+        "name"     : "freq",
+        "tooltip"  : "frequency of LFO\nlfo frequency = Pfreq * stretch\ntrue frequency is [0,85.25] Hz",
+        "units"    : "HZ",
+        "scale"    : "logarithmic",
+        "type"     : "f",
+        "range"    : [0.0775679,85.25]
+    },
+    {
+        "path"     : "/part[0,15]/kit[0,15]/adpars/GlobalPar/GenericLfo/Pintensity",
+        "shortname": "depth",
+        "name"     : "Pintensity",
+        "tooltip"  : "Intensity of LFO",
+        "type"     : "i",
+        "range"    : [0,127],
+        "default"  : "0"
+
+    },
+    {
+        "path"     : "/part[0,15]/kit[0,15]/adpars/GlobalPar/GenericLfo/Pstartphase",
+        "shortname": "start",
+        "name"     : "Pstartphase",
+        "tooltip"  : "Starting Phase",
+        "type"     : "i",
+        "range"    : [0,127],
+        "default"  : "64"
+
+    },
+    {
+        "path"     : "/part[0,15]/kit[0,15]/adpars/GlobalPar/GenericLfo/Pcutoff",
+        "shortname": "lp",
+        "name"     : "Pcutoff",
+        "tooltip"  : "RND/SQR lp-filter freq",
+        "type"     : "i",
+        "range"    : [0,127],
+        "default"  : "127"
+
+    },
+    {
+        "path"     : "/part[0,15]/kit[0,15]/adpars/GlobalPar/GenericLfo/PLFOtype",
+        "shortname": "type",
+        "name"     : "PLFOtype",
+        "tooltip"  : "Shape of LFO",
+        "scale"    : "linear",
+        "type"     : "i",
+        "range"    : [0,127],
+        "default"  : "sine"
+,
+        "options"  : [
+        {
+            "id"     : 0,
+            "value"  : "sine"
+        },
+        {
+            "id"     : 1,
+            "value"  : "triangle"
+        },
+        {
+            "id"     : 2,
+            "value"  : "square"
+        },
+        {
+            "id"     : 3,
+            "value"  : "up"
+        },
+        {
+            "id"     : 4,
+            "value"  : "down"
+        },
+        {
+            "id"     : 5,
+            "value"  : "exp1"
+        },
+        {
+            "id"     : 6,
+            "value"  : "exp2"
+        },
+        {
+            "id"     : 7,
+            "value"  : "random"
+        }
+        ]
+    },
+    {
+        "path"     : "/part[0,15]/kit[0,15]/adpars/GlobalPar/GenericLfo/Prandomness",
+        "shortname": "a.r.",
+        "name"     : "Prandomness",
+        "tooltip"  : "Amplitude Randomness (calculated uniformly at each cycle)",
+        "type"     : "i",
+        "range"    : [0,127],
+        "default"  : "0"
+
+    },
+    {
+        "path"     : "/part[0,15]/kit[0,15]/adpars/GlobalPar/GenericLfo/Pfreqrand",
+        "shortname": "f.r.",
+        "name"     : "Pfreqrand",
+        "tooltip"  : "Frequency Randomness (calculated uniformly at each cycle)",
+        "type"     : "i",
+        "range"    : [0,127],
+        "default"  : "0"
+
+    },
+    {
+        "path"     : "/part[0,15]/kit[0,15]/adpars/GlobalPar/GenericLfo/delay",
+        "shortname": "delay",
+        "name"     : "delay",
+        "tooltip"  : "Delay before LFO start\n0..4 second delay",
+        "units"    : "S",
+        "scale"    : "linear",
+        "type"     : "f",
+        "range"    : [0.0,4.0],
+        "default"  : "0"
+
+    },
+    {
+        "path"     : "/part[0,15]/kit[0,15]/adpars/GlobalPar/GenericLfo/fadein",
+        "shortname": "f.in",
+        "name"     : "fadein",
+        "tooltip"  : "Time to ramp up LFO amplitude\n               0..10 seconds",
+        "units"    : "S",
+        "scale"    : "linear",
+        "type"     : "f",
+        "range"    : [0.0,10.0f],
+        "default"  : "0.0f"
+
+    },
+    {
+        "path"     : "/part[0,15]/kit[0,15]/adpars/GlobalPar/GenericLfo/fadeout",
+        "shortname": "f.out",
+        "name"     : "fadeout",
+        "tooltip"  : "Time to ramp down LFO amplitude on key release\n                0..10 seconds, 10=off (default)",
+        "units"    : "S",
+        "scale"    : "linear",
+        "type"     : "f",
+        "range"    : [0.001,10.0f],
+        "default"  : "10.0f"
+
+    },
+    {
+        "path"     : "/part[0,15]/kit[0,15]/adpars/GlobalPar/GenericLfo/Pcontinous",
+        "shortname": "c",
+        "name"     : "Pcontinous",
+        "tooltip"  : "Enable for global operation",
+        "type"     : "t",
+        "default"  : "false"
+
+    },
+    {
+        "path"     : "/part[0,15]/kit[0,15]/adpars/GlobalPar/GenericLfo/Pstretch",
+        "shortname": "str",
+        "name"     : "Pstretch",
+        "tooltip"  : "Note frequency stretch",
+        "type"     : "i",
+        "range"    : [0,127],
+        "default"  : "64"
+
+    },
+    {
+        "path"     : "/part[0,15]/kit[0,15]/adpars/GlobalPar/GenericLfo/numerator",
+        "shortname": "num",
+        "name"     : "numerator",
+        "tooltip"  : "Numerator of ratio to bpm",
+        "scale"    : "linear",
+        "type"     : "i",
+        "range"    : [0,127],
+        "default"  : "0"
+
+    },
+    {
+        "path"     : "/part[0,15]/kit[0,15]/adpars/GlobalPar/GenericLfo/denominator",
+        "shortname": "dem",
+        "name"     : "denominator",
+        "tooltip"  : "Denominator of ratio to bpm",
+        "scale"    : "linear",
+        "type"     : "i",
+        "range"    : [0,127],
+        "default"  : "4"
+
+    },
+    {
         "path"     : "/part[0,15]/kit[0,15]/adpars/GlobalPar/FreqEnvelope/Pfreemode",
         "name"     : "Pfreemode",
         "tooltip"  : "Complex Envelope Definitions",
@@ -7412,6 +7594,172 @@
 
     },
     {
+        "path"     : "/part[0,15]/kit[0,15]/adpars/GlobalPar/GenericEnvelope/Pfreemode",
+        "name"     : "Pfreemode",
+        "tooltip"  : "Complex Envelope Definitions",
+        "type"     : "t",
+        "default"  : "false"
+
+    },
+    {
+        "path"     : "/part[0,15]/kit[0,15]/adpars/GlobalPar/GenericEnvelope/Penvsustain",
+        "name"     : "Penvsustain",
+        "tooltip"  : "Location of the sustain point",
+        "type"     : "i",
+        "range"    : [0,127],
+        "default"  : "2"
+
+    },
+    {
+        "path"     : "/part[0,15]/kit[0,15]/adpars/GlobalPar/GenericEnvelope/Penvdt[0,39]",
+        "name"     : "Penvdt#40",
+        "tooltip"  : "Envelope Delay Times",
+        "type"     : "i"
+    },
+    {
+        "path"     : "/part[0,15]/kit[0,15]/adpars/GlobalPar/GenericEnvelope/Penvval[0,39]",
+        "name"     : "Penvval#40",
+        "tooltip"  : "Envelope Values",
+        "type"     : "i"
+    },
+    {
+        "path"     : "/part[0,15]/kit[0,15]/adpars/GlobalPar/GenericEnvelope/Penvstretch",
+        "shortname": "stretch",
+        "name"     : "Penvstretch",
+        "tooltip"  : "Stretch with respect to frequency",
+        "type"     : "i",
+        "range"    : [0,127],
+        "default"  : "64"
+
+    },
+    {
+        "path"     : "/part[0,15]/kit[0,15]/adpars/GlobalPar/GenericEnvelope/Pforcedrelease",
+        "shortname": "frcr",
+        "name"     : "Pforcedrelease",
+        "tooltip"  : "Force Envelope to fully evaluate",
+        "type"     : "t",
+        "default"  : "false"
+
+    },
+    {
+        "path"     : "/part[0,15]/kit[0,15]/adpars/GlobalPar/GenericEnvelope/Plinearenvelope",
+        "shortname": "lin/log",
+        "name"     : "Plinearenvelope",
+        "tooltip"  : "Linear or Logarithmic Envelopes",
+        "type"     : "t",
+        "default"  : "false"
+
+    },
+    {
+        "path"     : "/part[0,15]/kit[0,15]/adpars/GlobalPar/GenericEnvelope/Prepeating",
+        "shortname": "repeat",
+        "name"     : "Prepeating",
+        "tooltip"  : "Repeat the Envelope",
+        "type"     : "t",
+        "default"  : "false"
+
+    },
+    {
+        "path"     : "/part[0,15]/kit[0,15]/adpars/GlobalPar/GenericEnvelope/PA_dt",
+        "shortname": "a.dt",
+        "name"     : "PA_dt",
+        "tooltip"  : "Attack Time",
+        "scale"    : "linear",
+        "type"     : "i",
+        "range"    : [0,127]
+    },
+    {
+        "path"     : "/part[0,15]/kit[0,15]/adpars/GlobalPar/GenericEnvelope/A_dt",
+        "shortname": "a.dt",
+        "name"     : "A_dt",
+        "tooltip"  : "Attack Time",
+        "scale"    : "logarithmic",
+        "type"     : "f",
+        "range"    : [0.0001f,41.0f],
+        "default"  : "0.0f"
+
+    },
+    {
+        "path"     : "/part[0,15]/kit[0,15]/adpars/GlobalPar/GenericEnvelope/PA_val",
+        "shortname": "a.val",
+        "name"     : "PA_val",
+        "tooltip"  : "Attack Value",
+        "type"     : "i",
+        "range"    : [0,127],
+        "default"  : "64"
+
+    },
+    {
+        "path"     : "/part[0,15]/kit[0,15]/adpars/GlobalPar/GenericEnvelope/PD_dt",
+        "shortname": "d.dt",
+        "name"     : "PD_dt",
+        "tooltip"  : "Decay Time",
+        "scale"    : "linear",
+        "type"     : "i",
+        "range"    : [0,127]
+    },
+    {
+        "path"     : "/part[0,15]/kit[0,15]/adpars/GlobalPar/GenericEnvelope/D_dt",
+        "shortname": "d.dt",
+        "name"     : "D_dt",
+        "tooltip"  : "Decay Time",
+        "scale"    : "logarithmic",
+        "type"     : "f",
+        "range"    : [0.0001f,41.0f],
+        "default"  : "0.009f"
+
+    },
+    {
+        "path"     : "/part[0,15]/kit[0,15]/adpars/GlobalPar/GenericEnvelope/PD_val",
+        "shortname": "d.val",
+        "name"     : "PD_val",
+        "tooltip"  : "Decay Value",
+        "type"     : "i",
+        "range"    : [0,127],
+        "default"  : "64"
+
+    },
+    {
+        "path"     : "/part[0,15]/kit[0,15]/adpars/GlobalPar/GenericEnvelope/PS_val",
+        "shortname": "s.val",
+        "name"     : "PS_val",
+        "tooltip"  : "Sustain Value",
+        "type"     : "i",
+        "range"    : [0,127],
+        "default"  : "64"
+
+    },
+    {
+        "path"     : "/part[0,15]/kit[0,15]/adpars/GlobalPar/GenericEnvelope/PR_dt",
+        "shortname": "r.dt",
+        "name"     : "PR_dt",
+        "tooltip"  : "Release Time",
+        "scale"    : "linear",
+        "type"     : "i",
+        "range"    : [0,127]
+    },
+    {
+        "path"     : "/part[0,15]/kit[0,15]/adpars/GlobalPar/GenericEnvelope/R_dt",
+        "shortname": "r.dt",
+        "name"     : "R_dt",
+        "tooltip"  : "Release Time",
+        "scale"    : "logarithmic",
+        "type"     : "f",
+        "range"    : [0.009f,41.0f],
+        "default"  : "0.499f"
+
+    },
+    {
+        "path"     : "/part[0,15]/kit[0,15]/adpars/GlobalPar/GenericEnvelope/PR_val",
+        "shortname": "r.val",
+        "name"     : "PR_val",
+        "tooltip"  : "Release Value",
+        "type"     : "i",
+        "range"    : [0,127],
+        "default"  : "64"
+
+    },
+    {
         "path"     : "/part[0,15]/kit[0,15]/adpars/GlobalPar/GlobalFilter/Pcategory",
         "shortname": "class",
         "name"     : "Pcategory",
@@ -7727,6 +8075,24 @@
         "tooltip"  : "Mono/Stereo Enable",
         "type"     : "t",
         "default"  : "true"
+
+    },
+    {
+        "path"     : "/part[0,15]/kit[0,15]/adpars/GlobalPar/PGenEnvelopeEnabled",
+        "shortname": "Env enable",
+        "name"     : "PGenEnvelopeEnabled",
+        "tooltip"  : "Generic Envelope Enable",
+        "type"     : "t",
+        "default"  : "false"
+
+    },
+    {
+        "path"     : "/part[0,15]/kit[0,15]/adpars/GlobalPar/PGenLfoEnabled",
+        "shortname": "Lfo enable",
+        "name"     : "PGenLfoEnabled",
+        "tooltip"  : "Generic LFO Enable",
+        "type"     : "t",
+        "default"  : "false"
 
     },
     {

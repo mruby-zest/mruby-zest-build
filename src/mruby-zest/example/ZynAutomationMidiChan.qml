@@ -69,10 +69,15 @@ Widget {
             new_label = "Unbound"
         end
 
+        intcc.extern = extern + "internal"
+        midicc.extern = extern + "midi-cc"
+        midinrpn.extern = extern + "midi-nrpn"
+
         if(new_label != self.label)
             text.label = new_label
             damage_self
         end
+
     }
 
     TextBox {
@@ -80,12 +85,12 @@ Widget {
     }
 
     Selector {
-        id: sel
+        id: intcc
         extern: midi_chan.extern + "internal"
     }
 
-    NumEntry {extern: midi_chan.extern + "midi-cc"; label: "CC"}
-    NumEntry {extern: midi_chan.extern + "midi-nrpn"; label: "NRPN"}
+    NumEntry {id: midicc; extern: midi_chan.extern + "midi-cc"; label: "CC"}
+    NumEntry {id: midinrpn; extern: midi_chan.extern + "midi-nrpn"; label: "NRPN"}
 
     function layout(l, selfBox) {
         Draw::Layout::hfill(l, selfBox, children, [0.7,0.1,0.1,0.1,0.1])
