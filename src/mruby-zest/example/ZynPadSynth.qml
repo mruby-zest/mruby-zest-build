@@ -14,7 +14,7 @@ Widget {
         TabButton { label: "harmonic structure";}
         TabButton { label: "oscillator";}
         TabButton { label: "envelopes & lfos"; whenClick: lambda {root.set_view_pos(:vis, :envelope)};}
-        TabButton { whenClick: lambda {header.set_tab(3)}; label: "resonance"}
+        TabButton { label: "resonance"}
 
         ApplyButton {
             id: appl
