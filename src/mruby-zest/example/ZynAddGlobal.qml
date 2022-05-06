@@ -201,8 +201,8 @@ Widget {
         amp_lfo.content = Qml::ZynLFO
         amp_env.children[0].whenClick = lambda {row1.setDataVis(:env, :generic)}
         amp_lfo.children[0].whenClick = lambda {row1.setDataVis(:lfo, :generic)}
-        amp_env.children[0].toggleable = base + "PGenericEnvelopeEnabled"
-        amp_lfo.children[0].toggleable = base + "PGenericLfoEnabled"
+        amp_env.children[0].toggleable = base + "PGenEnvelopeEnabled"
+        amp_lfo.children[0].toggleable = base + "PGenLfoEnabled"
     }
 
      function set_vis_oscilloscope()
