@@ -26,7 +26,7 @@ Widget {
     Widget {
         WaveView {
             id: wave
-            extern: dst.extern + "Distorsion/waveform"
+            extern: dst.extern + "Distortion/waveform"
         }
         Widget {
             ParModuleRow {
@@ -34,7 +34,7 @@ Widget {
                 layoutOpts: []
 
                 Selector {
-                    extern: dst.extern + "Distorsion/preset"
+                    extern: dst.extern + "Distortion/preset"
                     whenValue: lambda { dst.refresh }
                     layoutOpts: [:long_mode]
                 }
@@ -43,21 +43,21 @@ Widget {
                     whenValue: lambda {wave.refresh};
                     }
                 Knob { extern: dst.extern + "Ppanning"}
-                Knob {   extern: dst.extern + "Distorsion/Plrcross"; label: "l.rc." }
-                Knob {   extern: dst.extern + "Distorsion/Plpf"}
-                Knob {   extern: dst.extern + "Distorsion/Phpf"}
+                Knob {   extern: dst.extern + "Distortion/Plrcross"; label: "l.rc." }
+                Knob {   extern: dst.extern + "Distortion/Plpf"}
+                Knob {   extern: dst.extern + "Distortion/Phpf"}
 
             }
             ParModuleRow {
                 id: rw2
                 layoutOpts: []
                 Selector {
-                    extern: dst.extern + "Distorsion/Ptype";
+                    extern: dst.extern + "Distortion/Ptype";
                     whenValue: lambda {wave.refresh; funcpar.refresh}
                     layoutOpts: [:long_mode]
                 }
                 Knob {
-                    extern: dst.extern + "Distorsion/Pdrive"; label: "drive";
+                    extern: dst.extern + "Distortion/Pdrive"; label: "drive";
                     whenValue: lambda {wave.refresh};
                     function setValue(v) {
                         valuator.value = lim(v, 0.0, 1.0);
@@ -66,7 +66,7 @@ Widget {
                     }
                 }
                 Knob {
-                    extern: dst.extern + "Distorsion/Poffset"; label: "DC";
+                    extern: dst.extern + "Distortion/Poffset"; label: "DC";
                     whenValue: lambda {wave.refresh};
                     function setValue(v) {
                         valuator.value = lim(v, 0.0, 1.0);
@@ -75,7 +75,7 @@ Widget {
                     }
                 }
                 Knob {
-                    extern: dst.extern + "Distorsion/Pfuncpar"; label: "shape";
+                    extern: dst.extern + "Distortion/Pfuncpar"; label: "shape";
                     id: funcpar
                     whenValue: lambda {wave.refresh};
                     function setValue(v) {
@@ -84,10 +84,10 @@ Widget {
                         valuator.damage_self
                     }
                 }
-                Knob {   extern: dst.extern + "Distorsion/Plevel"; label: "level" }
+                Knob {   extern: dst.extern + "Distortion/Plevel"; label: "level" }
                 Col {
-                    ToggleButton { extern: dst.extern + "Distorsion/Pprefiltering"}
-                    ToggleButton { extern: dst.extern + "Distorsion/Pstereo"}
+                    ToggleButton { extern: dst.extern + "Distortion/Pprefiltering"}
+                    ToggleButton { extern: dst.extern + "Distortion/Pstereo"}
                 }
             }
             function layout(l, selfBox) {

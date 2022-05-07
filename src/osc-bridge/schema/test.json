@@ -10074,7 +10074,7 @@
 
     },
     {
-        "path"     : "/part[0,15]/partefx[0,2]/Distorsion/preset",
+        "path"     : "/part[0,15]/partefx[0,2]/Distortion/preset",
         "name"     : "preset",
         "tooltip"  : "Instrument Presets",
         "type"     : "i",
@@ -10106,7 +10106,7 @@
         ]
     },
     {
-        "path"     : "/part[0,15]/partefx[0,2]/Distorsion/Pvolume",
+        "path"     : "/part[0,15]/partefx[0,2]/Distortion/Pvolume",
         "shortname": "amt",
         "name"     : "Pvolume",
         "tooltip"  : "amount of effect",
@@ -10117,7 +10117,7 @@
 
     },
     {
-        "path"     : "/part[0,15]/partefx[0,2]/Distorsion/Ppanning",
+        "path"     : "/part[0,15]/partefx[0,2]/Distortion/Ppanning",
         "shortname": "pan",
         "name"     : "Ppanning",
         "tooltip"  : "panning",
@@ -10126,7 +10126,7 @@
         "range"    : [0,127]
     },
     {
-        "path"     : "/part[0,15]/partefx[0,2]/Distorsion/Plrcross",
+        "path"     : "/part[0,15]/partefx[0,2]/Distortion/Plrcross",
         "shortname": "l/r",
         "name"     : "Plrcross",
         "tooltip"  : "Left/Right Crossover",
@@ -10137,7 +10137,7 @@
 
     },
     {
-        "path"     : "/part[0,15]/partefx[0,2]/Distorsion/Pdrive",
+        "path"     : "/part[0,15]/partefx[0,2]/Distortion/Pdrive",
         "shortname": "drive",
         "name"     : "Pdrive",
         "tooltip"  : "Input amplification",
@@ -10146,7 +10146,7 @@
         "range"    : [0,127]
     },
     {
-        "path"     : "/part[0,15]/partefx[0,2]/Distorsion/Plevel",
+        "path"     : "/part[0,15]/partefx[0,2]/Distortion/Plevel",
         "shortname": "output",
         "name"     : "Plevel",
         "tooltip"  : "Output amplification",
@@ -10155,7 +10155,7 @@
         "range"    : [0,127]
     },
     {
-        "path"     : "/part[0,15]/partefx[0,2]/Distorsion/Ptype",
+        "path"     : "/part[0,15]/partefx[0,2]/Distortion/Ptype",
         "shortname": "type",
         "name"     : "Ptype",
         "tooltip"  : "Distortion Shape",
@@ -10234,7 +10234,7 @@
         ]
     },
     {
-        "path"     : "/part[0,15]/partefx[0,2]/Distorsion/Pnegate",
+        "path"     : "/part[0,15]/partefx[0,2]/Distortion/Pnegate",
         "shortname": "neg",
         "name"     : "Pnegate",
         "tooltip"  : "Negate Signal",
@@ -10243,7 +10243,7 @@
 
     },
     {
-        "path"     : "/part[0,15]/partefx[0,2]/Distorsion/Plpf",
+        "path"     : "/part[0,15]/partefx[0,2]/Distortion/Plpf",
         "shortname": "lpf",
         "name"     : "Plpf",
         "tooltip"  : "Low Pass Cutoff",
@@ -10254,7 +10254,7 @@
 
     },
     {
-        "path"     : "/part[0,15]/partefx[0,2]/Distorsion/Phpf",
+        "path"     : "/part[0,15]/partefx[0,2]/Distortion/Phpf",
         "shortname": "hpf",
         "name"     : "Phpf",
         "tooltip"  : "High Pass Cutoff",
@@ -10265,14 +10265,14 @@
 
     },
     {
-        "path"     : "/part[0,15]/partefx[0,2]/Distorsion/Pstereo",
+        "path"     : "/part[0,15]/partefx[0,2]/Distortion/Pstereo",
         "shortname": "stereo",
         "name"     : "Pstereo",
         "tooltip"  : "Stereo",
         "type"     : "t"
     },
     {
-        "path"     : "/part[0,15]/partefx[0,2]/Distorsion/Pprefiltering",
+        "path"     : "/part[0,15]/partefx[0,2]/Distortion/Pprefiltering",
         "shortname": "p.filt",
         "name"     : "Pprefiltering",
         "tooltip"  : "Filtering before/after non-linearity",
@@ -10281,7 +10281,7 @@
 
     },
     {
-        "path"     : "/part[0,15]/partefx[0,2]/Distorsion/Pfuncpar",
+        "path"     : "/part[0,15]/partefx[0,2]/Distortion/Pfuncpar",
         "shortname": "shape",
         "name"     : "Pfuncpar",
         "tooltip"  : "Shape of the wave shaping function",
@@ -10292,7 +10292,7 @@
 
     },
     {
-        "path"     : "/part[0,15]/partefx[0,2]/Distorsion/Poffset",
+        "path"     : "/part[0,15]/partefx[0,2]/Distortion/Poffset",
         "shortname": "offset",
         "name"     : "Poffset",
         "tooltip"  : "Input DC Offset",
@@ -12322,7 +12322,7 @@
 
     },
     {
-        "path"     : "/sysefx[0,3]/Distorsion/preset",
+        "path"     : "/sysefx[0,3]/Distortion/preset",
         "name"     : "preset",
         "tooltip"  : "Instrument Presets",
         "type"     : "i",
@@ -12354,7 +12354,7 @@
         ]
     },
     {
-        "path"     : "/sysefx[0,3]/Distorsion/Pvolume",
+        "path"     : "/sysefx[0,3]/Distortion/Pvolume",
         "shortname": "amt",
         "name"     : "Pvolume",
         "tooltip"  : "amount of effect",
@@ -12365,7 +12365,7 @@
 
     },
     {
-        "path"     : "/sysefx[0,3]/Distorsion/Ppanning",
+        "path"     : "/sysefx[0,3]/Distortion/Ppanning",
         "shortname": "pan",
         "name"     : "Ppanning",
         "tooltip"  : "panning",
@@ -12374,7 +12374,7 @@
         "range"    : [0,127]
     },
     {
-        "path"     : "/sysefx[0,3]/Distorsion/Plrcross",
+        "path"     : "/sysefx[0,3]/Distortion/Plrcross",
         "shortname": "l/r",
         "name"     : "Plrcross",
         "tooltip"  : "Left/Right Crossover",
@@ -12385,7 +12385,7 @@
 
     },
     {
-        "path"     : "/sysefx[0,3]/Distorsion/Pdrive",
+        "path"     : "/sysefx[0,3]/Distortion/Pdrive",
         "shortname": "drive",
         "name"     : "Pdrive",
         "tooltip"  : "Input amplification",
@@ -12394,7 +12394,7 @@
         "range"    : [0,127]
     },
     {
-        "path"     : "/sysefx[0,3]/Distorsion/Plevel",
+        "path"     : "/sysefx[0,3]/Distortion/Plevel",
         "shortname": "output",
         "name"     : "Plevel",
         "tooltip"  : "Output amplification",
@@ -12403,7 +12403,7 @@
         "range"    : [0,127]
     },
     {
-        "path"     : "/sysefx[0,3]/Distorsion/Ptype",
+        "path"     : "/sysefx[0,3]/Distortion/Ptype",
         "shortname": "type",
         "name"     : "Ptype",
         "tooltip"  : "Distortion Shape",
@@ -12482,7 +12482,7 @@
         ]
     },
     {
-        "path"     : "/sysefx[0,3]/Distorsion/Pnegate",
+        "path"     : "/sysefx[0,3]/Distortion/Pnegate",
         "shortname": "neg",
         "name"     : "Pnegate",
         "tooltip"  : "Negate Signal",
@@ -12491,7 +12491,7 @@
 
     },
     {
-        "path"     : "/sysefx[0,3]/Distorsion/Plpf",
+        "path"     : "/sysefx[0,3]/Distortion/Plpf",
         "shortname": "lpf",
         "name"     : "Plpf",
         "tooltip"  : "Low Pass Cutoff",
@@ -12502,7 +12502,7 @@
 
     },
     {
-        "path"     : "/sysefx[0,3]/Distorsion/Phpf",
+        "path"     : "/sysefx[0,3]/Distortion/Phpf",
         "shortname": "hpf",
         "name"     : "Phpf",
         "tooltip"  : "High Pass Cutoff",
@@ -12513,14 +12513,14 @@
 
     },
     {
-        "path"     : "/sysefx[0,3]/Distorsion/Pstereo",
+        "path"     : "/sysefx[0,3]/Distortion/Pstereo",
         "shortname": "stereo",
         "name"     : "Pstereo",
         "tooltip"  : "Stereo",
         "type"     : "t"
     },
     {
-        "path"     : "/sysefx[0,3]/Distorsion/Pprefiltering",
+        "path"     : "/sysefx[0,3]/Distortion/Pprefiltering",
         "shortname": "p.filt",
         "name"     : "Pprefiltering",
         "tooltip"  : "Filtering before/after non-linearity",
@@ -12529,7 +12529,7 @@
 
     },
     {
-        "path"     : "/sysefx[0,3]/Distorsion/Pfuncpar",
+        "path"     : "/sysefx[0,3]/Distortion/Pfuncpar",
         "shortname": "shape",
         "name"     : "Pfuncpar",
         "tooltip"  : "Shape of the wave shaping function",
@@ -12540,7 +12540,7 @@
 
     },
     {
-        "path"     : "/sysefx[0,3]/Distorsion/Poffset",
+        "path"     : "/sysefx[0,3]/Distortion/Poffset",
         "shortname": "offset",
         "name"     : "Poffset",
         "tooltip"  : "Input DC Offset",
@@ -13991,7 +13991,7 @@
 
     },
     {
-        "path"     : "/insefx[0,7]/Distorsion/preset",
+        "path"     : "/insefx[0,7]/Distortion/preset",
         "name"     : "preset",
         "tooltip"  : "Instrument Presets",
         "type"     : "i",
@@ -14023,7 +14023,7 @@
         ]
     },
     {
-        "path"     : "/insefx[0,7]/Distorsion/Pvolume",
+        "path"     : "/insefx[0,7]/Distortion/Pvolume",
         "shortname": "amt",
         "name"     : "Pvolume",
         "tooltip"  : "amount of effect",
@@ -14034,7 +14034,7 @@
 
     },
     {
-        "path"     : "/insefx[0,7]/Distorsion/Ppanning",
+        "path"     : "/insefx[0,7]/Distortion/Ppanning",
         "shortname": "pan",
         "name"     : "Ppanning",
         "tooltip"  : "panning",
@@ -14043,7 +14043,7 @@
         "range"    : [0,127]
     },
     {
-        "path"     : "/insefx[0,7]/Distorsion/Plrcross",
+        "path"     : "/insefx[0,7]/Distortion/Plrcross",
         "shortname": "l/r",
         "name"     : "Plrcross",
         "tooltip"  : "Left/Right Crossover",
@@ -14054,7 +14054,7 @@
 
     },
     {
-        "path"     : "/insefx[0,7]/Distorsion/Pdrive",
+        "path"     : "/insefx[0,7]/Distortion/Pdrive",
         "shortname": "drive",
         "name"     : "Pdrive",
         "tooltip"  : "Input amplification",
@@ -14063,7 +14063,7 @@
         "range"    : [0,127]
     },
     {
-        "path"     : "/insefx[0,7]/Distorsion/Plevel",
+        "path"     : "/insefx[0,7]/Distortion/Plevel",
         "shortname": "output",
         "name"     : "Plevel",
         "tooltip"  : "Output amplification",
@@ -14072,7 +14072,7 @@
         "range"    : [0,127]
     },
     {
-        "path"     : "/insefx[0,7]/Distorsion/Ptype",
+        "path"     : "/insefx[0,7]/Distortion/Ptype",
         "shortname": "type",
         "name"     : "Ptype",
         "tooltip"  : "Distortion Shape",
@@ -14151,7 +14151,7 @@
         ]
     },
     {
-        "path"     : "/insefx[0,7]/Distorsion/Pnegate",
+        "path"     : "/insefx[0,7]/Distortion/Pnegate",
         "shortname": "neg",
         "name"     : "Pnegate",
         "tooltip"  : "Negate Signal",
@@ -14160,7 +14160,7 @@
 
     },
     {
-        "path"     : "/insefx[0,7]/Distorsion/Plpf",
+        "path"     : "/insefx[0,7]/Distortion/Plpf",
         "shortname": "lpf",
         "name"     : "Plpf",
         "tooltip"  : "Low Pass Cutoff",
@@ -14171,7 +14171,7 @@
 
     },
     {
-        "path"     : "/insefx[0,7]/Distorsion/Phpf",
+        "path"     : "/insefx[0,7]/Distortion/Phpf",
         "shortname": "hpf",
         "name"     : "Phpf",
         "tooltip"  : "High Pass Cutoff",
@@ -14182,14 +14182,14 @@
 
     },
     {
-        "path"     : "/insefx[0,7]/Distorsion/Pstereo",
+        "path"     : "/insefx[0,7]/Distortion/Pstereo",
         "shortname": "stereo",
         "name"     : "Pstereo",
         "tooltip"  : "Stereo",
         "type"     : "t"
     },
     {
-        "path"     : "/insefx[0,7]/Distorsion/Pprefiltering",
+        "path"     : "/insefx[0,7]/Distortion/Pprefiltering",
         "shortname": "p.filt",
         "name"     : "Pprefiltering",
         "tooltip"  : "Filtering before/after non-linearity",
@@ -14198,7 +14198,7 @@
 
     },
     {
-        "path"     : "/insefx[0,7]/Distorsion/Pfuncpar",
+        "path"     : "/insefx[0,7]/Distortion/Pfuncpar",
         "shortname": "shape",
         "name"     : "Pfuncpar",
         "tooltip"  : "Shape of the wave shaping function",
@@ -14209,7 +14209,7 @@
 
     },
     {
-        "path"     : "/insefx[0,7]/Distorsion/Poffset",
+        "path"     : "/insefx[0,7]/Distortion/Poffset",
         "shortname": "offset",
         "name"     : "Poffset",
         "tooltip"  : "Input DC Offset",
