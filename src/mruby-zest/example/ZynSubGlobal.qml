@@ -19,7 +19,7 @@ Widget {
         }
     }
 
-  Widget 
+    Widget
     {
         id: row2
         function layout(l, selfBox) {
@@ -56,7 +56,7 @@ Widget {
         TabButton { label: "filter";    whenClick: lambda {footer.setTab(2)}; highlight_pos: :top}
     }
 
- 
+
      function set_view()
     {
         subsubview = root.get_view_pos(:subsubview)
@@ -120,7 +120,6 @@ Widget {
         env.extern  = base + "GlobalFilterEnvelope/"
         gen.content = Qml::ZynSubAnalogFilter
         env.content = Qml::ZynSubFilterEnv
-        
     }
 
       function set_vis_amp(ext)
@@ -132,9 +131,9 @@ Widget {
     function set_vis_filter(ext)
     {
         add_cat()
-        #row1.extern  = ext + "FreqEnvelope/"
 
-         if(self.filtertype == :formant)
+        row1.extern = ext + "GlobalFilter/"
+        if(self.filtertype == :formant)
             row1.content = Qml::ZynFormant
         else
             row1.extern = ext + "GlobalFilter/response"
@@ -170,5 +169,4 @@ Widget {
         end
     }
 
-    
 }
