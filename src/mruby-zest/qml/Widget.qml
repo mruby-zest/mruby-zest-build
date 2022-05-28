@@ -120,7 +120,7 @@ Object {
             out += " |"
         end
 
-        out += "- <"+widget.class_name()+"##{widget.ui_path}:" + widget.label
+        out += "- <"+widget.class_name()+"##{widget.ui_path}:" + widget.label.to_s
         out += ">\n"
         widget.children.each do |x|
             out += x.to_s(i+1)
