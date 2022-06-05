@@ -86,7 +86,7 @@ Widget {
                 env.extern  = basemod.extern + "WaveEnvelope/"
                 vis.extern  = basemod.extern + "WaveEnvelope/"
                 gen.content = Qml::ZynAmpMod
-                env.content = Qml::ZynAmpEnv
+                env.content = Qml::ZynWaveEnv
                 vis.content = Qml::ZynEnvEdit
                 vis.children[0].layoutOpts = Hash.new
                 vis.children[0].layoutOpts[:main_width] = 0.8
