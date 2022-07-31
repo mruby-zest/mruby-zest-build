@@ -6,11 +6,7 @@ Widget {
     function refresh_recur(x) {
         #@@recur_level ||= 0
         #@@recur_level += 1
-        #print " "*@@recur_level
-        #puts "Distort refresh = {#{x.class}} of {#{dst.class}}"
         x.children.each do |xx|
-            #print " "*(@@recur_level+1)
-            #puts "child = #{xx.class}"
             xx.refresh() if xx.respond_to? :refresh
             sym.refresh_recur(xx)
         end
