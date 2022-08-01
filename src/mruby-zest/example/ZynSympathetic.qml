@@ -23,7 +23,7 @@ Widget {
     }
 
     ParModuleRow {
-            Selector {
+        Selector {
             extern: sym.extern + "Sympathetic/preset"
             whenValue: lambda { sym.refresh }
         }
@@ -31,9 +31,13 @@ Widget {
         Knob { extern: sym.extern + "Ppanning"}
         Knob { extern: sym.extern + "Sympathetic/Pdrive"}
         Knob { extern: sym.extern + "Sympathetic/Plevel"}
-        Knob { extern: sym.extern + "Sympathetic/Pstrings"}
+        Knob { extern: sym.extern + "Sympathetic/Pstrings"
+                whenValue: lambda { sym.refresh }
+        }
         Knob { extern: sym.extern + "Sympathetic/Pq"}
-        Knob { extern: sym.extern + "Sympathetic/Punison_size"}
+        Knob { extern: sym.extern + "Sympathetic/Punison_size"
+                whenValue: lambda { sym.refresh }
+        }
         Knob { extern: sym.extern + "Sympathetic/Punison_frequency_spread"}
         Knob { extern: sym.extern + "Sympathetic/Pbasenote"}
         Knob { extern: sym.extern + "Sympathetic/Plpf"}
