@@ -53,13 +53,14 @@ Widget {
 
         function setTab(id)
         {
-            (0..2).each do |ch_id|
+            (0..3).each do |ch_id|
                 children[ch_id].value = (ch_id == id)
                 children[ch_id].damage_self
             end
             mapping = {0 => :amplitude,
                        1 => :frequency,
-                       2 => :filter}
+                       2 => :filter,
+                       3 => :generic}
             root.set_view_pos(:subsubview, mapping[id])
             root.change_view
             #db.update_values
@@ -68,12 +69,13 @@ Widget {
         TabButton { label: "amplitude"; whenClick: lambda {footer.setTab(0)}; highlight_pos: :top}
         TabButton { label: "frequency"; whenClick: lambda {footer.setTab(1)}; highlight_pos: :top}
         TabButton { label: "filter";    whenClick: lambda {footer.setTab(2)}; highlight_pos: :top}
+        TabButton { label: "generic";    whenClick: lambda {footer.setTab(3)}; highlight_pos: :top}
     }
 
     function set_view()
     {
         subsubview = root.get_view_pos(:subsubview)
-        types = [:amplitude, :frequency, :filter]
+        types = [:amplitude, :frequency, :filter, :generic]
         if(!types.include?(subsubview))
             subsubview = :amplitude
             root.set_view_pos(:subsubview, subsubview)
@@ -91,6 +93,8 @@ Widget {
             set_freq(self.extern)
         elsif(subsubview == :filter)
             set_filter(self.extern)
+        elsif(subsubview == :generic)
+            set_generic(self.extern)
         end
 
         if(vis == :lfo)
@@ -109,7 +113,8 @@ Widget {
     {
         e_  = {:filter    => "FilterLfo/",
                :amplitude => "AmpLfo/",
-               :frequency => "FreqLfo/"}[tab]
+               :frequency => "FreqLfo/",
+               :generic   => "GenericLfo/"}[tab]
         return if e_.nil?
         row1.extern  = ext + e_
         row1.content = Qml::LfoVis
@@ -120,7 +125,8 @@ Widget {
     {
         e_  = {:filter    => "FilterEnvelope/",
                :amplitude => "AmpEnvelope/",
-               :frequency => "FreqEnvelope/"}[tab]
+               :frequency => "FreqEnvelope/",
+               :generic   => "GenericEnvelope/"}[tab]
         return if e_.nil?
         row1.extern  = ext + e_
         row1.content = Qml::ZynEnvEdit
@@ -183,6 +189,19 @@ Widget {
         amp_lfo.content = Qml::ZynLFO
         amp_env.children[0].whenClick = lambda {row1.setDataVis(:env, :filter)}
         amp_lfo.children[0].whenClick = lambda {row1.setDataVis(:lfo, :filter)}
+    }
+
+    function set_generic(base)
+    {
+        footer.children[3].value = true
+        amp_env.extern  = base + "GenericEnvelope/"
+        amp_lfo.extern  = base + "GenericLfo/"
+        amp_env.content = Qml::ZynFilterEnv
+        amp_lfo.content = Qml::ZynLFO
+        amp_env.children[0].whenClick = lambda {row1.setDataVis(:env, :generic)}
+        amp_lfo.children[0].whenClick = lambda {row1.setDataVis(:lfo, :generic)}
+        amp_env.children[0].toggleable = base + "PGenEnvelopeEnabled"
+        amp_lfo.children[0].toggleable = base + "PGenLfoEnabled"
     }
 
      function set_vis_oscilloscope()
