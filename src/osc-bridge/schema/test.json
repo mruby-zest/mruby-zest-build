@@ -634,7 +634,7 @@
         "tooltip"  : "Attack Time",
         "scale"    : "logarithmic",
         "type"     : "f",
-        "range"    : [0.0f,41.0f],
+        "range"    : [0.0001f,41.0f],
         "default"  : "0.0f"
 
     },
@@ -664,7 +664,7 @@
         "tooltip"  : "Decay Time",
         "scale"    : "logarithmic",
         "type"     : "f",
-        "range"    : [0.0f,41.0f],
+        "range"    : [0.0001f,41.0f],
         "default"  : "0.009f"
 
     },
@@ -800,7 +800,7 @@
         "tooltip"  : "Attack Time",
         "scale"    : "logarithmic",
         "type"     : "f",
-        "range"    : [0.0f,41.0f],
+        "range"    : [0.0001f,41.0f],
         "default"  : "0.0f"
 
     },
@@ -830,7 +830,7 @@
         "tooltip"  : "Decay Time",
         "scale"    : "logarithmic",
         "type"     : "f",
-        "range"    : [0.0f,41.0f],
+        "range"    : [0.0001f,41.0f],
         "default"  : "0.009f"
 
     },
@@ -966,7 +966,7 @@
         "tooltip"  : "Attack Time",
         "scale"    : "logarithmic",
         "type"     : "f",
-        "range"    : [0.0f,41.0f],
+        "range"    : [0.0001f,41.0f],
         "default"  : "0.0f"
 
     },
@@ -996,7 +996,7 @@
         "tooltip"  : "Decay Time",
         "scale"    : "logarithmic",
         "type"     : "f",
-        "range"    : [0.0f,41.0f],
+        "range"    : [0.0001f,41.0f],
         "default"  : "0.009f"
 
     },
@@ -4647,7 +4647,7 @@
         "tooltip"  : "Attack Time",
         "scale"    : "logarithmic",
         "type"     : "f",
-        "range"    : [0.0f,41.0f],
+        "range"    : [0.0001f,41.0f],
         "default"  : "0.0f"
 
     },
@@ -4677,7 +4677,7 @@
         "tooltip"  : "Decay Time",
         "scale"    : "logarithmic",
         "type"     : "f",
-        "range"    : [0.0f,41.0f],
+        "range"    : [0.0001f,41.0f],
         "default"  : "0.009f"
 
     },
@@ -4813,7 +4813,7 @@
         "tooltip"  : "Attack Time",
         "scale"    : "logarithmic",
         "type"     : "f",
-        "range"    : [0.0f,41.0f],
+        "range"    : [0.0001f,41.0f],
         "default"  : "0.0f"
 
     },
@@ -4843,7 +4843,7 @@
         "tooltip"  : "Decay Time",
         "scale"    : "logarithmic",
         "type"     : "f",
-        "range"    : [0.0f,41.0f],
+        "range"    : [0.0001f,41.0f],
         "default"  : "0.009f"
 
     },
@@ -4979,7 +4979,7 @@
         "tooltip"  : "Attack Time",
         "scale"    : "logarithmic",
         "type"     : "f",
-        "range"    : [0.0f,41.0f],
+        "range"    : [0.0001f,41.0f],
         "default"  : "0.0f"
 
     },
@@ -5009,7 +5009,7 @@
         "tooltip"  : "Decay Time",
         "scale"    : "logarithmic",
         "type"     : "f",
-        "range"    : [0.0f,41.0f],
+        "range"    : [0.0001f,41.0f],
         "default"  : "0.009f"
 
     },
@@ -5145,7 +5145,7 @@
         "tooltip"  : "Attack Time",
         "scale"    : "logarithmic",
         "type"     : "f",
-        "range"    : [0.0f,41.0f],
+        "range"    : [0.0001f,41.0f],
         "default"  : "0.0f"
 
     },
@@ -5175,7 +5175,7 @@
         "tooltip"  : "Decay Time",
         "scale"    : "logarithmic",
         "type"     : "f",
-        "range"    : [0.0f,41.0f],
+        "range"    : [0.0001f,41.0f],
         "default"  : "0.009f"
 
     },
@@ -5311,7 +5311,7 @@
         "tooltip"  : "Attack Time",
         "scale"    : "logarithmic",
         "type"     : "f",
-        "range"    : [0.0f,41.0f],
+        "range"    : [0.0001f,41.0f],
         "default"  : "0.0f"
 
     },
@@ -5341,7 +5341,7 @@
         "tooltip"  : "Decay Time",
         "scale"    : "logarithmic",
         "type"     : "f",
-        "range"    : [0.0f,41.0f],
+        "range"    : [0.0001f,41.0f],
         "default"  : "0.009f"
 
     },
@@ -5888,6 +5888,15 @@
         "shortname": "bypass",
         "name"     : "Pfilterbypass",
         "tooltip"  : "Filter Bypass",
+        "type"     : "t",
+        "default"  : "false"
+
+    },
+    {
+        "path"     : "/part[0,15]/kit[0,15]/adpars/VoicePar[0,7]/PfilterFcCtlBypass",
+        "shortname": "CtlBypass",
+        "name"     : "PfilterFcCtlBypass",
+        "tooltip"  : "Filter Fc Controll Bypass",
         "type"     : "t",
         "default"  : "false"
 
@@ -6995,7 +7004,7 @@
         "tooltip"  : "Attack Time",
         "scale"    : "logarithmic",
         "type"     : "f",
-        "range"    : [0.0f,41.0f],
+        "range"    : [0.0001f,41.0f],
         "default"  : "0.0f"
 
     },
@@ -7025,7 +7034,7 @@
         "tooltip"  : "Decay Time",
         "scale"    : "logarithmic",
         "type"     : "f",
-        "range"    : [0.0f,41.0f],
+        "range"    : [0.0001f,41.0f],
         "default"  : "0.009f"
 
     },
@@ -7161,7 +7170,7 @@
         "tooltip"  : "Attack Time",
         "scale"    : "logarithmic",
         "type"     : "f",
-        "range"    : [0.0f,41.0f],
+        "range"    : [0.0001f,41.0f],
         "default"  : "0.0f"
 
     },
@@ -7191,7 +7200,7 @@
         "tooltip"  : "Decay Time",
         "scale"    : "logarithmic",
         "type"     : "f",
-        "range"    : [0.0f,41.0f],
+        "range"    : [0.0001f,41.0f],
         "default"  : "0.009f"
 
     },
@@ -7327,7 +7336,7 @@
         "tooltip"  : "Attack Time",
         "scale"    : "logarithmic",
         "type"     : "f",
-        "range"    : [0.0f,41.0f],
+        "range"    : [0.0001f,41.0f],
         "default"  : "0.0f"
 
     },
@@ -7357,7 +7366,7 @@
         "tooltip"  : "Decay Time",
         "scale"    : "logarithmic",
         "type"     : "f",
-        "range"    : [0.0f,41.0f],
+        "range"    : [0.0001f,41.0f],
         "default"  : "0.009f"
 
     },
@@ -8332,7 +8341,7 @@
         "tooltip"  : "Attack Time",
         "scale"    : "logarithmic",
         "type"     : "f",
-        "range"    : [0.0f,41.0f],
+        "range"    : [0.0001f,41.0f],
         "default"  : "0.0f"
 
     },
@@ -8362,7 +8371,7 @@
         "tooltip"  : "Decay Time",
         "scale"    : "logarithmic",
         "type"     : "f",
-        "range"    : [0.0f,41.0f],
+        "range"    : [0.0001f,41.0f],
         "default"  : "0.009f"
 
     },
@@ -8498,7 +8507,7 @@
         "tooltip"  : "Attack Time",
         "scale"    : "logarithmic",
         "type"     : "f",
-        "range"    : [0.0f,41.0f],
+        "range"    : [0.0001f,41.0f],
         "default"  : "0.0f"
 
     },
@@ -8528,7 +8537,7 @@
         "tooltip"  : "Decay Time",
         "scale"    : "logarithmic",
         "type"     : "f",
-        "range"    : [0.0f,41.0f],
+        "range"    : [0.0001f,41.0f],
         "default"  : "0.009f"
 
     },
@@ -8664,7 +8673,7 @@
         "tooltip"  : "Attack Time",
         "scale"    : "logarithmic",
         "type"     : "f",
-        "range"    : [0.0f,41.0f],
+        "range"    : [0.0001f,41.0f],
         "default"  : "0.0f"
 
     },
@@ -8694,7 +8703,7 @@
         "tooltip"  : "Decay Time",
         "scale"    : "logarithmic",
         "type"     : "f",
-        "range"    : [0.0f,41.0f],
+        "range"    : [0.0001f,41.0f],
         "default"  : "0.009f"
 
     },
@@ -8830,7 +8839,7 @@
         "tooltip"  : "Attack Time",
         "scale"    : "logarithmic",
         "type"     : "f",
-        "range"    : [0.0f,41.0f],
+        "range"    : [0.0001f,41.0f],
         "default"  : "0.0f"
 
     },
@@ -8860,7 +8869,7 @@
         "tooltip"  : "Decay Time",
         "scale"    : "logarithmic",
         "type"     : "f",
-        "range"    : [0.0f,41.0f],
+        "range"    : [0.0001f,41.0f],
         "default"  : "0.009f"
 
     },
@@ -11083,7 +11092,7 @@
     },
     {
         "path"     : "/part[0,15]/partefx[0,2]/Sympathetic/Pdrive",
-        "shortname": "drive",
+        "shortname": "dr",
         "name"     : "Pdrive",
         "tooltip"  : "Input Amplification",
         "scale"    : "linear",
@@ -11094,7 +11103,7 @@
     },
     {
         "path"     : "/part[0,15]/partefx[0,2]/Sympathetic/Plevel",
-        "shortname": "output",
+        "shortname": "lev",
         "name"     : "Plevel",
         "tooltip"  : "Output Amplification",
         "scale"    : "linear",
@@ -11147,7 +11156,7 @@
     },
     {
         "path"     : "/part[0,15]/partefx[0,2]/Sympathetic/Punison_size",
-        "shortname": "unison",
+        "shortname": "uni",
         "name"     : "Punison_size",
         "tooltip"  : "Number of Unison Strings",
         "scale"    : "linear",
@@ -11158,7 +11167,7 @@
     },
     {
         "path"     : "/part[0,15]/partefx[0,2]/Sympathetic/Pstrings",
-        "shortname": "strings",
+        "shortname": "str",
         "name"     : "Pstrings",
         "tooltip"  : "Number of Strings",
         "scale"    : "linear",
@@ -11340,7 +11349,7 @@
         "name"     : "portamento.automode",
         "tooltip"  : "Portamento Auto mode",
         "type"     : "t",
-        "default"  : "false"
+        "default"  : "true"
 
     },
     {
@@ -13497,7 +13506,7 @@
     },
     {
         "path"     : "/sysefx[0,3]/Sympathetic/Pdrive",
-        "shortname": "drive",
+        "shortname": "dr",
         "name"     : "Pdrive",
         "tooltip"  : "Input Amplification",
         "scale"    : "linear",
@@ -13508,7 +13517,7 @@
     },
     {
         "path"     : "/sysefx[0,3]/Sympathetic/Plevel",
-        "shortname": "output",
+        "shortname": "lev",
         "name"     : "Plevel",
         "tooltip"  : "Output Amplification",
         "scale"    : "linear",
@@ -13561,7 +13570,7 @@
     },
     {
         "path"     : "/sysefx[0,3]/Sympathetic/Punison_size",
-        "shortname": "unison",
+        "shortname": "uni",
         "name"     : "Punison_size",
         "tooltip"  : "Number of Unison Strings",
         "scale"    : "linear",
@@ -13572,7 +13581,7 @@
     },
     {
         "path"     : "/sysefx[0,3]/Sympathetic/Pstrings",
-        "shortname": "strings",
+        "shortname": "str",
         "name"     : "Pstrings",
         "tooltip"  : "Number of Strings",
         "scale"    : "linear",
@@ -15332,7 +15341,7 @@
     },
     {
         "path"     : "/insefx[0,7]/Sympathetic/Pdrive",
-        "shortname": "drive",
+        "shortname": "dr",
         "name"     : "Pdrive",
         "tooltip"  : "Input Amplification",
         "scale"    : "linear",
@@ -15343,7 +15352,7 @@
     },
     {
         "path"     : "/insefx[0,7]/Sympathetic/Plevel",
-        "shortname": "output",
+        "shortname": "lev",
         "name"     : "Plevel",
         "tooltip"  : "Output Amplification",
         "scale"    : "linear",
@@ -15396,7 +15405,7 @@
     },
     {
         "path"     : "/insefx[0,7]/Sympathetic/Punison_size",
-        "shortname": "unison",
+        "shortname": "uni",
         "name"     : "Punison_size",
         "tooltip"  : "Number of Unison Strings",
         "scale"    : "linear",
@@ -15407,7 +15416,7 @@
     },
     {
         "path"     : "/insefx[0,7]/Sympathetic/Pstrings",
-        "shortname": "strings",
+        "shortname": "str",
         "name"     : "Pstrings",
         "tooltip"  : "Number of Strings",
         "scale"    : "linear",
@@ -15724,6 +15733,14 @@
         "tooltip"  : "Portamento Enable",
         "type"     : "t",
         "default"  : "false"
+
+    },
+    {
+        "path"     : "/ctl/portamento.automode",
+        "name"     : "portamento.automode",
+        "tooltip"  : "Portamento Auto mode",
+        "type"     : "t",
+        "default"  : "true"
 
     },
     {
