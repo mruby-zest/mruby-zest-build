@@ -9,8 +9,17 @@ Group {
         id: top
         Knob { extern: box.extern+"volume"; type: :float }
         Knob { extern: box.extern+"PAmpVelocityScaleFunction"}
-        BypassButton { extern: box.extern+"Pfilterbypass" }
+        Col {
+            BypassButton { extern: box.extern+"Pfilterbypass" }
+            ToggleButton { label: "F. Ctl Bypass"; extern: box.extern+"PfilterFcCtlBypass"
 
+            }
+            function layout(l, selfBox) {
+                Draw::Layout::vpack(l, selfBox, children)
+                Draw::Layout::vfill(l, selfBox, children, [0.6, 0.4])
+            }
+
+        }
     }
     ParModuleRow {
         id: bot
