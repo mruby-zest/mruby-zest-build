@@ -11041,18 +11041,22 @@
         "options"  : [
         {
             "id"     : 0,
-            "value"  : "Piano"
+            "value"  : "Generic"
         },
         {
             "id"     : 1,
-            "value"  : "Grand"
+            "value"  : "Piano"
         },
         {
             "id"     : 2,
-            "value"  : "Guitar"
+            "value"  : "Grand"
         },
         {
             "id"     : 3,
+            "value"  : "Guitar"
+        },
+        {
+            "id"     : 4,
             "value"  : "12-String"
         }
         ]
@@ -13455,18 +13459,22 @@
         "options"  : [
         {
             "id"     : 0,
-            "value"  : "Piano"
+            "value"  : "Generic"
         },
         {
             "id"     : 1,
-            "value"  : "Grand"
+            "value"  : "Piano"
         },
         {
             "id"     : 2,
-            "value"  : "Guitar"
+            "value"  : "Grand"
         },
         {
             "id"     : 3,
+            "value"  : "Guitar"
+        },
+        {
+            "id"     : 4,
             "value"  : "12-String"
         }
         ]
@@ -15290,18 +15298,22 @@
         "options"  : [
         {
             "id"     : 0,
-            "value"  : "Piano"
+            "value"  : "Generic"
         },
         {
             "id"     : 1,
-            "value"  : "Grand"
+            "value"  : "Piano"
         },
         {
             "id"     : 2,
-            "value"  : "Guitar"
+            "value"  : "Grand"
         },
         {
             "id"     : 3,
+            "value"  : "Guitar"
+        },
+        {
+            "id"     : 4,
             "value"  : "12-String"
         }
         ]
@@ -15341,7 +15353,7 @@
     },
     {
         "path"     : "/insefx[0,7]/Sympathetic/Pdrive",
-        "shortname": "drive",
+        "shortname": "dr",
         "name"     : "Pdrive",
         "tooltip"  : "Input Amplification",
         "scale"    : "linear",
@@ -15352,7 +15364,7 @@
     },
     {
         "path"     : "/insefx[0,7]/Sympathetic/Plevel",
-        "shortname": "output",
+        "shortname": "lev",
         "name"     : "Plevel",
         "tooltip"  : "Output Amplification",
         "scale"    : "linear",
@@ -15405,7 +15417,7 @@
     },
     {
         "path"     : "/insefx[0,7]/Sympathetic/Punison_size",
-        "shortname": "unison",
+        "shortname": "uni",
         "name"     : "Punison_size",
         "tooltip"  : "Number of Unison Strings",
         "scale"    : "linear",
@@ -15416,7 +15428,7 @@
     },
     {
         "path"     : "/insefx[0,7]/Sympathetic/Pstrings",
-        "shortname": "strings",
+        "shortname": "str",
         "name"     : "Pstrings",
         "tooltip"  : "Number of Strings",
         "scale"    : "linear",
