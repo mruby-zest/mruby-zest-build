@@ -5893,6 +5893,15 @@
 
     },
     {
+        "path"     : "/part[0,15]/kit[0,15]/adpars/VoicePar[0,7]/PfilterFcCtlBypass",
+        "shortname": "CtlBypass",
+        "name"     : "PfilterFcCtlBypass",
+        "tooltip"  : "Filter Fc Controll Bypass",
+        "type"     : "t",
+        "default"  : "false"
+
+    },
+    {
         "path"     : "/part[0,15]/kit[0,15]/adpars/VoicePar[0,7]/Pfixedfreq",
         "shortname": "fixed",
         "name"     : "Pfixedfreq",
