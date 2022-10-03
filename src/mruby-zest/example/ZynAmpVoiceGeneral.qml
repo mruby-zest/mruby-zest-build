@@ -15,7 +15,6 @@ Group {
 
             }
             function layout(l, selfBox) {
-                Draw::Layout::vpack(l, selfBox, children)
                 Draw::Layout::vfill(l, selfBox, children, [0.6, 0.4])
             }
 
