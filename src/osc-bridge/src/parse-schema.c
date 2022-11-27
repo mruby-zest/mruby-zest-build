@@ -105,6 +105,19 @@ void parse_range(schema_handle_t *handle, const char *str, int len)
         handle->value_max = atof(tok.str);
     else
         fprintf(stdout, "[WARNING] Unexpected Range Type %d For Max\n", tok.type);
+
+    array = mm_json_read(&tok, &array);
+    if(!array.src) {
+        // this is not an error - this means that the schema does not
+        // support the third "logmin" parameter yet
+        handle->value_logmin = handle->value_min;
+        return;
+    }
+
+    if(tok.type == MM_JSON_NUMBER)
+        handle->value_logmin = atof(tok.str);
+    else
+        fprintf(stdout, "[WARNING] Unexpected Range Type %d For LogMin\n", tok.type);
 }
 
 void parse_schema(const char *json, schema_t *sch)

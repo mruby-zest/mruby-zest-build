@@ -40,7 +40,7 @@ module OSC
     end
     class RemoteMetadata
         attr_accessor :name, :short_name, :units, :scale, :tooltip, :options
-        attr_accessor :min, :max
+        attr_accessor :min, :max, :logmin
     end
 
     class RemoteParam

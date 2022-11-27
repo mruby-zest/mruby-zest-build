@@ -14,7 +14,7 @@
         "units"    : "HZ",
         "scale"    : "logarithmic",
         "type"     : "f",
-        "range"    : [0.0775679,85.25]
+        "range"    : [0.0,85.25,0.0775679]
     },
     {
         "path"     : "/part[0,15]/kit[0,15]/padpars/FreqLfo/Pintensity",
@@ -120,7 +120,7 @@
         "scale"    : "linear",
         "type"     : "f",
         "range"    : [0.0,4.0],
-        "default"  : "0"
+        "default"  : "0.0"
 
     },
     {
@@ -196,7 +196,7 @@
         "units"    : "HZ",
         "scale"    : "logarithmic",
         "type"     : "f",
-        "range"    : [0.0775679,85.25]
+        "range"    : [0.0,85.25,0.0775679]
     },
     {
         "path"     : "/part[0,15]/kit[0,15]/padpars/AmpLfo/Pintensity",
@@ -302,7 +302,7 @@
         "scale"    : "linear",
         "type"     : "f",
         "range"    : [0.0,4.0],
-        "default"  : "0"
+        "default"  : "0.0"
 
     },
     {
@@ -378,7 +378,7 @@
         "units"    : "HZ",
         "scale"    : "logarithmic",
         "type"     : "f",
-        "range"    : [0.0775679,85.25]
+        "range"    : [0.0,85.25,0.0775679]
     },
     {
         "path"     : "/part[0,15]/kit[0,15]/padpars/FilterLfo/Pintensity",
@@ -484,7 +484,7 @@
         "scale"    : "linear",
         "type"     : "f",
         "range"    : [0.0,4.0],
-        "default"  : "0"
+        "default"  : "0.0"
 
     },
     {
@@ -634,7 +634,7 @@
         "tooltip"  : "Attack Time",
         "scale"    : "logarithmic",
         "type"     : "f",
-        "range"    : [0.0001f,41.0f],
+        "range"    : [0.f,41.0f,0.0001f],
         "default"  : "0.0f"
 
     },
@@ -664,7 +664,7 @@
         "tooltip"  : "Decay Time",
         "scale"    : "logarithmic",
         "type"     : "f",
-        "range"    : [0.0001f,41.0f],
+        "range"    : [0.f,41.0f,0.0001f],
         "default"  : "0.009f"
 
     },
@@ -704,7 +704,7 @@
         "tooltip"  : "Release Time",
         "scale"    : "logarithmic",
         "type"     : "f",
-        "range"    : [0.009f,41.0f],
+        "range"    : [0.f,41.0f,0.009f],
         "default"  : "0.499f"
 
     },
@@ -800,7 +800,7 @@
         "tooltip"  : "Attack Time",
         "scale"    : "logarithmic",
         "type"     : "f",
-        "range"    : [0.0001f,41.0f],
+        "range"    : [0.f,41.0f,0.0001f],
         "default"  : "0.0f"
 
     },
@@ -830,7 +830,7 @@
         "tooltip"  : "Decay Time",
         "scale"    : "logarithmic",
         "type"     : "f",
-        "range"    : [0.0001f,41.0f],
+        "range"    : [0.f,41.0f,0.0001f],
         "default"  : "0.009f"
 
     },
@@ -870,7 +870,7 @@
         "tooltip"  : "Release Time",
         "scale"    : "logarithmic",
         "type"     : "f",
-        "range"    : [0.009f,41.0f],
+        "range"    : [0.f,41.0f,0.009f],
         "default"  : "0.499f"
 
     },
@@ -966,7 +966,7 @@
         "tooltip"  : "Attack Time",
         "scale"    : "logarithmic",
         "type"     : "f",
-        "range"    : [0.0001f,41.0f],
+        "range"    : [0.f,41.0f,0.0001f],
         "default"  : "0.0f"
 
     },
@@ -996,7 +996,7 @@
         "tooltip"  : "Decay Time",
         "scale"    : "logarithmic",
         "type"     : "f",
-        "range"    : [0.0001f,41.0f],
+        "range"    : [0.f,41.0f,0.0001f],
         "default"  : "0.009f"
 
     },
@@ -1036,7 +1036,7 @@
         "tooltip"  : "Release Time",
         "scale"    : "logarithmic",
         "type"     : "f",
-        "range"    : [0.009f,41.0f],
+        "range"    : [0.f,41.0f,0.009f],
         "default"  : "0.499f"
 
     },
@@ -1532,7 +1532,6 @@
         "name"     : "PDetuneType",
         "tooltip"  : "Magnitude of Detune",
         "type"     : "i",
-        "range"    : [0,127],
         "default"  : "L10cents"
 ,
         "options"  : [
@@ -2516,8 +2515,10 @@
     {
         "path"     : "/part[0,15]/kit[0,15]/padpars/Phrpos.type",
         "name"     : "Phrpos.type",
-        "tooltip"  : ":default",
+        "tooltip"  : "Harmonic Overtone shifting mode",
         "type"     : "i",
+        "default"  : "Harmonic"
+,
         "options"  : [
         {
             "id"     : 0,
@@ -2735,6 +2736,15 @@
         "type"     : "i",
         "range"    : [0,1000],
         "default"  : "500"
+
+    },
+    {
+        "path"     : "/part[0,15]/kit[0,15]/adpars/VoicePar[0,7]/Enabled",
+        "shortname": "enable",
+        "name"     : "VoicePar#8/Enabled",
+        "tooltip"  : "Voice Enable",
+        "type"     : "t",
+        "default"  : "[true false false ...]"
 
     },
     {
@@ -4027,7 +4037,7 @@
         "units"    : "HZ",
         "scale"    : "logarithmic",
         "type"     : "f",
-        "range"    : [0.0775679,85.25]
+        "range"    : [0.0,85.25,0.0775679]
     },
     {
         "path"     : "/part[0,15]/kit[0,15]/adpars/VoicePar[0,7]/FreqLfo/Pintensity",
@@ -4133,7 +4143,7 @@
         "scale"    : "linear",
         "type"     : "f",
         "range"    : [0.0,4.0],
-        "default"  : "0"
+        "default"  : "0.0"
 
     },
     {
@@ -4209,7 +4219,7 @@
         "units"    : "HZ",
         "scale"    : "logarithmic",
         "type"     : "f",
-        "range"    : [0.0775679,85.25]
+        "range"    : [0.0,85.25,0.0775679]
     },
     {
         "path"     : "/part[0,15]/kit[0,15]/adpars/VoicePar[0,7]/AmpLfo/Pintensity",
@@ -4315,7 +4325,7 @@
         "scale"    : "linear",
         "type"     : "f",
         "range"    : [0.0,4.0],
-        "default"  : "0"
+        "default"  : "0.0"
 
     },
     {
@@ -4391,7 +4401,7 @@
         "units"    : "HZ",
         "scale"    : "logarithmic",
         "type"     : "f",
-        "range"    : [0.0775679,85.25]
+        "range"    : [0.0,85.25,0.0775679]
     },
     {
         "path"     : "/part[0,15]/kit[0,15]/adpars/VoicePar[0,7]/FilterLfo/Pintensity",
@@ -4497,7 +4507,7 @@
         "scale"    : "linear",
         "type"     : "f",
         "range"    : [0.0,4.0],
-        "default"  : "0"
+        "default"  : "0.0"
 
     },
     {
@@ -4647,7 +4657,7 @@
         "tooltip"  : "Attack Time",
         "scale"    : "logarithmic",
         "type"     : "f",
-        "range"    : [0.0001f,41.0f],
+        "range"    : [0.f,41.0f,0.0001f],
         "default"  : "0.0f"
 
     },
@@ -4677,7 +4687,7 @@
         "tooltip"  : "Decay Time",
         "scale"    : "logarithmic",
         "type"     : "f",
-        "range"    : [0.0001f,41.0f],
+        "range"    : [0.f,41.0f,0.0001f],
         "default"  : "0.009f"
 
     },
@@ -4717,7 +4727,7 @@
         "tooltip"  : "Release Time",
         "scale"    : "logarithmic",
         "type"     : "f",
-        "range"    : [0.009f,41.0f],
+        "range"    : [0.f,41.0f,0.009f],
         "default"  : "0.499f"
 
     },
@@ -4813,7 +4823,7 @@
         "tooltip"  : "Attack Time",
         "scale"    : "logarithmic",
         "type"     : "f",
-        "range"    : [0.0001f,41.0f],
+        "range"    : [0.f,41.0f,0.0001f],
         "default"  : "0.0f"
 
     },
@@ -4843,7 +4853,7 @@
         "tooltip"  : "Decay Time",
         "scale"    : "logarithmic",
         "type"     : "f",
-        "range"    : [0.0001f,41.0f],
+        "range"    : [0.f,41.0f,0.0001f],
         "default"  : "0.009f"
 
     },
@@ -4883,7 +4893,7 @@
         "tooltip"  : "Release Time",
         "scale"    : "logarithmic",
         "type"     : "f",
-        "range"    : [0.009f,41.0f],
+        "range"    : [0.f,41.0f,0.009f],
         "default"  : "0.499f"
 
     },
@@ -4979,7 +4989,7 @@
         "tooltip"  : "Attack Time",
         "scale"    : "logarithmic",
         "type"     : "f",
-        "range"    : [0.0001f,41.0f],
+        "range"    : [0.f,41.0f,0.0001f],
         "default"  : "0.0f"
 
     },
@@ -5009,7 +5019,7 @@
         "tooltip"  : "Decay Time",
         "scale"    : "logarithmic",
         "type"     : "f",
-        "range"    : [0.0001f,41.0f],
+        "range"    : [0.f,41.0f,0.0001f],
         "default"  : "0.009f"
 
     },
@@ -5049,7 +5059,7 @@
         "tooltip"  : "Release Time",
         "scale"    : "logarithmic",
         "type"     : "f",
-        "range"    : [0.009f,41.0f],
+        "range"    : [0.f,41.0f,0.009f],
         "default"  : "0.499f"
 
     },
@@ -5145,7 +5155,7 @@
         "tooltip"  : "Attack Time",
         "scale"    : "logarithmic",
         "type"     : "f",
-        "range"    : [0.0001f,41.0f],
+        "range"    : [0.f,41.0f,0.0001f],
         "default"  : "0.0f"
 
     },
@@ -5175,7 +5185,7 @@
         "tooltip"  : "Decay Time",
         "scale"    : "logarithmic",
         "type"     : "f",
-        "range"    : [0.0001f,41.0f],
+        "range"    : [0.f,41.0f,0.0001f],
         "default"  : "0.009f"
 
     },
@@ -5215,7 +5225,7 @@
         "tooltip"  : "Release Time",
         "scale"    : "logarithmic",
         "type"     : "f",
-        "range"    : [0.009f,41.0f],
+        "range"    : [0.f,41.0f,0.009f],
         "default"  : "0.499f"
 
     },
@@ -5311,7 +5321,7 @@
         "tooltip"  : "Attack Time",
         "scale"    : "logarithmic",
         "type"     : "f",
-        "range"    : [0.0001f,41.0f],
+        "range"    : [0.f,41.0f,0.0001f],
         "default"  : "0.0f"
 
     },
@@ -5341,7 +5351,7 @@
         "tooltip"  : "Decay Time",
         "scale"    : "logarithmic",
         "type"     : "f",
-        "range"    : [0.0001f,41.0f],
+        "range"    : [0.f,41.0f,0.0001f],
         "default"  : "0.009f"
 
     },
@@ -5381,7 +5391,7 @@
         "tooltip"  : "Release Time",
         "scale"    : "logarithmic",
         "type"     : "f",
-        "range"    : [0.009f,41.0f],
+        "range"    : [0.f,41.0f,0.009f],
         "default"  : "0.499f"
 
     },
@@ -5966,7 +5976,6 @@
         "name"     : "PDetuneType",
         "tooltip"  : "Magnitude of Detune",
         "type"     : "i",
-        "range"    : [0,127],
         "default"  : "L35cents"
 ,
         "options"  : [
@@ -6025,7 +6034,7 @@
         "scale"    : "linear",
         "type"     : "f",
         "range"    : [-60.0f,0.0f],
-        "default"  : "-12.75"
+        "default"  : "-0x1.983064p+3"
 
     },
     {
@@ -6312,15 +6321,6 @@
         "range"    : [-64,63]
     },
     {
-        "path"     : "/part[0,15]/kit[0,15]/adpars/VoicePar[0,7]/Enabled",
-        "shortname": "enable",
-        "name"     : "VoicePar#8/Enabled",
-        "tooltip"  : "Voice Enable",
-        "type"     : "t",
-        "default"  : "[true false false ...]"
-
-    },
-    {
         "path"     : "/part[0,15]/kit[0,15]/adpars/GlobalPar/Reson/Penabled",
         "shortname": "enable",
         "name"     : "Penabled",
@@ -6384,7 +6384,7 @@
         "units"    : "HZ",
         "scale"    : "logarithmic",
         "type"     : "f",
-        "range"    : [0.0775679,85.25]
+        "range"    : [0.0,85.25,0.0775679]
     },
     {
         "path"     : "/part[0,15]/kit[0,15]/adpars/GlobalPar/FreqLfo/Pintensity",
@@ -6490,7 +6490,7 @@
         "scale"    : "linear",
         "type"     : "f",
         "range"    : [0.0,4.0],
-        "default"  : "0"
+        "default"  : "0.0"
 
     },
     {
@@ -6566,7 +6566,7 @@
         "units"    : "HZ",
         "scale"    : "logarithmic",
         "type"     : "f",
-        "range"    : [0.0775679,85.25]
+        "range"    : [0.0,85.25,0.0775679]
     },
     {
         "path"     : "/part[0,15]/kit[0,15]/adpars/GlobalPar/AmpLfo/Pintensity",
@@ -6672,7 +6672,7 @@
         "scale"    : "linear",
         "type"     : "f",
         "range"    : [0.0,4.0],
-        "default"  : "0"
+        "default"  : "0.0"
 
     },
     {
@@ -6748,7 +6748,7 @@
         "units"    : "HZ",
         "scale"    : "logarithmic",
         "type"     : "f",
-        "range"    : [0.0775679,85.25]
+        "range"    : [0.0,85.25,0.0775679]
     },
     {
         "path"     : "/part[0,15]/kit[0,15]/adpars/GlobalPar/FilterLfo/Pintensity",
@@ -6854,7 +6854,7 @@
         "scale"    : "linear",
         "type"     : "f",
         "range"    : [0.0,4.0],
-        "default"  : "0"
+        "default"  : "0.0"
 
     },
     {
@@ -7004,7 +7004,7 @@
         "tooltip"  : "Attack Time",
         "scale"    : "logarithmic",
         "type"     : "f",
-        "range"    : [0.0001f,41.0f],
+        "range"    : [0.f,41.0f,0.0001f],
         "default"  : "0.0f"
 
     },
@@ -7034,7 +7034,7 @@
         "tooltip"  : "Decay Time",
         "scale"    : "logarithmic",
         "type"     : "f",
-        "range"    : [0.0001f,41.0f],
+        "range"    : [0.f,41.0f,0.0001f],
         "default"  : "0.009f"
 
     },
@@ -7074,7 +7074,7 @@
         "tooltip"  : "Release Time",
         "scale"    : "logarithmic",
         "type"     : "f",
-        "range"    : [0.009f,41.0f],
+        "range"    : [0.f,41.0f,0.009f],
         "default"  : "0.499f"
 
     },
@@ -7170,7 +7170,7 @@
         "tooltip"  : "Attack Time",
         "scale"    : "logarithmic",
         "type"     : "f",
-        "range"    : [0.0001f,41.0f],
+        "range"    : [0.f,41.0f,0.0001f],
         "default"  : "0.0f"
 
     },
@@ -7200,7 +7200,7 @@
         "tooltip"  : "Decay Time",
         "scale"    : "logarithmic",
         "type"     : "f",
-        "range"    : [0.0001f,41.0f],
+        "range"    : [0.f,41.0f,0.0001f],
         "default"  : "0.009f"
 
     },
@@ -7240,7 +7240,7 @@
         "tooltip"  : "Release Time",
         "scale"    : "logarithmic",
         "type"     : "f",
-        "range"    : [0.009f,41.0f],
+        "range"    : [0.f,41.0f,0.009f],
         "default"  : "0.499f"
 
     },
@@ -7336,7 +7336,7 @@
         "tooltip"  : "Attack Time",
         "scale"    : "logarithmic",
         "type"     : "f",
-        "range"    : [0.0001f,41.0f],
+        "range"    : [0.f,41.0f,0.0001f],
         "default"  : "0.0f"
 
     },
@@ -7366,7 +7366,7 @@
         "tooltip"  : "Decay Time",
         "scale"    : "logarithmic",
         "type"     : "f",
-        "range"    : [0.0001f,41.0f],
+        "range"    : [0.f,41.0f,0.0001f],
         "default"  : "0.009f"
 
     },
@@ -7406,7 +7406,7 @@
         "tooltip"  : "Release Time",
         "scale"    : "logarithmic",
         "type"     : "f",
-        "range"    : [0.009f,41.0f],
+        "range"    : [0.f,41.0f,0.009f],
         "default"  : "0.499f"
 
     },
@@ -7764,7 +7764,6 @@
         "name"     : "PDetuneType",
         "tooltip"  : "Detune Scaling Type",
         "type"     : "i",
-        "range"    : [0,127],
         "default"  : "L10cents"
 ,
         "options"  : [
@@ -8207,7 +8206,6 @@
         "name"     : "Phmagtype",
         "tooltip"  : "Magnitude scale",
         "type"     : "i",
-        "range"    : [0,127],
         "default"  : "linear"
 ,
         "options"  : [
@@ -8341,7 +8339,7 @@
         "tooltip"  : "Attack Time",
         "scale"    : "logarithmic",
         "type"     : "f",
-        "range"    : [0.0001f,41.0f],
+        "range"    : [0.f,41.0f,0.0001f],
         "default"  : "0.0f"
 
     },
@@ -8371,7 +8369,7 @@
         "tooltip"  : "Decay Time",
         "scale"    : "logarithmic",
         "type"     : "f",
-        "range"    : [0.0001f,41.0f],
+        "range"    : [0.f,41.0f,0.0001f],
         "default"  : "0.009f"
 
     },
@@ -8411,7 +8409,7 @@
         "tooltip"  : "Release Time",
         "scale"    : "logarithmic",
         "type"     : "f",
-        "range"    : [0.009f,41.0f],
+        "range"    : [0.f,41.0f,0.009f],
         "default"  : "0.499f"
 
     },
@@ -8507,7 +8505,7 @@
         "tooltip"  : "Attack Time",
         "scale"    : "logarithmic",
         "type"     : "f",
-        "range"    : [0.0001f,41.0f],
+        "range"    : [0.f,41.0f,0.0001f],
         "default"  : "0.0f"
 
     },
@@ -8537,7 +8535,7 @@
         "tooltip"  : "Decay Time",
         "scale"    : "logarithmic",
         "type"     : "f",
-        "range"    : [0.0001f,41.0f],
+        "range"    : [0.f,41.0f,0.0001f],
         "default"  : "0.009f"
 
     },
@@ -8577,7 +8575,7 @@
         "tooltip"  : "Release Time",
         "scale"    : "logarithmic",
         "type"     : "f",
-        "range"    : [0.009f,41.0f],
+        "range"    : [0.f,41.0f,0.009f],
         "default"  : "0.499f"
 
     },
@@ -8673,7 +8671,7 @@
         "tooltip"  : "Attack Time",
         "scale"    : "logarithmic",
         "type"     : "f",
-        "range"    : [0.0001f,41.0f],
+        "range"    : [0.f,41.0f,0.0001f],
         "default"  : "0.0f"
 
     },
@@ -8703,7 +8701,7 @@
         "tooltip"  : "Decay Time",
         "scale"    : "logarithmic",
         "type"     : "f",
-        "range"    : [0.0001f,41.0f],
+        "range"    : [0.f,41.0f,0.0001f],
         "default"  : "0.009f"
 
     },
@@ -8743,7 +8741,7 @@
         "tooltip"  : "Release Time",
         "scale"    : "logarithmic",
         "type"     : "f",
-        "range"    : [0.009f,41.0f],
+        "range"    : [0.f,41.0f,0.009f],
         "default"  : "0.499f"
 
     },
@@ -8839,7 +8837,7 @@
         "tooltip"  : "Attack Time",
         "scale"    : "logarithmic",
         "type"     : "f",
-        "range"    : [0.0001f,41.0f],
+        "range"    : [0.f,41.0f,0.0001f],
         "default"  : "0.0f"
 
     },
@@ -8869,7 +8867,7 @@
         "tooltip"  : "Decay Time",
         "scale"    : "logarithmic",
         "type"     : "f",
-        "range"    : [0.0001f,41.0f],
+        "range"    : [0.f,41.0f,0.0001f],
         "default"  : "0.009f"
 
     },
@@ -8909,7 +8907,7 @@
         "tooltip"  : "Release Time",
         "scale"    : "logarithmic",
         "type"     : "f",
-        "range"    : [0.009f,41.0f],
+        "range"    : [0.f,41.0f,0.009f],
         "default"  : "0.499f"
 
     },
@@ -9330,7 +9328,6 @@
         "name"     : "Psendtoparteffect",
         "tooltip"  : "Effect Levels",
         "type"     : "i",
-        "range"    : [0,127],
         "default"  : "FX1"
 ,
         "options"  : [
@@ -9817,7 +9814,9 @@
         "tooltip"  : "panning",
         "scale"    : "linear",
         "type"     : "i",
-        "range"    : [0,127]
+        "range"    : [0,127],
+        "default"  : "64"
+
     },
     {
         "path"     : "/part[0,15]/partefx[0,2]/Alienwah/Pfreq",
@@ -9982,7 +9981,9 @@
         "tooltip"  : "panning",
         "scale"    : "linear",
         "type"     : "i",
-        "range"    : [0,127]
+        "range"    : [0,127],
+        "default"  : "64"
+
     },
     {
         "path"     : "/part[0,15]/partefx[0,2]/Chorus/Pfreq",
@@ -10125,9 +10126,7 @@
         "tooltip"  : "amount of effect",
         "scale"    : "linear",
         "type"     : "i",
-        "range"    : [0,127],
-        "default"  : "127"
-
+        "range"    : [0,127]
     },
     {
         "path"     : "/part[0,15]/partefx[0,2]/Distortion/Ppanning",
@@ -10136,7 +10135,9 @@
         "tooltip"  : "panning",
         "scale"    : "linear",
         "type"     : "i",
-        "range"    : [0,127]
+        "range"    : [0,127],
+        "default"  : "64"
+
     },
     {
         "path"     : "/part[0,15]/partefx[0,2]/Distortion/Plrcross",
@@ -10333,7 +10334,9 @@
         "tooltip"  : "panning",
         "scale"    : "linear",
         "type"     : "i",
-        "range"    : [0,127]
+        "range"    : [0,127],
+        "default"  : "64"
+
     },
     {
         "path"     : "/part[0,15]/partefx[0,2]/DynamicFilter/Pfreq",
@@ -10487,7 +10490,9 @@
         "tooltip"  : "panning",
         "scale"    : "linear",
         "type"     : "i",
-        "range"    : [0,127]
+        "range"    : [0,127],
+        "default"  : "64"
+
     },
     {
         "path"     : "/part[0,15]/partefx[0,2]/Echo/Pdelay",
@@ -10539,11 +10544,24 @@
         "range"    : [0,127]
     },
     {
+        "path"     : "/part[0,15]/partefx[0,2]/EQ/Pvolume",
+        "shortname": "amt",
+        "name"     : "Pvolume",
+        "tooltip"  : "amount of effect",
+        "scale"    : "linear",
+        "type"     : "i",
+        "range"    : [0,127],
+        "default"  : "50"
+
+    },
+    {
         "path"     : "/part[0,15]/partefx[0,2]/EQ/filter[0,7]/Ptype",
         "shortname": "type",
         "name"     : "Ptype",
         "tooltip"  : "Filter Type",
         "type"     : "i",
+        "default"  : "0"
+,
         "options"  : [
         {
             "id"     : 0,
@@ -10593,7 +10611,9 @@
         "name"     : "Pfreq",
         "tooltip"  : "",
         "type"     : "i",
-        "range"    : [0,127]
+        "range"    : [0,127],
+        "default"  : "64"
+
     },
     {
         "path"     : "/part[0,15]/partefx[0,2]/EQ/filter[0,7]/Pgain",
@@ -10601,7 +10621,9 @@
         "name"     : "Pgain",
         "tooltip"  : "",
         "type"     : "i",
-        "range"    : [0,127]
+        "range"    : [0,127],
+        "default"  : "64"
+
     },
     {
         "path"     : "/part[0,15]/partefx[0,2]/EQ/filter[0,7]/Pq",
@@ -10609,7 +10631,9 @@
         "name"     : "Pq",
         "tooltip"  : "Resonance/Bandwidth",
         "type"     : "i",
-        "range"    : [0,127]
+        "range"    : [0,127],
+        "default"  : "64"
+
     },
     {
         "path"     : "/part[0,15]/partefx[0,2]/EQ/filter[0,7]/Pstages",
@@ -10617,7 +10641,9 @@
         "name"     : "Pstages",
         "tooltip"  : "Additional filter stages",
         "type"     : "i",
-        "range"    : [0,4]
+        "range"    : [0,4],
+        "default"  : "0"
+
     },
     {
         "path"     : "/part[0,15]/partefx[0,2]/Phaser/preset",
@@ -10693,7 +10719,9 @@
         "tooltip"  : "panning",
         "scale"    : "linear",
         "type"     : "i",
-        "range"    : [0,127]
+        "range"    : [0,127],
+        "default"  : "64"
+
     },
     {
         "path"     : "/part[0,15]/partefx[0,2]/Phaser/lfo.Pfreq",
@@ -10924,7 +10952,9 @@
         "tooltip"  : "panning",
         "scale"    : "linear",
         "type"     : "i",
-        "range"    : [0,127]
+        "range"    : [0,127],
+        "default"  : "64"
+
     },
     {
         "path"     : "/part[0,15]/partefx[0,2]/Reverb/Ptime",
@@ -11549,7 +11579,6 @@
         "name"     : "Prcvchn",
         "tooltip"  : "Active MIDI channel",
         "type"     : "i",
-        "range"    : [0,127],
         "options"  : [
         {
             "id"     : 0,
@@ -12235,7 +12264,9 @@
         "tooltip"  : "panning",
         "scale"    : "linear",
         "type"     : "i",
-        "range"    : [0,127]
+        "range"    : [0,127],
+        "default"  : "64"
+
     },
     {
         "path"     : "/sysefx[0,3]/Alienwah/Pfreq",
@@ -12400,7 +12431,9 @@
         "tooltip"  : "panning",
         "scale"    : "linear",
         "type"     : "i",
-        "range"    : [0,127]
+        "range"    : [0,127],
+        "default"  : "64"
+
     },
     {
         "path"     : "/sysefx[0,3]/Chorus/Pfreq",
@@ -12543,9 +12576,7 @@
         "tooltip"  : "amount of effect",
         "scale"    : "linear",
         "type"     : "i",
-        "range"    : [0,127],
-        "default"  : "127"
-
+        "range"    : [0,127]
     },
     {
         "path"     : "/sysefx[0,3]/Distortion/Ppanning",
@@ -12554,7 +12585,9 @@
         "tooltip"  : "panning",
         "scale"    : "linear",
         "type"     : "i",
-        "range"    : [0,127]
+        "range"    : [0,127],
+        "default"  : "64"
+
     },
     {
         "path"     : "/sysefx[0,3]/Distortion/Plrcross",
@@ -12751,7 +12784,9 @@
         "tooltip"  : "panning",
         "scale"    : "linear",
         "type"     : "i",
-        "range"    : [0,127]
+        "range"    : [0,127],
+        "default"  : "64"
+
     },
     {
         "path"     : "/sysefx[0,3]/DynamicFilter/Pfreq",
@@ -12905,7 +12940,9 @@
         "tooltip"  : "panning",
         "scale"    : "linear",
         "type"     : "i",
-        "range"    : [0,127]
+        "range"    : [0,127],
+        "default"  : "64"
+
     },
     {
         "path"     : "/sysefx[0,3]/Echo/Pdelay",
@@ -12957,11 +12994,24 @@
         "range"    : [0,127]
     },
     {
+        "path"     : "/sysefx[0,3]/EQ/Pvolume",
+        "shortname": "amt",
+        "name"     : "Pvolume",
+        "tooltip"  : "amount of effect",
+        "scale"    : "linear",
+        "type"     : "i",
+        "range"    : [0,127],
+        "default"  : "50"
+
+    },
+    {
         "path"     : "/sysefx[0,3]/EQ/filter[0,7]/Ptype",
         "shortname": "type",
         "name"     : "Ptype",
         "tooltip"  : "Filter Type",
         "type"     : "i",
+        "default"  : "0"
+,
         "options"  : [
         {
             "id"     : 0,
@@ -13011,7 +13061,9 @@
         "name"     : "Pfreq",
         "tooltip"  : "",
         "type"     : "i",
-        "range"    : [0,127]
+        "range"    : [0,127],
+        "default"  : "64"
+
     },
     {
         "path"     : "/sysefx[0,3]/EQ/filter[0,7]/Pgain",
@@ -13019,7 +13071,9 @@
         "name"     : "Pgain",
         "tooltip"  : "",
         "type"     : "i",
-        "range"    : [0,127]
+        "range"    : [0,127],
+        "default"  : "64"
+
     },
     {
         "path"     : "/sysefx[0,3]/EQ/filter[0,7]/Pq",
@@ -13027,7 +13081,9 @@
         "name"     : "Pq",
         "tooltip"  : "Resonance/Bandwidth",
         "type"     : "i",
-        "range"    : [0,127]
+        "range"    : [0,127],
+        "default"  : "64"
+
     },
     {
         "path"     : "/sysefx[0,3]/EQ/filter[0,7]/Pstages",
@@ -13035,7 +13091,9 @@
         "name"     : "Pstages",
         "tooltip"  : "Additional filter stages",
         "type"     : "i",
-        "range"    : [0,4]
+        "range"    : [0,4],
+        "default"  : "0"
+
     },
     {
         "path"     : "/sysefx[0,3]/Phaser/preset",
@@ -13111,7 +13169,9 @@
         "tooltip"  : "panning",
         "scale"    : "linear",
         "type"     : "i",
-        "range"    : [0,127]
+        "range"    : [0,127],
+        "default"  : "64"
+
     },
     {
         "path"     : "/sysefx[0,3]/Phaser/lfo.Pfreq",
@@ -13342,7 +13402,9 @@
         "tooltip"  : "panning",
         "scale"    : "linear",
         "type"     : "i",
-        "range"    : [0,127]
+        "range"    : [0,127],
+        "default"  : "64"
+
     },
     {
         "path"     : "/sysefx[0,3]/Reverb/Ptime",
@@ -14074,7 +14136,9 @@
         "tooltip"  : "panning",
         "scale"    : "linear",
         "type"     : "i",
-        "range"    : [0,127]
+        "range"    : [0,127],
+        "default"  : "64"
+
     },
     {
         "path"     : "/insefx[0,7]/Alienwah/Pfreq",
@@ -14239,7 +14303,9 @@
         "tooltip"  : "panning",
         "scale"    : "linear",
         "type"     : "i",
-        "range"    : [0,127]
+        "range"    : [0,127],
+        "default"  : "64"
+
     },
     {
         "path"     : "/insefx[0,7]/Chorus/Pfreq",
@@ -14382,9 +14448,7 @@
         "tooltip"  : "amount of effect",
         "scale"    : "linear",
         "type"     : "i",
-        "range"    : [0,127],
-        "default"  : "127"
-
+        "range"    : [0,127]
     },
     {
         "path"     : "/insefx[0,7]/Distortion/Ppanning",
@@ -14393,7 +14457,9 @@
         "tooltip"  : "panning",
         "scale"    : "linear",
         "type"     : "i",
-        "range"    : [0,127]
+        "range"    : [0,127],
+        "default"  : "64"
+
     },
     {
         "path"     : "/insefx[0,7]/Distortion/Plrcross",
@@ -14590,7 +14656,9 @@
         "tooltip"  : "panning",
         "scale"    : "linear",
         "type"     : "i",
-        "range"    : [0,127]
+        "range"    : [0,127],
+        "default"  : "64"
+
     },
     {
         "path"     : "/insefx[0,7]/DynamicFilter/Pfreq",
@@ -14744,7 +14812,9 @@
         "tooltip"  : "panning",
         "scale"    : "linear",
         "type"     : "i",
-        "range"    : [0,127]
+        "range"    : [0,127],
+        "default"  : "64"
+
     },
     {
         "path"     : "/insefx[0,7]/Echo/Pdelay",
@@ -14796,11 +14866,24 @@
         "range"    : [0,127]
     },
     {
+        "path"     : "/insefx[0,7]/EQ/Pvolume",
+        "shortname": "amt",
+        "name"     : "Pvolume",
+        "tooltip"  : "amount of effect",
+        "scale"    : "linear",
+        "type"     : "i",
+        "range"    : [0,127],
+        "default"  : "50"
+
+    },
+    {
         "path"     : "/insefx[0,7]/EQ/filter[0,7]/Ptype",
         "shortname": "type",
         "name"     : "Ptype",
         "tooltip"  : "Filter Type",
         "type"     : "i",
+        "default"  : "0"
+,
         "options"  : [
         {
             "id"     : 0,
@@ -14850,7 +14933,9 @@
         "name"     : "Pfreq",
         "tooltip"  : "",
         "type"     : "i",
-        "range"    : [0,127]
+        "range"    : [0,127],
+        "default"  : "64"
+
     },
     {
         "path"     : "/insefx[0,7]/EQ/filter[0,7]/Pgain",
@@ -14858,7 +14943,9 @@
         "name"     : "Pgain",
         "tooltip"  : "",
         "type"     : "i",
-        "range"    : [0,127]
+        "range"    : [0,127],
+        "default"  : "64"
+
     },
     {
         "path"     : "/insefx[0,7]/EQ/filter[0,7]/Pq",
@@ -14866,7 +14953,9 @@
         "name"     : "Pq",
         "tooltip"  : "Resonance/Bandwidth",
         "type"     : "i",
-        "range"    : [0,127]
+        "range"    : [0,127],
+        "default"  : "64"
+
     },
     {
         "path"     : "/insefx[0,7]/EQ/filter[0,7]/Pstages",
@@ -14874,7 +14963,9 @@
         "name"     : "Pstages",
         "tooltip"  : "Additional filter stages",
         "type"     : "i",
-        "range"    : [0,4]
+        "range"    : [0,4],
+        "default"  : "0"
+
     },
     {
         "path"     : "/insefx[0,7]/Phaser/preset",
@@ -14950,7 +15041,9 @@
         "tooltip"  : "panning",
         "scale"    : "linear",
         "type"     : "i",
-        "range"    : [0,127]
+        "range"    : [0,127],
+        "default"  : "64"
+
     },
     {
         "path"     : "/insefx[0,7]/Phaser/lfo.Pfreq",
@@ -15181,7 +15274,9 @@
         "tooltip"  : "panning",
         "scale"    : "linear",
         "type"     : "i",
-        "range"    : [0,127]
+        "range"    : [0,127],
+        "default"  : "64"
+
     },
     {
         "path"     : "/insefx[0,7]/Reverb/Ptime",
