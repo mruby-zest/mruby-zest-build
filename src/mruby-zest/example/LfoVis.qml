@@ -37,6 +37,7 @@ Widget {
         delay_var.type = "f"
         delay_var.set_min(0.0)
         delay_var.set_max(4.0)
+        delay_var.set_logmin(0.0)
         delay_var.callback = lambda {|x|
             lfo_vis.delay_time = Math.exp(Math.log(2000)*x)
             lfo_vis.damage_self}
@@ -45,6 +46,7 @@ Widget {
         freq_var.type = "f"
         freq_var.set_min(0)
         freq_var.set_max(85.25)
+        freq_var.set_logmin(0)
         freq_var.callback = lambda {|x|
             lfo_vis.period = 20.0 * Math.exp(Math.log(1500/20) * (1 - x))
             lfo_vis.damage_self}

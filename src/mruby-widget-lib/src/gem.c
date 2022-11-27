@@ -332,6 +332,7 @@ typedef struct {
     bool       log;
     float min;
     float max;
+    float logmin;
 } remote_cb_data;
 
 typedef struct remote_data_struct remote_data;
@@ -345,6 +346,7 @@ typedef struct {
     int              cbs;
     float            min;
     float            max;
+    float            logmin;
     int              watch;
     remote_cb_data **cb_refs;
 } remote_param_data;
@@ -695,6 +697,7 @@ mrb_remote_metadata_initalize(mrb_state *mrb, mrb_value self)
     setfield2("options=",   opts);
     setfield3("min=",       sm_get_min_flt(handle));
     setfield3("max=",       sm_get_max_flt(handle));
+    setfield3("logmin=",    sm_get_logmin_flt(handle));
 #undef setfield
 #undef setfield2
 #undef setfield3
@@ -797,6 +800,7 @@ remote_cb_fvec(const char *msg, remote_cb_data *cb)
     mrb_funcall(cb->mrb, cb->cb, "call", 1, ary);
 }
 
+// callback after receiving a value from OSC message
 static void
 remote_cb(const char *msg, void *data)
 {
@@ -818,16 +822,31 @@ remote_cb(const char *msg, void *data)
         remote_cb_int(msg, cb);
     else if(!strcmp("f", arg_str)) {
         float val = rtosc_argument(msg, 0).f;
-		if(cb->log) {
-			if (cb->min > 0){
-				const float b = log(cb->min);
-				const float a = log(cb->max)-b;
-				val = (logf(val)-b)/a; // inverse scaling function of exp-function in mrb_remote_param_set_value
-			}else { // min <= 0
-				const float a = logf(1.0f+4096.0f);
-				val = logf(1.0f+val*4096.0f/cb->max)/a; // inverse function of exp-function in mrb_remote_param_set_value
-			}
-		} else
+        if(cb->log) {
+            // clip values around [min,logmin]
+            if (val > cb->min && val < cb->logmin) {
+                val = (val < .5f * (cb->min + cb->logmin)) ? cb->min : cb->logmin;
+            }
+
+            if (val == cb->min) {
+                val = 0.f;
+            } else {
+                // map [min,max] -> [0,1]
+                if (cb->logmin > 0){
+                    const float b = log(cb->logmin);
+                    const float a = log(cb->max)-b;
+                    val = (logf(val)-b)/a; // inverse scaling function of exp-function in mrb_remote_param_set_value
+                }else { // min <= 0
+                    const float a = logf(1.0f+4096.0f);
+                    val = logf(1.0f+val*4096.0f/cb->max)/a; // inverse function of exp-function in mrb_remote_param_set_value
+                }
+
+                // linear post-mapping:
+                // [0,1] -> [0.07,1]
+                if(cb->logmin != cb->min)
+                    val = 0.93 * val + 0.07;
+            }
+        } else
             val = (val-cb->min)/(cb->max-cb->min);
         mrb_funcall(cb->mrb, cb->cb, "call", 1, mrb_float_value(cb->mrb, val));
     } else if(!strcmp("T", arg_str))
@@ -857,6 +876,7 @@ mrb_remote_param_initalize(mrb_state *mrb, mrb_value self)
     data->cbs     = 0;
     data->min     = 0;
     data->max     = 0;
+    data->logmin  = 0;
     data->watch   = 0;
     data->scale   = 0;
     //if(strstr(data->uri, "Pfreq"))
@@ -888,11 +908,12 @@ mrb_remote_param_set_callback(mrb_state *mrb, mrb_value self)
         mrb_data_get_ptr(mrb, self, &mrb_remote_param_type);
 
     remote_cb_data *data = malloc(sizeof(remote_cb_data));
-    data->mrb = mrb;
-    data->mode = mrb_funcall(mrb, self, "mode", 0);
-    data->log  = (param->scale && strstr(param->scale, "log"));
-    data->min  = param->min;
-    data->max  = param->max;
+    data->mrb    = mrb;
+    data->mode   = mrb_funcall(mrb, self, "mode", 0);
+    data->log    = (param->scale && strstr(param->scale, "log"));
+    data->min    = param->min;
+    data->max    = param->max;
+    data->logmin = param->logmin;
     if(data->min == data->max && data->max == 0)
         data->max = 127.0;
     mrb_get_args(mrb, "o", &data->cb);
@@ -944,6 +965,30 @@ mrb_remote_param_set_max(mrb_state *mrb, mrb_value self)
 }
 
 static mrb_value
+mrb_remote_param_set_logmin(mrb_state *mrb, mrb_value self)
+{
+    remote_param_data *param;
+    param = (remote_param_data*) mrb_data_get_ptr(mrb, self, &mrb_remote_param_type);
+    mrb_assert(param);
+
+    mrb_float value = 0;
+    mrb_get_args(mrb, "f", &value);
+    mrb_assert(param);
+
+    param->logmin = value;
+    return self;
+}
+
+static mrb_value
+mrb_remote_param_has_logmin(mrb_state *mrb, mrb_value self)
+{
+    remote_param_data *param;
+    param = (remote_param_data*) mrb_data_get_ptr(mrb, self, &mrb_remote_param_type);
+    mrb_assert(param);
+    return mrb_bool_value(param->logmin != param->min);
+}
+
+static mrb_value
 mrb_remote_param_set_scale(mrb_state *mrb, mrb_value self)
 {
     remote_param_data *param;
@@ -966,6 +1011,7 @@ mrb_remote_param_set_scale(mrb_state *mrb, mrb_value self)
     return self;
 }
 
+// called when UI is setting a value
 static mrb_value
 mrb_remote_param_set_value(mrb_state *mrb, mrb_value self)
 {
@@ -990,19 +1036,43 @@ mrb_remote_param_set_value(mrb_state *mrb, mrb_value self)
             next = (param->max-param->min)*value + param->min;
         br_set_value_int(param->br, param->uri, next);
     } else if(param->type == 'f') {
-        const float x = value;
         float out = 0;
-		if(param->scale && strstr(param->scale, "log")) {
-			if (param->min > 0) {
-				const float b = log(param->min);
-				const float a = log(param->max)-b;
-				out = expf(a*x+b);
-			} else { // min <= 0 ( e.g. envelope time param )
-				const float a = logf(1.0+4096.0f);
-				out = (expf(a*x)-1.0f)*param->max/4096.0f;
-			}
-		} else
+        if(param->scale && strstr(param->scale, "log")) {
+            // map [0,1] => [min,max]
+
+            // if logmin, clip values around [0,0.07]
+            if(param->logmin!=param->min && value > 0.f && value < 0.07f)
+                value = (value < .035f) ? 0 : 0.07;
+
+            if(param->logmin!=param->min && value == 0) {
+                out = param->min;
+            } else {
+                float x;
+                if(param->logmin == param->min) {
+                    x = value;
+                } else {
+                    // linear pre-mapping: [0.07,1] -> [0,1]
+                    float a, b; // f(x) = ax + b
+                    a = 1.f/0.93f;
+                    b = 1-a;
+                    x = a*value + b;
+                }
+
+                // now, we are in [0,1] (again)
+                // map [0,1] => [min,max]
+                if (param->logmin > 0) {
+                    const float b = log(param->logmin);
+                    const float a = log(param->max)-b;
+                    out = expf(a*x+b);
+                } else { // min <= 0 ( e.g. envelope time param )
+                    const float a = logf(1.0+4096.0f);
+                    out = (expf(a*x)-1.0f)*param->max/4096.0f;
+                }
+            }
+
+        } else
             out = (param->max-param->min)*value + param->min;
+
         br_set_value_float(param->br, param->uri, out);
     }
     
@@ -1271,6 +1341,8 @@ mrb_mruby_widget_lib_gem_init(mrb_state* mrb) {
     mrb_define_method(mrb, param, "set_callback", mrb_remote_param_set_callback, MRB_ARGS_REQ(1));
     mrb_define_method(mrb, param, "set_min",      mrb_remote_param_set_min, MRB_ARGS_REQ(1));
     mrb_define_method(mrb, param, "set_max",      mrb_remote_param_set_max, MRB_ARGS_REQ(1));
+    mrb_define_method(mrb, param, "set_logmin",   mrb_remote_param_set_logmin, MRB_ARGS_REQ(1));
+    mrb_define_method(mrb, param, "has_logmin",   mrb_remote_param_has_logmin, MRB_ARGS_NONE());
     mrb_define_method(mrb, param, "set_scale",    mrb_remote_param_set_scale, MRB_ARGS_REQ(1));
     mrb_define_method(mrb, param, "set_value",    mrb_remote_param_set_value, MRB_ARGS_REQ(1));
     mrb_define_method(mrb, param, "set_value_tf", mrb_remote_param_set_value_tf, MRB_ARGS_REQ(1));

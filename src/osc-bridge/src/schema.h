@@ -24,6 +24,9 @@ typedef struct {
     char  type;
     float value_min;
     float value_max;
+    // in case of logarithmic scales: minimum value of the domain of the log function
+    // can differ from min in logarithmic scales
+    float value_logmin;
 } schema_handle_t;
 
 //Schema instance
@@ -50,6 +53,7 @@ str_t sm_get_tooltip(schema_handle_t);
 str_t sm_get_units(schema_handle_t);
 float sm_get_min_flt(schema_handle_t);
 float sm_get_max_flt(schema_handle_t);
+float sm_get_logmin_flt(schema_handle_t);
 
 //Verify that handle contains valid data
 int sm_valid(schema_handle_t);

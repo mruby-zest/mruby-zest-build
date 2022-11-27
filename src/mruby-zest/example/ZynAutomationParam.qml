@@ -110,6 +110,7 @@ Widget {
 
         value_ref.set_min(0.0)
         value_ref.set_max(1.0)
+        value_ref.set_logmin(0.0)
         value_ref.type = "f"
 
         path_ref.callback = lambda {|x| param.update_path(x)}

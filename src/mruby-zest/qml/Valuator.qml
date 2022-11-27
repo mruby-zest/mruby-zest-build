@@ -3,7 +3,8 @@ Widget {
     property Object valueRef: nil;
     property Object prev:     nil;
 
-    property Float value: 1.0;
+    property Float value: 1.0;     // Current value in [0,1]. If logmin is set: either 0 or in [0.07,1].
+    property Float unclValue: 1.0; // Current value in [0,1], unclipped
 
     property Float dragScale: 200.0;
     property Bool  vertical: true
@@ -25,6 +26,7 @@ Widget {
         valuator.valueRef = OSC::RemoteParam.new($remote, valuator.extern)
         valuator.valueRef.set_min(meta.min)
         valuator.valueRef.set_max(meta.max)
+        valuator.valueRef.set_logmin(meta.logmin)
         valuator.valueRef.set_scale(meta.scale)
         valuator.valueRef.type     = "f" if valuator.type
         valuator.valueRef.callback = Proc.new {|x| valuator.setValue(x)}
@@ -33,7 +35,10 @@ Widget {
 
     //Callback function which does not propagate info to remote API
     function setValue(v) {
-        self.value = lim(v, 0.0, 1.0)
+        if(valuator.valueRef.has_logmin() && v > 0.0 && v < 0.07)
+            v = (v < 0.035) ? 0 : 0.07
+        end
+        self.value = self.unclValue = lim(v, 0.0, 1.0)
         damage_self
     }
 
@@ -84,16 +89,14 @@ Widget {
 
     function reset() {
         reset_value = 64.01/127.0
+        self.value = self.unclValue = reset_value
         if(valueRef)
             old_dsp = self.valueRef.display_value
 
             self.valueRef.value = reset_value
-            self.value = reset_value
             new_dsp = self.valueRef.display_value
             whenValue.call if whenValue && (new_dsp.nil? || old_dsp != new_dsp)
             valuator.root.log(:user_value, valuator.valueRef.display_value, src=valuator.label)
-        else
-            self.value = reset_value
         end
         damage_self
     }
@@ -179,29 +182,33 @@ Widget {
 
     function updatePosAbs(tmp) {
         nvalue = lim(tmp, 0.0, 1.0)
+        valuator.unclValue = nvalue
+        if(valuator.valueRef.has_logmin() && nvalue > 0.0 && nvalue < 0.07)
+            nvalue = (nvalue < 0.035) ? 0 : 0.07
+        end
+        valuator.value = nvalue
         if(valuator.valueRef)
             old_dsp = valuator.valueRef.display_value
             valuator.valueRef.value = nvalue
-            valuator.value = nvalue
             new_dsp = valuator.valueRef.display_value
             whenValue.call if whenValue && (new_dsp.nil? || old_dsp != new_dsp)
             out_value = displayValueToText(valuator.valueRef.display_value)
             valuator.root.log(:user_value, out_value, src=valuator.label)
         else
-            valuator.value = nvalue
             whenValue.call if whenValue
         end
         damage_self
     }
 
     function updatePos(delta) {
-        updatePosAbs(valuator.value - delta)
+        updatePosAbs(valuator.unclValue - delta)
     }
 
     function onMerge(val)
     {
         return if self.class != val.class
         valuator.value = val.value if(val.respond_to?(:value))
+        valuator.unclValue = val.unclValue if(val.respond_to?(:unclValue))
     }
 
 }

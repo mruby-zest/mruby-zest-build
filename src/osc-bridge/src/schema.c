@@ -116,6 +116,11 @@ float sm_get_max_flt(schema_handle_t h)
     return h.value_max;
 }
 
+float sm_get_logmin_flt(schema_handle_t h)
+{
+    return h.value_logmin;
+}
+
 int sm_valid(schema_handle_t h)
 {
     return h.flag != (int) 0xdeadbeef;
