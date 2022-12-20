@@ -11,6 +11,9 @@ Widget {
                 fn.damage_self
             end
         }
+        function onMousePress(ev) {
+            root.fine_mode = !root.fine_mode
+        }
     }
     HSlider {type: :float; extern: "/Volume"; height: 0.8; label: "volume"; }
     NumEntry {extern: "/tempo"; label: "Tempo"}
