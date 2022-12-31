@@ -23,27 +23,26 @@ Widget {
     //volume
     HSlider {
         extern: voice_item.extern + "PVolume"
-        label: "20%"
+        value_label: true
     }
     //pan
     HSlider {
         extern: voice_item.extern + "PPanning"
-        label: "centered";
+        value_label: true
         centered: true;
         value: 0.5
     }
     //detune
-    HSlider {
+    ZynDetuneHSlider {
         extern: voice_item.extern + "PDetune"
-        label: "+0 cents";
+        extern2: voice_item.extern + "detunevalue"
         centered: true;
-        value: 0.5
     }
 
     //vib depth
     HSlider {
         extern: voice_item.extern + "FreqLfo/Pintensity"
-        label: "100%"
+        value_label: true
     }
 
     function layout(l, selfBox)
