@@ -183,7 +183,8 @@ Widget {
     function updatePosAbs(tmp) {
         nvalue = lim(tmp, 0.0, 1.0)
         valuator.unclValue = nvalue
-        if(valuator.valueRef.has_logmin() && nvalue > 0.0 && nvalue < 0.07)
+        if(valuator.valueRef &&
+           valuator.valueRef.has_logmin() && nvalue > 0.0 && nvalue < 0.07)
             nvalue = (nvalue < 0.035) ? 0 : 0.07
         end
         valuator.value = nvalue
