@@ -1,5 +1,8 @@
 all: linux
 
+windows-hotload: HOTLOADING=UI_HOTLOAD=1
+windows-hotload: windows
+
 linux-hotload: HOTLOADING=UI_HOTLOAD=1
 linux-hotload: linux
 
