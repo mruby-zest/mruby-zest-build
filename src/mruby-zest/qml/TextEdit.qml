@@ -65,15 +65,18 @@ Widget {
         pos = self.label.length
         pos = @edit.pos if @edit
         ll = self.label
+        size = ll.split(" ").length
+        line = @edit.calc_cursor_y
+        puts @cursor[1]
         if(k.ord == 8)
             pos -= 1
             if(pos >= ll.length)
                 self.label = ll.slice(0, ll.length-1)
             elsif(pos >= 0)
-                self.label = ll.slice(0, pos) + ll.slice(pos+1, ll.length)
+                self.label = ll.slice(0, pos+line) + ll.slice(pos+1+line, ll.length)
             end
         else
-            self.label = ll.insert(pos, k)
+            self.label = ll.insert(pos+line, k)
         end
         ll = self.label
         self.valueRef.value = ll if self.valueRef
@@ -114,6 +117,7 @@ Widget {
                 if(@state)
                     vg.text_align NVG::ALIGN_CENTER | NVG::ALIGN_MIDDLE
                     vg.text(x+10, y, str)
+                    @cursor = [x+10, y]
                 end
             end
         end
