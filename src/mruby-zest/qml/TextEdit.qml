@@ -117,7 +117,6 @@ Widget {
                 if(@state)
                     vg.text_align NVG::ALIGN_CENTER | NVG::ALIGN_MIDDLE
                     vg.text(x+10, y, str)
-                    @cursor = [x+10, y]
                 end
             end
         end
