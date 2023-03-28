@@ -65,9 +65,7 @@ Widget {
         pos = self.label.length
         pos = @edit.pos if @edit
         ll = self.label
-        size = ll.split(" ").length
-        line = @edit.calc_cursor_y
-        puts @cursor[1]
+        line = @edit.cursor_row
         if(k.ord == 8)
             pos -= 1
             if(pos >= ll.length)

@@ -55,11 +55,7 @@ class EditRegion
         calc_cursor_x
     end
 
-    def calc_cursor_x()
-        return @cursor_row
-    end
-    
-    def calc_cursor_y()
+    def cursor_row()
         return @cursor_row
     end
 
@@ -131,7 +127,6 @@ class EditRegion
                 @chrcls << :space
             elsif(c == "\n" || c == "\r")
                 @chrcls << :line
-
             else
                 @chrcls << :chr
             end
@@ -147,7 +142,6 @@ class EditRegion
                 @activew      += @widths[i]
             elsif(@chrcls[i] == :space)
                 flush_word_buffer()
-
                 push_char(@string[i], @widths[i])
             elsif(@chrcls[i] == :line)
                 flush_word_buffer()
