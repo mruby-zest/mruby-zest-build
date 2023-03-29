@@ -65,7 +65,8 @@ Widget {
         pos = self.label.length
         pos = @edit.pos if @edit
         ll = self.label
-        line = @edit.cursor_row
+        // Fixing the cursor position bug , by adding the cursor_row to the position
+        cursor_row = @edit.calc_cursor_y
         if(k.ord == 8)
             pos -= 1
             if(pos >= ll.length)
