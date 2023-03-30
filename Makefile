@@ -44,6 +44,7 @@ osx: deps/libuv.a
 	$(CC) test-libversion.c deps/pugl/build/libpugl-0.a -ldl -o zest -framework OpenGL -framework AppKit -lpthread -I deps/pugl -std=gnu99
 
 windows: buildpuglwin deps/libuv-win.a
+	ruby ./rebuild-fcache.rb
 	cd deps/nanovg/src   && $(CC) -mstackrealign nanovg.c -c
 	$(AR) rc deps/libnanovg.a deps/nanovg/src/*.o
 	cd src/osc-bridge    && CFLAGS="-mstackrealign -I ../../deps/libuv/include " make lib
