@@ -7,15 +7,18 @@ Group {
             whitespace: 2
             Knob {
                 type: :float
+                label: "volume"
                 extern: insset.extern + "Volume"
             }
             Knob { extern: insset.extern + "Ppanning"}
             Knob {
                 id: minkey
+                label: "min key"
                 extern: insset.extern + "Pminkey"
             }
             Knob {
                 id: maxkey
+                label: "max key"
                 extern: insset.extern + "Pmaxkey"
             }
         }
@@ -23,9 +26,18 @@ Group {
             whitespace: 3
             outer: :none
             layoutOpts: []
-            Knob {extern: insset.extern + "Pvelsns"}
-            Knob {extern: insset.extern + "Pveloffs"}
-            Knob {extern: insset.extern + "Pkeyshift"}
+            Knob {
+                label "vel sense"
+                extern: insset.extern + "Pvelsns"
+            }
+            Knob {
+                label: "vel offset"
+                extern: insset.extern + "Pveloffs"
+            }
+            Knob {
+                label: "key shift"
+                extern: insset.extern + "Pkeyshift"
+            }
             ZynKitKeyButton {
                 layoutOpts: [:aspect]
                 extern: insset.extern
