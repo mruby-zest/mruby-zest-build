@@ -33,7 +33,7 @@ Group {
     ParModuleRow {
         id: bot
         Knob     { whenValue: lambda { box.cb }; extern: box.extern+"Penvstretch"}
-        ToggleButton   { label: "lin/log"; whenValue: lambda { box.cb }; extern: box.extern+"Plinearenvelope"}
+        ToggleButton   { label: "lin/log"; rocker: true; whenValue: lambda { box.cb }; extern: box.extern+"Plinearenvelope"}
         Col {
             ToggleButton   { label: "FRCR"; whenValue: lambda { box.cb }; extern: box.extern+"Pforcedrelease"}
             ToggleButton   { label: "repeat"; whenValue: lambda { box.cb }; extern: box.extern+"Prepeating"}
