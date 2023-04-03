@@ -20,6 +20,8 @@ Group {
     ParModuleRow {
         ToggleButton {
             extern: port.extern+"portamento.pitchthreshtype"
+            rocker: true
+            label ">/<"
         }
         NumEntry {
             extern: port.extern+"portamento.pitchthresh"
