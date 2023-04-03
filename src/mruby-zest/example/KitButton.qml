@@ -3,7 +3,7 @@ Widget {
     property signal action: nil;
     property Bool   value:    false;
     property Bool   enable:   false;
-    tooltip: "Use Middle Mouse To Toggle"
+    tooltip: "Use Middle Or Right Mouse To Toggle"
     
     function set_enable(v) {
         if(button.enable != v)
@@ -16,6 +16,8 @@ Widget {
         if(ev.buttons.include? :leftButton)
             action.call(:change_view) if action
         elsif(ev.buttons.include? :middleButton)
+            action.call(:toggle) if action
+        elsif(ev.buttons.include? :rightButton)
             action.call(:toggle) if action
         end
         damage_self
