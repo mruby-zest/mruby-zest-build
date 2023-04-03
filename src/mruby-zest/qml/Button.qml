@@ -7,6 +7,7 @@ Widget {
     property Function whenValue: nil;
     property Float    pad: 1.0/64
     property Bool     active: true
+    property Bool     rocker: false
 
     function onMousePress(ev) {
         return if !self.active
@@ -66,6 +67,14 @@ Widget {
         text_color2   = Theme::TextColor
         vg.font_face("bold")
         vg.font_size h*self.textScale
+        if(button.rocker)
+            # Expects label to be of the form "lin/log", where the left
+            # portion represents the 'true' value of the underlying parameter.
+            texts = label.split("/")
+            text = texts[0]
+        else
+            text = label
+        end
         # While it initially looks redundant to test against 'true', remember
         # that 'value' is a float when the Button is a TriggerButton. If we
         # don't check against true here, the button text while change to the
@@ -78,10 +87,34 @@ Widget {
         end
         if(layoutOpts.include? :left_text)
             vg.text_align NVG::ALIGN_LEFT | NVG::ALIGN_MIDDLE
-            vg.text(8,h/2,button.label.upcase)
+            vg.text(8,h/2,text.upcase)
         else
             vg.text_align NVG::ALIGN_CENTER | NVG::ALIGN_MIDDLE
-            vg.text(w/2,h/2,button.label.upcase)
+            if(button.rocker)
+                vg.text(w/4,h/2,text.upcase)
+            else
+                vg.text(w/2,h/2,text.upcase)
+            end
+        end
+        if (button.rocker)
+            # Right hand side of rocker button
+            # We use -1 so we always get the last element regardless of if
+            # the array actually contains 2 elements
+            text = texts[-1]
+            if(value == true)
+                vg.fill_color(text_color2)
+            else
+                vg.fill_color(text_color1)
+            end
+            if(layoutOpts.include? :left_text)
+                # Since the left button half aligns left, we align the
+                # right hand one to the right, for symmetry.
+                vg.text_align NVG::ALIGN_RIGHT | NVG::ALIGN_MIDDLE
+                vg.text(w-9,h/2,text.upcase)
+            else
+                vg.text_align NVG::ALIGN_CENTER | NVG::ALIGN_MIDDLE
+                vg.text(w*3/4-2,h/2,text.upcase)
+            end
         end
     }
 
@@ -103,7 +136,13 @@ Widget {
         on_color      = Theme::ButtonActive
         cs = 0
         vg.path do |v|
-            v.rounded_rect(w*pad, h*pad, w*(1-2*pad), h*(1-2*pad), 2)
+            # Whole button, or left part of button for rocker
+            if(button.rocker)
+                r = w*(1-2*pad)*0.5
+            else
+                r = w*(1-2*pad)
+            end
+            v.rounded_rect(w*pad, h*pad, r, h*(1-2*pad), 2)
             # Although the test against 'true' might seem redundant, it's
             # needed because 'value' will be a float when the Button is a
             # TriggerButton, and we purposely want to check for a boolean
@@ -127,22 +166,62 @@ Widget {
             v.fill
             v.stroke_width 1
             v.stroke
+        end
 
+        if(button.rocker)
+            # Right part of rocker button
+            vg.path do |v|
+                v.rounded_rect(w*(1-2*pad)*0.5, h*pad, w*(1-2*pad)*0.5, h*(1-2*pad), 2)
+                # Rocker buttons are never used as TriggerButtons, so can
+                # always assume 'value' is a boolean value here.
+                if(button.value)
+                    paint = v.linear_gradient(0,0,0,h,
+                    Theme::ButtonGrad1, Theme::ButtonGrad2)
+                    v.fill_paint paint
+                else
+                    v.fill_color on_color
+                end
+                v.fill
+                v.stroke_width 1
+                v.stroke
+            end
         end
 
         vg.path do |v|
+            # Little, slightly lighter horizontal field at top of button
             hh = h/20
-            v.move_to(w*pad+1,       h*pad+hh)
-            v.line_to(w*(1-2*pad)+1, h*pad+hh)
-            if(cs == 0)
-                v.stroke_color color("5c5c5c")
-            elsif(cs == 1)
-                v.stroke_color color("16a39c")
-            end
             if([0,1].include?(cs))
+                if(button.rocker)
+                  r = w*(1-2*pad)*0.5-1
+                else
+                  r = w*(1-2*pad)+1
+                end
                 v.stroke_width hh
+
+                v.move_to(w*pad+1,       h*pad+hh)
+                v.line_to(r, h*pad+hh)
+                if(cs == 0)
+                    v.stroke_color color("5c5c5c")
+                elsif(cs == 1)
+                    v.stroke_color color("16a39c")
+                end
                 v.stroke
+
+                if(button.rocker)
+                    # Right part in rocker mode
+                    vg.path do |v|
+                        v.move_to(w*(1-2*pad)*0.5+1, h*pad+hh)
+                        v.line_to(w*(1-2*pad)-1, h*pad+hh)
+                        if(cs == 1)
+                            v.stroke_color color("5c5c5c")
+                        elsif(cs == 0)
+                            v.stroke_color color("16a39c")
+                        end
+                        v.stroke
+                    end
+                end
             end
+
         end
     }
 
