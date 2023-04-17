@@ -12,7 +12,6 @@ linux:
 	$(AR) rc deps/libnanovg.a deps/nanovg/src/*.o
 	cd deps/mruby-file-stat/src && ../configure
 	cd src/osc-bridge    && make lib
-#	cd mruby             && UI_HOTLOAD=1 MRUBY_CONFIG=../build_config.rb rake
 # force rebuilding all code that depends on hotloading.
 	touch src/mruby-widget-lib/src/api.c  
 	cd mruby             && $(HOTLOADING) MRUBY_CONFIG=../build_config.rb rake
@@ -122,34 +121,33 @@ stats:
 	@echo 'total lines of code:'
 	@wc -l `find src/ -type f | grep -Ee "(qml|rb|c|h)$$" | grep -v fcache` | tail -n 1
 
-
 verbose: ## Compile mruby with --trace
-	cd mruby             && MRUBY_CONFIG=../build_config.rb rake --trace
-
-trace:
 	cd mruby && MRUBY_CONFIG=../build_config.rb rake --trace
 
 test:
-	cd mruby &&  MRUBY_CONFIG=../build_config.rb rake test
+	cd mruby && MRUBY_CONFIG=../build_config.rb rake test
 
 rtest:
 	cd src/mruby-qml-parse && ruby test-non-mruby.rb
 	cd src/mruby-qml-spawn && ruby test-non-mruby.rb
 
-run: ## Run the toolkit
-	./zest osc.udp://127.0.0.1:1337
+# How to launch zest locally during development.
+ZEST_LAUNCH_CMD=./zest osc.udp://127.0.0.1:1337
 
-valgrind: ## Launch with valgrind
-	 valgrind --leak-check=full --show-reachable=yes --log-file=leak-log.txt ./zest osc.udp://127.0.0.1:1337
+run: ## Launch zest. Connects to an already running zynaddsubfx via port 1337.
+	$(ZEST_LAUNCH_CMD)
 
-callgrind: ## Launch with callgrind
-	 valgrind --tool=callgrind --dump-instr=yes --collect-jumps=yes ./zest osc.udp://127.0.0.1:1337
+valgrind: ## Launch zest with valgrind
+	 valgrind --leak-check=full --show-reachable=yes --log-file=leak-log.txt $(ZEST_LAUNCH_CMD)
+
+callgrind: ## Launch zest with callgrind
+	 valgrind --tool=callgrind --dump-instr=yes --collect-jumps=yes $(ZEST_LAUNCH_CMD)
 
 gdb:
-	 gdb --args ./zest osc.udp://127.0.0.1:1337
+	 gdb --args $(ZEST_LAUNCH_CMD)
 
 gltrace: ## Launch with apitrace
-	/work/mytmp/apitrace/build/apitrace trace ./zest osc.udp://127.0.0.1:1337
+	/work/mytmp/apitrace/build/apitrace trace $(ZEST_LAUNCH_CMD)
 
 qtrace:
 	/work/mytmp/apitrace/build/qapitrace ./mruby.trace
@@ -199,9 +197,6 @@ put32: ## Push to the server
 put64: ## Push to the server
 	scp zest-dist-x86_64.tar.bz2 mark@fundamental-code.com:/var/www/htdocs/zest/
 
-packsrc:
-	git-archive-all zynaddsubfx-3.0.0.tar.bz2
-
 putsrc:
 	scp zynaddsubfx-3.0.0.tar.bz2 mark@fundamental-code.com:/var/www/htdocs/zest/
 
@@ -209,5 +204,4 @@ putsrc:
 
 help: ## This help
 		@grep -E '^[a-zA-Z0-9_-]+:.*?## .*$$' $(MAKEFILE_LIST) | sort | awk 'BEGIN {FS = ":.*?## "}; {printf "\033[36m%-30s\033[0m %s\n", $$1, $$2}'
-
 
