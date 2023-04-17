@@ -149,8 +149,6 @@ static int cache_set_vector(bridge_t *br, uri_t uri, char *types, rtosc_arg_t *a
     assert(line);
     line->pending = false;
 
-    int line_size = line->type == 'v' ? strlen(line->vec_type) : 0;
-
     //If the line is invalid OR
     //the cache isn't a vector field OR
     //the vector fields differ in type OR
