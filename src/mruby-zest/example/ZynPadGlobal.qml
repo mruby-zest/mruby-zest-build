@@ -10,6 +10,7 @@ Widget {
     }
 
     Swappable {
+        // Graphical visualization of oscillator parameters.
         id: row1
         content: Qml::LfoVis
 

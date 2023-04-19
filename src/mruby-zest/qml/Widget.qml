@@ -83,6 +83,8 @@ Object {
         end
     }
 
+    // Returns the top-level object in the hierarchy. In the case of
+    // zest, it is a ZRunner instance.
     function root() {
         if(parent.respond_to?(:root))
             parent.root

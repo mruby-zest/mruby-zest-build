@@ -10,6 +10,7 @@ Widget {
     }
 
     Swappable {
+        // Graphical visualization of oscillator parameters.
         id: row1
         content: Qml::LfoVis
 
@@ -25,7 +26,6 @@ Widget {
         function layout(l, selfBox) {
             Draw::Layout::hpack(l, selfBox, children)
         }
-
 
         Swappable { id: gen }
         Swappable { id: env }

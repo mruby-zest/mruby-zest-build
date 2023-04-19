@@ -1,3 +1,6 @@
+// Graphical visualization of oscillator parameters.
+// This widget handles a variety of plots, depending on the value of
+// lfo_vis.type. 
 Widget {
     id: lfo_vis
 
@@ -150,8 +153,8 @@ Widget {
             Proc.new {|phase| (0.05 ** phase) * 2.0 - 1.0}
         when :exp2
             Proc.new {|phase| (0.001 ** phase) * 2.0 - 1.0}
-	when :random
-	    Proc.new {|phase| 2*rand - 1 } #TODO: proper RAN LFO display
+        when :random
+	        Proc.new {|phase| 2*rand - 1 } #TODO: proper RAN LFO display
         else
             Proc.new {|x| Math.sin(2*3.14*x) }
         end

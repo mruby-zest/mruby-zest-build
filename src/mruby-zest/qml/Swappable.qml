@@ -34,6 +34,7 @@ Widget {
         end
     }
 
+    // For debugging purposes.
     function dump_plist()
     {
         plist = swappable.db.instance_eval{@plist}
