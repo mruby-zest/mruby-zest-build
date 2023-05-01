@@ -50,23 +50,67 @@ Widget {
         (0...l.length).each do |i|
             l[i] = "?" if l.getbyte(i) > 127
         end
-        vg.text(8,h/2,l)
-        bnd = vg.text_bounds(0,0,l)
-        if(@state)
-            vg.text(8+bnd,h/2,"|")
+
+        @edit ||= EditRegion.new($vg, self.label, w-20, h*0.8)
+        @edit.each_string do |x, y, str, cursor|
+            if(cursor == false)
+                vg.text(x+10, y, str)
+            else
+                if(@state)
+                    vg.text_align NVG::ALIGN_LEFT| NVG::ALIGN_MIDDLE
+                    vg.text(x+10, y, str)
+                end
+            end
         end
+
     }
 
     function onKey(k, mode)
     {
         return if mode != "press"
+        pos = self.label.length
+        pos = @edit.pos if @edit
+        ll = self.label
+
+        cursor_row = @edit.calc_cursor_y
+
         if(k.ord == 8)
-            self.label = self.label[0...-1]
-        elsif k.ord >= 32
-            self.label += k
+            pos -= 1
+            if(pos >= ll.length)
+                self.label = ll[0...-1]
+            elsif(pos >= 0)
+                self.label = ll.slice(0, pos+cursor_row) + ll.slice(pos+1+cursor_row, ll.length)
+            end
+        else
+            self.label = ll.insert(pos+cursor_row, k)
         end
+        ll = self.label
         whenValue.call if whenValue
         valueRef.value = self.label if valueRef
+        @edit     = EditRegion.new($vg, ll, w-20, 0.8*h)
+        if(k.ord == 8)
+            @edit.pos = pos
+        else
+            @edit.pos = pos+1
+        end
+        damage_self
+    }
+
+    
+    function onSpecial(k, mode)
+    {
+        return if @edit.nil?
+        return if mode != :press
+        
+        if(k == :left)
+            @edit.left
+        elsif(k == :right)
+            @edit.right
+        end
+        
+        @state = true
+        now = Time.new
+        @next = now + 0.7
         damage_self
     }
 
