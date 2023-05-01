@@ -1134,6 +1134,20 @@ mrb_remote_param_set_value_ar(mrb_state *mrb, mrb_value self)
     return self;
 }
 
+static char *
+mrb_copy_str(mrb_state *mrb, mrb_value value)
+{
+    size_t      l   = mrb_string_value_len(mrb, value);
+    const char *s   = mrb_string_value_ptr(mrb, value);
+    char       *out = malloc(l+1);
+
+    for(int i=0; i<l; ++i)
+        out[i] = s[i];
+
+    out[l] = 0;
+    return out;
+}
+
 static mrb_value
 mrb_remote_param_set_value_str(mrb_state *mrb, mrb_value self)
 {
@@ -1148,8 +1162,9 @@ mrb_remote_param_set_value_str(mrb_state *mrb, mrb_value self)
     mrb_assert(param->br);
     mrb_assert(param->uri);
 
-    const char *str = mrb_string_value_ptr(mrb, value);
+    const char *str = mrb_copy_str(mrb, value);
     br_set_value_string(param->br, param->uri, str);
+    free(str);
     return self;
 }
 
