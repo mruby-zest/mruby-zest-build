@@ -72,17 +72,17 @@ Widget {
         pos = @edit.pos if @edit
         ll = self.label
 
-        cursor_row = @edit.calc_cursor_y
+        cursorrow = @edit.cursor_row
 
         if(k.ord == 8)
             pos -= 1
             if(pos >= ll.length)
                 self.label = ll[0...-1]
             elsif(pos >= 0)
-                self.label = ll.slice(0, pos+cursor_row) + ll.slice(pos+1+cursor_row, ll.length)
+                self.label = ll.slice(0, pos+cursorrow) + ll.slice(pos+1+cursorrow, ll.length)
             end
         else
-            self.label = ll.insert(pos+cursor_row, k)
+            self.label = ll.insert(pos+cursorrow, k)
         end
         ll = self.label
         whenValue.call if whenValue

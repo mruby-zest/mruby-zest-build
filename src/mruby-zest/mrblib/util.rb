@@ -16,6 +16,10 @@ def pad(scale, bb)
     bb[3] = h;
 end
 
+def cursor_row()
+    return @cursor_row
+end
+
 class EditRegion
     def initialize(vg, string, width, height)
 
