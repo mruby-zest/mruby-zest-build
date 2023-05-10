@@ -55,9 +55,7 @@ class EditRegion
         calc_cursor_x
     end
 
-    def cursor_row()
-        return @cursor_row
-    end
+    attr_reader :cursor_row
 
     def check_args(vg, string, width, height)
         if(!([Float,Integer].include? width.class))

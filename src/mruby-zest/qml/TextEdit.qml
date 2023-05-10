@@ -65,17 +65,16 @@ Widget {
         pos = self.label.length
         pos = @edit.pos if @edit
         ll = self.label
-        // Fixing the cursor position bug , by adding the cursor_row to the position
-        cursor_row = @edit.calc_cursor_y
+        cursor_row = @edit.cursor_row
         if(k.ord == 8)
             pos -= 1
             if(pos >= ll.length)
                 self.label = ll.slice(0, ll.length-1)
             elsif(pos >= 0)
-                self.label = ll.slice(0, pos+line) + ll.slice(pos+1+line, ll.length)
+                self.label = ll.slice(0, pos+cursor_row) + ll.slice(pos+1+cursor_row, ll.length)
             end
         else
-            self.label = ll.insert(pos+line, k)
+            self.label = ll.insert(pos+cursor_row, k)
         end
         ll = self.label
         self.valueRef.value = ll if self.valueRef
