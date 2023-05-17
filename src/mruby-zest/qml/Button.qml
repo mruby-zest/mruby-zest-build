@@ -66,6 +66,11 @@ Widget {
         text_color2   = Theme::TextColor
         vg.font_face("bold")
         vg.font_size h*self.textScale
+        # While it initially looks redundant to test against 'true', remember
+        # that 'value' is a float when the Button is a TriggerButton. If we
+        # don't check against true here, the button text while change to the
+        # 'enabled' color (light blue) when clicking a TriggerButton, and
+        # remain in that color, rather than just staying light grey.
         if(value == true)
             vg.fill_color(text_color1)
         else
@@ -99,6 +104,10 @@ Widget {
         cs = 0
         vg.path do |v|
             v.rounded_rect(w*pad, h*pad, w*(1-2*pad), h*(1-2*pad), 2)
+            # Although the test against 'true' might seem redundant, it's
+            # needed because 'value' will be a float when the Button is a
+            # TriggerButton, and we purposely want to check for a boolean
+            # false here.
             if(button.value == true)
                 cs = 1
                 v.fill_color on_color
