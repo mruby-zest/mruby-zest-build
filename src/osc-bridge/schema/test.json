@@ -11470,29 +11470,13 @@
         "range"    : [27.50f,4186.01f]
     },
     {
-        "path"     : "/part[0,15]/partefx[0,2]/Reverse/preset",
-        "name"     : "preset",
-        "tooltip"  : "Instrument Presets",
-        "type"     : "i",
-        "default"  : "0"
-,
-        "options"  : [
-        {
-            "id"     : 0,
-            "value"  : "Reverse"
-        }
-        ]
-    },
-    {
         "path"     : "/part[0,15]/partefx[0,2]/Reverse/Pvolume",
         "shortname": "amt",
         "name"     : "Pvolume",
         "tooltip"  : "amount of effect",
         "scale"    : "linear",
         "type"     : "i",
-        "range"    : [0,127],
-        "default"  : "67"
-
+        "range"    : [0,127]
     },
     {
         "path"     : "/part[0,15]/partefx[0,2]/Reverse/Ppanning",
@@ -11509,10 +11493,17 @@
         "path"     : "/part[0,15]/partefx[0,2]/Reverse/Pdelay",
         "shortname": "delay",
         "name"     : "Pdelay",
-        "tooltip"  : "Length of Echo",
+        "tooltip"  : "Length of Reversed Segment",
         "scale"    : "linear",
         "type"     : "i",
         "range"    : [0,127]
+    },
+    {
+        "path"     : "/part[0,15]/partefx[0,2]/Reverse/Pstereo",
+        "shortname": "stereo",
+        "name"     : "Pstereo",
+        "tooltip"  : "Stereo",
+        "type"     : "t"
     },
     {
         "path"     : "/part[0,15]/ctl/panning.depth",
@@ -13992,29 +13983,13 @@
         "range"    : [27.50f,4186.01f]
     },
     {
-        "path"     : "/sysefx[0,3]/Reverse/preset",
-        "name"     : "preset",
-        "tooltip"  : "Instrument Presets",
-        "type"     : "i",
-        "default"  : "0"
-,
-        "options"  : [
-        {
-            "id"     : 0,
-            "value"  : "Reverse"
-        }
-        ]
-    },
-    {
         "path"     : "/sysefx[0,3]/Reverse/Pvolume",
         "shortname": "amt",
         "name"     : "Pvolume",
         "tooltip"  : "amount of effect",
         "scale"    : "linear",
         "type"     : "i",
-        "range"    : [0,127],
-        "default"  : "67"
-
+        "range"    : [0,127]
     },
     {
         "path"     : "/sysefx[0,3]/Reverse/Ppanning",
@@ -14031,10 +14006,17 @@
         "path"     : "/sysefx[0,3]/Reverse/Pdelay",
         "shortname": "delay",
         "name"     : "Pdelay",
-        "tooltip"  : "Length of Echo",
+        "tooltip"  : "Length of Reversed Segment",
         "scale"    : "linear",
         "type"     : "i",
         "range"    : [0,127]
+    },
+    {
+        "path"     : "/sysefx[0,3]/Reverse/Pstereo",
+        "shortname": "stereo",
+        "name"     : "Pstereo",
+        "tooltip"  : "Stereo",
+        "type"     : "t"
     },
     {
         "path"     : "/insefx[0,7]/preset",
@@ -15934,29 +15916,13 @@
         "range"    : [27.50f,4186.01f]
     },
     {
-        "path"     : "/insefx[0,7]/Reverse/preset",
-        "name"     : "preset",
-        "tooltip"  : "Instrument Presets",
-        "type"     : "i",
-        "default"  : "0"
-,
-        "options"  : [
-        {
-            "id"     : 0,
-            "value"  : "Reverse"
-        }
-        ]
-    },
-    {
         "path"     : "/insefx[0,7]/Reverse/Pvolume",
         "shortname": "amt",
         "name"     : "Pvolume",
         "tooltip"  : "amount of effect",
         "scale"    : "linear",
         "type"     : "i",
-        "range"    : [0,127],
-        "default"  : "67"
-
+        "range"    : [0,127]
     },
     {
         "path"     : "/insefx[0,7]/Reverse/Ppanning",
@@ -15973,10 +15939,17 @@
         "path"     : "/insefx[0,7]/Reverse/Pdelay",
         "shortname": "delay",
         "name"     : "Pdelay",
-        "tooltip"  : "Length of Echo",
+        "tooltip"  : "Length of Reversed Segment",
         "scale"    : "linear",
         "type"     : "i",
         "range"    : [0,127]
+    },
+    {
+        "path"     : "/insefx[0,7]/Reverse/Pstereo",
+        "shortname": "stereo",
+        "name"     : "Pstereo",
+        "tooltip"  : "Stereo",
+        "type"     : "t"
     },
     {
         "path"     : "/microtonal/Pinvertupdown",
