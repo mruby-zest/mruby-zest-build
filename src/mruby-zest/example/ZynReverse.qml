@@ -2,35 +2,23 @@ Group {
     id: reverse
     label: "reverse"
     topSize: 0.2
-    function refresh() {
-        return if rw.content.nil?
-        return if rw.content.children.length < 4
-        rw.content.children[4..-1].each do |c|
-            c.refresh
-        end
-    }
-
     ParModuleRow {
         id: rw
         layoutOpts: []
-        Selector {
-            layoutOpts: [:long_mode]
-            extern: reverse.extern + "Reverse/preset"
-            whenValue: lambda { reverse.refresh }
-        }
         Knob { extern: reverse.extern + "Pvolume"}
         Knob { extern: reverse.extern + "Ppanning"}
+        Knob { id: delay extern: reverse.extern + "Reverse/Pdelay"   }
         Col {
             NumEntry {extern: reverse.extern + "numerator"; 
                 value: 0
                 label: "Numerator"
-                whenValue: lambda { reverse.refresh }
+                whenValue: lambda { delay.refresh }
             }
             NumEntry {extern: reverse.extern + "denominator"; 
                 value: 4
                 label: "Denominator"
-                whenValue: lambda { reverse.refresh }}
+                whenValue: lambda { delay.refresh }}
         }
-        Knob { extern: reverse.extern + "Reverse/Pdelay"   }
+        ToggleButton { extern: reverse.extern + "Reverse/Pstereo"}
     }
 }
