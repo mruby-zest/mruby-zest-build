@@ -11491,12 +11491,14 @@
     },
     {
         "path"     : "/part[0,15]/partefx[0,2]/Reverse/Pdelay",
-        "shortname": "delay",
+        "shortname": "length",
         "name"     : "Pdelay",
         "tooltip"  : "Length of Reversed Segment",
         "scale"    : "linear",
         "type"     : "i",
-        "range"    : [0,127]
+        "range"    : [0,127],
+        "default"  : "25"
+
     },
     {
         "path"     : "/part[0,15]/partefx[0,2]/Reverse/Pstereo",
@@ -11504,6 +11506,17 @@
         "name"     : "Pstereo",
         "tooltip"  : "Stereo",
         "type"     : "t"
+    },
+    {
+        "path"     : "/part[0,15]/partefx[0,2]/Reverse/Pphase",
+        "shortname": "phase",
+        "name"     : "Pphase",
+        "tooltip"  : "Phase offset for Reversed Segment",
+        "scale"    : "linear",
+        "type"     : "i",
+        "range"    : [0,127],
+        "default"  : "64"
+
     },
     {
         "path"     : "/part[0,15]/ctl/panning.depth",
@@ -14004,12 +14017,14 @@
     },
     {
         "path"     : "/sysefx[0,3]/Reverse/Pdelay",
-        "shortname": "delay",
+        "shortname": "length",
         "name"     : "Pdelay",
         "tooltip"  : "Length of Reversed Segment",
         "scale"    : "linear",
         "type"     : "i",
-        "range"    : [0,127]
+        "range"    : [0,127],
+        "default"  : "25"
+
     },
     {
         "path"     : "/sysefx[0,3]/Reverse/Pstereo",
@@ -14017,6 +14032,17 @@
         "name"     : "Pstereo",
         "tooltip"  : "Stereo",
         "type"     : "t"
+    },
+    {
+        "path"     : "/sysefx[0,3]/Reverse/Pphase",
+        "shortname": "phase",
+        "name"     : "Pphase",
+        "tooltip"  : "Phase offset for Reversed Segment",
+        "scale"    : "linear",
+        "type"     : "i",
+        "range"    : [0,127],
+        "default"  : "64"
+
     },
     {
         "path"     : "/insefx[0,7]/preset",
@@ -15937,12 +15963,14 @@
     },
     {
         "path"     : "/insefx[0,7]/Reverse/Pdelay",
-        "shortname": "delay",
+        "shortname": "length",
         "name"     : "Pdelay",
         "tooltip"  : "Length of Reversed Segment",
         "scale"    : "linear",
         "type"     : "i",
-        "range"    : [0,127]
+        "range"    : [0,127],
+        "default"  : "25"
+
     },
     {
         "path"     : "/insefx[0,7]/Reverse/Pstereo",
@@ -15950,6 +15978,17 @@
         "name"     : "Pstereo",
         "tooltip"  : "Stereo",
         "type"     : "t"
+    },
+    {
+        "path"     : "/insefx[0,7]/Reverse/Pphase",
+        "shortname": "phase",
+        "name"     : "Pphase",
+        "tooltip"  : "Phase offset for Reversed Segment",
+        "scale"    : "linear",
+        "type"     : "i",
+        "range"    : [0,127],
+        "default"  : "64"
+
     },
     {
         "path"     : "/microtonal/Pinvertupdown",
