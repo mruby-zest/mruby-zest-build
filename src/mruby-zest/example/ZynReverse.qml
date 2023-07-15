@@ -30,6 +30,10 @@ Group {
             id: delay 
             extern: reverse.extern + "Reverse/Pdelay"   
         }
+        Knob { 
+            id: phase 
+            extern: reverse.extern + "Reverse/Pphase"   
+        }
         ToggleButton { extern: reverse.extern + "Reverse/Pstereo"}
     }
 }
