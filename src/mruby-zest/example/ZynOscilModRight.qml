@@ -11,6 +11,8 @@ Widget {
                 id: extmod;
                 label: "external modulator";
             }
+            ToggleButton   {extern: base.extern+"PsyncEnabled"}
+            
         }
         function draw(vg) {
             Draw::GradBox(vg, Rect.new(0,0,w,h))
