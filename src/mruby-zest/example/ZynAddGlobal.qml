@@ -197,7 +197,7 @@ Widget {
         footer.children[3].value = true
         amp_env.extern  = base + "GenericEnvelope/"
         amp_lfo.extern  = base + "GenericLfo/"
-        amp_env.content = Qml::ZynFilterEnv
+        amp_env.content = Qml::ZynAmpEnv
         amp_lfo.content = Qml::ZynLFO
         amp_env.children[0].whenClick = lambda {row1.setDataVis(:env, :generic)}
         amp_lfo.children[0].whenClick = lambda {row1.setDataVis(:lfo, :generic)}
