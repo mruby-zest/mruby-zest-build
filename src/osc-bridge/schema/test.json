@@ -16969,7 +16969,7 @@
     {
         "path"     : "/automate/slot[0,15]/internal",
         "name"     : "internal",
-        "tooltip"  : "Access assigned internal mod type \n 0=NONE 1=ENV 2=LFO",
+        "tooltip"  : "Access assigned internal mod type \n 0=NONE 1=ENV 2=LFO 3=XYZ",
         "type"     : "i",
         "default"  : "NONE"
 ,
@@ -16985,6 +16985,10 @@
         {
             "id"     : 2,
             "value"  : "ENV"
+        },
+        {
+            "id"     : 3,
+            "value"  : "XYZ"
         }
         ]
     },
