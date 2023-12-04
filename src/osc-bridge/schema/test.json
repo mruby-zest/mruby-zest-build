@@ -1367,6 +1367,18 @@
         {
             "id"     : 2,
             "value"  : "both"
+        },
+        {
+            "id"     : 3,
+            "value"  : "BWDN"
+        },
+        {
+            "id"     : 4,
+            "value"  : "FWDN"
+        },
+        {
+            "id"     : 5,
+            "value"  : "bothN"
         }
         ]
     },
@@ -5785,6 +5797,18 @@
         {
             "id"     : 2,
             "value"  : "both"
+        },
+        {
+            "id"     : 3,
+            "value"  : "BWDN"
+        },
+        {
+            "id"     : 4,
+            "value"  : "FWDN"
+        },
+        {
+            "id"     : 5,
+            "value"  : "bothN"
         }
         ]
     },
@@ -6259,15 +6283,19 @@
         },
         {
             "id"     : 3,
-            "value"  : "phase"
+            "value"  : "am"
         },
         {
             "id"     : 4,
-            "value"  : "frequency"
+            "value"  : "PM"
         },
         {
             "id"     : 5,
-            "value"  : "pulse"
+            "value"  : "FM"
+        },
+        {
+            "id"     : 6,
+            "value"  : "PWM"
         }
         ]
     },
@@ -6381,6 +6409,15 @@
         "shortname": "enable",
         "name"     : "PFMAmpEnvelopeEnabled",
         "tooltip"  : "Modulator Amplitude Envelope",
+        "type"     : "t",
+        "default"  : "false"
+
+    },
+    {
+        "path"     : "/part[0,15]/kit[0,15]/adpars/VoicePar[0,7]/PsyncEnabled",
+        "shortname": "sync",
+        "name"     : "PsyncEnabled",
+        "tooltip"  : "Oscillator Hard Sync",
         "type"     : "t",
         "default"  : "false"
 
@@ -7840,6 +7877,18 @@
         {
             "id"     : 2,
             "value"  : "both"
+        },
+        {
+            "id"     : 3,
+            "value"  : "BWDN"
+        },
+        {
+            "id"     : 4,
+            "value"  : "FWDN"
+        },
+        {
+            "id"     : 5,
+            "value"  : "bothN"
         }
         ]
     },
@@ -9394,6 +9443,18 @@
         {
             "id"     : 2,
             "value"  : "both"
+        },
+        {
+            "id"     : 3,
+            "value"  : "BWDN"
+        },
+        {
+            "id"     : 4,
+            "value"  : "FWDN"
+        },
+        {
+            "id"     : 5,
+            "value"  : "bothN"
         }
         ]
     },
@@ -9851,6 +9912,18 @@
         {
             "id"     : 2,
             "value"  : "both"
+        },
+        {
+            "id"     : 3,
+            "value"  : "BWDN"
+        },
+        {
+            "id"     : 4,
+            "value"  : "FWDN"
+        },
+        {
+            "id"     : 5,
+            "value"  : "bothN"
         }
         ]
     },
@@ -12318,6 +12391,18 @@
         {
             "id"     : 2,
             "value"  : "both"
+        },
+        {
+            "id"     : 3,
+            "value"  : "BWDN"
+        },
+        {
+            "id"     : 4,
+            "value"  : "FWDN"
+        },
+        {
+            "id"     : 5,
+            "value"  : "bothN"
         }
         ]
     },
@@ -14207,6 +14292,18 @@
         {
             "id"     : 2,
             "value"  : "both"
+        },
+        {
+            "id"     : 3,
+            "value"  : "BWDN"
+        },
+        {
+            "id"     : 4,
+            "value"  : "FWDN"
+        },
+        {
+            "id"     : 5,
+            "value"  : "bothN"
         }
         ]
     },
