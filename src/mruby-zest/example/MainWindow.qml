@@ -137,7 +137,7 @@ Widget {
             main_widget.content = Qml::ZynAutomation
         elsif(type == :matrix)
             main_widget.extern  = "/"
-            main_widget.content = Qml::ZynMatrix
+            main_widget.content = Qml::ZynMat
         elsif(type == :colors)
             main_widget.extern  = "/"
             main_widget.content = Qml::ColorScheme
