@@ -33,6 +33,36 @@ Widget {
 
     }
 
+    function numeric_input(keepValue)
+    {
+        gbl_cx = valuator.global_x + 0.5*valuator.w
+        gbl_cy = valuator.global_y + 0.5*valuator.h
+        gbl_w  = window.w
+        gbl_h  = window.h
+
+        ropt = [gbl_cx, gbl_cy, gbl_w-gbl_cx, gbl_h-gbl_cy].min
+
+        diameter = [2.0*ropt, 3.0*0.5*(valuator.w+valuator.h)].min
+
+        widget = Qml::NumericInput.new(valuator.db)
+        widget.w = 200
+        widget.h = 40
+        widget.x = (valuator.w-widget.w)/2
+        widget.y = -valuator.h/2
+        widget.layer = 2
+        widget.label = displayValueToText(valuator.valueRef.display_value) if (keepValue)
+        widget.whenValue = lambda {
+            
+            $remote.setf(self.extern, widget.label.gsub(',', '.').to_f) if !(widget.label.empty?)
+            root.set_modal(nil)
+        }
+        root.set_modal(widget)
+        Qml::add_child(valuator, widget)
+        valuator.root.smash_draw_seq
+        valuator.root.damage_item widget
+    }
+
+
     //Callback function which does not propagate info to remote API
     function setValue(v) {
         if(valuator.valueRef.has_logmin() && v > 0.0 && v < 0.07)
@@ -126,7 +156,8 @@ Widget {
             @click_time = now
         elsif(ev.buttons.include? :rightButton)
             if(children.empty?)
-                create_radial
+                #create_radial
+                numeric_input(root.fine_mode)
             end
         elsif(ev.buttons.include? :middleButton)
             reset
