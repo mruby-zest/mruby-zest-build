@@ -1,24 +1,26 @@
 Widget {
     id: mattable
-    //0.2
-    //                       0     1     2     3     4     5     6     7     8
-    property Array weights: [0.05, 0.19, 0.15, 0.10, 0.15, 0.07, 0.07, 0.07, 0.15]
+
+    property Array sources: ["Sdfg","Sasdfa","Sdffrrr","rdfgsa","fdgdf","asdfa","dffrrr","rdfgsa","fdgdf","asdfa","dffrrr","rdfgsa","fdgdf"]
+    property Array destinations: ["Ddfg","Easdfa","Udffrrr","Drdfgsa","Dfdgdf","Dasdfa","dffrrr","rdfgsa","fdgdf","asdfa","dffrrr","rdfgsa","fdgdf"]
+
 
     
     function onSetup(old=nil)
     {
-        (0...16).each do |r|
+    
+        sources.each_with_index do |s, index|
             row         = Qml::ZynMatRow.new(db)
-            row.label   = (r+1).to_s
-            row.rownum  = r
-            row.extern  = mattable.extern + "row#{r}/"
+            row.label   = s
+            row.rownum  = index
+            row.extern  = mattable.extern + "row#{index}/"
             Qml::add_child(self, row)
         end
     }
 
     function class_name() { "mattable" }
     function layout(l, selfBox) {
-        Draw::Layout::vpack(l, selfBox, children, 0, 1, 2)
+        Draw::Layout::vpack(l, selfBox, children)
     }
 
 }

@@ -3,31 +3,23 @@ Widget {
     property Array weights: [0.10, 0.10, 0.10, 0.10, 0.10, 0.10, 0.10, 0.10, 0.10, 0.10]
     property Int rownum: nil
 
-
-    Knob{
-        extern: mat_row.extern + "col1/"
-        label: mat_row.label;
-        layoutOpts: [:no_constraint]
-    }
-    
-    Knob{
-        extern: mat_row.extern + "col2/"
-        label: mat_row.label;
-        layoutOpts: [:no_constraint]
-    }
-
-
     function class_name() { "matrow" }
     function layout(l, selfBox) {
-        Draw::Layout::hfill(l, selfBox, children, mat_row.weights, 0, 3)
-        puts "mat_row"
-        puts selfBox
+        Draw::Layout::hpack(l, selfBox, children)
+    }
+    
+    Text {
+        label: parent.sources[rownum]
     }
 
     function onSetup(old=nil)
     {
-        children.each do |ch|
-            mat_row.extern()
+
+        parent.destinations.each_with_index do |d, r|
+            knob         = Qml::Knob.new(db)
+            knob.label   = d
+            knob.extern  = mat_row.extern + "col#{r}/"
+            Qml::add_child(self, knob)
         end
     }
 }
