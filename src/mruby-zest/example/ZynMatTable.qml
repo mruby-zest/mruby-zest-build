@@ -1,15 +1,43 @@
 Widget {
     id: mattable
-
-    property Array sources: ["Sdfg","Sasdfa","Sdffrrr","rdfgsa","fdgdf","asdfa","dffrrr","rdfgsa","fdgdf","asdfa","dffrrr","rdfgsa","fdgdf"]
-    property Array destinations: ["Ddfg","Easdfa","Udffrrr","Drdfgsa","Dfdgdf","Dasdfa","dffrrr","rdfgsa","fdgdf","asdfa","dffrrr","rdfgsa","fdgdf"]
-
-
+    property Object valueRef: nil
+    property Array sources: nil
+    property Array destinations: nil
     
+    onExtern: {
+        mattable.valueRef = OSC::RemoteParam.new($remote, mattable.extern)
+        mattable.valueRef.mode = :options
+    }
+   
     function onSetup(old=nil)
     {
-    
-        sources.each_with_index do |s, index|
+
+        meta = OSC::RemoteMetadata.new($remote, mattable.extern + "PSources")
+        mattable.label   = meta.short_name
+        mattable.tooltip = meta.tooltip
+        if(meta.options)
+            nopts = []
+            meta.options.each do |x|
+                nopts << x[1]
+            end
+            mattable.sources = nopts
+        end
+
+        meta = OSC::RemoteMetadata.new($remote, mattable.extern + "PDestinations")
+        mattable.label   = meta.short_name
+        mattable.tooltip = meta.tooltip
+        if(meta.options)
+            nopts = []
+            meta.options.each do |x|
+                nopts << x[1]
+            end
+            mattable.destinations = nopts
+        end
+        
+        titles = Qml::ZynMatTitles.new(db)
+        Qml::add_child(self, titles)
+
+        mattable.sources.each_with_index do |s, index|
             row         = Qml::ZynMatRow.new(db)
             row.label   = s
             row.rownum  = index

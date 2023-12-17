@@ -1,6 +1,5 @@
 Widget {
     id: mat_row
-    property Array weights: [0.10, 0.10, 0.10, 0.10, 0.10, 0.10, 0.10, 0.10, 0.10, 0.10]
     property Int rownum: nil
 
     function class_name() { "matrow" }

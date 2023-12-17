@@ -6,9 +6,7 @@ Widget {
 
     onExtern: {
     }
-
-
-
+    
     ZynMatTable {
         extern: mat.extern
         h: 300
