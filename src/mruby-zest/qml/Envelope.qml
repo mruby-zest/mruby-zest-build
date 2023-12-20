@@ -39,8 +39,6 @@ Widget {
         }
         cyvalues.callback = lambda { |x|
             env.cpoints = x
-            #~ puts(x.class)
-            #~ puts(x)
         }
         pts.callback = lambda { |x|
             env.points = x
@@ -170,9 +168,9 @@ Widget {
             elsif (env.selected % 3 == 0)
                 env.xpoints[(env.selected/3).floor] += dx
                 env.ypoints[(env.selected/3).floor] -= dy
-            elsif (env.selected % 3 == 1)
+            elsif (env.selected % 3 == 1) # left control point
                 env.cpoints[(env.selected/3).floor*2+1] -= dy
-            elsif (env.selected % 3 == 2)
+            elsif (env.selected % 3 == 2) # right control point
                 env.cpoints[(env.selected/3).floor*2+2] -= dy
             end
 
@@ -301,9 +299,9 @@ Widget {
         end
         vg.translate(-0.5, -0.5)
 
-        #Draw Highlights
-        Draw::WaveForm::under_highlight(vg, bb, ptsEnv, light_fill)
-        Draw::WaveForm::over_highlight(vg,  bb, ptsEnv, light_fill)
+        #Draw Highlights - confuses users with beziers
+        #Draw::WaveForm::under_highlight(vg, bb, ptsEnv, light_fill)
+        #Draw::WaveForm::over_highlight(vg,  bb, ptsEnv, light_fill)
 
         #Draw Zero Line
         Draw::WaveForm::zero_line(vg, bb, dim)
