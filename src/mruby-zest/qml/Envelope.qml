@@ -108,9 +108,7 @@ Widget {
     }
 
     function onMousePress(ev) {
-        #return if !self.mouse_enable
         #//Try to identify the location  of the nearest grabbable point
-        #valuator.prev = ev.pos
         xdat = get_x_points()
         ydat = env.ypoints
         cdat = env.cpoints
@@ -134,12 +132,14 @@ Widget {
                 next_sel  = i
             end
         end
-
+        
         if(env.selected != next_sel )
             env.selected = next_sel
             env.root.damage_item env
         end
+        mouse_handle(ev)
         env.prev = ev.pos
+
     }
 
     function bound_points(array, low, high)
@@ -183,6 +183,20 @@ Widget {
             update_nonfree_y(env.ypoints) if !mouse_enable
             valueRef[2].value = env.cpoints if !mouse_enable
 
+            env.prev = ev.pos
+            env.root.damage_item env
+        end
+    }
+    
+    function mouse_handle(ev) {
+        if(ev.buttons.include? :middleButton and env.selected)
+            if (env.selected % 3 == 1) # left control point
+                env.cpoints[(env.selected/3).floor*2+1] = 0
+            elsif (env.selected % 3 == 2) # right control point
+                env.cpoints[(env.selected/3).floor*2+2] = 0
+            end
+            send_points() if mouse_enable
+            valueRef[2].value = env.cpoints if !mouse_enable
             env.prev = ev.pos
             env.root.damage_item env
         end
