@@ -4,29 +4,12 @@ Widget {
     property Symbol style: :normal
     property Function whenValue: nil
     property Float  value: 0
-
-
-    
-    
+    property bool first: true
     
     function onSetup(old=nil)
     {
         @last = Time.new
-        
-    #~ (0...8).each do |f|
-        #~ widget = Qml::TextField.new(numeric.db)
-        #~ widget.w = 10
-        #~ widget.h = 40
-        #~ widget.x = 10*f
-        #~ widget.y = 0
-        #~ widget.layer = 2
-        #~ widget.label = numeric.label[f]
-        #~ Qml::add_child(numeric, widget)
-    #~ end
-        
-        
     }
-    
     
     function animate()
     {
@@ -111,44 +94,42 @@ Widget {
     
     function handleScroll(x, y, ev)
     {
-        #puts "x #{x.to_s}"
-        #puts "y #{y.to_s}"       
+    
         glb_x = parent.global_x + self.x
         glb_y = parent.global_y + self.y + self.h/2
         dx = x - glb_x
         dy = y - glb_y
 
         if (y > parent.global_y + self.y && y < parent.global_y + self.y + self.h )
-            #~ puts "ev.dy #{ev.dy.to_s}"
-            #~ puts "dx #{dx.to_s}"
-            #~ puts "dy #{dy.to_s}"
+
             ind = (((dx - 10) / 13)).floor
             ind = 0 if (ind < 0)
             
             ind_colon = label.index('.')
-            #~ puts "ind #{ind.to_s}"
-            #~ puts "ind_colon #{ind_colon.to_s}"
+
             if (ind_colon)
                 if (ind<ind_colon) 
                     exponent = ind_colon-ind-1
                 elsif (ind>ind_colon) 
                     exponent = ind_colon-ind
                 end
-                #~ puts "exponent #{exponent.to_s}"
                 
             else
                 exponent = label[/\A\d*/].length - ind -1
-                #~ puts "exponent #{exponent.to_s}"
                 
             end
             increment = (10 ** exponent)*ev.dy
-            #~ puts "increment #{increment.to_s}"
-            value = self.label.to_f
+            if self.type
+                value = self.label.to_f
+            else
+                value = self.label.to_i
+            end
+            
             value = value + increment
             $remote.setf(self.parent.extern, value)
             self.label = value.to_s
             self.damage_self
-            
+            self.first = false
             
         end    
     
@@ -156,7 +137,7 @@ Widget {
     function onKey(k, mode)
     {
         return if mode != "press"
-        #puts("onKey #{k.inspect}")
+        puts("onKey #{k.ord}")
         if(k.ord == 27) #esc
             self.label = ""
             whenEnter
@@ -164,11 +145,17 @@ Widget {
         elsif(k.ord == 13) #enter
             whenEnter
             return
-        elsif(k.ord == 8)
+        elsif(k.ord == 8) #backspace
             self.label = self.label[0...-1] if !self.label.empty?
             self.damage_self
+            self.first = false
             return
-        elsif k.ord >= 32
+        elsif k.ord >= 44 && k.ord <= 57 # numbers OR , . -
+            if (self.first)
+                self.label = ""
+                self.first = false
+            end
+
             self.label += k
             self.damage_self
             return
@@ -177,14 +164,11 @@ Widget {
     }
 
     function whenEnter() {
-        #puts "WhenEnter..."
         if whenValue then
             whenValue.call 
         else
             self.root.ego_death self
         end
-        #valueRef.value = self.label if valueRef
-        #damage_self
 
     }
 

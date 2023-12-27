@@ -53,7 +53,8 @@ Widget {
         widget.label = displayValueToText(valuator.valueRef.display_value) if (keepValue)
         widget.whenValue = lambda {
             
-            $remote.setf(self.extern, widget.label.gsub(',', '.').to_f) if !(widget.label.empty?)
+            numericString = widget.label.gsub(',', '.')
+            $remote.setf(self.extern, self.type ? numericString.to_f : numericString.to_i) if !(widget.label.empty?)
             root.set_modal(nil)
         }
         root.set_modal(widget)
