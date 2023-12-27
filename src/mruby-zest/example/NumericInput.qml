@@ -146,7 +146,10 @@ Widget {
             whenEnter
             return
         elsif(k.ord == 8) #backspace
-            self.label = self.label[0...-1] if !self.label.empty?
+        
+            ind = self.label  =~ /[\d\.](?=[^\d\.]*$)/
+            puts ind
+            self.label[ind]  = '' if !self.label.empty?
             self.damage_self
             self.first = false
             return
@@ -155,8 +158,13 @@ Widget {
                 self.label = ""
                 self.first = false
             end
-
-            self.label += k
+            
+            ind = (self.label  =~ /[\d\.](?=[^\d\.]*$)/)
+            if ind.nil?
+                self.label += k
+            else
+                self.label.insert(ind+1, k)
+            end
             self.damage_self
             return
         end
