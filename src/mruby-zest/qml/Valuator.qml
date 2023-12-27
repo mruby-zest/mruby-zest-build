@@ -157,7 +157,7 @@ Widget {
         elsif(ev.buttons.include? :rightButton)
             if(children.empty?)
                 #create_radial
-                numeric_input(root.fine_mode)
+                numeric_input(true)
             end
         elsif(ev.buttons.include? :middleButton)
             reset
