@@ -146,7 +146,7 @@ Widget {
             return
         elsif(k.ord == 8) #backspace
         
-            ind = self.label  =~ /[\d\.](?=[^\d\.]*$)/
+            ind = (self.label =~ /[\d\.](?=[^\d\.]*$)/)
             puts ind
             self.label[ind]  = '' if !self.label.empty?
             self.damage_self
@@ -154,15 +154,23 @@ Widget {
             return
         elsif k.ord >= 44 && k.ord <= 57 # numbers OR , . -
             if (self.first)
-                self.label = ""
+                ind = (self.label =~ /[\d\.-](?=[^\d\.]*$)/)
+                puts ind
+                if ind.nil?
+                    self.label = ""
+                else
+                    self.label = self.label.gsub(/[\d\.-]/, '')
+                end
                 self.first = false
             end
             
-            ind = (self.label  =~ /[\d\.](?=[^\d\.]*$)/)
+            
+            ind = (self.label =~ /[\d\.-](?=[^\d\.]*$)/)
+            puts ind
             if ind.nil?
-                self.label += k
+                self.label.insert(0, k)
             else
-                self.label.insert(ind+1, k)
+                self.label.insert(ind+1, k) if k != '-' # '-' only at the beginning
             end
             self.damage_self
             return
