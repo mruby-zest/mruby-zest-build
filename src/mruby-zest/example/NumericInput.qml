@@ -119,7 +119,7 @@ Widget {
                 
             end
             increment = (10 ** exponent)*ev.dy
-            if self.type
+            if self.parent.type
                 value = self.label.to_f
             else
                 value = self.label.to_i
@@ -137,7 +137,6 @@ Widget {
     function onKey(k, mode)
     {
         return if mode != "press"
-        puts("onKey #{k.ord}")
         if(k.ord == 27) #esc
             self.label = ""
             whenEnter

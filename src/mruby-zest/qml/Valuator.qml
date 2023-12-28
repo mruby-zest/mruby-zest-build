@@ -54,8 +54,13 @@ Widget {
         widget.whenValue = lambda {
             
             numericString = widget.label.gsub(',', '.')
-            $remote.setf(self.extern, self.type ? numericString.to_f : numericString.to_i) if !(widget.label.empty?)
+            if(self.type)
+                $remote.setf(self.extern, numericString.to_f) if !(widget.label.empty?)
+            else
+                $remote.seti(self.extern, numericString.to_i) if !(widget.label.empty?)
+            end
             root.set_modal(nil)
+            valuator.root.log(:user_value, valuator.valueRef.display_value, src=valuator.label)
         }
         root.set_modal(widget)
         Qml::add_child(valuator, widget)
