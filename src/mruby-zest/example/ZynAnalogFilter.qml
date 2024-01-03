@@ -44,6 +44,7 @@ Group {
             dest = self.extern + "type-svf"  if cat.selected == 2
             dest = self.extern + "type-moog" if cat.selected == 3
             dest = self.extern + "type-comb" if cat.selected == 4
+            dest = self.extern + "type-moog" if cat.selected == 5
             if(typ.extern != dest)
                 typ.extern = dest
                 typ.extern()
