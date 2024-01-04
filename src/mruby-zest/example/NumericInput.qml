@@ -83,6 +83,13 @@ Widget {
         (0...l.length).each do |i|
             l[i] = "?" if l.getbyte(i) > 127
         end
+        
+        vg.path do
+            vg.rect(1, 1, w-2, h-2)
+            vg.stroke_color  color("3AC5EC")
+            vg.stroke_width 1.0
+            vg.stroke
+        end
 
         vg.text(8,h/2,l)
         bnd = vg.text_bounds(0,0,l)
@@ -116,7 +123,7 @@ Widget {
                 
             else
                 exponent = label[/\A\d*/].length - ind -1
-                
+                exponent = 0 if(exponent < 0)
             end
             increment = (10 ** exponent)*ev.dy
             if self.parent.type
@@ -145,33 +152,19 @@ Widget {
             whenEnter
             return
         elsif(k.ord == 8) #backspace
-        
-            ind = (self.label =~ /[\d\.](?=[^\d\.]*$)/)
-            puts ind
-            self.label[ind]  = '' if !self.label.empty?
+
+            self.label = self.label[0...-1] if !self.label.empty?
             self.damage_self
             self.first = false
             return
         elsif k.ord >= 44 && k.ord <= 57 # numbers OR , . -
             if (self.first)
-                ind = (self.label =~ /[\d\.-](?=[^\d\.]*$)/)
-                puts ind
-                if ind.nil?
-                    self.label = ""
-                else
-                    self.label = self.label.gsub(/[\d\.-]/, '')
-                end
+                self.label = ""
                 self.first = false
             end
-            
-            
-            ind = (self.label =~ /[\d\.-](?=[^\d\.]*$)/)
-            puts ind
-            if ind.nil?
-                self.label.insert(0, k)
-            else
-                self.label.insert(ind+1, k) if k != '-' # '-' only at the beginning
-            end
+
+            self.label = self.label + k if k != '-' # '-' only at the beginning
+
             self.damage_self
             return
         end

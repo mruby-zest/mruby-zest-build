@@ -33,32 +33,28 @@ Widget {
 
     }
 
-    function numeric_input(keepValue)
+    function numeric_input()
     {
-        gbl_cx = valuator.global_x + 0.5*valuator.w
-        gbl_cy = valuator.global_y + 0.5*valuator.h
-        gbl_w  = window.w
-        gbl_h  = window.h
 
-        ropt = [gbl_cx, gbl_cy, gbl_w-gbl_cx, gbl_h-gbl_cy].min
-
-        diameter = [2.0*ropt, 3.0*0.5*(valuator.w+valuator.h)].min
 
         widget = Qml::NumericInput.new(valuator.db)
-        widget.w = 200
+        widget.w = (self.type) ? 160 : 80 
         widget.h = 40
         widget.x = (valuator.w-widget.w)/2
         widget.y = -valuator.h/2
         widget.layer = 2
-        widget.label = displayValueToText(valuator.valueRef.display_value) if (keepValue)
+        if(self.type)
+            value = valuator.valueRef.display_value.round(7) 
+        else
+            value = valuator.valueRef.display_value.round(0)
+        end
+        widget.label = value.to_s
         widget.whenValue = lambda {
             
             numericString = widget.label.gsub(',', '.')
-            if(self.type)
-                $remote.setf(self.extern, numericString.to_f) if !(widget.label.empty?)
-            else
-                $remote.seti(self.extern, numericString.to_i) if !(widget.label.empty?)
-            end
+
+            $remote.setf(self.extern, self.type ? numericString.to_f : numericString.to_i) if !(widget.label.empty?)
+
             root.set_modal(nil)
             valuator.root.log(:user_value, valuator.valueRef.display_value, src=valuator.label)
         }
@@ -163,7 +159,7 @@ Widget {
         elsif(ev.buttons.include? :rightButton)
             if(children.empty?)
                 #create_radial
-                numeric_input(true)
+                numeric_input()
             end
         elsif(ev.buttons.include? :middleButton)
             reset
