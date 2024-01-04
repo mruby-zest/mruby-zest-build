@@ -36,12 +36,11 @@ Widget {
         
         titles = Qml::ZynMatTitles.new(db)
         Qml::add_child(self, titles)
-
-        mattable.sources.each_with_index do |s, index|
+        mattable.sources.each_with_index do |src, index|
             row         = Qml::ZynMatRow.new(db)
-            row.label   = s
+            row.label   = src
             row.rownum  = index
-            row.extern  = mattable.extern + "row#{index}/"
+            row.extern  = mattable.extern + "source#{index}/"
             Qml::add_child(self, row)
         end
     }

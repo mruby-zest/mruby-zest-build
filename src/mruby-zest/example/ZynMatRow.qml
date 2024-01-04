@@ -14,10 +14,10 @@ Widget {
     function onSetup(old=nil)
     {
 
-        parent.destinations.each_with_index do |d, r|
+        parent.destinations.each_with_index do |dest, index|
             knob         = Qml::Knob.new(db)
-            knob.label   = d
-            knob.extern  = mat_row.extern + "col#{r}/"
+            knob.label   = dest
+            knob.extern  = mat_row.extern + "destination#{index}/"
             Qml::add_child(self, knob)
         end
     }
