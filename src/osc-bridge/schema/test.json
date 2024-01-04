@@ -4315,103 +4315,6 @@
 
     },
     {
-        "path"     : "/part[0,15]/kit[0,15]/adpars/VoicePar[0,7]/FreqSeq/freq",
-        "shortname": "freq",
-        "name"     : "freq",
-        "tooltip"  : "step frequency",
-        "units"    : "Hz",
-        "scale"    : "linear",
-        "type"     : "f",
-        "range"    : [0.1f,10.0f],
-        "default"  : "2.0f"
-
-    },
-    {
-        "path"     : "/part[0,15]/kit[0,15]/adpars/VoicePar[0,7]/FreqSeq/intensity",
-        "shortname": "depth",
-        "name"     : "intensity",
-        "tooltip"  : "Intensity of SEQ",
-        "scale"    : "linear",
-        "type"     : "f",
-        "range"    : [0.0,2.0],
-        "default"  : "0.0"
-
-    },
-    {
-        "path"     : "/part[0,15]/kit[0,15]/adpars/VoicePar[0,7]/FreqSeq/cutoff",
-        "shortname": "lp",
-        "name"     : "cutoff",
-        "tooltip"  : "cutoff of lp-filter for output\n 40.0=off",
-        "units"    : "Hz",
-        "scale"    : "linear",
-        "type"     : "f",
-        "range"    : [0.0f,40.0f],
-        "default"  : "40.0f"
-
-    },
-    {
-        "path"     : "/part[0,15]/kit[0,15]/adpars/VoicePar[0,7]/FreqSeq/delay",
-        "shortname": "delay",
-        "name"     : "delay",
-        "tooltip"  : "Delay before SEQ start\n0..4 second delay",
-        "units"    : "S",
-        "scale"    : "linear",
-        "type"     : "f",
-        "range"    : [0.0,4.0],
-        "default"  : "0.0"
-
-    },
-    {
-        "path"     : "/part[0,15]/kit[0,15]/adpars/VoicePar[0,7]/FreqSeq/continous",
-        "shortname": "c",
-        "name"     : "continous",
-        "tooltip"  : "Enable for global phase syncronization",
-        "type"     : "t",
-        "default"  : "false"
-
-    },
-    {
-        "path"     : "/part[0,15]/kit[0,15]/adpars/VoicePar[0,7]/FreqSeq/numerator",
-        "shortname": "num",
-        "name"     : "numerator",
-        "tooltip"  : "Numerator of ratio to bpm\n0 = OFF",
-        "scale"    : "linear",
-        "type"     : "i",
-        "range"    : [0,127],
-        "default"  : "0"
-
-    },
-    {
-        "path"     : "/part[0,15]/kit[0,15]/adpars/VoicePar[0,7]/FreqSeq/denominator",
-        "shortname": "dem",
-        "name"     : "denominator",
-        "tooltip"  : "Denominator of ratio to bpm",
-        "scale"    : "linear",
-        "type"     : "i",
-        "range"    : [0,127],
-        "default"  : "4"
-
-    },
-    {
-        "path"     : "/part[0,15]/kit[0,15]/adpars/VoicePar[0,7]/FreqSeq/steps",
-        "shortname": "steps",
-        "name"     : "steps",
-        "tooltip"  : "number of steps",
-        "scale"    : "linear",
-        "type"     : "i",
-        "range"    : [0,127],
-        "default"  : "8"
-
-    },
-    {
-        "path"     : "/part[0,15]/kit[0,15]/adpars/VoicePar[0,7]/FreqSeq/sequence[0,127]",
-        "name"     : "sequence#128",
-        "tooltip"  : "sequence values",
-        "scale"    : "linear",
-        "type"     : "f",
-        "range"    : [-1.0f,1.0f]
-    },
-    {
         "path"     : "/part[0,15]/kit[0,15]/adpars/VoicePar[0,7]/AmpLfo/freq",
         "shortname": "freq",
         "name"     : "freq",
@@ -4606,103 +4509,6 @@
 
     },
     {
-        "path"     : "/part[0,15]/kit[0,15]/adpars/VoicePar[0,7]/AmpSeq/freq",
-        "shortname": "freq",
-        "name"     : "freq",
-        "tooltip"  : "step frequency",
-        "units"    : "Hz",
-        "scale"    : "linear",
-        "type"     : "f",
-        "range"    : [0.1f,10.0f],
-        "default"  : "2.0f"
-
-    },
-    {
-        "path"     : "/part[0,15]/kit[0,15]/adpars/VoicePar[0,7]/AmpSeq/intensity",
-        "shortname": "depth",
-        "name"     : "intensity",
-        "tooltip"  : "Intensity of SEQ",
-        "scale"    : "linear",
-        "type"     : "f",
-        "range"    : [0.0,2.0],
-        "default"  : "0.0"
-
-    },
-    {
-        "path"     : "/part[0,15]/kit[0,15]/adpars/VoicePar[0,7]/AmpSeq/cutoff",
-        "shortname": "lp",
-        "name"     : "cutoff",
-        "tooltip"  : "cutoff of lp-filter for output\n 40.0=off",
-        "units"    : "Hz",
-        "scale"    : "linear",
-        "type"     : "f",
-        "range"    : [0.0f,40.0f],
-        "default"  : "40.0f"
-
-    },
-    {
-        "path"     : "/part[0,15]/kit[0,15]/adpars/VoicePar[0,7]/AmpSeq/delay",
-        "shortname": "delay",
-        "name"     : "delay",
-        "tooltip"  : "Delay before SEQ start\n0..4 second delay",
-        "units"    : "S",
-        "scale"    : "linear",
-        "type"     : "f",
-        "range"    : [0.0,4.0],
-        "default"  : "0.0"
-
-    },
-    {
-        "path"     : "/part[0,15]/kit[0,15]/adpars/VoicePar[0,7]/AmpSeq/continous",
-        "shortname": "c",
-        "name"     : "continous",
-        "tooltip"  : "Enable for global phase syncronization",
-        "type"     : "t",
-        "default"  : "false"
-
-    },
-    {
-        "path"     : "/part[0,15]/kit[0,15]/adpars/VoicePar[0,7]/AmpSeq/numerator",
-        "shortname": "num",
-        "name"     : "numerator",
-        "tooltip"  : "Numerator of ratio to bpm\n0 = OFF",
-        "scale"    : "linear",
-        "type"     : "i",
-        "range"    : [0,127],
-        "default"  : "0"
-
-    },
-    {
-        "path"     : "/part[0,15]/kit[0,15]/adpars/VoicePar[0,7]/AmpSeq/denominator",
-        "shortname": "dem",
-        "name"     : "denominator",
-        "tooltip"  : "Denominator of ratio to bpm",
-        "scale"    : "linear",
-        "type"     : "i",
-        "range"    : [0,127],
-        "default"  : "4"
-
-    },
-    {
-        "path"     : "/part[0,15]/kit[0,15]/adpars/VoicePar[0,7]/AmpSeq/steps",
-        "shortname": "steps",
-        "name"     : "steps",
-        "tooltip"  : "number of steps",
-        "scale"    : "linear",
-        "type"     : "i",
-        "range"    : [0,127],
-        "default"  : "8"
-
-    },
-    {
-        "path"     : "/part[0,15]/kit[0,15]/adpars/VoicePar[0,7]/AmpSeq/sequence[0,127]",
-        "name"     : "sequence#128",
-        "tooltip"  : "sequence values",
-        "scale"    : "linear",
-        "type"     : "f",
-        "range"    : [-1.0f,1.0f]
-    },
-    {
         "path"     : "/part[0,15]/kit[0,15]/adpars/VoicePar[0,7]/FilterLfo/freq",
         "shortname": "freq",
         "name"     : "freq",
@@ -4895,103 +4701,6 @@
         "range"    : [0,127],
         "default"  : "4"
 
-    },
-    {
-        "path"     : "/part[0,15]/kit[0,15]/adpars/VoicePar[0,7]/FilterSeq/freq",
-        "shortname": "freq",
-        "name"     : "freq",
-        "tooltip"  : "step frequency",
-        "units"    : "Hz",
-        "scale"    : "linear",
-        "type"     : "f",
-        "range"    : [0.1f,10.0f],
-        "default"  : "2.0f"
-
-    },
-    {
-        "path"     : "/part[0,15]/kit[0,15]/adpars/VoicePar[0,7]/FilterSeq/intensity",
-        "shortname": "depth",
-        "name"     : "intensity",
-        "tooltip"  : "Intensity of SEQ",
-        "scale"    : "linear",
-        "type"     : "f",
-        "range"    : [0.0,2.0],
-        "default"  : "0.0"
-
-    },
-    {
-        "path"     : "/part[0,15]/kit[0,15]/adpars/VoicePar[0,7]/FilterSeq/cutoff",
-        "shortname": "lp",
-        "name"     : "cutoff",
-        "tooltip"  : "cutoff of lp-filter for output\n 40.0=off",
-        "units"    : "Hz",
-        "scale"    : "linear",
-        "type"     : "f",
-        "range"    : [0.0f,40.0f],
-        "default"  : "40.0f"
-
-    },
-    {
-        "path"     : "/part[0,15]/kit[0,15]/adpars/VoicePar[0,7]/FilterSeq/delay",
-        "shortname": "delay",
-        "name"     : "delay",
-        "tooltip"  : "Delay before SEQ start\n0..4 second delay",
-        "units"    : "S",
-        "scale"    : "linear",
-        "type"     : "f",
-        "range"    : [0.0,4.0],
-        "default"  : "0.0"
-
-    },
-    {
-        "path"     : "/part[0,15]/kit[0,15]/adpars/VoicePar[0,7]/FilterSeq/continous",
-        "shortname": "c",
-        "name"     : "continous",
-        "tooltip"  : "Enable for global phase syncronization",
-        "type"     : "t",
-        "default"  : "false"
-
-    },
-    {
-        "path"     : "/part[0,15]/kit[0,15]/adpars/VoicePar[0,7]/FilterSeq/numerator",
-        "shortname": "num",
-        "name"     : "numerator",
-        "tooltip"  : "Numerator of ratio to bpm\n0 = OFF",
-        "scale"    : "linear",
-        "type"     : "i",
-        "range"    : [0,127],
-        "default"  : "0"
-
-    },
-    {
-        "path"     : "/part[0,15]/kit[0,15]/adpars/VoicePar[0,7]/FilterSeq/denominator",
-        "shortname": "dem",
-        "name"     : "denominator",
-        "tooltip"  : "Denominator of ratio to bpm",
-        "scale"    : "linear",
-        "type"     : "i",
-        "range"    : [0,127],
-        "default"  : "4"
-
-    },
-    {
-        "path"     : "/part[0,15]/kit[0,15]/adpars/VoicePar[0,7]/FilterSeq/steps",
-        "shortname": "steps",
-        "name"     : "steps",
-        "tooltip"  : "number of steps",
-        "scale"    : "linear",
-        "type"     : "i",
-        "range"    : [0,127],
-        "default"  : "8"
-
-    },
-    {
-        "path"     : "/part[0,15]/kit[0,15]/adpars/VoicePar[0,7]/FilterSeq/sequence[0,127]",
-        "name"     : "sequence#128",
-        "tooltip"  : "sequence values",
-        "scale"    : "linear",
-        "type"     : "f",
-        "range"    : [-1.0f,1.0f]
     },
     {
         "path"     : "/part[0,15]/kit[0,15]/adpars/VoicePar[0,7]/FreqEnvelope/Pfreemode",
@@ -6507,15 +6216,6 @@
 
     },
     {
-        "path"     : "/part[0,15]/kit[0,15]/adpars/VoicePar[0,7]/PFreqSeqEnabled",
-        "shortname": "enable",
-        "name"     : "PFreqSeqEnabled",
-        "tooltip"  : "Frequency Sequencer Enable",
-        "type"     : "t",
-        "default"  : "false"
-
-    },
-    {
         "path"     : "/part[0,15]/kit[0,15]/adpars/VoicePar[0,7]/PPanning",
         "shortname": "pan.",
         "name"     : "PPanning",
@@ -6584,15 +6284,6 @@
 
     },
     {
-        "path"     : "/part[0,15]/kit[0,15]/adpars/VoicePar[0,7]/PAmpSeqEnabled",
-        "shortname": "enable",
-        "name"     : "PAmpSeqEnabled",
-        "tooltip"  : "Amplitude Sequencer Enable",
-        "type"     : "t",
-        "default"  : "false"
-
-    },
-    {
         "path"     : "/part[0,15]/kit[0,15]/adpars/VoicePar[0,7]/PFilterEnabled",
         "shortname": "enable",
         "name"     : "PFilterEnabled",
@@ -6615,15 +6306,6 @@
         "shortname": "enable",
         "name"     : "PFilterLfoEnabled",
         "tooltip"  : "Filter LFO Enable",
-        "type"     : "t",
-        "default"  : "false"
-
-    },
-    {
-        "path"     : "/part[0,15]/kit[0,15]/adpars/VoicePar[0,7]/PFilterSeqEnabled",
-        "shortname": "enable",
-        "name"     : "PFilterSeqEnabled",
-        "tooltip"  : "Filter Sequencer Enable",
         "type"     : "t",
         "default"  : "false"
 
@@ -7088,103 +6770,6 @@
 
     },
     {
-        "path"     : "/part[0,15]/kit[0,15]/adpars/GlobalPar/FreqSeq/freq",
-        "shortname": "freq",
-        "name"     : "freq",
-        "tooltip"  : "step frequency",
-        "units"    : "Hz",
-        "scale"    : "linear",
-        "type"     : "f",
-        "range"    : [0.1f,10.0f],
-        "default"  : "2.0f"
-
-    },
-    {
-        "path"     : "/part[0,15]/kit[0,15]/adpars/GlobalPar/FreqSeq/intensity",
-        "shortname": "depth",
-        "name"     : "intensity",
-        "tooltip"  : "Intensity of SEQ",
-        "scale"    : "linear",
-        "type"     : "f",
-        "range"    : [0.0,2.0],
-        "default"  : "0.0"
-
-    },
-    {
-        "path"     : "/part[0,15]/kit[0,15]/adpars/GlobalPar/FreqSeq/cutoff",
-        "shortname": "lp",
-        "name"     : "cutoff",
-        "tooltip"  : "cutoff of lp-filter for output\n 40.0=off",
-        "units"    : "Hz",
-        "scale"    : "linear",
-        "type"     : "f",
-        "range"    : [0.0f,40.0f],
-        "default"  : "40.0f"
-
-    },
-    {
-        "path"     : "/part[0,15]/kit[0,15]/adpars/GlobalPar/FreqSeq/delay",
-        "shortname": "delay",
-        "name"     : "delay",
-        "tooltip"  : "Delay before SEQ start\n0..4 second delay",
-        "units"    : "S",
-        "scale"    : "linear",
-        "type"     : "f",
-        "range"    : [0.0,4.0],
-        "default"  : "0.0"
-
-    },
-    {
-        "path"     : "/part[0,15]/kit[0,15]/adpars/GlobalPar/FreqSeq/continous",
-        "shortname": "c",
-        "name"     : "continous",
-        "tooltip"  : "Enable for global phase syncronization",
-        "type"     : "t",
-        "default"  : "false"
-
-    },
-    {
-        "path"     : "/part[0,15]/kit[0,15]/adpars/GlobalPar/FreqSeq/numerator",
-        "shortname": "num",
-        "name"     : "numerator",
-        "tooltip"  : "Numerator of ratio to bpm\n0 = OFF",
-        "scale"    : "linear",
-        "type"     : "i",
-        "range"    : [0,127],
-        "default"  : "0"
-
-    },
-    {
-        "path"     : "/part[0,15]/kit[0,15]/adpars/GlobalPar/FreqSeq/denominator",
-        "shortname": "dem",
-        "name"     : "denominator",
-        "tooltip"  : "Denominator of ratio to bpm",
-        "scale"    : "linear",
-        "type"     : "i",
-        "range"    : [0,127],
-        "default"  : "4"
-
-    },
-    {
-        "path"     : "/part[0,15]/kit[0,15]/adpars/GlobalPar/FreqSeq/steps",
-        "shortname": "steps",
-        "name"     : "steps",
-        "tooltip"  : "number of steps",
-        "scale"    : "linear",
-        "type"     : "i",
-        "range"    : [0,127],
-        "default"  : "8"
-
-    },
-    {
-        "path"     : "/part[0,15]/kit[0,15]/adpars/GlobalPar/FreqSeq/sequence[0,127]",
-        "name"     : "sequence#128",
-        "tooltip"  : "sequence values",
-        "scale"    : "linear",
-        "type"     : "f",
-        "range"    : [-1.0f,1.0f]
-    },
-    {
         "path"     : "/part[0,15]/kit[0,15]/adpars/GlobalPar/AmpLfo/freq",
         "shortname": "freq",
         "name"     : "freq",
@@ -7379,103 +6964,6 @@
 
     },
     {
-        "path"     : "/part[0,15]/kit[0,15]/adpars/GlobalPar/AmpSeq/freq",
-        "shortname": "freq",
-        "name"     : "freq",
-        "tooltip"  : "step frequency",
-        "units"    : "Hz",
-        "scale"    : "linear",
-        "type"     : "f",
-        "range"    : [0.1f,10.0f],
-        "default"  : "2.0f"
-
-    },
-    {
-        "path"     : "/part[0,15]/kit[0,15]/adpars/GlobalPar/AmpSeq/intensity",
-        "shortname": "depth",
-        "name"     : "intensity",
-        "tooltip"  : "Intensity of SEQ",
-        "scale"    : "linear",
-        "type"     : "f",
-        "range"    : [0.0,2.0],
-        "default"  : "0.0"
-
-    },
-    {
-        "path"     : "/part[0,15]/kit[0,15]/adpars/GlobalPar/AmpSeq/cutoff",
-        "shortname": "lp",
-        "name"     : "cutoff",
-        "tooltip"  : "cutoff of lp-filter for output\n 40.0=off",
-        "units"    : "Hz",
-        "scale"    : "linear",
-        "type"     : "f",
-        "range"    : [0.0f,40.0f],
-        "default"  : "40.0f"
-
-    },
-    {
-        "path"     : "/part[0,15]/kit[0,15]/adpars/GlobalPar/AmpSeq/delay",
-        "shortname": "delay",
-        "name"     : "delay",
-        "tooltip"  : "Delay before SEQ start\n0..4 second delay",
-        "units"    : "S",
-        "scale"    : "linear",
-        "type"     : "f",
-        "range"    : [0.0,4.0],
-        "default"  : "0.0"
-
-    },
-    {
-        "path"     : "/part[0,15]/kit[0,15]/adpars/GlobalPar/AmpSeq/continous",
-        "shortname": "c",
-        "name"     : "continous",
-        "tooltip"  : "Enable for global phase syncronization",
-        "type"     : "t",
-        "default"  : "false"
-
-    },
-    {
-        "path"     : "/part[0,15]/kit[0,15]/adpars/GlobalPar/AmpSeq/numerator",
-        "shortname": "num",
-        "name"     : "numerator",
-        "tooltip"  : "Numerator of ratio to bpm\n0 = OFF",
-        "scale"    : "linear",
-        "type"     : "i",
-        "range"    : [0,127],
-        "default"  : "0"
-
-    },
-    {
-        "path"     : "/part[0,15]/kit[0,15]/adpars/GlobalPar/AmpSeq/denominator",
-        "shortname": "dem",
-        "name"     : "denominator",
-        "tooltip"  : "Denominator of ratio to bpm",
-        "scale"    : "linear",
-        "type"     : "i",
-        "range"    : [0,127],
-        "default"  : "4"
-
-    },
-    {
-        "path"     : "/part[0,15]/kit[0,15]/adpars/GlobalPar/AmpSeq/steps",
-        "shortname": "steps",
-        "name"     : "steps",
-        "tooltip"  : "number of steps",
-        "scale"    : "linear",
-        "type"     : "i",
-        "range"    : [0,127],
-        "default"  : "8"
-
-    },
-    {
-        "path"     : "/part[0,15]/kit[0,15]/adpars/GlobalPar/AmpSeq/sequence[0,127]",
-        "name"     : "sequence#128",
-        "tooltip"  : "sequence values",
-        "scale"    : "linear",
-        "type"     : "f",
-        "range"    : [-1.0f,1.0f]
-    },
-    {
         "path"     : "/part[0,15]/kit[0,15]/adpars/GlobalPar/FilterLfo/freq",
         "shortname": "freq",
         "name"     : "freq",
@@ -7668,103 +7156,6 @@
         "range"    : [0,127],
         "default"  : "4"
 
-    },
-    {
-        "path"     : "/part[0,15]/kit[0,15]/adpars/GlobalPar/FilterSeq/freq",
-        "shortname": "freq",
-        "name"     : "freq",
-        "tooltip"  : "step frequency",
-        "units"    : "Hz",
-        "scale"    : "linear",
-        "type"     : "f",
-        "range"    : [0.1f,10.0f],
-        "default"  : "2.0f"
-
-    },
-    {
-        "path"     : "/part[0,15]/kit[0,15]/adpars/GlobalPar/FilterSeq/intensity",
-        "shortname": "depth",
-        "name"     : "intensity",
-        "tooltip"  : "Intensity of SEQ",
-        "scale"    : "linear",
-        "type"     : "f",
-        "range"    : [0.0,2.0],
-        "default"  : "0.0"
-
-    },
-    {
-        "path"     : "/part[0,15]/kit[0,15]/adpars/GlobalPar/FilterSeq/cutoff",
-        "shortname": "lp",
-        "name"     : "cutoff",
-        "tooltip"  : "cutoff of lp-filter for output\n 40.0=off",
-        "units"    : "Hz",
-        "scale"    : "linear",
-        "type"     : "f",
-        "range"    : [0.0f,40.0f],
-        "default"  : "40.0f"
-
-    },
-    {
-        "path"     : "/part[0,15]/kit[0,15]/adpars/GlobalPar/FilterSeq/delay",
-        "shortname": "delay",
-        "name"     : "delay",
-        "tooltip"  : "Delay before SEQ start\n0..4 second delay",
-        "units"    : "S",
-        "scale"    : "linear",
-        "type"     : "f",
-        "range"    : [0.0,4.0],
-        "default"  : "0.0"
-
-    },
-    {
-        "path"     : "/part[0,15]/kit[0,15]/adpars/GlobalPar/FilterSeq/continous",
-        "shortname": "c",
-        "name"     : "continous",
-        "tooltip"  : "Enable for global phase syncronization",
-        "type"     : "t",
-        "default"  : "false"
-
-    },
-    {
-        "path"     : "/part[0,15]/kit[0,15]/adpars/GlobalPar/FilterSeq/numerator",
-        "shortname": "num",
-        "name"     : "numerator",
-        "tooltip"  : "Numerator of ratio to bpm\n0 = OFF",
-        "scale"    : "linear",
-        "type"     : "i",
-        "range"    : [0,127],
-        "default"  : "0"
-
-    },
-    {
-        "path"     : "/part[0,15]/kit[0,15]/adpars/GlobalPar/FilterSeq/denominator",
-        "shortname": "dem",
-        "name"     : "denominator",
-        "tooltip"  : "Denominator of ratio to bpm",
-        "scale"    : "linear",
-        "type"     : "i",
-        "range"    : [0,127],
-        "default"  : "4"
-
-    },
-    {
-        "path"     : "/part[0,15]/kit[0,15]/adpars/GlobalPar/FilterSeq/steps",
-        "shortname": "steps",
-        "name"     : "steps",
-        "tooltip"  : "number of steps",
-        "scale"    : "linear",
-        "type"     : "i",
-        "range"    : [0,127],
-        "default"  : "8"
-
-    },
-    {
-        "path"     : "/part[0,15]/kit[0,15]/adpars/GlobalPar/FilterSeq/sequence[0,127]",
-        "name"     : "sequence#128",
-        "tooltip"  : "sequence values",
-        "scale"    : "linear",
-        "type"     : "f",
-        "range"    : [-1.0f,1.0f]
     },
     {
         "path"     : "/part[0,15]/kit[0,15]/adpars/GlobalPar/GenericLfo1/freq",
@@ -8665,103 +8056,6 @@
 
     },
     {
-        "path"     : "/part[0,15]/kit[0,15]/adpars/GlobalPar/GenericSeq/freq",
-        "shortname": "freq",
-        "name"     : "freq",
-        "tooltip"  : "step frequency",
-        "units"    : "Hz",
-        "scale"    : "linear",
-        "type"     : "f",
-        "range"    : [0.1f,10.0f],
-        "default"  : "2.0f"
-
-    },
-    {
-        "path"     : "/part[0,15]/kit[0,15]/adpars/GlobalPar/GenericSeq/intensity",
-        "shortname": "depth",
-        "name"     : "intensity",
-        "tooltip"  : "Intensity of SEQ",
-        "scale"    : "linear",
-        "type"     : "f",
-        "range"    : [0.0,2.0],
-        "default"  : "0.0"
-
-    },
-    {
-        "path"     : "/part[0,15]/kit[0,15]/adpars/GlobalPar/GenericSeq/cutoff",
-        "shortname": "lp",
-        "name"     : "cutoff",
-        "tooltip"  : "cutoff of lp-filter for output\n 40.0=off",
-        "units"    : "Hz",
-        "scale"    : "linear",
-        "type"     : "f",
-        "range"    : [0.0f,40.0f],
-        "default"  : "40.0f"
-
-    },
-    {
-        "path"     : "/part[0,15]/kit[0,15]/adpars/GlobalPar/GenericSeq/delay",
-        "shortname": "delay",
-        "name"     : "delay",
-        "tooltip"  : "Delay before SEQ start\n0..4 second delay",
-        "units"    : "S",
-        "scale"    : "linear",
-        "type"     : "f",
-        "range"    : [0.0,4.0],
-        "default"  : "0.0"
-
-    },
-    {
-        "path"     : "/part[0,15]/kit[0,15]/adpars/GlobalPar/GenericSeq/continous",
-        "shortname": "c",
-        "name"     : "continous",
-        "tooltip"  : "Enable for global phase syncronization",
-        "type"     : "t",
-        "default"  : "false"
-
-    },
-    {
-        "path"     : "/part[0,15]/kit[0,15]/adpars/GlobalPar/GenericSeq/numerator",
-        "shortname": "num",
-        "name"     : "numerator",
-        "tooltip"  : "Numerator of ratio to bpm\n0 = OFF",
-        "scale"    : "linear",
-        "type"     : "i",
-        "range"    : [0,127],
-        "default"  : "0"
-
-    },
-    {
-        "path"     : "/part[0,15]/kit[0,15]/adpars/GlobalPar/GenericSeq/denominator",
-        "shortname": "dem",
-        "name"     : "denominator",
-        "tooltip"  : "Denominator of ratio to bpm",
-        "scale"    : "linear",
-        "type"     : "i",
-        "range"    : [0,127],
-        "default"  : "4"
-
-    },
-    {
-        "path"     : "/part[0,15]/kit[0,15]/adpars/GlobalPar/GenericSeq/steps",
-        "shortname": "steps",
-        "name"     : "steps",
-        "tooltip"  : "number of steps",
-        "scale"    : "linear",
-        "type"     : "i",
-        "range"    : [0,127],
-        "default"  : "8"
-
-    },
-    {
-        "path"     : "/part[0,15]/kit[0,15]/adpars/GlobalPar/GenericSeq/sequence[0,127]",
-        "name"     : "sequence#128",
-        "tooltip"  : "sequence values",
-        "scale"    : "linear",
-        "type"     : "f",
-        "range"    : [-1.0f,1.0f]
-    },
-    {
         "path"     : "/part[0,15]/kit[0,15]/adpars/GlobalPar/GlobalFilter/Pcategory",
         "shortname": "class",
         "name"     : "Pcategory",
@@ -9094,6 +8388,86 @@
 
     },
     {
+        "path"     : "/part[0,15]/kit[0,15]/adpars/GlobalPar/Matrix/source[0,3]/destination[0,9]",
+        "name"     : "destination#10",
+        "tooltip"  : "Modulation Matrix Factor",
+        "type"     : "f"
+    },
+    {
+        "path"     : "/part[0,15]/kit[0,15]/adpars/GlobalPar/Matrix/PSources",
+        "shortname": "source",
+        "name"     : "PSources",
+        "tooltip"  : "Modulation Matrix Source",
+        "type"     : "i",
+        "options"  : [
+        {
+            "id"     : 0,
+            "value"  : "GEN_ENV1"
+        },
+        {
+            "id"     : 1,
+            "value"  : "GEN_ENV2"
+        },
+        {
+            "id"     : 2,
+            "value"  : "GEN_LFO1"
+        },
+        {
+            "id"     : 3,
+            "value"  : "GEN_LFO2"
+        }
+        ]
+    },
+    {
+        "path"     : "/part[0,15]/kit[0,15]/adpars/GlobalPar/Matrix/PDestinations",
+        "shortname": "dest",
+        "name"     : "PDestinations",
+        "tooltip"  : "Modulation Matrix Source",
+        "type"     : "i",
+        "options"  : [
+        {
+            "id"     : 0,
+            "value"  : "LFO1_FREQ"
+        },
+        {
+            "id"     : 1,
+            "value"  : "LFO1_DEPTH"
+        },
+        {
+            "id"     : 2,
+            "value"  : "LFO2_FREQ"
+        },
+        {
+            "id"     : 3,
+            "value"  : "LFO2_DEPTH"
+        },
+        {
+            "id"     : 4,
+            "value"  : "AMPLFO_FREQ"
+        },
+        {
+            "id"     : 5,
+            "value"  : "AMPLFO_DEPTH"
+        },
+        {
+            "id"     : 6,
+            "value"  : "FREQLFO_FREQ"
+        },
+        {
+            "id"     : 7,
+            "value"  : "FREQLFO_DEPTH"
+        },
+        {
+            "id"     : 8,
+            "value"  : "FILTLFO_FREQ"
+        },
+        {
+            "id"     : 9,
+            "value"  : "FILTLFO_DEPTH"
+        }
+        ]
+    },
+    {
         "path"     : "/part[0,15]/kit[0,15]/adpars/GlobalPar/PStereo",
         "shortname": "stereo",
         "name"     : "PStereo",
@@ -9134,15 +8508,6 @@
         "shortname": "Lfo enable",
         "name"     : "PGenLfo2Enabled",
         "tooltip"  : "Generic LFO 2 Enable",
-        "type"     : "t",
-        "default"  : "false"
-
-    },
-    {
-        "path"     : "/part[0,15]/kit[0,15]/adpars/GlobalPar/PGenSeqEnabled",
-        "shortname": "Seq enable",
-        "name"     : "PGenSeqEnabled",
-        "tooltip"  : "Generic Sequencer Enable",
         "type"     : "t",
         "default"  : "false"
 
