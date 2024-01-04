@@ -17,7 +17,8 @@ Widget {
         parent.destinations.each_with_index do |dest, index|
             knob         = Qml::Knob.new(db)
             knob.label   = dest
-            knob.extern  = mat_row.extern + "destination#{index}/"
+            knob.type    = :float
+            knob.extern  = mat_row.extern + "destination#{index}"
             Qml::add_child(self, knob)
         end
     }
