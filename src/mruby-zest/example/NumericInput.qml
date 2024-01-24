@@ -133,7 +133,10 @@ Widget {
             end
             
             value = value + increment
-            $remote.setf(self.parent.extern, value)
+            
+            $remote.setf(self.parent.extern, value) if(parent.valueRef)
+            parent.whenValue.call if parent.whenValue
+            parent.damage_self
             self.label = value.to_s
             self.damage_self
             self.first = false
