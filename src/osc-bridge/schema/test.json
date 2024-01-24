@@ -8388,10 +8388,15 @@
 
     },
     {
-        "path"     : "/part[0,15]/kit[0,15]/adpars/GlobalPar/Matrix/source[0,3]/destination[0,9]",
-        "name"     : "destination#10",
+        "path"     : "/part[0,15]/kit[0,15]/adpars/GlobalPar/Matrix/source[0,5]/destination[0,35]",
+        "name"     : "destination#36",
         "tooltip"  : "Modulation Matrix Factor",
-        "type"     : "f"
+        "units"    : "%",
+        "scale"    : "linear",
+        "type"     : "f",
+        "range"    : [0.0f,100.0f],
+        "default"  : "0.0f"
+
     },
     {
         "path"     : "/part[0,15]/kit[0,15]/adpars/GlobalPar/Matrix/PSources",
@@ -8402,18 +8407,26 @@
         "options"  : [
         {
             "id"     : 0,
-            "value"  : "GEN_ENV1"
+            "value"  : "MOD_PITCH"
         },
         {
             "id"     : 1,
-            "value"  : "GEN_ENV2"
+            "value"  : "MOD_VEL"
         },
         {
             "id"     : 2,
-            "value"  : "GEN_LFO1"
+            "value"  : "GEN_ENV1"
         },
         {
             "id"     : 3,
+            "value"  : "GEN_ENV2"
+        },
+        {
+            "id"     : 4,
+            "value"  : "GEN_LFO1"
+        },
+        {
+            "id"     : 5,
             "value"  : "GEN_LFO2"
         }
         ]
@@ -8464,6 +8477,22 @@
         {
             "id"     : 9,
             "value"  : "FILTLFO_DEPTH"
+        },
+        {
+            "id"     : 10,
+            "value"  : "AMP"
+        },
+        {
+            "id"     : 11,
+            "value"  : "PAN"
+        },
+        {
+            "id"     : 12,
+            "value"  : "DETUNE_FINE"
+        },
+        {
+            "id"     : 13,
+            "value"  : "FILTER_Q"
         }
         ]
     },
@@ -17063,44 +17092,6 @@
         "type"     : "i",
         "default"  : "-1"
 
-    },
-    {
-        "path"     : "/automate/slot[0,15]/internal",
-        "name"     : "internal",
-        "tooltip"  : "Access assigned internal mod type \n 0=NONE 1=ENV 2=LFO 3=XYZ",
-        "type"     : "i",
-        "default"  : "NONE"
-,
-        "options"  : [
-        {
-            "id"     : 0,
-            "value"  : "NONE"
-        },
-        {
-            "id"     : 1,
-            "value"  : "LFO"
-        },
-        {
-            "id"     : 2,
-            "value"  : "ENV"
-        },
-        {
-            "id"     : 3,
-            "value"  : "XYZ"
-        },
-        {
-            "id"     : 4,
-            "value"  : "X"
-        },
-        {
-            "id"     : 5,
-            "value"  : "Y"
-        },
-        {
-            "id"     : 6,
-            "value"  : "Z"
-        }
-        ]
     },
     {
         "path"     : "/automate/slot[0,15]/active",

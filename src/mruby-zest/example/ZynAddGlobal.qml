@@ -115,7 +115,7 @@ Widget {
         e_  = {:filter    => "FilterLfo/",
                :amplitude => "AmpLfo/",
                :frequency => "FreqLfo/",
-               :generic   => "GenericLfo/"}[tab]
+               :generic   => "GenericLfo1/"}[tab]
         return if e_.nil?
         row1.extern  = ext + e_
         row1.content = Qml::LfoVis
@@ -127,7 +127,7 @@ Widget {
         e_  = {:filter    => "FilterEnvelope/",
                :amplitude => "AmpEnvelope/",
                :frequency => "FreqEnvelope/",
-               :generic   => "GenericEnvelope/"}[tab]
+               :generic   => "GenericEnvelope1/"}[tab]
         return if e_.nil?
         row1.extern  = ext + e_
         row1.content = Qml::ZynEnvEdit
@@ -195,14 +195,14 @@ Widget {
     function set_generic(base)
     {
         footer.children[3].value = true
-        amp_env.extern  = base + "GenericEnvelope/"
-        amp_lfo.extern  = base + "GenericLfo/"
+        amp_env.extern  = base + "GenericEnvelope1/"
+        amp_lfo.extern  = base + "GenericLfo1/"
         amp_env.content = Qml::ZynAmpEnv
         amp_lfo.content = Qml::ZynLFO
         amp_env.children[0].whenClick = lambda {row1.setDataVis(:env, :generic)}
         amp_lfo.children[0].whenClick = lambda {row1.setDataVis(:lfo, :generic)}
-        amp_env.children[0].toggleable = base + "PGenEnvelopeEnabled"
-        amp_lfo.children[0].toggleable = base + "PGenLfoEnabled"
+        amp_env.children[0].toggleable = base + "PGenEnvelope1Enabled"
+        amp_lfo.children[0].toggleable = base + "PGenLfo1Enabled"
     }
 
      function set_vis_oscilloscope()
