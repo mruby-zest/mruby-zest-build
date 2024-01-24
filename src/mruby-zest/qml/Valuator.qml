@@ -36,7 +36,6 @@ Widget {
     function numeric_input()
     {
 
-
         widget = Qml::NumericInput.new(valuator.db)
         widget.w = (self.type) ? 160 : 80 
         widget.h = 40
@@ -50,13 +49,21 @@ Widget {
         end
         widget.label = value.to_s
         widget.whenValue = lambda {
-            
-            numericString = widget.label.gsub(',', '.')
-
-            $remote.setf(self.extern, self.type ? numericString.to_f : numericString.to_i) if !(widget.label.empty?)
 
             root.set_modal(nil)
-            valuator.root.log(:user_value, valuator.valueRef.display_value, src=valuator.label)
+            old_dsp = valuator.valueRef.display_value
+            numericString = widget.label.gsub(',', '.')
+            if(valuator.valueRef)
+                $remote.setf(self.extern, self.type ? numericString.to_f : numericString.to_i) if !(widget.label.empty?)
+                new_dsp = valuator.valueRef.display_value
+                whenValue.call if whenValue && (new_dsp.nil? || old_dsp != new_dsp)
+                out_value = displayValueToText(valuator.valueRef.display_value)
+                valuator.root.log(:user_value, out_value, src=valuator.label)
+            else
+                whenValue.call if whenValue
+            end
+            damage_self
+
         }
         root.set_modal(widget)
         Qml::add_child(valuator, widget)
