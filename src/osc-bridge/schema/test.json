@@ -8388,8 +8388,8 @@
 
     },
     {
-        "path"     : "/part[0,15]/kit[0,15]/adpars/GlobalPar/Matrix/source[0,5]/destination[0,35]",
-        "name"     : "destination#36",
+        "path"     : "/part[0,15]/kit[0,15]/adpars/GlobalPar/Matrix/source[0,5]/location[0,14]/parameter[0,8]",
+        "name"     : "parameter#9",
         "tooltip"  : "Modulation Matrix Factor",
         "units"    : "%",
         "scale"    : "linear",
@@ -8415,84 +8415,117 @@
         },
         {
             "id"     : 2,
-            "value"  : "GEN_ENV1"
+            "value"  : "MOD_ENV1"
         },
         {
             "id"     : 3,
-            "value"  : "GEN_ENV2"
+            "value"  : "MOD_ENV2"
         },
         {
             "id"     : 4,
-            "value"  : "GEN_LFO1"
+            "value"  : "MOD_LFO1"
         },
         {
             "id"     : 5,
-            "value"  : "GEN_LFO2"
+            "value"  : "MOD_LFO2"
         }
         ]
     },
     {
-        "path"     : "/part[0,15]/kit[0,15]/adpars/GlobalPar/Matrix/PDestinations",
-        "shortname": "dest",
-        "name"     : "PDestinations",
-        "tooltip"  : "Modulation Matrix Source",
+        "path"     : "/part[0,15]/kit[0,15]/adpars/GlobalPar/Matrix/PDestLocations",
+        "shortname": "loc",
+        "name"     : "PDestLocations",
+        "tooltip"  : "Modulation Matrix Destination Locations",
         "type"     : "i",
         "options"  : [
         {
             "id"     : 0,
-            "value"  : "LFO1_FREQ"
+            "value"  : "AD_GLOBAL_AMP"
         },
         {
             "id"     : 1,
-            "value"  : "LFO1_DEPTH"
+            "value"  : "AD_GLOBAL_FREQ"
         },
         {
             "id"     : 2,
-            "value"  : "LFO2_FREQ"
+            "value"  : "AD_GLOBAL_FILTER"
         },
         {
             "id"     : 3,
-            "value"  : "LFO2_DEPTH"
+            "value"  : "AD_VCE8_FM_AMP"
         },
         {
             "id"     : 4,
-            "value"  : "AMPLFO_FREQ"
+            "value"  : "AD_VCE8_FM_FREQ"
         },
         {
             "id"     : 5,
-            "value"  : "AMPLFO_DEPTH"
+            "value"  : "SUB_FREQ"
         },
         {
             "id"     : 6,
-            "value"  : "FREQLFO_FREQ"
+            "value"  : "SUB_FILTER"
         },
         {
             "id"     : 7,
-            "value"  : "FREQLFO_DEPTH"
+            "value"  : "SUB_BANDWIDTH"
         },
         {
             "id"     : 8,
-            "value"  : "FILTLFO_FREQ"
+            "value"  : "LOC_GENERIC1"
         },
         {
             "id"     : 9,
-            "value"  : "FILTLFO_DEPTH"
+            "value"  : "LOC_GENERIC2"
         },
         {
             "id"     : 10,
-            "value"  : "AMP"
+            "value"  : "GLOBAL"
+        }
+        ]
+    },
+    {
+        "path"     : "/part[0,15]/kit[0,15]/adpars/GlobalPar/Matrix/PDestParameters",
+        "shortname": "par",
+        "name"     : "PDestParameters",
+        "tooltip"  : "Modulation Matrix Destination Parameters",
+        "type"     : "i",
+        "options"  : [
+        {
+            "id"     : 0,
+            "value"  : "DIRECT"
         },
         {
-            "id"     : 11,
-            "value"  : "PAN"
+            "id"     : 1,
+            "value"  : "LFO_FREQ"
         },
         {
-            "id"     : 12,
-            "value"  : "DETUNE_FINE"
+            "id"     : 2,
+            "value"  : "LFO_DEPTH"
         },
         {
-            "id"     : 13,
-            "value"  : "FILTER_Q"
+            "id"     : 3,
+            "value"  : "ENV_A"
+        },
+        {
+            "id"     : 4,
+            "value"  : "ENV_D"
+        },
+        {
+            "id"     : 5,
+            "value"  : "ENV_S"
+        },
+        {
+            "id"     : 6,
+            "value"  : "ENV_R"
+        },
+        {
+            "id"     : 7,
+            "value"  : "ENV_SPEED"
+        },
+        {
+            "id"     : 8,
+            "value"  : "ENV_DEPTH"
         }
         ]
     },

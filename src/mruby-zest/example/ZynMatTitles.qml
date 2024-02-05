@@ -5,7 +5,7 @@ Widget {
     
     
 
-    function class_name() { "MatTitles" }
+    function class_name() { "mattitles" }
     function layout(l, selfBox) {
         Draw::Layout::hpack(l, selfBox, children) 
         Draw::Layout::vpack(l, selfBox, children) if (vertical)
@@ -17,12 +17,10 @@ Widget {
         title = Qml::Text.new(db)
         title.label   = "Src \ Dst"
         Qml::add_child(self, title) if (!vertical)
-        parent.destinations.each_with_index do |d, r|
-
+        parent.params.each do |par|
             title         = Qml::Text.new(db)
-            title.label   = d
+            title.label   = par
             Qml::add_child(self, title)
-            
         end
     }
 }
