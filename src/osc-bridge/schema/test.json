@@ -8388,8 +8388,8 @@
 
     },
     {
-        "path"     : "/part[0,15]/kit[0,15]/adpars/GlobalPar/Matrix/source[0,5]/location[0,14]/parameter[0,8]",
-        "name"     : "parameter#9",
+        "path"     : "/part[0,15]/kit[0,15]/adpars/GlobalPar/Matrix/source[0,5]/location[0,10]/parameter[0,4]",
+        "name"     : "parameter#5",
         "tooltip"  : "Modulation Matrix Factor",
         "units"    : "%",
         "scale"    : "linear",
@@ -8505,26 +8505,10 @@
         },
         {
             "id"     : 3,
-            "value"  : "ENV_A"
-        },
-        {
-            "id"     : 4,
-            "value"  : "ENV_D"
-        },
-        {
-            "id"     : 5,
-            "value"  : "ENV_S"
-        },
-        {
-            "id"     : 6,
-            "value"  : "ENV_R"
-        },
-        {
-            "id"     : 7,
             "value"  : "ENV_SPEED"
         },
         {
-            "id"     : 8,
+            "id"     : 4,
             "value"  : "ENV_DEPTH"
         }
         ]
