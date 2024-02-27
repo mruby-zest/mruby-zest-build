@@ -299,10 +299,6 @@ Widget {
         end
         vg.translate(-0.5, -0.5)
 
-        #Draw Highlights - confuses users with beziers
-        #Draw::WaveForm::under_highlight(vg, bb, ptsEnv, light_fill)
-        #Draw::WaveForm::over_highlight(vg,  bb, ptsEnv, light_fill)
-
         #Draw Zero Line
         Draw::WaveForm::zero_line(vg, bb, dim)
 
