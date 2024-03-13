@@ -164,9 +164,12 @@ Widget {
             if (self.first)
                 self.label = ""
                 self.first = false
+                self.label = self.label + k
+            else 
+                self.label = self.label + k if k != '-' # '-' only at the beginning
             end
 
-            self.label = self.label + k if k != '-' # '-' only at the beginning
+            
 
             self.damage_self
             return
