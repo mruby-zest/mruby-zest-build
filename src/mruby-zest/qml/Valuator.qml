@@ -43,9 +43,9 @@ Widget {
         widget.y = -valuator.h/2
         widget.layer = 2
         if(self.type)
-            value = valuator.valueRef.display_value.round(7) 
+            value = valuator.valueRef.display_value.round(5) 
         else
-            value = valuator.valueRef.display_value.round(0)
+            value = valuator.valueRef.display_value
         end
         widget.label = value.to_s
         widget.whenValue = lambda {
