@@ -54,7 +54,8 @@ Widget {
             old_dsp = valuator.valueRef.display_value
             numericString = widget.label.gsub(',', '.')
             if(valuator.valueRef)
-                $remote.setf(self.extern, self.type ? numericString.to_f : numericString.to_i) if !(widget.label.empty?)
+                $remote.setf(self.extern, numericString.to_f) if self.type and !(widget.label.empty?)
+                $remote.seti(self.extern, numericString.to_i) if !self.type and !(widget.label.empty?)
                 new_dsp = valuator.valueRef.display_value
                 whenValue.call if whenValue && (new_dsp.nil? || old_dsp != new_dsp)
                 out_value = displayValueToText(valuator.valueRef.display_value)
