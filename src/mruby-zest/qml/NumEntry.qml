@@ -71,7 +71,7 @@ Widget {
                 Theme::ButtonGrad1, Theme::ButtonGrad2)
             vg.fill_paint paint
             vg.fill
-            vg.stroke_width 1
+            vg.stroke_width 2
             vg.stroke
         end
 
