@@ -260,7 +260,7 @@ Widget {
                   :echo => 1,
                   :phaser => 2,
                   :sympathetic => 1,
-                  :hysteresis => 1,
+                  :hysteresis => 2,
                   :reverb => 1}
         mapper[type]
     }
