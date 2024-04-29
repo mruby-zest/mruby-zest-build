@@ -42,7 +42,9 @@ Widget {
                     }
                 }
                 Knob { extern: hysteresis.extern + "Ppanning"}
-                ToggleButton { label: "Stereo";  extern: hysteresis.extern + "Hysteresis/PStereo" }
+                Knob {   extern: hysteresis.extern + "Hysteresis/Plpf"}
+                Knob {   extern: hysteresis.extern + "Hysteresis/Phpf"}
+                Knob { extern: hysteresis.extern + "Hysteresis/Plevel"   }
             }
             ParModuleRow {
                 id: rw2
@@ -74,7 +76,11 @@ Widget {
                         valuator.damage_self
                     }
                     }
-                Knob { extern: hysteresis.extern + "Hysteresis/Plevel"   }
+                
+                Col {
+                    ToggleButton { extern: hysteresis.extern + "Hysteresis/Pprefiltering"}
+                    ToggleButton { extern: hysteresis.extern + "Hysteresis/Pstereo"}
+                }
 
             }
             function layout(l, selfBox) {

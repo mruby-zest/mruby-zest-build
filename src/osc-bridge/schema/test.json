@@ -1367,6 +1367,18 @@
         {
             "id"     : 2,
             "value"  : "both"
+        },
+        {
+            "id"     : 3,
+            "value"  : "BWDN"
+        },
+        {
+            "id"     : 4,
+            "value"  : "FWDN"
+        },
+        {
+            "id"     : 5,
+            "value"  : "bothN"
         }
         ]
     },
@@ -5785,6 +5797,18 @@
         {
             "id"     : 2,
             "value"  : "both"
+        },
+        {
+            "id"     : 3,
+            "value"  : "BWDN"
+        },
+        {
+            "id"     : 4,
+            "value"  : "FWDN"
+        },
+        {
+            "id"     : 5,
+            "value"  : "bothN"
         }
         ]
     },
@@ -7840,6 +7864,18 @@
         {
             "id"     : 2,
             "value"  : "both"
+        },
+        {
+            "id"     : 3,
+            "value"  : "BWDN"
+        },
+        {
+            "id"     : 4,
+            "value"  : "FWDN"
+        },
+        {
+            "id"     : 5,
+            "value"  : "bothN"
         }
         ]
     },
@@ -9394,6 +9430,18 @@
         {
             "id"     : 2,
             "value"  : "both"
+        },
+        {
+            "id"     : 3,
+            "value"  : "BWDN"
+        },
+        {
+            "id"     : 4,
+            "value"  : "FWDN"
+        },
+        {
+            "id"     : 5,
+            "value"  : "bothN"
         }
         ]
     },
@@ -9851,6 +9899,18 @@
         {
             "id"     : 2,
             "value"  : "both"
+        },
+        {
+            "id"     : 3,
+            "value"  : "BWDN"
+        },
+        {
+            "id"     : 4,
+            "value"  : "FWDN"
+        },
+        {
+            "id"     : 5,
+            "value"  : "bothN"
         }
         ]
     },
@@ -10464,10 +10524,6 @@
         {
             "id"     : 16,
             "value"  : "Square"
-        },
-        {
-            "id"     : 17,
-            "value"  : "DualTan"
         }
         ]
     },
@@ -11535,6 +11591,28 @@
         "range"    : [0,127]
     },
     {
+        "path"     : "/part[0,15]/partefx[0,2]/Hysteresis/Plpf",
+        "shortname": "lpf",
+        "name"     : "Plpf",
+        "tooltip"  : "Low Pass Cutoff",
+        "scale"    : "linear",
+        "type"     : "i",
+        "range"    : [0,127],
+        "default"  : "127"
+
+    },
+    {
+        "path"     : "/part[0,15]/partefx[0,2]/Hysteresis/Phpf",
+        "shortname": "hpf",
+        "name"     : "Phpf",
+        "tooltip"  : "High Pass Cutoff",
+        "scale"    : "linear",
+        "type"     : "i",
+        "range"    : [0,127],
+        "default"  : "0"
+
+    },
+    {
         "path"     : "/part[0,15]/ctl/panning.depth",
         "shortname": "pan.d",
         "name"     : "panning.depth",
@@ -12407,6 +12485,18 @@
         {
             "id"     : 2,
             "value"  : "both"
+        },
+        {
+            "id"     : 3,
+            "value"  : "BWDN"
+        },
+        {
+            "id"     : 4,
+            "value"  : "FWDN"
+        },
+        {
+            "id"     : 5,
+            "value"  : "bothN"
         }
         ]
     },
@@ -13020,10 +13110,6 @@
         {
             "id"     : 16,
             "value"  : "Square"
-        },
-        {
-            "id"     : 17,
-            "value"  : "DualTan"
         }
         ]
     },
@@ -14091,6 +14177,28 @@
         "range"    : [0,127]
     },
     {
+        "path"     : "/sysefx[0,3]/Hysteresis/Plpf",
+        "shortname": "lpf",
+        "name"     : "Plpf",
+        "tooltip"  : "Low Pass Cutoff",
+        "scale"    : "linear",
+        "type"     : "i",
+        "range"    : [0,127],
+        "default"  : "127"
+
+    },
+    {
+        "path"     : "/sysefx[0,3]/Hysteresis/Phpf",
+        "shortname": "hpf",
+        "name"     : "Phpf",
+        "tooltip"  : "High Pass Cutoff",
+        "scale"    : "linear",
+        "type"     : "i",
+        "range"    : [0,127],
+        "default"  : "0"
+
+    },
+    {
         "path"     : "/insefx[0,7]/preset",
         "name"     : "preset",
         "tooltip"  : "Effect Preset Selector",
@@ -14385,6 +14493,18 @@
         {
             "id"     : 2,
             "value"  : "both"
+        },
+        {
+            "id"     : 3,
+            "value"  : "BWDN"
+        },
+        {
+            "id"     : 4,
+            "value"  : "FWDN"
+        },
+        {
+            "id"     : 5,
+            "value"  : "bothN"
         }
         ]
     },
@@ -14998,10 +15118,6 @@
         {
             "id"     : 16,
             "value"  : "Square"
-        },
-        {
-            "id"     : 17,
-            "value"  : "DualTan"
         }
         ]
     },
@@ -16067,6 +16183,28 @@
         "scale"    : "linear",
         "type"     : "i",
         "range"    : [0,127]
+    },
+    {
+        "path"     : "/insefx[0,7]/Hysteresis/Plpf",
+        "shortname": "lpf",
+        "name"     : "Plpf",
+        "tooltip"  : "Low Pass Cutoff",
+        "scale"    : "linear",
+        "type"     : "i",
+        "range"    : [0,127],
+        "default"  : "127"
+
+    },
+    {
+        "path"     : "/insefx[0,7]/Hysteresis/Phpf",
+        "shortname": "hpf",
+        "name"     : "Phpf",
+        "tooltip"  : "High Pass Cutoff",
+        "scale"    : "linear",
+        "type"     : "i",
+        "range"    : [0,127],
+        "default"  : "0"
+
     },
     {
         "path"     : "/microtonal/Pinvertupdown",
