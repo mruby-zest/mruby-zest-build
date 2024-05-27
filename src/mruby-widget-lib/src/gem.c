@@ -747,6 +747,16 @@ remote_cb_127(const char *msg, remote_cb_data *cb)
 }
 
 static void
+remote_cb_pure_int(const char *msg, remote_cb_data *cb)
+{
+    mrb_assert(!strcmp("i",rtosc_argument_string(msg)) || !strcmp("c",rtosc_argument_string(msg)));
+
+    int cb_val = rtosc_argument(msg, 0).i;
+
+    mrb_funcall(cb->mrb, cb->cb, "call", 1, mrb_fixnum_value(cb_val));
+}
+
+static void
 remote_cb_int(const char *msg, remote_cb_data *cb)
 {
     mrb_assert(!strcmp("i",rtosc_argument_string(msg)) || !strcmp("c",rtosc_argument_string(msg)));
@@ -813,11 +823,17 @@ remote_cb(const char *msg, void *data)
         assert(valid_type(*args));
     remote_cb_data *cb = (remote_cb_data*) data;
     int nil = mrb_obj_equal(cb->mrb, mrb_nil_value(), cb->mode);
+    mrb_sym norm_sym = mrb_intern_lit(cb->mrb, "normal_int");
+    int norm_int = mrb_obj_equal(cb->mrb,
+                                 mrb_symbol_value(norm_sym),
+                                 cb->mode);
     const char *arg_str = rtosc_argument_string(msg);
     if(!strcmp("i", arg_str) && nil)
         remote_cb_127(msg, cb);
     else if(!strcmp("c", arg_str))
         remote_cb_127(msg, cb);
+    else if(!strcmp("i", arg_str) && norm_int)
+        remote_cb_pure_int(msg, cb);
     else if(!strcmp("i", arg_str))
         remote_cb_int(msg, cb);
     else if(!strcmp("f", arg_str)) {
