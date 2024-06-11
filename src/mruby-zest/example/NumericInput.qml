@@ -169,8 +169,6 @@ Widget {
                 self.label = self.label + k if k != '-' # '-' only at the beginning
             end
 
-            
-
             self.damage_self
             return
         end
