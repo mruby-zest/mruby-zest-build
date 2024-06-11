@@ -57,8 +57,9 @@ Widget {
                         valuator.damage_self
                     }
                 }
+                    
                 Knob {
-                    extern: hysteresis.extern + "Hysteresis/Pcoercivity"; label: "coercivity";
+                    extern: hysteresis.extern + "Hysteresis/Pcoercivity"; label: "coerciv";
                     whenValue: lambda {wave.refresh};
                     function setValue(v) {
                         valuator.value = lim(v, 0.0, 1.0);
