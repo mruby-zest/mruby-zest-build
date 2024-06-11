@@ -53,7 +53,7 @@ Widget {
             root.set_modal(nil)
             old_dsp = valuator.valueRef.display_value
             numericString = widget.label.gsub(',', '.')
-            return if numericString == "-"
+            return if numericString == "-" or numericString == "." or numericString == "+"
             if(valuator.valueRef)
                 $remote.setf(self.extern, numericString.to_f) if self.type and !(widget.label.empty?)
                 $remote.seti(self.extern, numericString.to_i) if !self.type and !(widget.label.empty?)

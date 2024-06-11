@@ -144,6 +144,24 @@ Widget {
         end    
     
     }
+    
+    function remove_decimal_places(numeric_string)
+    {
+        # Verwende split, um den String am Dezimalpunkt '.' oder ',' zu trennen
+        if numeric_string.include?('.')
+            integer_part = numeric_string.split('.').first + '.'
+            self.first = false
+        elsif numeric_string.include?(',')
+            integer_part = numeric_string.split(',').first + ','
+            self.first = false
+        else
+            integer_part = numeric_string
+        end
+        # Gib den ganzzahligen Teil des Strings zurück
+        self.label = integer_part
+    }
+    
+    
     function onKey(k, mode)
     {
         return if mode != "press"
@@ -160,13 +178,21 @@ Widget {
             self.damage_self
             self.first = false
             return
-        elsif k.ord >= 44 && k.ord <= 57 # numbers OR , . -
+        elsif k.ord >= 43 && k.ord <= 57 # numbers OR +(43) ,(44) -(45) .(46)
             if (self.first)
-                self.label = ""
-                self.first = false
-                self.label = self.label + k
+                if k == ',' or k == '.'
+                    remove_decimal_places(self.label)
+                else
+                    self.label = ""
+                    self.first = false
+                    self.label = self.label + k
+                end
             else 
-                self.label = self.label + k if k != '-' # '-' only at the beginning
+                self.label = self.label + k if k != '-' and k != '+' # '-' only at the beginning
+                self.label = k + self.label if k == '-' and self.label[0] != '-' and self.label[0] != '+' # negate
+                self.label[0] = '+' if k == '+' and self.label[0] == '-' # un-negate
+                self.label[0] = '-' if k == '-' and self.label[0] == '+' # re-negate
+                
             end
 
             self.damage_self
