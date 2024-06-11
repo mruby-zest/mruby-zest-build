@@ -33,6 +33,47 @@ Widget {
 
     }
 
+    function numeric_input()
+    {
+
+        widget = Qml::NumericInput.new(valuator.db)
+        widget.w = (self.type) ? 160 : 80 
+        widget.h = 40
+        widget.x = (valuator.w-widget.w)/2
+        widget.y = -valuator.h/2
+        widget.layer = 2
+        if(self.type)
+            value = valuator.valueRef.display_value.round(5) 
+        else
+            value = valuator.valueRef.display_value
+        end
+        widget.label = value.to_s
+        widget.whenValue = lambda {
+
+            root.set_modal(nil)
+            old_dsp = valuator.valueRef.display_value
+            numericString = widget.label.gsub(',', '.')
+            return if numericString == "-" or numericString == "." or numericString == "+"
+            if(valuator.valueRef)
+                $remote.setf(self.extern, numericString.to_f) if self.type and !(widget.label.empty?)
+                $remote.seti(self.extern, numericString.to_i) if !self.type and !(widget.label.empty?)
+                new_dsp = valuator.valueRef.display_value
+                whenValue.call if whenValue && (new_dsp.nil? || old_dsp != new_dsp)
+                out_value = displayValueToText(valuator.valueRef.display_value)
+                valuator.root.log(:user_value, out_value, src=valuator.label)
+            else
+                whenValue.call if whenValue
+            end
+            damage_self
+
+        }
+        root.set_modal(widget)
+        Qml::add_child(valuator, widget)
+        valuator.root.smash_draw_seq
+        valuator.root.damage_item widget
+    }
+
+
     //Callback function which does not propagate info to remote API
     function setValue(v) {
         if(valuator.valueRef.has_logmin() && v > 0.0 && v < 0.07)
@@ -126,7 +167,8 @@ Widget {
             @click_time = now
         elsif(ev.buttons.include? :rightButton)
             if(children.empty?)
-                create_radial
+                #create_radial
+                numeric_input()
             end
         elsif(ev.buttons.include? :middleButton)
             reset
