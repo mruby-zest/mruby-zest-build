@@ -135,6 +135,9 @@ Widget {
         elsif(type == :automate)
             main_widget.extern  = "/"
             main_widget.content = Qml::ZynAutomation
+        elsif(type == :matrix)
+            main_widget.extern  = "/part#{prt}/kit#{kit}/adpars/GlobalPar/Matrix/"
+            main_widget.content = Qml::ZynMat
         elsif(type == :colors)
             main_widget.extern  = "/"
             main_widget.content = Qml::ColorScheme

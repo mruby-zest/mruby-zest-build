@@ -8,7 +8,7 @@ Group {
     function layout(l, selfBox) {
             Draw::Layout::hfill(l, selfBox, children, [0.72, 0.28])
         }
-    
+
         Col {
             ParModuleRow {
                 id: top
@@ -31,10 +31,11 @@ Group {
         Col {
             Selector {extern: box.extern+"PLFOtype"}
             ToggleButton   { label: "sync"; extern: box.extern+"Pcontinous"}
+            ToggleButton   { label: "midi"; extern: box.extern+"Psync"}
             TextBox {}
             NumEntry {
                 id: numerator
-                extern: box.extern + "numerator"; 
+                extern: box.extern + "numerator";
                 label: "Numerator"
                 whenValue: lambda {
                     freq.active = true if numerator.value == 0
