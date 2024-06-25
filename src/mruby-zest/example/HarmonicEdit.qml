@@ -30,7 +30,7 @@ Widget {
 
         children.each_with_index do |ch, i|
             ii = (i+off).to_i.to_s
-            ch.children[1].label = ii
+            ch.children[1].label = (i+off+1).to_i.to_s
             if(self.type == :oscil)
                 ch.children[0].extern = self.extern + "magnitude" + ii
                 ch.children[2].extern = self.extern + "phase"     + ii
