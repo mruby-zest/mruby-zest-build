@@ -2021,14 +2021,6 @@
         {
             "id"     : 17,
             "value"  : "Square"
-        },
-        {
-            "id"     : 18,
-            "value"  : "DualCos"
-        },
-        {
-            "id"     : 19,
-            "value"  : "Coerc"
         }
         ]
     },
@@ -3207,14 +3199,6 @@
         {
             "id"     : 17,
             "value"  : "Square"
-        },
-        {
-            "id"     : 18,
-            "value"  : "DualCos"
-        },
-        {
-            "id"     : 19,
-            "value"  : "Coerc"
         }
         ]
     },
@@ -3856,14 +3840,6 @@
         {
             "id"     : 17,
             "value"  : "Square"
-        },
-        {
-            "id"     : 18,
-            "value"  : "DualCos"
-        },
-        {
-            "id"     : 19,
-            "value"  : "Coerc"
         }
         ]
     },
@@ -10548,18 +10524,6 @@
         {
             "id"     : 16,
             "value"  : "Square"
-        },
-        {
-            "id"     : 17,
-            "value"  : "DualCos"
-        },
-        {
-            "id"     : 18,
-            "value"  : "Coerc"
-        },
-        {
-            "id"     : 19,
-            "value"  : "DualTanh"
         }
         ]
     },
@@ -13146,18 +13110,6 @@
         {
             "id"     : 16,
             "value"  : "Square"
-        },
-        {
-            "id"     : 17,
-            "value"  : "DualCos"
-        },
-        {
-            "id"     : 18,
-            "value"  : "Coerc"
-        },
-        {
-            "id"     : 19,
-            "value"  : "DualTanh"
         }
         ]
     },
@@ -15166,18 +15118,6 @@
         {
             "id"     : 16,
             "value"  : "Square"
-        },
-        {
-            "id"     : 17,
-            "value"  : "DualCos"
-        },
-        {
-            "id"     : 18,
-            "value"  : "Coerc"
-        },
-        {
-            "id"     : 19,
-            "value"  : "DualTanh"
         }
         ]
     },
