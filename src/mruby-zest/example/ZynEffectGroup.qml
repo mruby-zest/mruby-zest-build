@@ -225,6 +225,8 @@ Widget {
             return Qml::ZynDynFilter.new(db)
         elsif(type == :sympathetic)
             return Qml::ZynSympathetic.new(db)
+        elsif(type == :hysteresis)
+            return Qml::ZynHysteresis.new(db)
         else
             col = Qml::ColorBox.new(db)
             col.bg = color(:red)
@@ -243,7 +245,8 @@ Widget {
                   6=>:distortion,
                   7=>:eq,
                   8=>:dynamicfilter,
-                  9=>:sympathetic}
+                  9=>:sympathetic,
+                  10=>:hysteresis}
         mapper[type]
     }
 
@@ -257,6 +260,7 @@ Widget {
                   :echo => 1,
                   :phaser => 2,
                   :sympathetic => 1,
+                  :hysteresis => 2,
                   :reverb => 1}
         mapper[type]
     }

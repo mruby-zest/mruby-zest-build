@@ -47,6 +47,45 @@ module Draw
                 v.stroke
             end
         end
+        
+        def self.plotHyst(vg, ypts, bb, do_norm=true, phase=0, under_highlight=false)
+            ypts = DSP::normalize(ypts) if do_norm
+            vg.path do |v|
+                
+                x_m = bb.w
+                x_b = bb.x
+
+                y_m = -bb.h/2
+                y_b = bb.y+bb.h/2
+                mx = bb.y+bb.h
+                mn = bb.y
+
+                ypos = y_m*ypts[0] + y_b
+                ypos = [mn, [ypos, mx].min].max
+                xpos = x_m/2 + x_b
+                #puts "ypts[0]: " + ypts[0].to_s
+                #puts "i: 0 x: " + (xpos - x_b).to_s + " y: " + (ypos - y_b).to_s
+                vg.move_to(xpos, ypos)
+
+                n = ypts.length
+                (1...n).each do |pt|
+                    ii = pt
+                    ypos = y_m*ypts[ii] + y_b
+                    ypos = mx if ypos > mx
+                    ypos = mn if ypos < mn                       
+ 
+                    xpos = x_m/2 + x_m/2*(pt-256)/64 + x_b
+                    xpos = x_m -   x_m/2*(pt-64) /64 + x_b if pt < 192
+                    xpos = x_m/2 + x_m/2*pt      /64 + x_b if pt < 64
+                    #puts "i: " + pt.to_s + " x: " + (xpos - x_b).to_s + " y:" + (ypos - y_b).to_s
+                    
+                    vg.line_to(xpos, ypos)
+                end
+                v.stroke_color Theme::VisualLine
+                v.stroke_width 2.0
+                v.stroke
+            end
+        end
 
         def self.bar(vg, data, bb, bar_color, xx=nil)
             Draw::opt_bar(vg, data, bb, bar_color, xx)
