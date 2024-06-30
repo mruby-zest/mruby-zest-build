@@ -34,6 +34,10 @@ Group {
             id: phase 
             extern: reverse.extern + "Reverse/Pphase"   
         }
+        Knob { 
+            id: fade 
+            extern: reverse.extern + "Reverse/Pcrossfade"   
+        }
         ToggleButton { extern: reverse.extern + "Reverse/Pstereo"}
     }
 }

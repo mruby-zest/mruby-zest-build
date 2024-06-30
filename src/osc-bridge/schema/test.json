@@ -1370,7 +1370,15 @@
         },
         {
             "id"     : 3,
-            "value"  : "REV"
+            "value"  : "BWDN"
+        },
+        {
+            "id"     : 4,
+            "value"  : "FWDN"
+        },
+        {
+            "id"     : 5,
+            "value"  : "bothN"
         }
         ]
     },
@@ -5792,7 +5800,15 @@
         },
         {
             "id"     : 3,
-            "value"  : "REV"
+            "value"  : "BWDN"
+        },
+        {
+            "id"     : 4,
+            "value"  : "FWDN"
+        },
+        {
+            "id"     : 5,
+            "value"  : "bothN"
         }
         ]
     },
@@ -7851,7 +7867,15 @@
         },
         {
             "id"     : 3,
-            "value"  : "REV"
+            "value"  : "BWDN"
+        },
+        {
+            "id"     : 4,
+            "value"  : "FWDN"
+        },
+        {
+            "id"     : 5,
+            "value"  : "bothN"
         }
         ]
     },
@@ -9409,7 +9433,15 @@
         },
         {
             "id"     : 3,
-            "value"  : "REV"
+            "value"  : "BWDN"
+        },
+        {
+            "id"     : 4,
+            "value"  : "FWDN"
+        },
+        {
+            "id"     : 5,
+            "value"  : "bothN"
         }
         ]
     },
@@ -9870,7 +9902,15 @@
         },
         {
             "id"     : 3,
-            "value"  : "REV"
+            "value"  : "BWDN"
+        },
+        {
+            "id"     : 4,
+            "value"  : "FWDN"
+        },
+        {
+            "id"     : 5,
+            "value"  : "bothN"
         }
         ]
     },
@@ -11491,13 +11531,13 @@
     },
     {
         "path"     : "/part[0,15]/partefx[0,2]/Reverse/Pdelay",
-        "shortname": "length",
+        "shortname": "delay",
         "name"     : "Pdelay",
         "tooltip"  : "Length of Reversed Segment",
         "scale"    : "linear",
         "type"     : "i",
         "range"    : [0,127],
-        "default"  : "25"
+        "default"  : "31"
 
     },
     {
@@ -11516,6 +11556,17 @@
         "type"     : "i",
         "range"    : [0,127],
         "default"  : "64"
+
+    },
+    {
+        "path"     : "/part[0,15]/partefx[0,2]/Reverse/Pcrossfade",
+        "shortname": "fade",
+        "name"     : "Pcrossfade",
+        "tooltip"  : "Cross Fade Time between Reversed Segments 1/100s",
+        "scale"    : "linear",
+        "type"     : "i",
+        "range"    : [0,127],
+        "default"  : "16"
 
     },
     {
@@ -12396,7 +12447,15 @@
         },
         {
             "id"     : 3,
-            "value"  : "REV"
+            "value"  : "BWDN"
+        },
+        {
+            "id"     : 4,
+            "value"  : "FWDN"
+        },
+        {
+            "id"     : 5,
+            "value"  : "bothN"
         }
         ]
     },
@@ -14017,13 +14076,13 @@
     },
     {
         "path"     : "/sysefx[0,3]/Reverse/Pdelay",
-        "shortname": "length",
+        "shortname": "delay",
         "name"     : "Pdelay",
         "tooltip"  : "Length of Reversed Segment",
         "scale"    : "linear",
         "type"     : "i",
         "range"    : [0,127],
-        "default"  : "25"
+        "default"  : "31"
 
     },
     {
@@ -14042,6 +14101,17 @@
         "type"     : "i",
         "range"    : [0,127],
         "default"  : "64"
+
+    },
+    {
+        "path"     : "/sysefx[0,3]/Reverse/Pcrossfade",
+        "shortname": "fade",
+        "name"     : "Pcrossfade",
+        "tooltip"  : "Cross Fade Time between Reversed Segments 1/100s",
+        "scale"    : "linear",
+        "type"     : "i",
+        "range"    : [0,127],
+        "default"  : "16"
 
     },
     {
@@ -14342,7 +14412,15 @@
         },
         {
             "id"     : 3,
-            "value"  : "REV"
+            "value"  : "BWDN"
+        },
+        {
+            "id"     : 4,
+            "value"  : "FWDN"
+        },
+        {
+            "id"     : 5,
+            "value"  : "bothN"
         }
         ]
     },
@@ -15963,13 +16041,13 @@
     },
     {
         "path"     : "/insefx[0,7]/Reverse/Pdelay",
-        "shortname": "length",
+        "shortname": "delay",
         "name"     : "Pdelay",
         "tooltip"  : "Length of Reversed Segment",
         "scale"    : "linear",
         "type"     : "i",
         "range"    : [0,127],
-        "default"  : "25"
+        "default"  : "31"
 
     },
     {
@@ -15988,6 +16066,17 @@
         "type"     : "i",
         "range"    : [0,127],
         "default"  : "64"
+
+    },
+    {
+        "path"     : "/insefx[0,7]/Reverse/Pcrossfade",
+        "shortname": "fade",
+        "name"     : "Pcrossfade",
+        "tooltip"  : "Cross Fade Time between Reversed Segments 1/100s",
+        "scale"    : "linear",
+        "type"     : "i",
+        "range"    : [0,127],
+        "default"  : "16"
 
     },
     {
