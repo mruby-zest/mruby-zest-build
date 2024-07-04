@@ -11570,6 +11570,33 @@
 
     },
     {
+        "path"     : "/part[0,15]/partefx[0,2]/Reverse/Psyncmode",
+        "shortname": "sync",
+        "name"     : "Psyncmode",
+        "tooltip"  : "Sync Mode",
+        "scale"    : "linear",
+        "type"     : "i",
+        "range"    : [0,127],
+        "options"  : [
+        {
+            "id"     : 0,
+            "value"  : "AUTO"
+        },
+        {
+            "id"     : 1,
+            "value"  : "MIDI"
+        },
+        {
+            "id"     : 2,
+            "value"  : "HOST"
+        },
+        {
+            "id"     : 3,
+            "value"  : "NOTEON"
+        }
+        ]
+    },
+    {
         "path"     : "/part[0,15]/ctl/panning.depth",
         "shortname": "pan.d",
         "name"     : "panning.depth",
@@ -14115,6 +14142,33 @@
 
     },
     {
+        "path"     : "/sysefx[0,3]/Reverse/Psyncmode",
+        "shortname": "sync",
+        "name"     : "Psyncmode",
+        "tooltip"  : "Sync Mode",
+        "scale"    : "linear",
+        "type"     : "i",
+        "range"    : [0,127],
+        "options"  : [
+        {
+            "id"     : 0,
+            "value"  : "AUTO"
+        },
+        {
+            "id"     : 1,
+            "value"  : "MIDI"
+        },
+        {
+            "id"     : 2,
+            "value"  : "HOST"
+        },
+        {
+            "id"     : 3,
+            "value"  : "NOTEON"
+        }
+        ]
+    },
+    {
         "path"     : "/insefx[0,7]/preset",
         "name"     : "preset",
         "tooltip"  : "Effect Preset Selector",
@@ -16078,6 +16132,33 @@
         "range"    : [0,127],
         "default"  : "16"
 
+    },
+    {
+        "path"     : "/insefx[0,7]/Reverse/Psyncmode",
+        "shortname": "sync",
+        "name"     : "Psyncmode",
+        "tooltip"  : "Sync Mode",
+        "scale"    : "linear",
+        "type"     : "i",
+        "range"    : [0,127],
+        "options"  : [
+        {
+            "id"     : 0,
+            "value"  : "AUTO"
+        },
+        {
+            "id"     : 1,
+            "value"  : "MIDI"
+        },
+        {
+            "id"     : 2,
+            "value"  : "HOST"
+        },
+        {
+            "id"     : 3,
+            "value"  : "NOTEON"
+        }
+        ]
     },
     {
         "path"     : "/microtonal/Pinvertupdown",

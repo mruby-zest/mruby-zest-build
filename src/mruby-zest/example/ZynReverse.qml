@@ -38,6 +38,10 @@ Group {
             id: fade 
             extern: reverse.extern + "Reverse/Pcrossfade"   
         }
+        Selector {
+                    extern: reverse.extern + "Reverse/Psyncmode";
+                    layoutOpts: [:long_mode]
+                }
         ToggleButton { extern: reverse.extern + "Reverse/Pstereo"}
     }
 }
