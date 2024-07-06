@@ -5,7 +5,7 @@ Group {
     function refresh() {
         return if rw.content.nil?
         return if rw.content.children.length < 4
-        rw.content.children[4..-1].each do |c|
+        rw.content.children[3..-1].each do |c|
             c.refresh
         end
     }
@@ -17,14 +17,17 @@ Group {
         Knob { extern: reverse.extern + "Ppanning"}
         Col {
             NumEntry {extern: reverse.extern + "numerator"; 
+                id: num
                 value: 0
                 label: "Numerator"
                 whenValue: lambda { reverse.refresh }
             }
             NumEntry {extern: reverse.extern + "denominator"; 
+                id: den
                 value: 4
                 label: "Denominator"
-                whenValue: lambda { reverse.refresh }}
+                whenValue: lambda { reverse.refresh }
+            }
         }
         Knob { 
             id: delay 
@@ -39,8 +42,19 @@ Group {
             extern: reverse.extern + "Reverse/Pcrossfade"   
         }
         Selector {
+                    id: sm
                     extern: reverse.extern + "Reverse/Psyncmode";
                     layoutOpts: [:long_mode]
+                    whenValue: lambda { 
+                          if sm.selected == 0
+                            num.active = true
+                            den.active = true
+                          else
+                            num.active = false
+                            den.active = false
+                          end
+                        reverse.refresh 
+                    }
                 }
         ToggleButton { extern: reverse.extern + "Reverse/Pstereo"}
     }
