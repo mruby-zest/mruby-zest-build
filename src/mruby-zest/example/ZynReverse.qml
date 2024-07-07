@@ -20,7 +20,7 @@ Group {
                 id: num
                 value: 0
                 label: "Numerator"
-                whenValue: lambda { reverse.refresh }
+                whenValue: lambda { reverse.refresh } 
             }
             NumEntry {extern: reverse.extern + "denominator"; 
                 id: den
@@ -45,16 +45,6 @@ Group {
                     id: sm
                     extern: reverse.extern + "Reverse/Psyncmode";
                     layoutOpts: [:long_mode]
-                    whenValue: lambda { 
-                          if sm.selected == 0
-                            num.active = true
-                            den.active = true
-                          else
-                            num.active = false
-                            den.active = false
-                          end
-                        reverse.refresh 
-                    }
                 }
         ToggleButton { extern: reverse.extern + "Reverse/Pstereo"}
     }
