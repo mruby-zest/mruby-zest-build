@@ -11593,6 +11593,10 @@
         {
             "id"     : 3,
             "value"  : "NOTEON"
+        },
+        {
+            "id"     : 4,
+            "value"  : "NOTEONOFF"
         }
         ]
     },
@@ -14165,6 +14169,10 @@
         {
             "id"     : 3,
             "value"  : "NOTEON"
+        },
+        {
+            "id"     : 4,
+            "value"  : "NOTEONOFF"
         }
         ]
     },
@@ -16157,6 +16165,10 @@
         {
             "id"     : 3,
             "value"  : "NOTEON"
+        },
+        {
+            "id"     : 4,
+            "value"  : "NOTEONOFF"
         }
         ]
     },
