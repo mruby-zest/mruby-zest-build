@@ -73,6 +73,15 @@ Widget {
                        "77: Res. c. freq",
                        "78: Res. bw."]
         }
+        Selector {
+            id: keylayout
+            label: "Key Layout"
+            tooltip: "select key layout"
+            layoutOpts: {:weight=>2.0, :long_mode=>true}
+            options: [ "qwerty",
+                       "qwertz",
+                       "bossrb"]
+        }
     }
 
     function set_cc(x)

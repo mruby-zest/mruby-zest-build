@@ -13,6 +13,7 @@ Widget {
     property Float  velocity: 100
     property Float  velrnd: 0
     property Int    octave: 0
+    property Int    keyLayout: 0
 
     //Widget hierarchy priority
     property Int    priority: 10
@@ -175,10 +176,20 @@ Widget {
     {
         qwerty_high = "q2w3er5t6y7ui9o0p[=]\\"
         qwerty_low  = "zsxdcvgbhnjm,l.;/"
-
+        qwertz_high = "q2w3er5t6z7ui9o0pü´+"
+        qwertz_low  = "ysxdcvgbhnjm,l.ö-"
+        bossrb_high = "q2w3er5t6z7ui9o0pš+đ"
+        bossrb_low  = "ysxdcvgbhnjm,l.č-"
+        keyboard_high = qwerty_high if parent.keylayout.selected == 0
+        keyboard_low  = qwerty_low  if parent.keylayout.selected == 0
+        keyboard_high = qwertz_high if parent.keylayout.selected == 1
+        keyboard_low  = qwertz_low  if parent.keylayout.selected == 1
+        keyboard_high = bossrb_high if parent.keylayout.selected == 2
+        keyboard_low  = bossrb_low  if parent.keylayout.selected == 2
+        
         note = nil
         off = 0
-        qwerty_low.each_char do |i|
+        keyboard_low.each_char do |i|
             if(k==i)
                 note = 60 - 12 + off + self.octave*12
                 break
@@ -187,7 +198,7 @@ Widget {
         end
 
         off = 0
-        qwerty_high.each_char do |i|
+        keyboard_high.each_char do |i|
             if(k==i)
                 note = 60 + off
                 break
