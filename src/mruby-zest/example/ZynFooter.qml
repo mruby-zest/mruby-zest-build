@@ -80,7 +80,9 @@ Widget {
             layoutOpts: {:weight=>2.0, :long_mode=>true}
             options: [ "qwerty",
                        "qwertz",
-                       "bossrb"]
+                       "bossrb",
+                       "azerty",
+                       "dvorak"]
         }
     }
 
