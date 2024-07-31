@@ -178,7 +178,7 @@ Widget {
     qwerty_low  = "zsxdcvgbhnjm,l.;/"
     qwertz_high = ["q", "2", "w", "3", "e", "r", "5", "t", "6", "z", "7", "u", "i", "9", "o", "0", "p", "ü", "´", "+"]
     qwertz_low  = ["y", "s", "x", "d", "c", "v", "g", "b", "h", "n", "j", "m", ",", "l", ".", "ö", "-"]
-    bossrb_high = ["q", "2", "w", "3", "e", "r", "5", "t", "6", "z", "7", "u", "i", "9", "o", "0", "p", "š", "+", "đ"]
+    bossrb_high = ["q", "2", "w", "3", "e", "r", "5", "t", "6", "z", "7", "u", "i", "9", "o", "0", "p"]
     bossrb_low  = ["y", "s", "x", "d", "c", "v", "g", "b", "h", "n", "j", "m", ",", "l", ".", "č", "-"]
         azerty_high = ['a',233,'z','"','e','r','(','t','-','y',232,'u','i',231,'o',224,'p',65106,'=','$']
         azerty_low  = ['w','s','x','d','c','v','g','b','h','n','j',',',';','l',':','m','!']
@@ -222,15 +222,16 @@ Widget {
 
         if note.nil?
             note = case(k)
-                    when "\xfc"  # ü
-                        note = 77 + self.octave*12  # Example MIDI note for ü
-                    when "\xb4"  # ´
-                        note = 78 + self.octave*12  # Example MIDI note for ´
-                    when "\xf6"  # ö
-                        note = 63 + self.octave*12  # Example MIDI note for ö
+                    when "\xfc"  # release 'ü'
+                        note = 77 + self.octave*12  # MIDI note for ü
+                    when "\xb4"  # release '´'
+                        note = 78 + self.octave*12  # MIDI note for ´
+                    when "\xf6"  # release 'ö'
+                        note = 63 + self.octave*12  # MIDI note for ö
                     end
         end        
-        puts "Received key: #{k} #{k.inspect} Note: #{note}  Act: #{act}"
+        
+        puts "#{act} key: #{k} #{k.inspect} Note: (#{get_note_name(note)})"
 
         return if note.nil?
 
