@@ -42,6 +42,7 @@ Widget {
         widget.x = (valuator.w-widget.w)/2
         widget.y = -valuator.h/2
         widget.layer = 2
+        return if not valuator.valueRef.respond_to?(:display_value)
         if(self.type)
             value = valuator.valueRef.display_value.round(5) 
         else
