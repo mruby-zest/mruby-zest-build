@@ -178,7 +178,10 @@ Widget {
             self.damage_self
             self.first = false
             return
-        elsif k.ord >= 43 && k.ord <= 57 # numbers OR +(43) ,(44) -(45) .(46)
+        elsif  (k.ord >= 48 && k.ord <= 57) ||    # Main Numbers  0 ... 9
+               (k.ord >= 96 && k.ord <= 105) ||   # NumPad Numbers 0 ... 9
+               (k.ord >= 43 && k.ord <= 46)       # NumPad-Komma , + -
+
             if (self.first)
                 if k == ',' or k == '.'
                     remove_decimal_places(self.label)
