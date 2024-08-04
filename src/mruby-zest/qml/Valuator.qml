@@ -35,12 +35,14 @@ Widget {
 
     function numeric_input()
     {
-
         widget = Qml::NumericInput.new(valuator.db)
         widget.w = (self.type) ? 160 : 80 
         widget.h = 40
+        widget.w = valuator.w if self.class == Qml::HSlider
+        widget.h = valuator.h if self.class == Qml::HSlider
         widget.x = (valuator.w-widget.w)/2
         widget.y = -valuator.h/2
+        widget.y = (valuator.h-widget.h)/2 if self.class == Qml::HSlider
         widget.layer = 2
         return if not valuator.valueRef.respond_to?(:display_value)
         if(self.type)
