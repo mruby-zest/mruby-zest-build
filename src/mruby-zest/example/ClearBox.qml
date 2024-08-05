@@ -26,7 +26,7 @@ Widget {
         off_color     = Theme::ButtonInactive
         on_color      = Theme::ButtonActive
         cs = 0
-        pad = 1.0/64
+        pad = 1.0/8
         vg.path do |v|
             v.rounded_rect(w*pad, h*pad, w*(1-2*pad), h*(1-2*pad), 2)
             if(self.value == true)
