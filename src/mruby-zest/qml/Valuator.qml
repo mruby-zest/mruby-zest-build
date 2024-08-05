@@ -35,6 +35,9 @@ Widget {
 
     function numeric_input()
     {
+
+        return if self.class == Qml::HSlider and self.h < 10
+
         widget = Qml::NumericInput.new(valuator.db)
         widget.w = (self.type) ? 160 : 80 
         widget.h = 40
