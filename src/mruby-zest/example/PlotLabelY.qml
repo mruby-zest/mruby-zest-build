@@ -26,14 +26,14 @@ Widget {
         vg.font_size best_height
         labels.each_index do |i|
             if(i == 0)
-                vg.text_align NVG::ALIGN_BOTTOM | NVG::ALIGN_LEFT
-                vg.text(0, h, labels[0].upcase)
+                vg.text_align NVG::ALIGN_BOTTOM | NVG::ALIGN_RIGHT
+                vg.text(w/1.5, h, labels[0].upcase)
             elsif(i == labels.length-1)
-                vg.text_align NVG::ALIGN_TOP | NVG::ALIGN_LEFT
-                vg.text(0, 0, labels[i].upcase)
+                vg.text_align NVG::ALIGN_TOP | NVG::ALIGN_RIGHT
+                vg.text(w/1.5, 0, labels[i].upcase)
             else
-                vg.text_align NVG::ALIGN_MIDDLE | NVG::ALIGN_LEFT
-                vg.text(0, h*i/(labels.length-1), labels[i].upcase)
+                vg.text_align NVG::ALIGN_MIDDLE | NVG::ALIGN_RIGHT
+                vg.text(w/1.5, h*i/(labels.length-1), labels[i].upcase)
             end
         end
     }
