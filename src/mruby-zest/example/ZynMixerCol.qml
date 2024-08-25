@@ -37,8 +37,8 @@ Widget {
     }
     ColorBox {
         bg: Theme::GeneralBackground
-        Slider {visual: true; centered: false; pad: 0.01}
-        Slider {visual: true; centered: false; pad: 0.01}
+        VUSlider {visual: true; pad: 0.01}
+        VUSlider {visual: true; pad: 0.01}
         Slider {
             type: :float
             extern: col.extern + "Volume"
