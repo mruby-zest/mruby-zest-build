@@ -18,8 +18,7 @@ Valuator {
         col  = Theme::SliderActive
         col  = Theme::SliderVisActive if visual
         pad2 = (h-2*pad)
-        
-        
+
         # Colors for clipping indicator
         yellow_color = color("FFCC00")  # Yellow
         red_color = color("FF0000")     # Red
@@ -29,7 +28,7 @@ Valuator {
         yellow_val = 0.8 * cv(0.316);
         yellow_height = yellow_val * pad2 # -10dB
         yellow_start = (1-yellow_val)*pad2
-        red_val = 0.8 * cv(1) 
+        red_val = 0.8 * cv(1)
         red_height = (red_val * pad2) # 0 dB
         red_start = (1-red_val)*pad2
 
@@ -99,8 +98,7 @@ Valuator {
 
         return if value.class != Float
 
-        draw_normal(vg)  
-
+        draw_normal(vg)
 
         vg.path do |v|
             yloc = (h-((h-2*pad)*value* 0.8))
