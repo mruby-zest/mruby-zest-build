@@ -3,7 +3,7 @@ Widget {
     property Array weights: [0.05, 0.95, 0.05, 0.05, 0.05]
 
     function rap2dB(x) { 20*Math::log10(x) }
-    function bound(x)  { [0.0, [1.0, x].min].max }
+    function bound(x)  { [0.0, [1.25, x].min].max }
     function cv(x)     {min_db = -40;bound((min_db-rap2dB(x))/min_db)}
 
     function set_level(l,r)
@@ -24,8 +24,8 @@ Widget {
 
     ColorBox {
         bg: Theme::GeneralBackground
-        Slider {visual: true; centered: false; pad: 0.01}
-        Slider {visual: true; centered: false; pad: 0.01}
+        VUSlider {visual: true; pad: 0.01}
+        VUSlider {visual: true; pad: 0.01}
         Slider {
             type: :float
             extern: "/Volume"

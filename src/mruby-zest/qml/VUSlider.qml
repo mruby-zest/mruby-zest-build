@@ -24,12 +24,14 @@ Valuator {
         yellow_color = color("FFCC00")  # Yellow
         red_color = color("FF0000")     # Red
 
-        total_height = (value)*pad2
-        total_start = (1-value)*pad2
-        yellow_height = (0.8*cv(0.316)) * (h-pad) # -10dB
-        yellow_start = (1-0.8*cv(0.316))*pad2
-        red_height = ((0.8*cv(1)) * (h-pad)) # 0 dB
-        red_start = (1-0.8*cv(1))*pad2
+        total_height = (pad2 * 0.8*value).round()
+        total_start = pad2 - total_height
+        yellow_val = 0.8 * cv(0.316);
+        yellow_height = yellow_val * pad2 # -10dB
+        yellow_start = (1-yellow_val)*pad2
+        red_val = 0.8 * cv(1) 
+        red_height = (red_val * pad2) # 0 dB
+        red_start = (1-red_val)*pad2
 
         vu_width = (w)
         if vu_width > 1
@@ -101,7 +103,7 @@ Valuator {
 
 
         vg.path do |v|
-            yloc = (h-h*pad2*value)
+            yloc = (h-((h-2*pad)*value* 0.8))
             v.move_to(w*pad,  yloc)
             v.line_to(w*pad2, yloc)
             v.stroke_color Theme::SliderStroke

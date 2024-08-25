@@ -4,7 +4,7 @@ Widget {
     property Int   idx: 0
 
     function rap2dB(x) {20*Math::log10(x) }
-    function bound(x)  { [0.0, [1.0, x].min].max }
+    function bound(x)  { [0.0, [1.25, x].min].max }
     function cv(x)     {min_db = -40;bound((min_db-rap2dB(x))/min_db)}
 
     function set_level(l,r)
