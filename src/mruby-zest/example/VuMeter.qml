@@ -20,67 +20,100 @@ Widget {
         pad  = 3
         pad2 = (h-2*pad)
         rms_l = 0.3
-        v2 = 0.5
+        rms_r = 0.3
         if(!data.nil?)
             rms_l = 0.8*cv(data[4])
-            v2 = 0.8*cv(data[5])
+            rms_r = 0.8*cv(data[5])
         end
 
-        # Farben im gewünschten Format
-        green_color = color("00FF55")  # Grün
-        yellow_color = color("FFCC00")  # Gelb
-        red_color = color("FF0000")  # Rot
+        # Colors for clipping indicator
+        yellow_color = color("FFCC00")  # Yellow
+        red_color = color("FF0000")     # Red
 
-        puts rms_l.inspect if rms_l>1
         total_height = (rms_l)*(h-pad)
         total_start = (1-rms_l)*pad2
         yellow_height = (0.8*cv(0.316)) * (h-pad) # -10dB
         yellow_start = (1-0.8*cv(0.316))*pad2
         red_height = ((0.8*cv(1)) * (h-pad)) # 0 dB
         red_start = (1-0.8*cv(1))*pad2
-  
-            
-            
+
+        vu_width = (0.2*w)
+        if vu_width > 1
+            vu_width = vu_width.round()
+        end
+
+
         if total_height < yellow_height
             vg.path do |v|
-                v.rect(pad,total_start, 0.2*w, total_height)
+                v.rect(pad,total_start, vu_width, total_height)
                 v.fill_color bar_color
                 v.fill
             end
         elsif total_height < red_height
             vg.path do |v|
-                v.rect(pad,yellow_start, 0.2*w, yellow_height)
+                v.rect(pad,yellow_start, vu_width, yellow_height)
                 v.fill_color bar_color
                 v.fill
             end
             vg.path do |v|
-                v.rect(pad,total_start, 0.2*w, total_height-yellow_height)
+                v.rect(pad,total_start, vu_width, total_height-yellow_height)
                 v.fill_color yellow_color
                 v.fill
             end
         elsif total_height >= red_height
             vg.path do |v|
-                v.rect(pad,yellow_start, 0.2*w, yellow_height)
+                v.rect(pad,yellow_start, vu_width, yellow_height)
                 v.fill_color bar_color
                 v.fill
             end
             vg.path do |v|
-                v.rect(pad,red_start, 0.2*w, red_height-yellow_height)
+                v.rect(pad,red_start, vu_width, red_height-yellow_height)
                 v.fill_color yellow_color
                 v.fill
             end
             vg.path do |v|
-                v.rect(pad,total_start, 0.2*w, total_height - red_height)
+                v.rect(pad,total_start, vu_width, total_height - red_height)
                 v.fill_color red_color
                 v.fill
             end
         end
 
+        total_height = (rms_r)*(h-pad)
+        total_start = (1-rms_r)*pad2
 
-        vg.path do |v|
-            v.rect(0.8*w-pad,(1-v2)*pad2, 0.2*w, (v2)*(h-pad))
-            v.fill_color bar_color
-            v.fill
+        if total_height < yellow_height
+            vg.path do |v|
+                v.rect(0.8*w-pad,total_start, vu_width, total_height)
+                v.fill_color bar_color
+                v.fill
+            end
+        elsif total_height < red_height
+            vg.path do |v|
+                v.rect(0.8*w-pad,yellow_start, vu_width, yellow_height)
+                v.fill_color bar_color
+                v.fill
+            end
+            vg.path do |v|
+                v.rect(0.8*w-pad,total_start, vu_width, total_height-yellow_height)
+                v.fill_color yellow_color
+                v.fill
+            end
+        elsif total_height >= red_height
+            vg.path do |v|
+                v.rect(0.8*w-pad,yellow_start, vu_width, yellow_height)
+                v.fill_color bar_color
+                v.fill
+            end
+            vg.path do |v|
+                v.rect(0.8*w-pad,red_start, vu_width, red_height-yellow_height)
+                v.fill_color yellow_color
+                v.fill
+            end
+            vg.path do |v|
+                v.rect(0.8*w-pad,total_start, vu_width, total_height - red_height)
+                v.fill_color red_color
+                v.fill
+            end
         end
     }
 
