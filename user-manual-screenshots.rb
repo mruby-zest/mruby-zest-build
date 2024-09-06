@@ -323,6 +323,22 @@ def capture_kit(sched)
     }
 end
 
+def capture_mixer(sched)
+    $time += $delay
+    sched.active_event [:frame, $time, $delay]
+    sched.add lambda {|run|
+        run.set_view_pos(:view, :mixer)
+        run.change_view
+    }
+
+    $time += $delay
+    sched.active_event [:frame, $time, $delay]
+    sched.add lambda {|run|
+        run.screenshot("doc/mixer.png",
+                       bb_class(run, Qml::ZynMixer))
+    }
+end
+
 capture_filter(sched)
 capture_oscil(sched)
 capture_settings(sched)
@@ -336,6 +352,7 @@ capture_pad(sched)
 capture_sub(sched)
 
 capture_kit(sched)
+capture_mixer(sched)
 
 delay = $delay
 $time += delay
