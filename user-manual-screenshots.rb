@@ -8,6 +8,7 @@ $filter_cat = "/part0/kit0/adpars/GlobalPar/GlobalFilter/Pcategory"
 #                   v       v  v
 sched.active_event [:frame, $time, 0]
 
+# Given a runtime run and class cls, outputs the bounding box that contains all currently instantiated instances of that class
 def bb_class(run, cls)
     widgets = run.filter_widgets(nil) do |x|
         x.class == cls
@@ -16,6 +17,14 @@ def bb_class(run, cls)
 end
 
 sched.add lambda {|run|
+    # Check if the folder exists
+    unless File.directory?("doc")
+      # Create the folder if it doesn't exist
+      Dir.mkdir("doc")
+      puts "'doc' folder created."
+    else
+      puts "'doc' folder already exists."
+    end
     $remote.settf("/part0/kit0/Psubenabled", true)
     $remote.settf("/part0/kit0/Ppadenabled", true)
     $remote.seti($filter_cat, 0)

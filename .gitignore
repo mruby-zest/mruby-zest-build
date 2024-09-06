@@ -15,3 +15,4 @@ zest-w.txt
 zynaddsubfx-3.0.0.tar.bz2
 src/mruby-widget-lib/mrblib/fcache.rb
 zest
+build_config.rb.lock
