@@ -4,8 +4,8 @@ $time += $delay
 $filter_cat = "/part0/kit0/adpars/GlobalPar/GlobalFilter/Pcategory"
 #                   type of offset
 #                   |       root event
-#                   |       |  offset
-#                   v       v  v
+#                   |       |      offset
+#                   v       v      v
 sched.active_event [:frame, $time, 0]
 
 # Given a runtime run and class cls, outputs the bounding box that contains all currently instantiated instances of that class
@@ -31,6 +31,8 @@ sched.add lambda {|run|
     run.screenshot("doc/bank-read.png")
     run.screenshot("doc/info-tray.png",
                    bb_class(run, Qml::LogWidget))
+    run.screenshot("doc/footer.png",
+                   bb_class(run, Qml::ZynFooter))
     run.set_view_pos(:view, :add_synth)
     run.set_view_pos(:subview, :global)
     run.change_view
@@ -226,6 +228,7 @@ def capture_lfo(sched)
                        bb_class(run, Qml::ZynLFO))
     }
 end
+
 def capture_env(sched)
     $time += $delay
     sched.active_event [:frame, $time, $delay]
