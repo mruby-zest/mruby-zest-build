@@ -151,7 +151,7 @@ def capture_settings(sched)
         end
         bb = run.joint_bounding_box(widgets)
         run.screenshot("doc/part-settings-labelenable.png", bb)
-        $remote.sets("/part0/Pname", "supersaw")
+        $remote.sets("/part0/Pname", "Supersaw")
 
         run.screenshot("doc/part-settings-controllers.png",
                        bb_class(run, Qml::ZynControllers))
@@ -339,6 +339,22 @@ def capture_mixer(sched)
     }
 end
 
+def capture_macro_learn(sched)
+    $time += $delay
+    sched.active_event [:frame, $time, $delay]
+    sched.add lambda {|run|
+        run.set_view_pos(:view, :automate)
+        run.change_view
+    }
+
+    $time += $delay
+    sched.active_event [:frame, $time, $delay]
+    sched.add lambda {|run|
+        run.screenshot("doc/macro-learn.png",
+                       bb_class(run, Qml::ZynAutomation))
+    }
+end
+
 capture_filter(sched)
 capture_oscil(sched)
 capture_settings(sched)
@@ -353,6 +369,7 @@ capture_sub(sched)
 
 capture_kit(sched)
 capture_mixer(sched)
+capture_macro_learn(sched)
 
 delay = $delay
 $time += delay
