@@ -1,3 +1,11 @@
+# This Ruby file is dedicated to generating the Zyn-Fusion UI images used in the manual.
+#
+# For the sake of readability, the code is split into functions,
+# each dedicated to a different to generating different groups of or single images.
+#
+# Each screenshot is made by taking $delay time to open the appropriate window,
+# and $delay time to make and store the screenshot.
+
 $delay = 10
 $time  = 0
 $time += $delay
@@ -8,7 +16,9 @@ $filter_cat = "/part0/kit0/adpars/GlobalPar/GlobalFilter/Pcategory"
 #                   v       v      v
 sched.active_event [:frame, $time, 0]
 
-# Given a runtime run and class cls, outputs the bounding box that contains all currently instantiated instances of that class
+# Given a runtime run and class cls,
+# outputs the bounding box that contains
+# all currently instantiated instances of that class
 def bb_class(run, cls)
     widgets = run.filter_widgets(nil) do |x|
         x.class == cls
@@ -17,29 +27,38 @@ def bb_class(run, cls)
 end
 
 sched.add lambda {|run|
-    # Check if the folder exists
+
+    # Makes the 'doc' folder if it doesn't exist
+
     unless File.directory?("doc")
-      # Create the folder if it doesn't exist
       Dir.mkdir("doc")
       puts "'doc' folder created."
     else
       puts "'doc' folder already exists."
     end
+
     $remote.settf("/part0/kit0/Psubenabled", true)
     $remote.settf("/part0/kit0/Ppadenabled", true)
     $remote.seti($filter_cat, 0)
+
     run.screenshot("doc/bank-read.png")
     run.screenshot("doc/info-tray.png",
                    bb_class(run, Qml::LogWidget))
     run.screenshot("doc/footer.png",
                    bb_class(run, Qml::ZynFooter))
+
     run.set_view_pos(:view, :add_synth)
     run.set_view_pos(:subview, :global)
     run.change_view
+
 }
 
+# ==========================================================================================
+
 def capture_filter(sched)
+
     puts "Capture Filter images..."
+
     delay = $delay
     $time += delay
     sched.active_event [:frame, $time, delay]
@@ -355,22 +374,31 @@ def capture_macro_learn(sched)
     }
 end
 
-capture_filter(sched)
-capture_oscil(sched)
-capture_settings(sched)
-capture_settings_global(sched)
+# ==========================================================================================
 
-capture_lfo(sched)
-capture_env(sched)
-
+# Synths
 capture_add(sched)
 capture_pad(sched)
 capture_sub(sched)
 
+# Other panels available from the main panel
 capture_kit(sched)
 capture_mixer(sched)
 capture_macro_learn(sched)
 
+# Synthesis modules
+capture_oscil(sched) # Not entirely used
+
+# Currently unused
+capture_filter(sched)
+capture_settings(sched)
+capture_settings_global(sched)
+capture_lfo(sched)
+capture_env(sched)
+
+# ==========================================================================================
+
+# Exiting
 delay = $delay
 $time += delay
 sched.active_event [:frame, $time, delay]
