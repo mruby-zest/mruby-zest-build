@@ -5,6 +5,16 @@
 #
 # Each screenshot is made by taking $delay time to open the appropriate window,
 # and $delay time to make and store the screenshot.
+#
+# Usually, we recommend you start Zyn on port 1337,
+# and Zest will automatically look for it there.
+#
+# On *nix systems, the commands for that (without specified paths) are:
+#
+# zynaddsubfx -I null -O null -U -P 1337
+# zest --script user-manual-screenshots.rb
+
+# ==========================================================================================
 
 $delay = 10
 $time  = 0
@@ -98,7 +108,7 @@ def capture_filter(sched)
     }
 end
 
-def capture_oscil(sched)
+def capture_osc(sched)
     delay = $delay
     $time += delay
     sched.active_event [:frame, $time, delay]
@@ -114,6 +124,17 @@ def capture_oscil(sched)
     sched.add lambda {|run|
         run.screenshot("doc/osc-overall.png",
                        bb_class(run, Qml::ZynOscil))
+    }
+end
+
+def capture_osc_midpanel(sched)
+    delay = $delay
+    $time += delay
+    sched.active_event [:frame, $time, delay]
+    sched.add lambda {|run|
+        run.set_view_pos(:view, :add_synth)
+        run.set_view_pos(:subview, :oscil)
+        run.change_view
     }
 
     $time += delay
@@ -139,6 +160,13 @@ def capture_settings(sched)
     sched.add lambda {|run|
         run.set_view_pos(:view, :part)
         run.change_view
+    }
+
+    $time += $delay
+    sched.active_event [:frame, $time, $delay]
+    sched.add lambda {|run|
+        run.screenshot("doc/part-settings.png",
+                       bb_class(run, Qml::ZynPart))
     }
 
     $time += delay
@@ -376,6 +404,9 @@ end
 
 # ==========================================================================================
 
+# All the commented function generate various images which are currently not used by the manual.
+# If you believe the manual is missing images, look there first.
+
 # Synths
 capture_add(sched)
 capture_pad(sched)
@@ -387,14 +418,15 @@ capture_mixer(sched)
 capture_macro_learn(sched)
 
 # Synthesis modules
-capture_oscil(sched) # Not entirely used
+capture_osc(sched)
+# capture_osc_midpanel(sched)
 
 # Currently unused
-capture_filter(sched)
+# capture_filter(sched)
 capture_settings(sched)
-capture_settings_global(sched)
-capture_lfo(sched)
-capture_env(sched)
+# capture_settings_global(sched)
+# capture_lfo(sched)
+# capture_env(sched)
 
 # ==========================================================================================
 
