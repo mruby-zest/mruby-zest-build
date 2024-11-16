@@ -11580,23 +11580,23 @@
         "options"  : [
         {
             "id"     : 0,
-            "value"  : "AUTO"
-        },
-        {
-            "id"     : 1,
-            "value"  : "MIDI"
-        },
-        {
-            "id"     : 2,
-            "value"  : "HOST"
-        },
-        {
-            "id"     : 3,
             "value"  : "NOTEON"
         },
         {
-            "id"     : 4,
+            "id"     : 1,
             "value"  : "NOTEONOFF"
+        },
+        {
+            "id"     : 2,
+            "value"  : "AUTO"
+        },
+        {
+            "id"     : 3,
+            "value"  : "MIDI"
+        },
+        {
+            "id"     : 4,
+            "value"  : "HOST"
         }
         ]
     },
@@ -14156,23 +14156,23 @@
         "options"  : [
         {
             "id"     : 0,
-            "value"  : "AUTO"
-        },
-        {
-            "id"     : 1,
-            "value"  : "MIDI"
-        },
-        {
-            "id"     : 2,
-            "value"  : "HOST"
-        },
-        {
-            "id"     : 3,
             "value"  : "NOTEON"
         },
         {
-            "id"     : 4,
+            "id"     : 1,
             "value"  : "NOTEONOFF"
+        },
+        {
+            "id"     : 2,
+            "value"  : "AUTO"
+        },
+        {
+            "id"     : 3,
+            "value"  : "MIDI"
+        },
+        {
+            "id"     : 4,
+            "value"  : "HOST"
         }
         ]
     },
@@ -16152,23 +16152,23 @@
         "options"  : [
         {
             "id"     : 0,
-            "value"  : "AUTO"
-        },
-        {
-            "id"     : 1,
-            "value"  : "MIDI"
-        },
-        {
-            "id"     : 2,
-            "value"  : "HOST"
-        },
-        {
-            "id"     : 3,
             "value"  : "NOTEON"
         },
         {
-            "id"     : 4,
+            "id"     : 1,
             "value"  : "NOTEONOFF"
+        },
+        {
+            "id"     : 2,
+            "value"  : "AUTO"
+        },
+        {
+            "id"     : 3,
+            "value"  : "MIDI"
+        },
+        {
+            "id"     : 4,
+            "value"  : "HOST"
         }
         ]
     },
