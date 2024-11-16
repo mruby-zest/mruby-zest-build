@@ -45,6 +45,11 @@ Group {
                     id: sm
                     extern: reverse.extern + "Reverse/Psyncmode";
                     layoutOpts: [:long_mode]
+                    whenValue: lambda {
+                    delay.active = true if sm.selected != 1
+                    delay.active = false if sm.selected == 1
+                    delay.damage_self
+                }
                 }
         ToggleButton { extern: reverse.extern + "Reverse/Pstereo"}
     }
