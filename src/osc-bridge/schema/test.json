@@ -11544,7 +11544,7 @@
         "path"     : "/part[0,15]/partefx[0,2]/Reverse/Pstereo",
         "shortname": "stereo",
         "name"     : "Pstereo",
-        "tooltip"  : "Stereo",
+        "tooltip"  : "Enable Stereo Processing",
         "type"     : "t"
     },
     {
@@ -11562,11 +11562,12 @@
         "path"     : "/part[0,15]/partefx[0,2]/Reverse/Pcrossfade",
         "shortname": "fade",
         "name"     : "Pcrossfade",
-        "tooltip"  : "Cross Fade Time between Reversed Segments 1/100s",
+        "tooltip"  : "Cross Fade Time between Reversed Segments",
+        "units"    : ""1/100 s"",
         "scale"    : "linear",
         "type"     : "i",
         "range"    : [0,127],
-        "default"  : "16"
+        "default"  : "64"
 
     },
     {
@@ -11574,9 +11575,7 @@
         "shortname": "sync",
         "name"     : "Psyncmode",
         "tooltip"  : "Sync Mode",
-        "scale"    : "linear",
         "type"     : "i",
-        "range"    : [0,127],
         "options"  : [
         {
             "id"     : 0,
@@ -14120,7 +14119,7 @@
         "path"     : "/sysefx[0,3]/Reverse/Pstereo",
         "shortname": "stereo",
         "name"     : "Pstereo",
-        "tooltip"  : "Stereo",
+        "tooltip"  : "Enable Stereo Processing",
         "type"     : "t"
     },
     {
@@ -14138,11 +14137,12 @@
         "path"     : "/sysefx[0,3]/Reverse/Pcrossfade",
         "shortname": "fade",
         "name"     : "Pcrossfade",
-        "tooltip"  : "Cross Fade Time between Reversed Segments 1/100s",
+        "tooltip"  : "Cross Fade Time between Reversed Segments",
+        "units"    : ""1/100 s"",
         "scale"    : "linear",
         "type"     : "i",
         "range"    : [0,127],
-        "default"  : "16"
+        "default"  : "64"
 
     },
     {
@@ -14150,9 +14150,7 @@
         "shortname": "sync",
         "name"     : "Psyncmode",
         "tooltip"  : "Sync Mode",
-        "scale"    : "linear",
         "type"     : "i",
-        "range"    : [0,127],
         "options"  : [
         {
             "id"     : 0,
@@ -16116,7 +16114,7 @@
         "path"     : "/insefx[0,7]/Reverse/Pstereo",
         "shortname": "stereo",
         "name"     : "Pstereo",
-        "tooltip"  : "Stereo",
+        "tooltip"  : "Enable Stereo Processing",
         "type"     : "t"
     },
     {
@@ -16134,11 +16132,12 @@
         "path"     : "/insefx[0,7]/Reverse/Pcrossfade",
         "shortname": "fade",
         "name"     : "Pcrossfade",
-        "tooltip"  : "Cross Fade Time between Reversed Segments 1/100s",
+        "tooltip"  : "Cross Fade Time between Reversed Segments",
+        "units"    : ""1/100 s"",
         "scale"    : "linear",
         "type"     : "i",
         "range"    : [0,127],
-        "default"  : "16"
+        "default"  : "64"
 
     },
     {
@@ -16146,9 +16145,7 @@
         "shortname": "sync",
         "name"     : "Psyncmode",
         "tooltip"  : "Sync Mode",
-        "scale"    : "linear",
         "type"     : "i",
-        "range"    : [0,127],
         "options"  : [
         {
             "id"     : 0,
