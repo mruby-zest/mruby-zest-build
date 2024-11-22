@@ -13,7 +13,7 @@ linux:
 	cd deps/mruby-file-stat/src && ../configure
 	cd src/osc-bridge    && make lib
 # force rebuilding all code that depends on hotloading.
-	touch src/mruby-widget-lib/src/api.c  
+	touch src/mruby-widget-lib/src/api.c
 	cd mruby             && $(HOTLOADING) MRUBY_CONFIG=../build_config.rb rake
 	$(CC) -shared -o libzest.so `find mruby/build/host -type f | grep -v mrbc | grep -e "\.o$$" | grep -v bin` ./deps/libnanovg.a \
 		./deps/libnanovg.a \

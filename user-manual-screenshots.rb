@@ -1,13 +1,34 @@
+# This Ruby file is dedicated to generating the Zyn-Fusion UI images used in the manual.
+#
+# For the sake of readability, the code is split into functions,
+# each dedicated to a different to generating different groups of or single images.
+#
+# Each screenshot is made by taking $delay time to open the appropriate window,
+# and $delay time to make and store the screenshot.
+#
+# Usually, we recommend you start Zyn on port 1337,
+# and Zest will automatically look for it there.
+#
+# On *nix systems, the commands for that (without specified paths) are:
+#
+# zynaddsubfx -I null -O null -U -P 1337
+# zest --script user-manual-screenshots.rb
+
+# ==========================================================================================
+
 $delay = 10
 $time  = 0
 $time += $delay
 $filter_cat = "/part0/kit0/adpars/GlobalPar/GlobalFilter/Pcategory"
 #                   type of offset
 #                   |       root event
-#                   |       |  offset
-#                   v       v  v
+#                   |       |      offset
+#                   v       v      v
 sched.active_event [:frame, $time, 0]
 
+# Given a runtime run and class cls,
+# outputs the bounding box that contains
+# all currently instantiated instances of that class
 def bb_class(run, cls)
     widgets = run.filter_widgets(nil) do |x|
         x.class == cls
@@ -16,19 +37,38 @@ def bb_class(run, cls)
 end
 
 sched.add lambda {|run|
+
+    # Makes the 'doc' folder if it doesn't exist
+
+    unless File.directory?("doc")
+      Dir.mkdir("doc")
+      puts "'doc' folder created."
+    else
+      puts "'doc' folder already exists."
+    end
+
     $remote.settf("/part0/kit0/Psubenabled", true)
     $remote.settf("/part0/kit0/Ppadenabled", true)
     $remote.seti($filter_cat, 0)
+
     run.screenshot("doc/bank-read.png")
     run.screenshot("doc/info-tray.png",
                    bb_class(run, Qml::LogWidget))
+    run.screenshot("doc/footer.png",
+                   bb_class(run, Qml::ZynFooter))
+
     run.set_view_pos(:view, :add_synth)
     run.set_view_pos(:subview, :global)
     run.change_view
+
 }
 
+# ==========================================================================================
+
 def capture_filter(sched)
+
     puts "Capture Filter images..."
+
     delay = $delay
     $time += delay
     sched.active_event [:frame, $time, delay]
@@ -68,7 +108,7 @@ def capture_filter(sched)
     }
 end
 
-def capture_oscil(sched)
+def capture_osc(sched)
     delay = $delay
     $time += delay
     sched.active_event [:frame, $time, delay]
@@ -84,6 +124,17 @@ def capture_oscil(sched)
     sched.add lambda {|run|
         run.screenshot("doc/osc-overall.png",
                        bb_class(run, Qml::ZynOscil))
+    }
+end
+
+def capture_osc_midpanel(sched)
+    delay = $delay
+    $time += delay
+    sched.active_event [:frame, $time, delay]
+    sched.add lambda {|run|
+        run.set_view_pos(:view, :add_synth)
+        run.set_view_pos(:subview, :oscil)
+        run.change_view
     }
 
     $time += delay
@@ -109,6 +160,13 @@ def capture_settings(sched)
     sched.add lambda {|run|
         run.set_view_pos(:view, :part)
         run.change_view
+    }
+
+    $time += $delay
+    sched.active_event [:frame, $time, $delay]
+    sched.add lambda {|run|
+        run.screenshot("doc/part-settings.png",
+                       bb_class(run, Qml::ZynPart))
     }
 
     $time += delay
@@ -140,7 +198,7 @@ def capture_settings(sched)
         end
         bb = run.joint_bounding_box(widgets)
         run.screenshot("doc/part-settings-labelenable.png", bb)
-        $remote.sets("/part0/Pname", "supersaw")
+        $remote.sets("/part0/Pname", "Supersaw")
 
         run.screenshot("doc/part-settings-controllers.png",
                        bb_class(run, Qml::ZynControllers))
@@ -217,6 +275,7 @@ def capture_lfo(sched)
                        bb_class(run, Qml::ZynLFO))
     }
 end
+
 def capture_env(sched)
     $time += $delay
     sched.active_event [:frame, $time, $delay]
@@ -311,20 +370,67 @@ def capture_kit(sched)
     }
 end
 
-capture_filter(sched)
-capture_oscil(sched)
-capture_settings(sched)
-capture_settings_global(sched)
+def capture_mixer(sched)
+    $time += $delay
+    sched.active_event [:frame, $time, $delay]
+    sched.add lambda {|run|
+        run.set_view_pos(:view, :mixer)
+        run.change_view
+    }
 
-capture_lfo(sched)
-capture_env(sched)
+    $time += $delay
+    sched.active_event [:frame, $time, $delay]
+    sched.add lambda {|run|
+        run.screenshot("doc/mixer.png",
+                       bb_class(run, Qml::ZynMixer))
+    }
+end
 
+def capture_macro_learn(sched)
+    $time += $delay
+    sched.active_event [:frame, $time, $delay]
+    sched.add lambda {|run|
+        run.set_view_pos(:view, :automate)
+        run.change_view
+    }
+
+    $time += $delay
+    sched.active_event [:frame, $time, $delay]
+    sched.add lambda {|run|
+        run.screenshot("doc/macro-learn.png",
+                       bb_class(run, Qml::ZynAutomation))
+    }
+end
+
+# ==========================================================================================
+
+# All the commented function generate various images which are currently not used by the manual.
+# If you believe the manual is missing images, look there first.
+
+# Synths
 capture_add(sched)
 capture_pad(sched)
 capture_sub(sched)
 
+# Other panels available from the main panel
 capture_kit(sched)
+capture_mixer(sched)
+capture_macro_learn(sched)
 
+# Synthesis modules
+capture_osc(sched)
+# capture_osc_midpanel(sched)
+
+# Currently unused
+# capture_filter(sched)
+capture_settings(sched)
+# capture_settings_global(sched)
+# capture_lfo(sched)
+# capture_env(sched)
+
+# ==========================================================================================
+
+# Exiting
 delay = $delay
 $time += delay
 sched.active_event [:frame, $time, delay]
