@@ -1968,6 +1968,14 @@
         {
             "id"     : 17,
             "value"  : "Square"
+        },
+        {
+            "id"     : 18,
+            "value"  : "Tan"
+        },
+        {
+            "id"     : 19,
+            "value"  : "Hyst"
         }
         ]
     },
@@ -3144,6 +3152,14 @@
         {
             "id"     : 17,
             "value"  : "Square"
+        },
+        {
+            "id"     : 18,
+            "value"  : "Tan"
+        },
+        {
+            "id"     : 19,
+            "value"  : "Hyst"
         }
         ]
     },
@@ -3785,6 +3801,14 @@
         {
             "id"     : 17,
             "value"  : "Square"
+        },
+        {
+            "id"     : 18,
+            "value"  : "Tan"
+        },
+        {
+            "id"     : 19,
+            "value"  : "Hyst"
         }
         ]
     },
@@ -10244,6 +10268,14 @@
         {
             "id"     : 16,
             "value"  : "Square"
+        },
+        {
+            "id"     : 17,
+            "value"  : "Tan"
+        },
+        {
+            "id"     : 18,
+            "value"  : "Hyst"
         }
         ]
     },
@@ -12696,6 +12728,14 @@
         {
             "id"     : 16,
             "value"  : "Square"
+        },
+        {
+            "id"     : 17,
+            "value"  : "Tan"
+        },
+        {
+            "id"     : 18,
+            "value"  : "Hyst"
         }
         ]
     },
@@ -14568,6 +14608,14 @@
         {
             "id"     : 16,
             "value"  : "Square"
+        },
+        {
+            "id"     : 17,
+            "value"  : "Tan"
+        },
+        {
+            "id"     : 18,
+            "value"  : "Hyst"
         }
         ]
     },
