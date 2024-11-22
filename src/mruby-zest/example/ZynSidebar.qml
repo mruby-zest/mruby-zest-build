@@ -40,6 +40,12 @@ Widget {
         whenClick: lambda { side.set_content :automate }
     }
     SidebarButton {
+        id: mat
+        label: "Mod Matrix"
+        tooltip: "show modulation matrix panel"
+        whenClick: lambda { side.set_content :matrix }
+    }
+    SidebarButton {
         id: eff
         label: "effects"
         tooltip: "show the effects panel"
@@ -68,7 +74,7 @@ Widget {
 
     function set_content(type, flag=nil)
     {
-        tabs = [:part, :banks, :mixer, :kits, :automate, :effects,
+        tabs = [:part, :banks, :mixer, :kits, :automate, :matrix, :effects,
                 :add_synth, :sub_synth, :pad_synth]
         ind = 0
         self.children.each do |ch|
@@ -103,18 +109,19 @@ Widget {
 
     function layout(l, selfBox)
     {
-        partsetting.fixed(l, selfBox, 0.1, 0,     0.8, 0.045)
+        partsetting.fixed(l, selfBox, 0.1, 0,     0.8, 0.04)
         part.fixed(l,        selfBox, 0.1, 0.05,  0.8, 0.19)
-        browser.fixed(l,     selfBox, 0.1, 0.248, 0.8, 0.045)
-        mixer.fixed(l,       selfBox, 0.1, 0.3,   0.8, 0.045)
-        kitedit.fixed(l,     selfBox, 0.1, 0.35,  0.8, 0.045)
-        kit.fixed(l,         selfBox, 0.1, 0.405, 0.8, 0.187)
-        arp.fixed(l,         selfBox, 0.1, 0.6,   0.8, 0.045)
-        eff.fixed(l,         selfBox, 0.1, 0.65,  0.8, 0.045)
-        add.fixed(l,         selfBox, 0.1, 0.7,   0.8, 0.045)
+        browser.fixed(l,     selfBox, 0.1, 0.24, 0.8, 0.04)
+        mixer.fixed(l,       selfBox, 0.1, 0.28,   0.8, 0.04)
+        kitedit.fixed(l,     selfBox, 0.1, 0.32,  0.8, 0.04)
+        kit.fixed(l,         selfBox, 0.1, 0.36, 0.8, 0.187)
+        arp.fixed(l,         selfBox, 0.1, 0.55,   0.8, 0.04)
+        mat.fixed(l,         selfBox, 0.1, 0.6, 0.8, 0.04)
+        eff.fixed(l,         selfBox, 0.1, 0.65,  0.8, 0.04)
+        add.fixed(l,         selfBox, 0.1, 0.7,   0.8, 0.04)
         voices.fixed(l,      selfBox, 0.1, 0.76,  0.8, 0.10)
-        subButton.fixed(l,   selfBox, 0.1, 0.88,  0.8, 0.045)
-        padButton.fixed(l,   selfBox, 0.1, 0.94,  0.8, 0.045)
+        subButton.fixed(l,   selfBox, 0.1, 0.88,  0.8, 0.04)
+        padButton.fixed(l,   selfBox, 0.1, 0.94,  0.8, 0.04)
 
         selfBox
     }
