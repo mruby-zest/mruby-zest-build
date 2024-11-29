@@ -5,7 +5,7 @@ Group {
     function refresh() {
         return if rw.content.nil?
         return if rw.content.children.length < 4
-        rw.content.children[3..-1].each do |c|
+        rw.content.children[4..-1].each do |c|
             c.refresh
         end
     }
@@ -13,6 +13,10 @@ Group {
     ParModuleRow {
         id: rw
         layoutOpts: []
+        Selector {
+            extern: reverse.extern + "Reverse/preset"
+            whenValue: lambda { reverse.refresh }
+        }
         Knob { extern: reverse.extern + "Pvolume"}
         Knob { extern: reverse.extern + "Ppanning"}
         Col {
