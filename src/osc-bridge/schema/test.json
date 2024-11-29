@@ -11510,6 +11510,28 @@
         "range"    : [27.50f,4186.01f]
     },
     {
+        "path"     : "/part[0,15]/partefx[0,2]/Reverse/preset",
+        "name"     : "preset",
+        "tooltip"  : "Instrument Presets",
+        "type"     : "i",
+        "default"  : "0"
+,
+        "options"  : [
+        {
+            "id"     : 0,
+            "value"  : "noteon"
+        },
+        {
+            "id"     : 1,
+            "value"  : "noteonoff"
+        },
+        {
+            "id"     : 2,
+            "value"  : "auto"
+        }
+        ]
+    },
+    {
         "path"     : "/part[0,15]/partefx[0,2]/Reverse/Pvolume",
         "shortname": "amt",
         "name"     : "Pvolume",
@@ -11563,7 +11585,7 @@
         "shortname": "fade",
         "name"     : "Pcrossfade",
         "tooltip"  : "Cross Fade Time between Reversed Segments",
-        "units"    : ""1/100 s"",
+        "units"    : "1/100 s",
         "scale"    : "linear",
         "type"     : "i",
         "range"    : [0,127],
@@ -11576,6 +11598,8 @@
         "name"     : "Psyncmode",
         "tooltip"  : "Sync Mode",
         "type"     : "i",
+        "default"  : "NOTEON"
+,
         "options"  : [
         {
             "id"     : 0,
@@ -14085,6 +14109,28 @@
         "range"    : [27.50f,4186.01f]
     },
     {
+        "path"     : "/sysefx[0,3]/Reverse/preset",
+        "name"     : "preset",
+        "tooltip"  : "Instrument Presets",
+        "type"     : "i",
+        "default"  : "0"
+,
+        "options"  : [
+        {
+            "id"     : 0,
+            "value"  : "noteon"
+        },
+        {
+            "id"     : 1,
+            "value"  : "noteonoff"
+        },
+        {
+            "id"     : 2,
+            "value"  : "auto"
+        }
+        ]
+    },
+    {
         "path"     : "/sysefx[0,3]/Reverse/Pvolume",
         "shortname": "amt",
         "name"     : "Pvolume",
@@ -14138,7 +14184,7 @@
         "shortname": "fade",
         "name"     : "Pcrossfade",
         "tooltip"  : "Cross Fade Time between Reversed Segments",
-        "units"    : ""1/100 s"",
+        "units"    : "1/100 s",
         "scale"    : "linear",
         "type"     : "i",
         "range"    : [0,127],
@@ -14151,6 +14197,8 @@
         "name"     : "Psyncmode",
         "tooltip"  : "Sync Mode",
         "type"     : "i",
+        "default"  : "NOTEON"
+,
         "options"  : [
         {
             "id"     : 0,
@@ -16080,6 +16128,28 @@
         "range"    : [27.50f,4186.01f]
     },
     {
+        "path"     : "/insefx[0,7]/Reverse/preset",
+        "name"     : "preset",
+        "tooltip"  : "Instrument Presets",
+        "type"     : "i",
+        "default"  : "0"
+,
+        "options"  : [
+        {
+            "id"     : 0,
+            "value"  : "noteon"
+        },
+        {
+            "id"     : 1,
+            "value"  : "noteonoff"
+        },
+        {
+            "id"     : 2,
+            "value"  : "auto"
+        }
+        ]
+    },
+    {
         "path"     : "/insefx[0,7]/Reverse/Pvolume",
         "shortname": "amt",
         "name"     : "Pvolume",
@@ -16133,7 +16203,7 @@
         "shortname": "fade",
         "name"     : "Pcrossfade",
         "tooltip"  : "Cross Fade Time between Reversed Segments",
-        "units"    : ""1/100 s"",
+        "units"    : "1/100 s",
         "scale"    : "linear",
         "type"     : "i",
         "range"    : [0,127],
@@ -16146,6 +16216,8 @@
         "name"     : "Psyncmode",
         "tooltip"  : "Sync Mode",
         "type"     : "i",
+        "default"  : "NOTEON"
+,
         "options"  : [
         {
             "id"     : 0,
