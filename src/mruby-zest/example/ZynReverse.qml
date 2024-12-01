@@ -4,7 +4,7 @@ Group {
     topSize: 0.2
     function refresh() {
         return if rw.content.nil?
-        return if rw.content.children.length < 4
+        return if rw.content.children.length < 5
         rw.content.children[4..-1].each do |c|
             c.refresh
         end
@@ -15,6 +15,7 @@ Group {
         layoutOpts: []
         Selector {
             extern: reverse.extern + "Reverse/preset"
+            layoutOpts: [:long_mode]
             whenValue: lambda { reverse.refresh }
         }
         Knob { extern: reverse.extern + "Pvolume"}
@@ -45,16 +46,17 @@ Group {
             id: fade 
             extern: reverse.extern + "Reverse/Pcrossfade"   
         }
+        ToggleButton { extern: reverse.extern + "Reverse/Pstereo"}
         Selector {
                     id: sm
                     extern: reverse.extern + "Reverse/Psyncmode";
                     layoutOpts: [:long_mode]
                     whenValue: lambda {
-                    delay.active = true if sm.selected != 1
-                    delay.active = false if sm.selected == 1
-                    delay.damage_self
+                        delay.active = true if sm.selected != 1
+                        delay.active = false if sm.selected == 1
+                        delay.damage_self
+                    }
                 }
-                }
-        ToggleButton { extern: reverse.extern + "Reverse/Pstereo"}
+        
     }
 }

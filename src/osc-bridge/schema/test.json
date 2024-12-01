@@ -11511,6 +11511,7 @@
     },
     {
         "path"     : "/part[0,15]/partefx[0,2]/Reverse/preset",
+        "shortname": "preset",
         "name"     : "preset",
         "tooltip"  : "Instrument Presets",
         "type"     : "i",
@@ -11594,7 +11595,7 @@
     },
     {
         "path"     : "/part[0,15]/partefx[0,2]/Reverse/Psyncmode",
-        "shortname": "sync",
+        "shortname": "mode",
         "name"     : "Psyncmode",
         "tooltip"  : "Sync Mode",
         "type"     : "i",
@@ -11958,12 +11959,10 @@
         "path"     : "/part[0,15]/Pkeyshift",
         "shortname": "shift",
         "name"     : "Pkeyshift",
-        "tooltip"  : "Part Key Shift",
-        "units"    : "semitones",
-        "scale"    : "linear",
+        "tooltip"  : "Part keyshift",
         "type"     : "i",
-        "range"    : [-64,63],
-        "default"  : "0"
+        "range"    : [0,127],
+        "default"  : "64"
 
     },
     {
@@ -14106,6 +14105,7 @@
     },
     {
         "path"     : "/sysefx[0,3]/Reverse/preset",
+        "shortname": "preset",
         "name"     : "preset",
         "tooltip"  : "Instrument Presets",
         "type"     : "i",
@@ -14189,7 +14189,7 @@
     },
     {
         "path"     : "/sysefx[0,3]/Reverse/Psyncmode",
-        "shortname": "sync",
+        "shortname": "mode",
         "name"     : "Psyncmode",
         "tooltip"  : "Sync Mode",
         "type"     : "i",
@@ -16121,6 +16121,7 @@
     },
     {
         "path"     : "/insefx[0,7]/Reverse/preset",
+        "shortname": "preset",
         "name"     : "preset",
         "tooltip"  : "Instrument Presets",
         "type"     : "i",
@@ -16204,7 +16205,7 @@
     },
     {
         "path"     : "/insefx[0,7]/Reverse/Psyncmode",
-        "shortname": "sync",
+        "shortname": "mode",
         "name"     : "Psyncmode",
         "tooltip"  : "Sync Mode",
         "type"     : "i",
@@ -16709,11 +16710,10 @@
         "shortname": "key shift",
         "name"     : "Pkeyshift",
         "tooltip"  : "Global Key Shift",
-        "units"    : "semitones",
         "scale"    : "linear",
         "type"     : "i",
-        "range"    : [-64,63],
-        "default"  : "0"
+        "range"    : [0,127],
+        "default"  : "64"
 
     },
     {
