@@ -271,7 +271,7 @@ class ZRunner
     end
 
     def handleScroll(x, y, scroll)
-    
+
         if @modal && @modal.respond_to?(:handleScroll)
             #~ puts("@modal.handleScroll")
             @modal.handleScroll(x, y, scroll)
@@ -338,12 +338,12 @@ class ZRunner
 
     def key(key, act)
         aw = nil
-        
+
         if @modal && @modal.respond_to?(:onKey)
             @modal.onKey(key, act)
             return
         end
-        
+
         if @keyboard
             aw = activeWidget(@keyboard.x, @keyboard.y, :onKey)
         end

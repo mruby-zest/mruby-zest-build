@@ -7,12 +7,12 @@ Widget {
     property bool first: true
     property Float max: nil
     property Float min: nil
-    
+
     function onSetup(old=nil)
     {
         @last = Time.new
     }
-    
+
     function animate()
     {
         if(root.key_widget != self)
@@ -85,7 +85,7 @@ Widget {
         (0...l.length).each do |i|
             l[i] = "?" if l.getbyte(i) > 127
         end
-        
+
         vg.path do
             vg.rect(1, 1, w-2, h-2)
             vg.stroke_color  color("3AC5EC")
@@ -99,11 +99,10 @@ Widget {
             vg.text(8+bnd,h/2,"|")
         end
     }
-    
-    
+
     function handleScroll(x, y, ev)
     {
-    
+
         glb_x = parent.global_x + self.x
         glb_y = parent.global_y + self.y + self.h/2
         dx = x - glb_x
@@ -113,16 +112,15 @@ Widget {
 
             ind = (((dx - 10) / 13)).floor
             ind = 0 if (ind < 0)
-            
+
             ind_colon = label.index('.')
 
             if (ind_colon)
-                if (ind<ind_colon) 
+                if (ind<ind_colon)
                     exponent = ind_colon-ind-1
-                elsif (ind>ind_colon) 
+                elsif (ind>ind_colon)
                     exponent = ind_colon-ind
                 end
-                
             else
                 exponent = label[/\A\d*/].length - ind -1
                 exponent = 0 if(exponent < 0)
@@ -133,7 +131,7 @@ Widget {
             else
                 value = self.label.to_i
             end
-            
+
             value = value + increment
             if(max && min)
                 if self.parent.type
@@ -148,11 +146,9 @@ Widget {
             self.label = value.to_s
             self.damage_self
             self.first = false
-            
-        end    
-    
+        end
     }
-    
+
     function remove_decimal_places(numeric_string)
     {
         # Verwende split, um den String am Dezimalpunkt '.' oder ',' zu trennen
@@ -168,8 +164,7 @@ Widget {
         # Gib den ganzzahligen Teil des Strings zurück
         self.label = integer_part
     }
-    
-    
+
     function onKey(k, mode)
     {
         return if mode != "press"
@@ -197,7 +192,7 @@ Widget {
                     self.first = false
                     self.label = self.label + k
                 end
-            else 
+            else
                 self.label = self.label + k if k != '-' and k != '+' # '-' only at the beginning
                 self.label = k + self.label if k == '-' and self.label[0] != '-' and self.label[0] != '+' # negate
                 self.label[0] = '+' if k == '+' and self.label[0] == '-' # un-negate
@@ -212,7 +207,6 @@ Widget {
     }
 
     function whenEnter() {
-
         if self.parent.type
             value = self.label.to_f
         else
@@ -228,11 +222,10 @@ Widget {
         self.label = value.to_s
 
         if whenValue then
-            whenValue.call 
+            whenValue.call
         else
             self.root.ego_death self
         end
-
     }
 
     function onMousePress(m)
@@ -241,8 +234,6 @@ Widget {
         @last ||= now
         whenEnter if((now-@last)>0.05)
     }
-
-
 
     function onMerge(val)
     {
