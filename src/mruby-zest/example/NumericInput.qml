@@ -5,6 +5,8 @@ Widget {
     property Function whenValue: nil
     property Float  value: 0
     property bool first: true
+    property Float max: nil
+    property Float min: nil
     
     function onSetup(old=nil)
     {
@@ -133,7 +135,13 @@ Widget {
             end
             
             value = value + increment
-            
+            if(max && min)
+                if self.parent.type
+                    value = [[value,min].max,max].min
+                else
+                    value = [[value,min.to_i].max,max.to_i].min
+                end
+            end
             $remote.setf(self.parent.extern, value) if(parent.valueRef)
             parent.whenValue.call if parent.whenValue
             parent.damage_self
@@ -179,7 +187,6 @@ Widget {
             self.first = false
             return
         elsif  (k.ord >= 48 && k.ord <= 57) ||    # Main Numbers  0 ... 9
-               (k.ord >= 96 && k.ord <= 105) ||   # NumPad Numbers 0 ... 9
                (k.ord >= 43 && k.ord <= 46)       # NumPad-Komma , + -
 
             if (self.first)
@@ -205,6 +212,21 @@ Widget {
     }
 
     function whenEnter() {
+
+        if self.parent.type
+            value = self.label.to_f
+        else
+            value = self.label.to_i
+        end
+        if(max && min)
+            if self.parent.type
+                value = [[value,min].max,max].min
+            else
+                value = [[value,min.to_i].max,max.to_i].min
+            end
+        end
+        self.label = value.to_s
+
         if whenValue then
             whenValue.call 
         else

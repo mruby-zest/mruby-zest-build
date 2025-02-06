@@ -48,12 +48,20 @@ Widget {
         widget.y = (valuator.h-widget.h)/2 if self.class == Qml::HSlider
         widget.layer = 2
         return if not valuator.valueRef.respond_to?(:display_value)
+       
+        display_value = valuator.valueRef.display_value
+        display_value ||= valuator.valueRef.default_value
+        return if display_value.nil?
+       
         if(self.type)
-            value = valuator.valueRef.display_value.round(5) 
+            value = display_value.round(5)
         else
-            value = valuator.valueRef.display_value
+            value = display_value
         end
         widget.label = value.to_s
+        meta = OSC::RemoteMetadata.new($remote, self.extern)
+        widget.min = meta.min
+        widget.max = meta.max
         widget.whenValue = lambda {
 
             root.set_modal(nil)
