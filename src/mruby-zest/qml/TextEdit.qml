@@ -65,15 +65,16 @@ Widget {
         pos = self.label.length
         pos = @edit.pos if @edit
         ll = self.label
+        cursor_row = @edit.cursor_row
         if(k.ord == 8)
             pos -= 1
             if(pos >= ll.length)
                 self.label = ll.slice(0, ll.length-1)
             elsif(pos >= 0)
-                self.label = ll.slice(0, pos) + ll.slice(pos+1, ll.length)
+                self.label = ll.slice(0, pos+cursor_row) + ll.slice(pos+1+cursor_row, ll.length)
             end
         else
-            self.label = ll.insert(pos, k)
+            self.label = ll.insert(pos+cursor_row, k)
         end
         ll = self.label
         self.valueRef.value = ll if self.valueRef
