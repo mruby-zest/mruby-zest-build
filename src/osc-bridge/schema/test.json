@@ -11492,7 +11492,9 @@
         "tooltip"  : "Number of Strings",
         "scale"    : "linear",
         "type"     : "i",
-        "range"    : [0,76]
+        "range"    : [0,76],
+        "default"  : "12"
+
     },
     {
         "path"     : "/part[0,15]/partefx[0,2]/Sympathetic/Pbasenote",
@@ -14092,7 +14094,9 @@
         "tooltip"  : "Number of Strings",
         "scale"    : "linear",
         "type"     : "i",
-        "range"    : [0,76]
+        "range"    : [0,76],
+        "default"  : "12"
+
     },
     {
         "path"     : "/sysefx[0,3]/Sympathetic/Pbasenote",
@@ -16112,7 +16116,9 @@
         "tooltip"  : "Number of Strings",
         "scale"    : "linear",
         "type"     : "i",
-        "range"    : [0,76]
+        "range"    : [0,76],
+        "default"  : "12"
+
     },
     {
         "path"     : "/insefx[0,7]/Sympathetic/Pbasenote",
