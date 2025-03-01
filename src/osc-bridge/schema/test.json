@@ -10238,6 +10238,14 @@
         {
             "id"     : 9,
             "value"  : "Flange5"
+        },
+        {
+            "id"     : 10,
+            "value"  : "Triple"
+        },
+        {
+            "id"     : 11,
+            "value"  : "Dual"
         }
         ]
     },
@@ -10349,12 +10357,30 @@
     },
     {
         "path"     : "/part[0,15]/partefx[0,2]/Chorus/Pflangemode",
-        "shortname": "flange",
+        "shortname": "mode",
         "name"     : "Pflangemode",
-        "tooltip"  : "Flange Mode",
-        "type"     : "t",
-        "default"  : "false"
-
+        "tooltip"  : "Chorus Mode",
+        "type"     : "i",
+        "default"  : "CHORUS"
+,
+        "options"  : [
+        {
+            "id"     : 0,
+            "value"  : "CHORUS"
+        },
+        {
+            "id"     : 1,
+            "value"  : "FLANGE"
+        },
+        {
+            "id"     : 2,
+            "value"  : "TRIPLE"
+        },
+        {
+            "id"     : 3,
+            "value"  : "DUAL"
+        }
+        ]
     },
     {
         "path"     : "/part[0,15]/partefx[0,2]/Chorus/Poutsub",
@@ -12840,6 +12866,14 @@
         {
             "id"     : 9,
             "value"  : "Flange5"
+        },
+        {
+            "id"     : 10,
+            "value"  : "Triple"
+        },
+        {
+            "id"     : 11,
+            "value"  : "Dual"
         }
         ]
     },
@@ -12951,12 +12985,30 @@
     },
     {
         "path"     : "/sysefx[0,3]/Chorus/Pflangemode",
-        "shortname": "flange",
+        "shortname": "mode",
         "name"     : "Pflangemode",
-        "tooltip"  : "Flange Mode",
-        "type"     : "t",
-        "default"  : "false"
-
+        "tooltip"  : "Chorus Mode",
+        "type"     : "i",
+        "default"  : "CHORUS"
+,
+        "options"  : [
+        {
+            "id"     : 0,
+            "value"  : "CHORUS"
+        },
+        {
+            "id"     : 1,
+            "value"  : "FLANGE"
+        },
+        {
+            "id"     : 2,
+            "value"  : "TRIPLE"
+        },
+        {
+            "id"     : 3,
+            "value"  : "DUAL"
+        }
+        ]
     },
     {
         "path"     : "/sysefx[0,3]/Chorus/Poutsub",
@@ -14862,6 +14914,14 @@
         {
             "id"     : 9,
             "value"  : "Flange5"
+        },
+        {
+            "id"     : 10,
+            "value"  : "Triple"
+        },
+        {
+            "id"     : 11,
+            "value"  : "Dual"
         }
         ]
     },
@@ -14973,12 +15033,30 @@
     },
     {
         "path"     : "/insefx[0,7]/Chorus/Pflangemode",
-        "shortname": "flange",
+        "shortname": "mode",
         "name"     : "Pflangemode",
-        "tooltip"  : "Flange Mode",
-        "type"     : "t",
-        "default"  : "false"
-
+        "tooltip"  : "Chorus Mode",
+        "type"     : "i",
+        "default"  : "CHORUS"
+,
+        "options"  : [
+        {
+            "id"     : 0,
+            "value"  : "CHORUS"
+        },
+        {
+            "id"     : 1,
+            "value"  : "FLANGE"
+        },
+        {
+            "id"     : 2,
+            "value"  : "TRIPLE"
+        },
+        {
+            "id"     : 3,
+            "value"  : "DUAL"
+        }
+        ]
     },
     {
         "path"     : "/insefx[0,7]/Chorus/Poutsub",
