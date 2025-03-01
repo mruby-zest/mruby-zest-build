@@ -11384,7 +11384,9 @@
         "tooltip"  : "amount of effect",
         "scale"    : "linear",
         "type"     : "i",
-        "range"    : [0,127]
+        "range"    : [0,127],
+        "default"  : "0"
+
     },
     {
         "path"     : "/part[0,15]/partefx[0,2]/Sympathetic/Ppanning",
@@ -13980,7 +13982,9 @@
         "tooltip"  : "amount of effect",
         "scale"    : "linear",
         "type"     : "i",
-        "range"    : [0,127]
+        "range"    : [0,127],
+        "default"  : "0"
+
     },
     {
         "path"     : "/sysefx[0,3]/Sympathetic/Ppanning",
@@ -15996,7 +16000,9 @@
         "tooltip"  : "amount of effect",
         "scale"    : "linear",
         "type"     : "i",
-        "range"    : [0,127]
+        "range"    : [0,127],
+        "default"  : "0"
+
     },
     {
         "path"     : "/insefx[0,7]/Sympathetic/Ppanning",
