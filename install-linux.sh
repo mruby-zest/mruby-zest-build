@@ -66,6 +66,18 @@ rm -rf /usr/local/lib64/lv2/ZynAddSubFX.lv2
 rm -rf /usr/local/lib/lv2/ZynAddSubFX.lv2presets
 rm -rf /usr/local/lib64/lv2/ZynAddSubFX.lv2presets
 
+echo "...ZynAddSubFX vst3"
+rm -rf /usr/lib/vst3/ZynAddSubFX.vst3
+rm -rf /usr/lib64/vst3/ZynAddSubFX.vst3
+rm -rf /usr/local/lib/vst3/ZynAddSubFX.vst3
+rm -rf /usr/local/lib64/vst3/ZynAddSubFX.vst3
+
+echo "...ZynAddSubFX clap"
+rm -rf /usr/lib/clap/ZynAddSubFX.clap
+rm -rf /usr/lib64/clap/ZynAddSubFX.clap
+rm -rf /usr/local/lib/clap/ZynAddSubFX.clap
+rm -rf /usr/local/lib64/clap/ZynAddSubFX.clap
+
 echo "Installing Zyn Fusion"
 mkdir -p /opt/zyn-fusion/
 cp -a ./* /opt/zyn-fusion
@@ -85,10 +97,10 @@ ln -s /opt/zyn-fusion/banks /usr/share/zynaddsubfx/banks
 echo "...vst version"
 if [ -d "/usr/lib64/vst/" ]
 then
-    ln -s /opt/zyn-fusion/ZynAddSubFX.so /usr/lib64/vst/
+    ln -s /opt/zyn-fusion/ZynAddSubFX-vst2.so /usr/lib64/vst/ZynAddSubFX.so
 else
     mkdir -p /usr/lib/vst
-    ln -s /opt/zyn-fusion/ZynAddSubFX.so /usr/lib/vst/
+    ln -s /opt/zyn-fusion/ZynAddSubFX-vst2.so /usr/lib/vst/ZynAddSubFX.so
 fi
 
 echo "...lv2 version"
@@ -102,6 +114,24 @@ else
     ln -s /opt/zyn-fusion/ZynAddSubFX.lv2presets /usr/lib/lv2/
 fi
 
+echo "...vst3 version"
+if [ -d "/usr/lib64/vst3/" ]
+then
+    ln -s /opt/zyn-fusion/ZynAddSubFX.vst3 /usr/lib64/vst3/
+else
+    mkdir -p /usr/lib/vst3
+    ln -s /opt/zyn-fusion/ZynAddSubFX.vst3 /usr/lib/vst3/
+fi
+
+echo "...clap version"
+if [ -d "/usr/lib64/clap/" ]
+then
+    ln -s /opt/zyn-fusion/ZynAddSubFX.clap /usr/lib64/clap/
+else
+    mkdir -p /usr/lib/clap
+    ln -s /opt/zyn-fusion/ZynAddSubFX.clap /usr/lib/clap/
+fi
+
 echo "...bash completion"
 bashcompdir=$(pkg-config --variable=completionsdir bash-completion)
 if [ "$bashcompdir" ]
@@ -111,5 +141,5 @@ fi
 
 echo ""
 echo "Thank you for supporting Zyn-Fusion"
-echo "You can now use the 3.0.3 release via a LV2/VST plugin host or"
+echo "You can now use the 3.0.3 release via a LV2/VST/VST3/CLAP plugin host or"
 echo "by running the standalone via 'zynaddsubfx'"
