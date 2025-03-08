@@ -1265,6 +1265,26 @@
 
     },
     {
+        "path"     : "/part[0,15]/kit[0,15]/padpars/GlobalFilter/Phpf",
+        "shortname": "hpf",
+        "name"     : "Phpf",
+        "tooltip"  : "Waveguide HighPass",
+        "type"     : "i",
+        "range"    : [0,127],
+        "default"  : "0"
+
+    },
+    {
+        "path"     : "/part[0,15]/kit[0,15]/padpars/GlobalFilter/Plpf",
+        "shortname": "lpf",
+        "name"     : "Plpf",
+        "tooltip"  : "Waveguide LowPass",
+        "type"     : "i",
+        "range"    : [0,127],
+        "default"  : "127"
+
+    },
+    {
         "path"     : "/part[0,15]/kit[0,15]/padpars/GlobalFilter/Psequencesize",
         "shortname": "seq.size",
         "name"     : "Psequencesize",
@@ -5695,6 +5715,26 @@
 
     },
     {
+        "path"     : "/part[0,15]/kit[0,15]/adpars/VoicePar[0,7]/VoiceFilter/Phpf",
+        "shortname": "hpf",
+        "name"     : "Phpf",
+        "tooltip"  : "Waveguide HighPass",
+        "type"     : "i",
+        "range"    : [0,127],
+        "default"  : "0"
+
+    },
+    {
+        "path"     : "/part[0,15]/kit[0,15]/adpars/VoicePar[0,7]/VoiceFilter/Plpf",
+        "shortname": "lpf",
+        "name"     : "Plpf",
+        "tooltip"  : "Waveguide LowPass",
+        "type"     : "i",
+        "range"    : [0,127],
+        "default"  : "127"
+
+    },
+    {
         "path"     : "/part[0,15]/kit[0,15]/adpars/VoicePar[0,7]/VoiceFilter/Psequencesize",
         "shortname": "seq.size",
         "name"     : "Psequencesize",
@@ -7771,6 +7811,26 @@
 
     },
     {
+        "path"     : "/part[0,15]/kit[0,15]/adpars/GlobalPar/GlobalFilter/Phpf",
+        "shortname": "hpf",
+        "name"     : "Phpf",
+        "tooltip"  : "Waveguide HighPass",
+        "type"     : "i",
+        "range"    : [0,127],
+        "default"  : "0"
+
+    },
+    {
+        "path"     : "/part[0,15]/kit[0,15]/adpars/GlobalPar/GlobalFilter/Plpf",
+        "shortname": "lpf",
+        "name"     : "Plpf",
+        "tooltip"  : "Waveguide LowPass",
+        "type"     : "i",
+        "range"    : [0,127],
+        "default"  : "127"
+
+    },
+    {
         "path"     : "/part[0,15]/kit[0,15]/adpars/GlobalPar/GlobalFilter/Psequencesize",
         "shortname": "seq.size",
         "name"     : "Psequencesize",
@@ -9337,6 +9397,26 @@
 
     },
     {
+        "path"     : "/part[0,15]/kit[0,15]/subpars/GlobalFilter/Phpf",
+        "shortname": "hpf",
+        "name"     : "Phpf",
+        "tooltip"  : "Waveguide HighPass",
+        "type"     : "i",
+        "range"    : [0,127],
+        "default"  : "0"
+
+    },
+    {
+        "path"     : "/part[0,15]/kit[0,15]/subpars/GlobalFilter/Plpf",
+        "shortname": "lpf",
+        "name"     : "Plpf",
+        "tooltip"  : "Waveguide LowPass",
+        "type"     : "i",
+        "range"    : [0,127],
+        "default"  : "127"
+
+    },
+    {
         "path"     : "/part[0,15]/kit[0,15]/subpars/GlobalFilter/Psequencesize",
         "shortname": "seq.size",
         "name"     : "Psequencesize",
@@ -9803,6 +9883,26 @@
         "type"     : "i",
         "range"    : [0,127],
         "default"  : "64"
+
+    },
+    {
+        "path"     : "/part[0,15]/partefx[0,2]/filterpars/Phpf",
+        "shortname": "hpf",
+        "name"     : "Phpf",
+        "tooltip"  : "Waveguide HighPass",
+        "type"     : "i",
+        "range"    : [0,127],
+        "default"  : "0"
+
+    },
+    {
+        "path"     : "/part[0,15]/partefx[0,2]/filterpars/Plpf",
+        "shortname": "lpf",
+        "name"     : "Plpf",
+        "tooltip"  : "Waveguide LowPass",
+        "type"     : "i",
+        "range"    : [0,127],
+        "default"  : "127"
 
     },
     {
@@ -11409,6 +11509,10 @@
         {
             "id"     : 4,
             "value"  : "12-String"
+        },
+        {
+            "id"     : 5,
+            "value"  : "PitchDrop"
         }
         ]
     },
@@ -11419,7 +11523,9 @@
         "tooltip"  : "amount of effect",
         "scale"    : "linear",
         "type"     : "i",
-        "range"    : [0,127]
+        "range"    : [0,127],
+        "default"  : "127"
+
     },
     {
         "path"     : "/part[0,15]/partefx[0,2]/Sympathetic/Ppanning",
@@ -11538,6 +11644,50 @@
         "type"     : "i",
         "range"    : [0,127],
         "default"  : "57"
+
+    },
+    {
+        "path"     : "/part[0,15]/partefx[0,2]/Sympathetic/PdropRate",
+        "shortname": "dr",
+        "name"     : "PdropRate",
+        "tooltip"  : "Pitch Drop Rate",
+        "scale"    : "linear",
+        "type"     : "i",
+        "range"    : [0,127],
+        "default"  : "64"
+
+    },
+    {
+        "path"     : "/part[0,15]/partefx[0,2]/Sympathetic/PmaxDrop",
+        "shortname": "max",
+        "name"     : "PmaxDrop",
+        "tooltip"  : "Max Drop",
+        "scale"    : "linear",
+        "type"     : "i",
+        "range"    : [0,127],
+        "default"  : "64"
+
+    },
+    {
+        "path"     : "/part[0,15]/partefx[0,2]/Sympathetic/PfadingTime",
+        "shortname": "fade",
+        "name"     : "PfadingTime",
+        "tooltip"  : "Fading Time",
+        "scale"    : "linear",
+        "type"     : "i",
+        "range"    : [0,127],
+        "default"  : "64"
+
+    },
+    {
+        "path"     : "/part[0,15]/partefx[0,2]/Sympathetic/PfreqOffset",
+        "shortname": "offset",
+        "name"     : "PfreqOffset",
+        "tooltip"  : "detune",
+        "scale"    : "linear",
+        "type"     : "i",
+        "range"    : [0,127],
+        "default"  : "64"
 
     },
     {
@@ -12431,6 +12581,26 @@
         "type"     : "i",
         "range"    : [0,127],
         "default"  : "64"
+
+    },
+    {
+        "path"     : "/sysefx[0,3]/filterpars/Phpf",
+        "shortname": "hpf",
+        "name"     : "Phpf",
+        "tooltip"  : "Waveguide HighPass",
+        "type"     : "i",
+        "range"    : [0,127],
+        "default"  : "0"
+
+    },
+    {
+        "path"     : "/sysefx[0,3]/filterpars/Plpf",
+        "shortname": "lpf",
+        "name"     : "Plpf",
+        "tooltip"  : "Waveguide LowPass",
+        "type"     : "i",
+        "range"    : [0,127],
+        "default"  : "127"
 
     },
     {
@@ -14037,6 +14207,10 @@
         {
             "id"     : 4,
             "value"  : "12-String"
+        },
+        {
+            "id"     : 5,
+            "value"  : "PitchDrop"
         }
         ]
     },
@@ -14047,7 +14221,9 @@
         "tooltip"  : "amount of effect",
         "scale"    : "linear",
         "type"     : "i",
-        "range"    : [0,127]
+        "range"    : [0,127],
+        "default"  : "127"
+
     },
     {
         "path"     : "/sysefx[0,3]/Sympathetic/Ppanning",
@@ -14166,6 +14342,50 @@
         "type"     : "i",
         "range"    : [0,127],
         "default"  : "57"
+
+    },
+    {
+        "path"     : "/sysefx[0,3]/Sympathetic/PdropRate",
+        "shortname": "dr",
+        "name"     : "PdropRate",
+        "tooltip"  : "Pitch Drop Rate",
+        "scale"    : "linear",
+        "type"     : "i",
+        "range"    : [0,127],
+        "default"  : "64"
+
+    },
+    {
+        "path"     : "/sysefx[0,3]/Sympathetic/PmaxDrop",
+        "shortname": "max",
+        "name"     : "PmaxDrop",
+        "tooltip"  : "Max Drop",
+        "scale"    : "linear",
+        "type"     : "i",
+        "range"    : [0,127],
+        "default"  : "64"
+
+    },
+    {
+        "path"     : "/sysefx[0,3]/Sympathetic/PfadingTime",
+        "shortname": "fade",
+        "name"     : "PfadingTime",
+        "tooltip"  : "Fading Time",
+        "scale"    : "linear",
+        "type"     : "i",
+        "range"    : [0,127],
+        "default"  : "64"
+
+    },
+    {
+        "path"     : "/sysefx[0,3]/Sympathetic/PfreqOffset",
+        "shortname": "offset",
+        "name"     : "PfreqOffset",
+        "tooltip"  : "detune",
+        "scale"    : "linear",
+        "type"     : "i",
+        "range"    : [0,127],
+        "default"  : "64"
 
     },
     {
@@ -14479,6 +14699,26 @@
         "type"     : "i",
         "range"    : [0,127],
         "default"  : "64"
+
+    },
+    {
+        "path"     : "/insefx[0,7]/filterpars/Phpf",
+        "shortname": "hpf",
+        "name"     : "Phpf",
+        "tooltip"  : "Waveguide HighPass",
+        "type"     : "i",
+        "range"    : [0,127],
+        "default"  : "0"
+
+    },
+    {
+        "path"     : "/insefx[0,7]/filterpars/Plpf",
+        "shortname": "lpf",
+        "name"     : "Plpf",
+        "tooltip"  : "Waveguide LowPass",
+        "type"     : "i",
+        "range"    : [0,127],
+        "default"  : "127"
 
     },
     {
@@ -16085,6 +16325,10 @@
         {
             "id"     : 4,
             "value"  : "12-String"
+        },
+        {
+            "id"     : 5,
+            "value"  : "PitchDrop"
         }
         ]
     },
@@ -16095,7 +16339,9 @@
         "tooltip"  : "amount of effect",
         "scale"    : "linear",
         "type"     : "i",
-        "range"    : [0,127]
+        "range"    : [0,127],
+        "default"  : "127"
+
     },
     {
         "path"     : "/insefx[0,7]/Sympathetic/Ppanning",
@@ -16214,6 +16460,50 @@
         "type"     : "i",
         "range"    : [0,127],
         "default"  : "57"
+
+    },
+    {
+        "path"     : "/insefx[0,7]/Sympathetic/PdropRate",
+        "shortname": "dr",
+        "name"     : "PdropRate",
+        "tooltip"  : "Pitch Drop Rate",
+        "scale"    : "linear",
+        "type"     : "i",
+        "range"    : [0,127],
+        "default"  : "64"
+
+    },
+    {
+        "path"     : "/insefx[0,7]/Sympathetic/PmaxDrop",
+        "shortname": "max",
+        "name"     : "PmaxDrop",
+        "tooltip"  : "Max Drop",
+        "scale"    : "linear",
+        "type"     : "i",
+        "range"    : [0,127],
+        "default"  : "64"
+
+    },
+    {
+        "path"     : "/insefx[0,7]/Sympathetic/PfadingTime",
+        "shortname": "fade",
+        "name"     : "PfadingTime",
+        "tooltip"  : "Fading Time",
+        "scale"    : "linear",
+        "type"     : "i",
+        "range"    : [0,127],
+        "default"  : "64"
+
+    },
+    {
+        "path"     : "/insefx[0,7]/Sympathetic/PfreqOffset",
+        "shortname": "offset",
+        "name"     : "PfreqOffset",
+        "tooltip"  : "detune",
+        "scale"    : "linear",
+        "type"     : "i",
+        "range"    : [0,127],
+        "default"  : "64"
 
     },
     {

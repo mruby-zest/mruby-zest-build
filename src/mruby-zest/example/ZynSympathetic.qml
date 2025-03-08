@@ -30,6 +30,7 @@ Widget {
         Knob { extern: sym.extern + "Pvolume"}
         Knob { extern: sym.extern + "Ppanning"}
         Knob { extern: sym.extern + "Sympathetic/Pdrive"}
+
         Knob { extern: sym.extern + "Sympathetic/Plevel"}
         Knob { extern: sym.extern + "Sympathetic/Pstrings"
                 whenValue: lambda { sym.refresh }
@@ -40,8 +41,17 @@ Widget {
         }
         Knob { extern: sym.extern + "Sympathetic/Punison_frequency_spread"}
         Knob { extern: sym.extern + "Sympathetic/Pbasenote"}
+
+        Knob { extern: sym.extern + "Sympathetic/PdropRate"}
+
+        Knob { extern: sym.extern + "Sympathetic/PmaxDrop"}
+        Knob { extern: sym.extern + "Sympathetic/PfadingTime"}
+
+        Knob { extern: sym.extern + "Sympathetic/PfreqOffset"}
+
         Knob { extern: sym.extern + "Sympathetic/Plpf"}
         Knob { extern: sym.extern + "Sympathetic/Phpf"}
+
     }
 
     function draw(vg) {
