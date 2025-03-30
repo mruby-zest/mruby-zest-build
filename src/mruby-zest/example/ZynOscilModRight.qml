@@ -183,19 +183,17 @@ Widget {
     
     function updateFMVoice(old=nil)
     {
-        vce     = root.get_view_pos(:voice)
+        vce = root.get_view_pos(:voice)
         if sync.value == false 
             mapper = [-1]
             names2 = ["Normal"]
             extmod.selected = extmod.selected + 1
-
         else
-            mapper = [0]
+            mapper = []
             names2 = []
-            print extmod.selected
-            #~ if extmod.selected != 0
-            extmod.selected = extmod.selected - 1
-            #~ end
+            if extmod.selected != 0
+                extmod.selected = extmod.selected - 1
+            end
         end
         (0...vce).each do |i|
             mapper << i
@@ -203,7 +201,10 @@ Widget {
         end
         extmod.opt_vals = mapper
         extmod.options  = names2
-        
-        extmod.set_value_user(extmod.selected)
+        extmod.damage_self
+        if(extmod.valueRef && extmod.selected <= extmod.opt_vals.length)
+            extmod.valueRef.value = extmod.opt_vals[extmod.selected]
+        end
+            
     }
 }
