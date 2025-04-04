@@ -11410,9 +11410,7 @@
         "tooltip"  : "amount of effect",
         "scale"    : "linear",
         "type"     : "i",
-        "range"    : [0,127],
-        "default"  : "127"
-
+        "range"    : [0,127]
     },
     {
         "path"     : "/part[0,15]/partefx[0,2]/Sympathetic/Ppanning",
@@ -11592,7 +11590,7 @@
         "scale"    : "linear",
         "type"     : "i",
         "range"    : [0,127],
-        "default"  : "31"
+        "default"  : "25"
 
     },
     {
@@ -11600,7 +11598,9 @@
         "shortname": "stereo",
         "name"     : "Pstereo",
         "tooltip"  : "Enable Stereo Processing",
-        "type"     : "t"
+        "type"     : "t",
+        "default"  : "false"
+
     },
     {
         "path"     : "/part[0,15]/partefx[0,2]/Reverse/Pphase",
@@ -11622,7 +11622,7 @@
         "scale"    : "linear",
         "type"     : "i",
         "range"    : [0,127],
-        "default"  : "64"
+        "default"  : "32"
 
     },
     {
@@ -14038,9 +14038,7 @@
         "tooltip"  : "amount of effect",
         "scale"    : "linear",
         "type"     : "i",
-        "range"    : [0,127],
-        "default"  : "127"
-
+        "range"    : [0,127]
     },
     {
         "path"     : "/sysefx[0,3]/Sympathetic/Ppanning",
@@ -14220,7 +14218,7 @@
         "scale"    : "linear",
         "type"     : "i",
         "range"    : [0,127],
-        "default"  : "31"
+        "default"  : "25"
 
     },
     {
@@ -14228,7 +14226,9 @@
         "shortname": "stereo",
         "name"     : "Pstereo",
         "tooltip"  : "Enable Stereo Processing",
-        "type"     : "t"
+        "type"     : "t",
+        "default"  : "false"
+
     },
     {
         "path"     : "/sysefx[0,3]/Reverse/Pphase",
@@ -14250,7 +14250,7 @@
         "scale"    : "linear",
         "type"     : "i",
         "range"    : [0,127],
-        "default"  : "64"
+        "default"  : "32"
 
     },
     {
@@ -16086,9 +16086,7 @@
         "tooltip"  : "amount of effect",
         "scale"    : "linear",
         "type"     : "i",
-        "range"    : [0,127],
-        "default"  : "127"
-
+        "range"    : [0,127]
     },
     {
         "path"     : "/insefx[0,7]/Sympathetic/Ppanning",
@@ -16268,7 +16266,7 @@
         "scale"    : "linear",
         "type"     : "i",
         "range"    : [0,127],
-        "default"  : "31"
+        "default"  : "25"
 
     },
     {
@@ -16276,7 +16274,9 @@
         "shortname": "stereo",
         "name"     : "Pstereo",
         "tooltip"  : "Enable Stereo Processing",
-        "type"     : "t"
+        "type"     : "t",
+        "default"  : "false"
+
     },
     {
         "path"     : "/insefx[0,7]/Reverse/Pphase",
@@ -16298,7 +16298,7 @@
         "scale"    : "linear",
         "type"     : "i",
         "range"    : [0,127],
-        "default"  : "64"
+        "default"  : "32"
 
     },
     {
