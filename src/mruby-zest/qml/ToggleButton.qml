@@ -12,6 +12,7 @@ Button {
 
     function setValue(x)
     {
+        return if self.value == x
         self.value = x
         whenValue.call if whenValue
         damage_self

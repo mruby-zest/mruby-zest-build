@@ -6410,6 +6410,15 @@
 
     },
     {
+        "path"     : "/part[0,15]/kit[0,15]/adpars/VoicePar[0,7]/PsyncEnabled",
+        "shortname": "sync",
+        "name"     : "PsyncEnabled",
+        "tooltip"  : "Oscillator Hard Sync",
+        "type"     : "t",
+        "default"  : "false"
+
+    },
+    {
         "path"     : "/part[0,15]/kit[0,15]/adpars/VoicePar[0,7]/octave",
         "shortname": "octave",
         "name"     : "octave",

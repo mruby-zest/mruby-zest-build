@@ -11,6 +11,13 @@ Widget {
                 id: extmod;
                 label: "external modulator";
             }
+            ToggleButton   {
+                id: sync
+                extern: base.extern+"PsyncEnabled"
+                whenValue: lambda {
+                    base.updateFMVoice
+                }
+            }
         }
         function draw(vg) {
             Draw::GradBox(vg, Rect.new(0,0,w,h))
@@ -146,6 +153,13 @@ Widget {
     function onSetup(old=nil)
     {
         vce     = root.get_view_pos(:voice)
+        
+        if vce == 0
+            sync.active = false
+        else
+            sync.active = true                
+        end
+
         mapper  = [-1]
         names   = ["Normal"]
         names2  = ["Normal"]
@@ -165,5 +179,32 @@ Widget {
         extmod.options  = names2
         extmod.extern   = base.extern + "PFMVoice"
 
+    }
+    
+    function updateFMVoice(old=nil)
+    {
+        vce = root.get_view_pos(:voice)
+        if sync.value == false 
+            mapper = [-1]
+            names2 = ["Normal"]
+            extmod.selected = extmod.selected + 1
+        else
+            mapper = []
+            names2 = []
+            if extmod.selected != 0
+                extmod.selected = extmod.selected - 1
+            end
+        end
+        (0...vce).each do |i|
+            mapper << i
+            names2 << "Mod   #{i+1}"
+        end
+        extmod.opt_vals = mapper
+        extmod.options  = names2
+        extmod.damage_self
+        if(extmod.valueRef && extmod.selected <= extmod.opt_vals.length)
+            extmod.valueRef.value = extmod.opt_vals[extmod.selected]
+        end
+            
     }
 }
