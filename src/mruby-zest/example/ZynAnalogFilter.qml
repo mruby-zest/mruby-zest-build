@@ -96,6 +96,10 @@ Group {
                 path_simp(box.extern + ext)
             }
         }
+        Knob {
+            whenValue: lambda { box.cb};
+            extern: box.extern + "Phpf"
+        }
     }
     ParModuleRow {
         NumEntry {
@@ -120,6 +124,10 @@ Group {
             type:      :float
             whenValue: lambda { box.cb};
             extern: box.extern + "gain"
+        }
+        Knob {
+            whenValue: lambda { box.cb};
+            extern: box.extern + "Plpf"
         }
     }
 
