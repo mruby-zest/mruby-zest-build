@@ -111,5 +111,5 @@ fi
 
 echo ""
 echo "Thank you for supporting Zyn-Fusion"
-echo "You can now use the 3.0.3 release via a LV2/VST plugin host or"
+echo "You can now use the release via a LV2/VST plugin host or"
 echo "by running the standalone via 'zynaddsubfx'"
