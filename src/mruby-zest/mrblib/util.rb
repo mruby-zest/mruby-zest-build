@@ -55,6 +55,8 @@ class EditRegion
         calc_cursor_x
     end
 
+    attr_reader :cursor_row
+
     def check_args(vg, string, width, height)
         if(!([Float,Integer].include? width.class))
             raise TypeError.new("Invalid width <#{width.inspect}> expected Integer/Float, got #{width.class}")
@@ -138,11 +140,9 @@ class EditRegion
                 @activew      += @widths[i]
             elsif(@chrcls[i] == :space)
                 flush_word_buffer()
-
                 push_char(@string[i], @widths[i])
             elsif(@chrcls[i] == :line)
                 flush_word_buffer()
-
                 @line_widths[@active_line] = @lastw
                 @lastw = @activew = 0
                 @active_line += 1
