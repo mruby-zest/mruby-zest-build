@@ -38,7 +38,7 @@ Widget {
                     whenValue: lambda { dst.refresh }
                     layoutOpts: [:long_mode]
                 }
-                Knob { 
+                Knob {
                     extern: dst.extern + "Pvolume"
                     whenValue: lambda {wave.refresh};
                     }
@@ -60,7 +60,7 @@ Widget {
                     extern: dst.extern + "Distortion/Pdrive"; label: "drive";
                     whenValue: lambda {wave.refresh};
                     function setValue(v) {
-                        valuator.value = lim(v, 0.0, 1.0);
+                        valuator.value = valuator.unclValue = lim(v, 0.0, 1.0);
                         valuator.whenValue.call;
                         valuator.damage_self
                     }
@@ -69,7 +69,7 @@ Widget {
                     extern: dst.extern + "Distortion/Poffset"; label: "DC";
                     whenValue: lambda {wave.refresh};
                     function setValue(v) {
-                        valuator.value = lim(v, 0.0, 1.0);
+                        valuator.value = valuator.unclValue = lim(v, 0.0, 1.0);
                         valuator.whenValue.call;
                         valuator.damage_self
                     }
@@ -79,7 +79,7 @@ Widget {
                     id: funcpar
                     whenValue: lambda {wave.refresh};
                     function setValue(v) {
-                        valuator.value = lim(v, 0.0, 1.0);
+                        valuator.value = valuator.unclValue = lim(v, 0.0, 1.0);
                         valuator.whenValue.call;
                         valuator.damage_self
                     }
