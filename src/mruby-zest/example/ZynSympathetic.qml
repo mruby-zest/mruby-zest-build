@@ -43,11 +43,15 @@ Widget {
         Knob { extern: sym.extern + "Sympathetic/Pbasenote"}
 
         Knob { extern: sym.extern + "Sympathetic/PdropRate"}
-
         Knob { extern: sym.extern + "Sympathetic/PmaxDrop"}
         Knob { extern: sym.extern + "Sympathetic/PfadingTime"}
 
         Knob { extern: sym.extern + "Sympathetic/PfreqOffset"}
+        Knob { extern: sym.extern + "Sympathetic/Pinharmonicity"
+                label: "Inharm"
+        }
+        Knob { extern: sym.extern + "Sympathetic/Pbeta"}
+        Knob { extern: sym.extern + "Sympathetic/Pgamma"}
 
         Knob { extern: sym.extern + "Sympathetic/Plpf"}
         Knob { extern: sym.extern + "Sympathetic/Phpf"}
