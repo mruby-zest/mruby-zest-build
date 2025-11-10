@@ -1265,6 +1265,26 @@
 
     },
     {
+        "path"     : "/part[0,15]/kit[0,15]/padpars/GlobalFilter/Phpf",
+        "shortname": "hpf",
+        "name"     : "Phpf",
+        "tooltip"  : "Waveguide HighPass",
+        "type"     : "i",
+        "range"    : [0,127],
+        "default"  : "0"
+
+    },
+    {
+        "path"     : "/part[0,15]/kit[0,15]/padpars/GlobalFilter/Plpf",
+        "shortname": "lpf",
+        "name"     : "Plpf",
+        "tooltip"  : "Waveguide LowPass",
+        "type"     : "i",
+        "range"    : [0,127],
+        "default"  : "127"
+
+    },
+    {
         "path"     : "/part[0,15]/kit[0,15]/padpars/GlobalFilter/Psequencesize",
         "shortname": "seq.size",
         "name"     : "Psequencesize",
@@ -5695,6 +5715,26 @@
 
     },
     {
+        "path"     : "/part[0,15]/kit[0,15]/adpars/VoicePar[0,7]/VoiceFilter/Phpf",
+        "shortname": "hpf",
+        "name"     : "Phpf",
+        "tooltip"  : "Waveguide HighPass",
+        "type"     : "i",
+        "range"    : [0,127],
+        "default"  : "0"
+
+    },
+    {
+        "path"     : "/part[0,15]/kit[0,15]/adpars/VoicePar[0,7]/VoiceFilter/Plpf",
+        "shortname": "lpf",
+        "name"     : "Plpf",
+        "tooltip"  : "Waveguide LowPass",
+        "type"     : "i",
+        "range"    : [0,127],
+        "default"  : "127"
+
+    },
+    {
         "path"     : "/part[0,15]/kit[0,15]/adpars/VoicePar[0,7]/VoiceFilter/Psequencesize",
         "shortname": "seq.size",
         "name"     : "Psequencesize",
@@ -7771,6 +7811,26 @@
 
     },
     {
+        "path"     : "/part[0,15]/kit[0,15]/adpars/GlobalPar/GlobalFilter/Phpf",
+        "shortname": "hpf",
+        "name"     : "Phpf",
+        "tooltip"  : "Waveguide HighPass",
+        "type"     : "i",
+        "range"    : [0,127],
+        "default"  : "0"
+
+    },
+    {
+        "path"     : "/part[0,15]/kit[0,15]/adpars/GlobalPar/GlobalFilter/Plpf",
+        "shortname": "lpf",
+        "name"     : "Plpf",
+        "tooltip"  : "Waveguide LowPass",
+        "type"     : "i",
+        "range"    : [0,127],
+        "default"  : "127"
+
+    },
+    {
         "path"     : "/part[0,15]/kit[0,15]/adpars/GlobalPar/GlobalFilter/Psequencesize",
         "shortname": "seq.size",
         "name"     : "Psequencesize",
@@ -9337,6 +9397,26 @@
 
     },
     {
+        "path"     : "/part[0,15]/kit[0,15]/subpars/GlobalFilter/Phpf",
+        "shortname": "hpf",
+        "name"     : "Phpf",
+        "tooltip"  : "Waveguide HighPass",
+        "type"     : "i",
+        "range"    : [0,127],
+        "default"  : "0"
+
+    },
+    {
+        "path"     : "/part[0,15]/kit[0,15]/subpars/GlobalFilter/Plpf",
+        "shortname": "lpf",
+        "name"     : "Plpf",
+        "tooltip"  : "Waveguide LowPass",
+        "type"     : "i",
+        "range"    : [0,127],
+        "default"  : "127"
+
+    },
+    {
         "path"     : "/part[0,15]/kit[0,15]/subpars/GlobalFilter/Psequencesize",
         "shortname": "seq.size",
         "name"     : "Psequencesize",
@@ -9803,6 +9883,26 @@
         "type"     : "i",
         "range"    : [0,127],
         "default"  : "64"
+
+    },
+    {
+        "path"     : "/part[0,15]/partefx[0,2]/filterpars/Phpf",
+        "shortname": "hpf",
+        "name"     : "Phpf",
+        "tooltip"  : "Waveguide HighPass",
+        "type"     : "i",
+        "range"    : [0,127],
+        "default"  : "0"
+
+    },
+    {
+        "path"     : "/part[0,15]/partefx[0,2]/filterpars/Plpf",
+        "shortname": "lpf",
+        "name"     : "Plpf",
+        "tooltip"  : "Waveguide LowPass",
+        "type"     : "i",
+        "range"    : [0,127],
+        "default"  : "127"
 
     },
     {
@@ -11525,9 +11625,7 @@
         "tooltip"  : "Number of Strings",
         "scale"    : "linear",
         "type"     : "i",
-        "range"    : [0,76],
-        "default"  : "12"
-
+        "range"    : [0,76]
     },
     {
         "path"     : "/part[0,15]/partefx[0,2]/Sympathetic/Pbasenote",
@@ -11536,9 +11634,7 @@
         "tooltip"  : "Midi Note of Lowest String",
         "scale"    : "linear",
         "type"     : "i",
-        "range"    : [0,127],
-        "default"  : "57"
-
+        "range"    : [0,127]
     },
     {
         "path"     : "/part[0,15]/partefx[0,2]/Sympathetic/freqs[0,87]",
@@ -12431,6 +12527,26 @@
         "type"     : "i",
         "range"    : [0,127],
         "default"  : "64"
+
+    },
+    {
+        "path"     : "/sysefx[0,3]/filterpars/Phpf",
+        "shortname": "hpf",
+        "name"     : "Phpf",
+        "tooltip"  : "Waveguide HighPass",
+        "type"     : "i",
+        "range"    : [0,127],
+        "default"  : "0"
+
+    },
+    {
+        "path"     : "/sysefx[0,3]/filterpars/Plpf",
+        "shortname": "lpf",
+        "name"     : "Plpf",
+        "tooltip"  : "Waveguide LowPass",
+        "type"     : "i",
+        "range"    : [0,127],
+        "default"  : "127"
 
     },
     {
@@ -14153,9 +14269,7 @@
         "tooltip"  : "Number of Strings",
         "scale"    : "linear",
         "type"     : "i",
-        "range"    : [0,76],
-        "default"  : "12"
-
+        "range"    : [0,76]
     },
     {
         "path"     : "/sysefx[0,3]/Sympathetic/Pbasenote",
@@ -14164,9 +14278,7 @@
         "tooltip"  : "Midi Note of Lowest String",
         "scale"    : "linear",
         "type"     : "i",
-        "range"    : [0,127],
-        "default"  : "57"
-
+        "range"    : [0,127]
     },
     {
         "path"     : "/sysefx[0,3]/Sympathetic/freqs[0,87]",
@@ -14479,6 +14591,26 @@
         "type"     : "i",
         "range"    : [0,127],
         "default"  : "64"
+
+    },
+    {
+        "path"     : "/insefx[0,7]/filterpars/Phpf",
+        "shortname": "hpf",
+        "name"     : "Phpf",
+        "tooltip"  : "Waveguide HighPass",
+        "type"     : "i",
+        "range"    : [0,127],
+        "default"  : "0"
+
+    },
+    {
+        "path"     : "/insefx[0,7]/filterpars/Plpf",
+        "shortname": "lpf",
+        "name"     : "Plpf",
+        "tooltip"  : "Waveguide LowPass",
+        "type"     : "i",
+        "range"    : [0,127],
+        "default"  : "127"
 
     },
     {
@@ -16201,9 +16333,7 @@
         "tooltip"  : "Number of Strings",
         "scale"    : "linear",
         "type"     : "i",
-        "range"    : [0,76],
-        "default"  : "12"
-
+        "range"    : [0,76]
     },
     {
         "path"     : "/insefx[0,7]/Sympathetic/Pbasenote",
@@ -16212,9 +16342,7 @@
         "tooltip"  : "Midi Note of Lowest String",
         "scale"    : "linear",
         "type"     : "i",
-        "range"    : [0,127],
-        "default"  : "57"
-
+        "range"    : [0,127]
     },
     {
         "path"     : "/insefx[0,7]/Sympathetic/freqs[0,87]",

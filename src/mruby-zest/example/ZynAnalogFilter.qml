@@ -50,7 +50,18 @@ Group {
             end
             typ.active = true
         end
+
+        if(cat.selected == 4)
+            hpf.active = true
+            lpf.active = true
+        else
+            hpf.active = false
+            lpf.active = false
+        end
+
         typ.damage_self
+        hpf.damage_self
+        lpf.damage_self
     }
 
     function remove_sense() {
@@ -96,6 +107,11 @@ Group {
                 path_simp(box.extern + ext)
             }
         }
+        Knob {
+            id: hpf
+            whenValue: lambda { box.cb};
+            extern: box.extern + "Phpf"
+        }
     }
     ParModuleRow {
         NumEntry {
@@ -120,6 +136,11 @@ Group {
             type:      :float
             whenValue: lambda { box.cb};
             extern: box.extern + "gain"
+        }
+        Knob {
+            id: lpf
+            whenValue: lambda { box.cb};
+            extern: box.extern + "Plpf"
         }
     }
 
