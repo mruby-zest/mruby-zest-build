@@ -11509,6 +11509,10 @@
         {
             "id"     : 4,
             "value"  : "12-String"
+        },
+        {
+            "id"     : 5,
+            "value"  : "PitchDrop"
         }
         ]
     },
@@ -11519,7 +11523,9 @@
         "tooltip"  : "amount of effect",
         "scale"    : "linear",
         "type"     : "i",
-        "range"    : [0,127]
+        "range"    : [0,127],
+        "default"  : "127"
+
     },
     {
         "path"     : "/part[0,15]/partefx[0,2]/Sympathetic/Ppanning",
@@ -11635,6 +11641,83 @@
         "scale"    : "linear",
         "type"     : "i",
         "range"    : [0,127]
+    },
+    {
+        "path"     : "/part[0,15]/partefx[0,2]/Sympathetic/PdropRate",
+        "shortname": "dr",
+        "name"     : "PdropRate",
+        "tooltip"  : "Pitch Drop Rate",
+        "scale"    : "linear",
+        "type"     : "i",
+        "range"    : [0,127],
+        "default"  : "64"
+
+    },
+    {
+        "path"     : "/part[0,15]/partefx[0,2]/Sympathetic/PmaxDrop",
+        "shortname": "max",
+        "name"     : "PmaxDrop",
+        "tooltip"  : "Max Drop",
+        "scale"    : "linear",
+        "type"     : "i",
+        "range"    : [0,127],
+        "default"  : "64"
+
+    },
+    {
+        "path"     : "/part[0,15]/partefx[0,2]/Sympathetic/PfadingTime",
+        "shortname": "fade",
+        "name"     : "PfadingTime",
+        "tooltip"  : "Fading Time",
+        "scale"    : "linear",
+        "type"     : "i",
+        "range"    : [0,127],
+        "default"  : "5"
+
+    },
+    {
+        "path"     : "/part[0,15]/partefx[0,2]/Sympathetic/PfreqOffset",
+        "shortname": "offset",
+        "name"     : "PfreqOffset",
+        "tooltip"  : "offset",
+        "scale"    : "linear",
+        "type"     : "i",
+        "range"    : [0,127],
+        "default"  : "64"
+
+    },
+    {
+        "path"     : "/part[0,15]/partefx[0,2]/Sympathetic/Pinharmonicity",
+        "shortname": "inharmonicity",
+        "name"     : "Pinharmonicity",
+        "tooltip"  : "inharmonicity",
+        "scale"    : "linear",
+        "type"     : "i",
+        "range"    : [0,127],
+        "default"  : "0"
+
+    },
+    {
+        "path"     : "/part[0,15]/partefx[0,2]/Sympathetic/Pbeta",
+        "shortname": "beta",
+        "name"     : "Pbeta",
+        "tooltip"  : "beta",
+        "scale"    : "linear",
+        "type"     : "i",
+        "range"    : [0,127],
+        "default"  : "127"
+
+    },
+    {
+        "path"     : "/part[0,15]/partefx[0,2]/Sympathetic/Pgamma",
+        "shortname": "gamma",
+        "name"     : "Pgamma",
+        "tooltip"  : "gamma",
+        "scale"    : "linear",
+        "type"     : "i",
+        "range"    : [0,127],
+        "default"  : "64"
+
     },
     {
         "path"     : "/part[0,15]/partefx[0,2]/Sympathetic/freqs[0,87]",
@@ -14153,6 +14236,10 @@
         {
             "id"     : 4,
             "value"  : "12-String"
+        },
+        {
+            "id"     : 5,
+            "value"  : "PitchDrop"
         }
         ]
     },
@@ -14163,7 +14250,9 @@
         "tooltip"  : "amount of effect",
         "scale"    : "linear",
         "type"     : "i",
-        "range"    : [0,127]
+        "range"    : [0,127],
+        "default"  : "127"
+
     },
     {
         "path"     : "/sysefx[0,3]/Sympathetic/Ppanning",
@@ -14279,6 +14368,83 @@
         "scale"    : "linear",
         "type"     : "i",
         "range"    : [0,127]
+    },
+    {
+        "path"     : "/sysefx[0,3]/Sympathetic/PdropRate",
+        "shortname": "dr",
+        "name"     : "PdropRate",
+        "tooltip"  : "Pitch Drop Rate",
+        "scale"    : "linear",
+        "type"     : "i",
+        "range"    : [0,127],
+        "default"  : "64"
+
+    },
+    {
+        "path"     : "/sysefx[0,3]/Sympathetic/PmaxDrop",
+        "shortname": "max",
+        "name"     : "PmaxDrop",
+        "tooltip"  : "Max Drop",
+        "scale"    : "linear",
+        "type"     : "i",
+        "range"    : [0,127],
+        "default"  : "64"
+
+    },
+    {
+        "path"     : "/sysefx[0,3]/Sympathetic/PfadingTime",
+        "shortname": "fade",
+        "name"     : "PfadingTime",
+        "tooltip"  : "Fading Time",
+        "scale"    : "linear",
+        "type"     : "i",
+        "range"    : [0,127],
+        "default"  : "5"
+
+    },
+    {
+        "path"     : "/sysefx[0,3]/Sympathetic/PfreqOffset",
+        "shortname": "offset",
+        "name"     : "PfreqOffset",
+        "tooltip"  : "offset",
+        "scale"    : "linear",
+        "type"     : "i",
+        "range"    : [0,127],
+        "default"  : "64"
+
+    },
+    {
+        "path"     : "/sysefx[0,3]/Sympathetic/Pinharmonicity",
+        "shortname": "inharmonicity",
+        "name"     : "Pinharmonicity",
+        "tooltip"  : "inharmonicity",
+        "scale"    : "linear",
+        "type"     : "i",
+        "range"    : [0,127],
+        "default"  : "0"
+
+    },
+    {
+        "path"     : "/sysefx[0,3]/Sympathetic/Pbeta",
+        "shortname": "beta",
+        "name"     : "Pbeta",
+        "tooltip"  : "beta",
+        "scale"    : "linear",
+        "type"     : "i",
+        "range"    : [0,127],
+        "default"  : "127"
+
+    },
+    {
+        "path"     : "/sysefx[0,3]/Sympathetic/Pgamma",
+        "shortname": "gamma",
+        "name"     : "Pgamma",
+        "tooltip"  : "gamma",
+        "scale"    : "linear",
+        "type"     : "i",
+        "range"    : [0,127],
+        "default"  : "64"
+
     },
     {
         "path"     : "/sysefx[0,3]/Sympathetic/freqs[0,87]",
@@ -16217,6 +16383,10 @@
         {
             "id"     : 4,
             "value"  : "12-String"
+        },
+        {
+            "id"     : 5,
+            "value"  : "PitchDrop"
         }
         ]
     },
@@ -16227,7 +16397,9 @@
         "tooltip"  : "amount of effect",
         "scale"    : "linear",
         "type"     : "i",
-        "range"    : [0,127]
+        "range"    : [0,127],
+        "default"  : "127"
+
     },
     {
         "path"     : "/insefx[0,7]/Sympathetic/Ppanning",
@@ -16343,6 +16515,83 @@
         "scale"    : "linear",
         "type"     : "i",
         "range"    : [0,127]
+    },
+    {
+        "path"     : "/insefx[0,7]/Sympathetic/PdropRate",
+        "shortname": "dr",
+        "name"     : "PdropRate",
+        "tooltip"  : "Pitch Drop Rate",
+        "scale"    : "linear",
+        "type"     : "i",
+        "range"    : [0,127],
+        "default"  : "64"
+
+    },
+    {
+        "path"     : "/insefx[0,7]/Sympathetic/PmaxDrop",
+        "shortname": "max",
+        "name"     : "PmaxDrop",
+        "tooltip"  : "Max Drop",
+        "scale"    : "linear",
+        "type"     : "i",
+        "range"    : [0,127],
+        "default"  : "64"
+
+    },
+    {
+        "path"     : "/insefx[0,7]/Sympathetic/PfadingTime",
+        "shortname": "fade",
+        "name"     : "PfadingTime",
+        "tooltip"  : "Fading Time",
+        "scale"    : "linear",
+        "type"     : "i",
+        "range"    : [0,127],
+        "default"  : "5"
+
+    },
+    {
+        "path"     : "/insefx[0,7]/Sympathetic/PfreqOffset",
+        "shortname": "offset",
+        "name"     : "PfreqOffset",
+        "tooltip"  : "offset",
+        "scale"    : "linear",
+        "type"     : "i",
+        "range"    : [0,127],
+        "default"  : "64"
+
+    },
+    {
+        "path"     : "/insefx[0,7]/Sympathetic/Pinharmonicity",
+        "shortname": "inharmonicity",
+        "name"     : "Pinharmonicity",
+        "tooltip"  : "inharmonicity",
+        "scale"    : "linear",
+        "type"     : "i",
+        "range"    : [0,127],
+        "default"  : "0"
+
+    },
+    {
+        "path"     : "/insefx[0,7]/Sympathetic/Pbeta",
+        "shortname": "beta",
+        "name"     : "Pbeta",
+        "tooltip"  : "beta",
+        "scale"    : "linear",
+        "type"     : "i",
+        "range"    : [0,127],
+        "default"  : "127"
+
+    },
+    {
+        "path"     : "/insefx[0,7]/Sympathetic/Pgamma",
+        "shortname": "gamma",
+        "name"     : "Pgamma",
+        "tooltip"  : "gamma",
+        "scale"    : "linear",
+        "type"     : "i",
+        "range"    : [0,127],
+        "default"  : "64"
+
     },
     {
         "path"     : "/insefx[0,7]/Sympathetic/freqs[0,87]",
