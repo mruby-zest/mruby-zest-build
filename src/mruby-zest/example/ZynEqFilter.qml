@@ -21,6 +21,10 @@ Widget {
             extern: fil.extern + "Pgain"
             whenValue: lambda { fil.cb }
         }
+        Button     {
+            id: eqp
+            extern: fil.extern + "PequalPower"
+        }
         Knob     {
             extern: fil.extern + "Pq"
             whenValue: lambda { fil.cb }
