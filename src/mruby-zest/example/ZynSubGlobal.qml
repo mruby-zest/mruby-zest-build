@@ -48,6 +48,7 @@ Widget {
                        1 => :frequency,
                        2 => :filter}
             root.set_view_pos(:subsubview, mapping[id])
+            root.set_view_pos(:vis, mapping[id])
             root.change_view
         }
 
@@ -67,7 +68,8 @@ Widget {
         end
 
         vis = root.get_view_pos(:vis)
-        types = [:amplitude, :frequency, :filter, :oscilloscope]
+        types = [:amplitude, :frequency, :filter,
+                 :filter_envelope, :oscilloscope]
         if(!types.include?(vis))
             vis = :amplitude
             root.set_view_pos(:vis, vis)
@@ -81,6 +83,7 @@ Widget {
             set_filter(self.extern)
         end
 
+        puts "Set vis to #{vis}"
          if(vis == :amplitude)
             set_vis_amp(self.extern)
         elsif(vis == :frequency)
@@ -89,7 +92,7 @@ Widget {
             set_vis_filter(self.extern)
         elsif(vis == :oscilloscope)
             set_vis_oscilloscope()
-        elsif(vis == :envelope)
+        elsif(vis == :filter_envelope)
             set_vis_env(self.extern)
         end
         db.update_values
@@ -120,12 +123,20 @@ Widget {
         env.extern  = base + "GlobalFilterEnvelope/"
         gen.content = Qml::ZynSubAnalogFilter
         env.content = Qml::ZynSubFilterEnv
+        env.children[0].whenClick = lambda {
+            root.set_view_pos(:vis, :filter_envelope)
+            root.change_view
+        }
     }
 
-      function set_vis_amp(ext)
+    function set_vis_amp(ext)
     {
         row1.extern  = ext + "AmpEnvelope/"
         row1.content = Qml::ZynEnvEdit
+        env.children[0].whenModified = lambda {
+            elm = row1.children[0]
+            elm.refresh if elm.respond_to? :refresh
+        }
     }
 
     function set_vis_filter(ext)
@@ -141,22 +152,32 @@ Widget {
         end
     }
 
-    function set_vis_oscilloscope()
+    function set_vis_freq(ext)
     {
-        row1.content = Qml::ZynSubOscilloscope
-    }
-
-     function set_vis_env(ext)
-    {
-        row1.extern  = ext + "GlobalFilterEnvelope/"
+        row1.extern = ext + "FreqEnvelope/"
         row1.content = Qml::ZynEnvEdit
-        row1.whenModified = lambda {
+        env.children[0].whenModified = lambda {
             elm = row1.children[0]
             elm.refresh if elm.respond_to? :refresh
         }
     }
 
-      function add_cat()
+    function set_vis_oscilloscope()
+    {
+        row1.content = Qml::ZynSubOscilloscope
+    }
+
+    function set_vis_env(ext)
+    {
+        row1.extern  = ext + "GlobalFilterEnvelope/"
+        row1.content = Qml::ZynEnvEdit
+        env.children[0].whenModified = lambda {
+            elm = row1.children[0]
+            elm.refresh if elm.respond_to? :refresh
+        }
+    }
+
+    function add_cat()
     {
         return if self.valueRef
         if(self.valueRef.nil?)
