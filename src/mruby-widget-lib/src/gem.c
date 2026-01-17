@@ -11,7 +11,7 @@
 #ifdef WIN32
 #include <windows.h>
 #endif
-#include "../../../deps/pugl/pugl/pugl.h"
+#include "../../../deps/pugl/include/pugl/pugl.h"
 #include "../../../deps/rtosc/include/rtosc/rtosc.h"
 #include "../../../src/osc-bridge/src/bridge.h"
 #include "../../../deps/mruby-nanovg/src/gl_core.3.2.h"

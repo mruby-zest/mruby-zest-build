@@ -21,10 +21,13 @@ linux:
 		$(CFLAGS) \
 		`pkg-config --libs libuv` -lm -lX11 -lGL -lpthread \
 		$(LDFLAGS)
-	$(CC) zest.c deps/pugl/pugl/pugl_x11.c \
+	$(CC) zest.c deps/pugl/src/x11.c \
+		         deps/pugl/src/common.c \
+				 deps/pugl/src/internal.c \
+				 deps/pugl/src/x11_gl.c \
 		$(CFLAGS) \
 		-DPUGL_HAVE_GL \
-		-ldl -o zest -lX11 -lGL -lpthread -I deps/pugl -std=gnu99 -Wno-trigraphs \
+		-ldl -o zest -lX11 -lXext -lXrandr -lXcursor -lm -lGL -lpthread -I deps/pugl/include -std=gnu99 -Wno-trigraphs \
 		$(LDFLAGS)
 
 osx: deps/libuv.a
@@ -40,7 +43,7 @@ osx: deps/libuv.a
 		./deps/libnanovg.a \
 		src/osc-bridge/libosc-bridge.a \
 		./deps/libuv/.libs/libuv.a  -lm -framework OpenGL -lpthread
-	$(CC) zest.c deps/pugl/build/libpugl-0.a -ldl -o zest -framework OpenGL -framework AppKit -lpthread -I deps/pugl -std=gnu99
+	$(CC) zest.c deps/pugl/build/libpugl-0.a -ldl -o zest -framework OpenGL -framework AppKit -lpthread -I deps/pugl/include -std=gnu99
 
 windows: buildpuglwin deps/libuv-win.a
 	ruby ./rebuild-fcache.rb
@@ -53,7 +56,7 @@ windows: buildpuglwin deps/libuv-win.a
         src/osc-bridge/libosc-bridge.a \
         ./deps/libuv-win.a \
         -lm -lpthread -lws2_32 -lkernel32 -lpsapi -luserenv -liphlpapi -lglu32 -lgdi32 -lopengl32
-	$(CC) -mstackrealign -DWIN32 zest.c deps/pugl/build/libpugl-0.a -o zest.exe -lpthread -I deps/pugl -std=c99 -lws2_32 -lkernel32 -lpsapi -luserenv -liphlpapi -lglu32 -lgdi32 -lopengl32
+	$(CC) -mstackrealign -DWIN32 zest.c deps/pugl/build/libpugl-0.a -o zest.exe -lpthread -I deps/pugl/include -std=c99 -lws2_32 -lkernel32 -lpsapi -luserenv -liphlpapi -lglu32 -lgdi32 -lopengl32
 
 # Bypass PUGL's WAF builder by manually build according to WAF-generated cmdline
 buildpuglwin:

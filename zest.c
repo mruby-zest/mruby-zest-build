@@ -13,8 +13,10 @@
 #define __USE_GNU
 #include <dlfcn.h>
 #endif
-#include "deps/pugl/pugl/pugl.h"
+#include "deps/pugl/include/pugl/pugl.h"
+#include "deps/pugl/include/pugl/gl.h"
 
+void *pugl_world;
 typedef void *zest_t;
 struct zest_handles {
     zest_t *(*zest_open)(const char *);
@@ -38,12 +40,6 @@ struct zest_handles {
 
     zest_t *zest;
     int do_exit;
-
-    // drag and drop variables if zest is the target
-    int dnd_target_best_slot;          //!< ID of the offered types
-    int dnd_target_best_mimetype;      //!< mimetype in the best slot
-    PuglDndSourceStatus dnd_source_status;
-    PuglDndTargetStatus dnd_target_status;
 
     char dnd_source_widget_path[1024]; //!< OSC path of dragged widget, or ""
 };
@@ -94,11 +90,9 @@ onMouse(PuglView* view, int button, bool press, int x, int y, int mod)
     struct zest_handles *z = puglGetHandle(view);
     if(!z || !z->zest)
         return;
-
-    if(z->dnd_source_status == PuglNotDndSource &&
-       z->dnd_target_status == PuglNotDndTarget) {
-        z->zest_mouse(z->zest, button, press, x, y, mod);
-    }
+    printf("<%d, %d, %d, %d, %d>\n", button, press, x, y, mod);
+    //Who knows why, but new pugl involves a different button index
+    z->zest_mouse(z->zest, button+1, press, x, y, mod);
 }
 
 static void
@@ -168,23 +162,24 @@ onUtf8KeyEvent(PuglView* view, char* utf8, bool press)
 }
 
 // convert pugl-new-style event structs to pugl-old-style event callbacks
-static void
+static PuglStatus
 onEvent(PuglView* view, const PuglEvent* event)
 {
+    //printf("I got an event<%p>!\n", event);
     switch(event->type)
     {
         case PUGL_NOTHING: break;
         case PUGL_BUTTON_PRESS:
         case PUGL_BUTTON_RELEASE:
         {
-            const PuglEventButton* button = &event->button;
+            const PuglButtonEvent* button = &event->button;
             onMouse(view, button->button, button->type == PUGL_BUTTON_PRESS,
                     button->x, button->y, button->state);
             break;
         }
         case PUGL_CONFIGURE:
         {
-            const PuglEventConfigure* configure = &event->configure;
+            const PuglConfigureEvent* configure = &event->configure;
             onReshape(view, configure->width, configure->height);
             break;
         }
@@ -197,25 +192,30 @@ onEvent(PuglView* view, const PuglEvent* event)
         case PUGL_KEY_PRESS:
         case PUGL_KEY_RELEASE:
         {
-            const PuglEventKey* key = &event->key;
-            if(key->utf8[0])
-                onUtf8KeyEvent(view, (char*)key->utf8,
+            const PuglKeyEvent* key = &event->key;
+            char key_val[2] = {0};
+            if(key->key) {
+                if(key->key < 0x000000ff) {
+                    key_val[0] = key->key;
+                    onUtf8KeyEvent(view, (char*)key_val,
                                event->type == PUGL_KEY_PRESS);
-            if(key->special)
-                onSpecial(view, event->type == PUGL_KEY_PRESS, key->special);
+                }
+            }
+            //if(key->special)
+            //    onSpecial(view, event->type == PUGL_KEY_PRESS, key->special);
             break;
         }
-        case PUGL_ENTER_NOTIFY: break;   /* Pointer entered view */
-        case PUGL_LEAVE_NOTIFY: break;   /* Pointer left view */
-        case PUGL_MOTION_NOTIFY:
+        case PUGL_POINTER_IN: break;   /* Pointer entered view */
+        case PUGL_POINTER_OUT: break;   /* Pointer left view */
+        case PUGL_MOTION:
         {
-            const PuglEventMotion* motion = &event->motion;
+            const PuglMotionEvent* motion = &event->motion;
             onMotion(view, motion->x, motion->y, motion->state);
             break;
         }
         case PUGL_SCROLL:
         {
-            const PuglEventScroll* scroll = &event->scroll;
+            const PuglScrollEvent* scroll = &event->scroll;
             onScroll(view, scroll->x, scroll->y, scroll->dx, scroll->dy, scroll->state);
             break;
         }
@@ -223,16 +223,7 @@ onEvent(PuglView* view, const PuglEvent* event)
         case PUGL_FOCUS_OUT: break;      /* Keyboard focus left view */
     }
 
-    //if(event->key.keycode == 50) {
-    //    int press = event->type == PUGL_KEY_PRESS;
-    //    const char *pres_rel = press ? "press" : "release";
-    //    mrb_state *mrb = v[0];
-    //    mrb_value obj = mrb_obj_value(v[1]);
-    //    mrb_funcall(mrb, obj, "key_mod", 2,
-    //            mrb_str_new_cstr(mrb, pres_rel),
-    //            mrb_str_new_cstr(mrb, "shift"));
-    //}
-
+    return PUGL_SUCCESS;
 }
 
 /*
@@ -269,180 +260,6 @@ char *recv_mime_names[recv_mime_count] = {
     // "text/x-moz-url"
     /* insert more here and keep in sync with above enum! */
 };
-
-static void
-onDndSourceStatus(PuglView* view, PuglDndSourceStatus status) {
-//  printf("source status: %d\n", (int)status);
-    struct zest_handles *z = puglGetHandle(view);
-    if(!z || !z->zest)
-        return;
-    z->dnd_source_status = status;
-}
-
-static void
-onDndTargetStatus(PuglView* view, PuglDndTargetStatus status) {
-//  printf("target status: %d\n", (int)status);
-    struct zest_handles *z = puglGetHandle(view);
-    if(!z || !z->zest)
-        return;
-    z->dnd_target_status = status;
-}
-
-static PuglDndAction
-onDndSourceAction(PuglView* view, int rootx, int rooty)
-{
-    (void)view; (void)rootx; (void)rooty;
-    // currently, if pugl is the dnd source, we only support
-    // linking knobs with DAW automation
-    return PuglDndActionLink;
-}
-
-static int
-onDndSourceDrag(PuglView* view, int x, int y)
-{
-    struct zest_handles *z = puglGetHandle(view);
-    if(!z || !z->zest)
-        return 0;
-    const char* widget_path = z->zest_dnd_pick(z->zest);
-    if(widget_path && *widget_path) {
-        *z->dnd_source_widget_path = 0;
-        strncat(z->dnd_source_widget_path, widget_path,
-                sizeof(z->dnd_source_widget_path)-1);
-        return 1;
-    }
-    else
-        return 0; /* forbid drag */
-}
-
-static void
-onDndSourceFinished(PuglView* view, int accepted)
-{
-    (void)view; (void)accepted;
-}
-
-static PuglKey
-onDndSourceKey(PuglView* view)
-{
-    (void)view;
-    return PUGL_KEY_F1;
-}
-
-static const char*
-onDndSourceOfferType(PuglView* view, int rootx, int rooty, int slot)
-{
-    (void)view; (void)rootx; (void)rooty;
-    // provide application/x-osc-stringpair in slot 0
-    // if we will offer other mimetypes to drag, add them here
-    // note that using more than 3 slots (e.g. using slot 3) requires
-    // implementation in pugl_x11.c
-    return slot ? NULL : send_mime_names[application_x_osc_stringpair];
-}
-
-static int
-onDndSourceProvideData(PuglView* view, int slot, int size, char* buffer)
-{
-    assert(!slot);
-    struct zest_handles *z = puglGetHandle(view);
-    if(!z || !z->zest)
-        return 0;
-
-    size_t sz = 1024;
-    char offered_property[sz];
-    *offered_property = 0;
-    // e.g. osc.udp://127.0.0.1:17070/path/to/port
-    int res = snprintf(offered_property, sz-1, "automatable_model:%s%s",
-             z->zest_get_remote_url(z->zest), z->dnd_source_widget_path);
-    assert(res < sz);
-
-    int len = 1 + strlen(offered_property);
-    assert(len <= size);
-    strcpy(buffer, offered_property);
-    return len;
-}
-
-// also used as a cleanup-function:
-static void
-onDndTargetLeave(PuglView* view)
-{
-    struct zest_handles *z = puglGetHandle(view);
-    if(!z || !z->zest)
-        return;
-    z->dnd_target_best_slot = -1;
-    z->dnd_target_best_mimetype = -1;
-}
-
-static int
-onDndTargetAcceptDrop(PuglView* view)
-{
-    const struct zest_handles *z = puglGetHandle(view);
-    if(!z || !z->zest)
-        return 0;
-    if(z->dnd_target_best_slot == -1)
-        return 0;
-    else
-    {
-        onDndTargetLeave(view); // reset for next time
-        return 1;
-    }
-}
-
-static int
-onDndTargetChooseTypesToLookup(PuglView* view)
-{
-    const struct zest_handles *z = puglGetHandle(view);
-    if(!z || !z->zest)
-        return 0;
-
-    // this function is being called both when the pointer position changes and
-    // during the drop; we only need to request data in the second case
-    if(z->dnd_target_status == PuglDndTargetDropped)
-    {
-        int slot = z->dnd_target_best_slot;
-        if(slot == -1)
-            return 0;
-        else
-            return 1 << slot;
-    }
-    else
-        return 0;
-}
-
-static void
-onDndTargetDrop(PuglView* view)
-{
-    (void)view;
-}
-
-static int
-onDndTargetInformPosition(PuglView* view, int x, int y, PuglDndAction a)
-{
-    // files can be dropped everywhere:
-    (void)x; (void)y;
-    // file dropping means:
-    if(a == PuglDndActionCopy)
-        return 1;
-    else {
-        onDndTargetLeave(view); // reset
-        return 0;
-    }
-}
-
-static void
-onDndTargetOfferType(PuglView* view, int slot, const char* mimetype)
-{
-    struct zest_handles *z = puglGetHandle(view);
-    if(!z || !z->zest)
-        return;
-
-    // mozilla recommends to pick the most specific type,
-    // i.e. the highest enum
-    for(int i = 1 + z->dnd_target_best_mimetype; i < recv_mime_count; ++i)
-    if(!strcmp(recv_mime_names[i], mimetype))
-    {
-        z->dnd_target_best_slot = slot;
-        z->dnd_target_best_mimetype = i;
-    }
-}
 
 // get next line which is not empty and not starting with #
 static const char*
@@ -532,34 +349,27 @@ onDndTargetReceiveData(PuglView* view, int slot, int size, const char* property)
 
 void *setup_pugl(void *zest)
 {
-    PuglView *view = puglInit(0,0);
+    PuglWorld *world = puglNewWorld(PUGL_PROGRAM, 0);
+    pugl_world = world;
+    puglSetWorldString(world, PUGL_CLASS_NAME, "PuglCairoDemo");
+
+    PuglView* view = puglNewView(world);
+    //PuglView *view = puglInit(0,0);
     puglSetHandle(view, zest);
+    puglSetBackend(view, puglGlBackend());
     //puglInitWindowClass(view, "PuglWindow");
-    puglInitWindowSize(view, 1181, 659);
-    puglInitResizable(view, true);
-    puglIgnoreKeyRepeat(view, true);
+    puglSetSizeHint(view, PUGL_DEFAULT_SIZE, 1181, 659);
+    puglSetViewHint(view, PUGL_RESIZABLE, true);
+    puglSetViewHint(view, PUGL_IGNORE_KEY_REPEAT, true);
+    //puglInitWindowSize(view, 1181, 659);
+    //puglInitResizable(view, true);
+    //puglIgnoreKeyRepeat(view, true);
 
     puglSetEventFunc(view, onEvent);
-    puglSetDndSourceStatusFunc(view, onDndSourceStatus);
-    puglSetDndSourceActionFunc(view, onDndSourceAction);
-    puglSetDndSourceDragFunc(view, onDndSourceDrag);
-    puglSetDndSourceFinishedFunc(view, onDndSourceFinished);
-    puglSetDndSourceKeyFunc(view, onDndSourceKey);
-    puglSetDndSourceOfferTypeFunc(view, onDndSourceOfferType);
-    puglSetDndSourceProvideDataFunc(view, onDndSourceProvideData);
-    puglSetDndTargetStatusFunc(view, onDndTargetStatus);
-    puglSetDndTargetAcceptDropFunc(view, onDndTargetAcceptDrop);
-    puglSetDndTargetChooseTypesToLookupFunc(view,
-                                            onDndTargetChooseTypesToLookup);
-    puglSetDndTargetDropFunc(view, onDndTargetDrop);
-    puglSetDndTargetInformPositionFunc(view, onDndTargetInformPosition);
-    puglSetDndTargetLeaveFunc(view, onDndTargetLeave);
-    puglSetDndTargetOfferTypeFunc(view, onDndTargetOfferType);
-    puglSetDndTargetReceiveDataFunc(view, onDndTargetReceiveData);
 
-    puglCreateWindow(view, "ZynAddSubFX 3.0.7");
-    puglShowWindow(view);
-    puglProcessEvents(view);
+    puglSetViewString(view, PUGL_WINDOW_TITLE, "ZynAddSubFX 3.0.7");
+    puglShow(view, PUGL_SHOW_RAISE);
+    //puglProcessEvents(view);
     return view;
 }
 
@@ -693,9 +503,6 @@ int main(int argc, char **argv)
     get(get_remote_url);
 
     z.do_exit       = 0;
-    z.dnd_target_best_slot = -1;
-    z.dnd_target_best_mimetype = -1;
-    *z.dnd_source_widget_path = 0;
 
 #define check(x) if(!z.zest_##x) {printf("z.zest_" #x " = %p\n", z.zest_##x);}
     check(open);
@@ -729,23 +536,17 @@ int main(int argc, char **argv)
         frame_id++;
         int needs_redraw = 1;
 
-        puglProcessEvents(view);
+        puglUpdate(pugl_world, 0.0);
         monotonic_clock_gettime(&post_events);
 
-#ifndef _WIN32
-        puglEnterContext(view);
-#endif
         if(z.zest)
             needs_redraw = z.zest_tick(z.zest);
-#ifndef _WIN32
-        puglLeaveContext(view, 0);
-#endif
 
         monotonic_clock_gettime(&post_tick);
 
 #define TIME_DIFF(a,b) (b.tv_sec-a.tv_sec + 1e-9 *(b.tv_nsec-a.tv_nsec))
         if(needs_redraw)
-            puglPostRedisplay(view);
+            puglObscureView(view);
         else {
             float time = frame_sleep-TIME_DIFF(before, post_tick);
             if(time > 0)
@@ -778,6 +579,6 @@ int main(int argc, char **argv)
     printf("[INFO:Zyn] zest_close()\n");
     z.zest_close(z.zest);
     printf("[INFO:Zyn] Destroying pugl view\n");
-    puglDestroy(view);
+    puglFreeWorld(view);
     return 0;
 }

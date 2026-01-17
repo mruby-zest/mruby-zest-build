@@ -2,7 +2,7 @@
 #include "mruby/string.h"
 #include <stdlib.h>
 #include <string.h>
-#include "../../../deps/pugl/pugl/pugl.h"
+#include "../../../deps/pugl/include/pugl/pugl.h"
 #include <locale.h>
 #ifndef WIN32
 #define __USE_GNU

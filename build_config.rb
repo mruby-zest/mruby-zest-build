@@ -123,7 +123,7 @@ build_type.new(build_name) do |conf|
 
   conf.cc do |cc|
       cc.include_paths << "#{`pwd`.strip}/../deps/nanovg/src"
-      cc.include_paths << "#{`pwd`.strip}/../deps/pugl/"
+      cc.include_paths << "#{`pwd`.strip}/../deps/pugl/include/"
       cc.include_paths << "#{`pwd`.strip}/../deps/libuv/include/" if !linux
       cc.include_paths << "/usr/share/mingw-w64/include/" if windows
       cc.include_paths << "/usr/x86_64-w64-mingw32/include/" if windows
