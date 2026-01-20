@@ -11063,6 +11063,16 @@
 
     },
     {
+        "path"     : "/part[0,15]/partefx[0,2]/EQ/filter[0,7]/PequalPower",
+        "shortname": "eqPow",
+        "name"     : "PequalPower",
+        "tooltip"  : "",
+        "type"     : "i",
+        "range"    : [0,1],
+        "default"  : "0"
+
+    },
+    {
         "path"     : "/part[0,15]/partefx[0,2]/Phaser/preset",
         "name"     : "preset",
         "tooltip"  : "Instrument Presets",
@@ -13707,6 +13717,16 @@
 
     },
     {
+        "path"     : "/sysefx[0,3]/EQ/filter[0,7]/PequalPower",
+        "shortname": "eqPow",
+        "name"     : "PequalPower",
+        "tooltip"  : "",
+        "type"     : "i",
+        "range"    : [0,1],
+        "default"  : "0"
+
+    },
+    {
         "path"     : "/sysefx[0,3]/Phaser/preset",
         "name"     : "preset",
         "tooltip"  : "Instrument Presets",
@@ -15767,6 +15787,16 @@
         "tooltip"  : "Additional filter stages",
         "type"     : "i",
         "range"    : [0,4],
+        "default"  : "0"
+
+    },
+    {
+        "path"     : "/insefx[0,7]/EQ/filter[0,7]/PequalPower",
+        "shortname": "eqPow",
+        "name"     : "PequalPower",
+        "tooltip"  : "",
+        "type"     : "i",
+        "range"    : [0,1],
         "default"  : "0"
 
     },
