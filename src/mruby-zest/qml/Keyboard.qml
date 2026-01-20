@@ -13,6 +13,7 @@ Widget {
     property Float  velocity: 100
     property Float  velrnd: 0
     property Int    octave: 0
+    property Int    keyLayout: 0
 
     //Widget hierarchy priority
     property Int    priority: 10
@@ -165,7 +166,7 @@ Widget {
         //qwertz_high = ['q','2','w','3','e','r','5','t','6','z','7','u','i','9','o','0','p',252,"'",'+','\\']
         //qwertz_low  = ['y','s','x','d','c','v','g','b','h','n','j','m',',','l','.',246,'-']
 
-        //azerty_high = ['a',233,'z','"','e','r','(','t','-','y',232,'u','i',231,'o',224,'p',65106,'=','$']#)
+        //azerty_high = ['a',233,'z','"','e','r','(','t','-','y',232,'u','i',231,'o',224,'p',65106,'=','$']
         //azerty_low  = ['w','s','x','d','c','v','g','b','h','n','j',',',';','l',':','m','!']
         //dvorak_high = "'2,3.p5y6f7gc9r0l/]=\\".to_a
         //dvorak_low  = ";oqejkixdbhmwnvsz".to_a
@@ -173,12 +174,36 @@ Widget {
 
     function onKey(k, act)
     {
-        qwerty_high = "q2w3er5t6y7ui9o0p[=]\\"
-        qwerty_low  = "zsxdcvgbhnjm,l.;/"
+    qwerty_high = "q2w3er5t6y7ui9o0p[=]\\"
+    qwerty_low  = "zsxdcvgbhnjm,l.;/"
+    qwertz_high = ["q", "2", "w", "3", "e", "r", "5", "t", "6", "z", "7", "u", "i", "9", "o", "0", "p", "ü", "´", "+"]
+    qwertz_low  = ["y", "s", "x", "d", "c", "v", "g", "b", "h", "n", "j", "m", ",", "l", ".", "ö", "-"]
+    bossrb_high = ["q", "2", "w", "3", "e", "r", "5", "t", "6", "z", "7", "u", "i", "9", "o", "0", "p"]
+    bossrb_low  = ["y", "s", "x", "d", "c", "v", "g", "b", "h", "n", "j", "m", ",", "l", "."]
+        azerty_high = ['a',233,'z','"','e','r','(','t','-','y',232,'u','i',231,'o',224,'p',65106,'=','$']
+        azerty_low  = ['w','s','x','d','c','v','g','b','h','n','j',',',';','l',':','m','!']
 
+    case parent.keylayout.selected
+    when 0
+        keyboard_high = qwerty_high.chars
+        keyboard_low  = qwerty_low.chars
+    when 1
+        keyboard_high = qwertz_high
+        keyboard_low  = qwertz_low
+    when 2
+        keyboard_high = bossrb_high
+        keyboard_low  = bossrb_low
+    when 3
+        keyboard_high = azerty_high
+        keyboard_low  = azerty_low
+    else
+        keyboard_high = qwerty_high.chars
+        keyboard_low  = qwerty_low.chars
+    end
+        
         note = nil
         off = 0
-        qwerty_low.each_char do |i|
+        keyboard_low.each do |i|
             if(k==i)
                 note = 60 - 12 + off + self.octave*12
                 break
@@ -187,13 +212,26 @@ Widget {
         end
 
         off = 0
-        qwerty_high.each_char do |i|
+        keyboard_high.each do |i|
             if(k==i)
-                note = 60 + off
+                note = 60 + off + self.octave*12
                 break
             end
             off += 1
         end
+
+        if note.nil?
+            note = case(k)
+                    when "\xfc"  # release 'ü'
+                        note = 77 + self.octave*12  # MIDI note for ü
+                    when "\xb4"  # release '´'
+                        note = 78 + self.octave*12  # MIDI note for ´
+                    when "\xf6"  # release 'ö'
+                        note = 63 + self.octave*12  # MIDI note for ö
+                    end
+        end        
+        
+        puts "#{act} key: #{k} #{k.inspect} Note: (#{get_note_name(note)})"
 
         return if note.nil?
 
