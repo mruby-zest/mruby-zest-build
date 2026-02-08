@@ -38,7 +38,10 @@ Widget {
             env.damage_self
         }
         cyvalues.callback = lambda { |x|
-            env.cpoints = x
+            # Multiply by 2.0 to convert backend scale (0..1)
+            # back to GUI scale (-1..1 diff range)
+            env.cpoints = x.map { |v| v.nil? ? 0.0 : v * 1.0 }
+            env.damage_self
         }
         pts.callback = lambda { |x|
             env.points = x
@@ -155,36 +158,44 @@ Widget {
     }
 
     function onMouseMove(ev) {
-        #return if !self.mouse_enable
-
         if(env.selected)
-            scalex = 4*(env.xpoints[(env.selected/2).floor]+10)
-            dy = 2*(ev.pos.y - env.prev.y)/env.h
-            dx = scalex*(ev.pos.x - env.prev.x)/env.w
-            n  = [env.xpoints.length, env.ypoints.length].min
+            dy = (ev.pos.y - env.prev.y) / (env.h / 2.0)
+            dx = (ev.pos.x - env.prev.x) / env.w
 
-            if(env.selected == 0 || env.selected == n-1)
-                env.ypoints[(env.selected/2).floor] -= dy
-            elsif (env.selected % 3 == 0)
-                env.xpoints[(env.selected/3).floor] += dx
-                env.ypoints[(env.selected/3).floor] -= dy
-            elsif (env.selected % 3 == 1) # left control point
-                env.cpoints[(env.selected/3).floor*2+1] -= dy
-            elsif (env.selected % 3 == 2) # right control point
-                env.cpoints[(env.selected/3).floor*2+2] -= dy
-            end
+            sel = env.selected
 
-            bound_points(env.xpoints,  0.0, 40950.0)
-            bound_points(env.ypoints, -1.0, 1.0)
-            bound_points(env.cpoints, -2.0, 2.0)
+            if (sel % 3 == 0)
+                # ANCHOR POINT
+                idx = sel / 3
+                env.ypoints[idx] -= dy
+                if (idx > 0 && idx < env.points - 1)
+                    env.xpoints[idx] += dx * 10.0
+                end
+            else
+                # CONTROL POINT
+                segment_idx = (sel / 3).floor # Segment 0, 1, 2...
+                cp_type = sel % 3             # 1 = bOffs, 2 = cOffs
 
-            send_points() if mouse_enable
-            update_nonfree_x(env.xpoints) if !mouse_enable
-            update_nonfree_y(env.ypoints) if !mouse_enable
-            valueRef[2].value = env.cpoints if !mouse_enable
 
-            env.prev = ev.pos
-            env.root.damage_item env
+                # This matches the backend:
+                # Segment 0 (ends at Anchor 1) -> Indices 1 & 2
+                # Segment 1 (ends at Anchor 2) -> Indices 3 & 4
+                if (cp_type == 1)
+                    array_idx = (segment_idx + 1) * 2 - 1
+                else
+                    array_idx = (segment_idx + 1) * 2
+                end
+
+                # Update the point
+                env.cpoints[array_idx] += dy
+                end
+
+                send_points() if !mouse_enable
+                update_nonfree_x(env.xpoints) if !mouse_enable
+                update_nonfree_y(env.ypoints) if !mouse_enable
+                #valueRef[2].value = env.cpoints if !mouse_enable
+                env.prev = ev.pos
+                env.root.damage_item env
         end
     }
 
@@ -255,10 +266,19 @@ Widget {
     function send_points()
     {
         return if self.extern.nil?
-        ry = ypoints.map {|xx| (xx+1)/2}
+
+        # GUI range (-1..1) to Backend range (0..1)
+        ry = ypoints.map {|y| (y + 1.0) / 2.0 }
+
+        # COMPENSATION FOR RANGE DIFFERENCE:
+        # Because the GUI diff is twice as large as the Backend diff (2.0 vs 1.0),
+        # we must halve the offsets sent to the backend so that the
+        # resulting curve shape matches perfectly.
+        scaled_cpoints = env.cpoints.map { |v| v.nil? ? 0.0 : v * 1.0 }
+
         valueRef[0].value = env.xpoints
         valueRef[1].value = ry
-        valueRef[2].value = env.cpoints
+        valueRef[2].value = scaled_cpoints
     }
 
     function class_name()
@@ -306,7 +326,7 @@ Widget {
         Draw::WaveForm::env_sel_line(vg, bb, self.sustain_point*3, ptsCP, sustain_color)
 
         #Draw Actual Line
-        Draw::WaveForm::env_plot(vg, bb, ptsEnv, bright, selected, emode)
+        Draw::WaveForm::env_plot(vg, bb, ptsEnv, bright, selected, emode, cdat)
         Draw::WaveForm::env_draw_markers(vg, bb, ptsCP, bright, selected, emode)
 
     }

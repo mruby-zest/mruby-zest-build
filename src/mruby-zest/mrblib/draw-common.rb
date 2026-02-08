@@ -180,104 +180,187 @@ module Draw
             vg.stroke_width 1.0
         end
 
-        def self.env_plot(vg, bb, dat, stroke, selected, emode)
+        # Bezier interpolation using the NEW backend interface
+        def self.bezier_interpolate(a, b_offs, c_offs, d, t)
+            diff = d - a
+
+            # New base calculation (matches backend)
+            b = a + diff * (0.3333333333 + b_offs)
+            c = a + diff * (0.6666666666 + c_offs)
+
+            mt = 1.0 - t
+            mt2 = mt * mt
+            t2 = t * t
+
+            return mt*mt2*a + 3.0*mt2*t*b + 3.0*mt*t2*c + t*t2*d
+        end
+
+        # Convert absolute control point values to NEW backend offsets
+        def self.convert_to_offsets(a, b_abs, c_abs, d)
+            diff = d - a
+            return [0.0, 0.0] if diff.abs < 1e-10
+
+            # New base calculation
+            base1 = a + diff * 0.3333333333
+            base2 = a + diff * 0.6666666666
+
+            # Offsets are dimensionless factors now
+            b_offs = (b_abs - base1) / diff
+            c_offs = (c_abs - base2) / diff
+
+            return [b_offs, c_offs]
+        end
+
+        # Main plotting function for envelope visualization
+        def self.env_plot(vg, bb, dat, stroke, selected, emode, c_offsets)
             n = dat.length
             pts = 32
+
             vg.path do
-                vg.move_to(bb.x + bb.w*dat[0].x,
-                           bb.y + bb.h/2*(1-dat[0].y))
+                # Move to starting point
+                vg.move_to(bb.x + bb.w * dat[0].x,
+                           bb.y + bb.h / 2 * (1 - dat[0].y))
 
-                (1...n).each_slice(3) do |i,j,k|
-                    h = i-1
-                    a = dat[h].y # starting point
-                    b = dat[i].y   # bezier control point
-                    c = dat[j].y   # bezier control point 2
-                    d = dat[k].y   # end point
-                    vg.move_to(bb.x + bb.w*dat[i-1].x,
-                               bb.y + bb.h/2*(1-a))
+                # Each Bezier segment requires 4 points: start, control1, control2, end
+                segments = (dat.length - 1) / 3
+
+                (0...segments).each do |s|
+                    # 1. Identify indices
+                    h = 3 * s      # Anchor A
+                    i = h + 1      # CP 1
+                    j = h + 2      # CP 2
+                    k = h + 3      # Anchor D
+
+                    # 2. Extract anchor y-values
+                    a = dat[h].y
+                    d = dat[k].y
+
+                    # 3. GET OFFSETS DIRECTLY
+                    # Matching the backend's releaseindex-based indexing:
+                    # Segment s corresponds to releaseindex = s + 1
+                    b_offs = c_offsets[(s + 1) * 2 - 1] || 0.0
+                    c_offs = c_offsets[(s + 1) * 2] || 0.0
+
+                    # Move to start of this segment
+                    vg.move_to(bb.x + bb.w * dat[h].x,
+                               bb.y + bb.h / 2 * (1 - a))
+
+                    # Sample the curve with specified number of points
                     (1...pts).each do |pt|
-                        w2 = pt.to_f/pts.to_f # weight of end point
-                        w1 = 1.0-w2           # weight of starting point
+                        # Normalized interpolation parameter [0, 1]
+                        t = pt.to_f / pts.to_f
 
-                        if (h==0) # treatment for "first segment linear" in envout_dB for ADSR_dB
+                        # Special handling for first segment in certain envelope modes
+                        if h == 0
                             case emode
-                            when 1, 2 # ADSR_lin or ADSR_dB
-                                v1 = (10.0**((a))-0.01)/0.99
-                                v2 = (10.0**((d))-0.01)/0.99
-                                rap = v1 + (v2 - v1) * w2
-                                y = (Math.log10((rap) * 0.99 + 0.01))
-                            when 3 # ASR_freqlfo
-                                v1 = (2.0**(6.0 * a.abs )-1)
-                                if (a<0)
-                                    v1 = -v1
+                            when 1, 2  # ADSR_lin or ADSR_dB (logarithmic scaling)
+                                v1 = (10.0 ** a - 0.01) / 0.99
+                                v2 = (10.0 ** d - 0.01) / 0.99
+                                rap = v1 + (v2 - v1) * t
+                                y = Math.log10(rap * 0.99 + 0.01)
+
+                            when 3  # ASR_freqlfo (frequency LFO with special scaling)
+                                v1 = (2.0 ** (6.0 * a.abs) - 1)
+                                v1 = -v1 if a < 0
+
+                                v2 = (2.0 ** (6.0 * d.abs) - 1)
+                                v2 = -v2 if d < 0
+
+                                rap = v1 + (v2 - v1) * t
+
+                                y = if rap >= 0
+                                    Math.log(rap + 1.0) / (6.0 * Math.log(2.0))
+                                else
+                                    -Math.log(1.0 - rap) / (6.0 * Math.log(2.0))
                                 end
 
-                                v2 = (2.0**(6.0 * d.abs )-1)
-                                if (c<0)
-                                    v2 = -v2
-                                end
-
-                                rap = v1 + (v2 - v1) * w2
-
-                                y = (rap>=0) ? ((Math.log(rap + 1.0) / (6.0 * Math.log(2.0))) ) : (-(Math.log(1.0 - rap) / (6.0 * Math.log(2.0))) )
-
-                            else # ADSR_filter = 4; ASR_bw = 5;
-
-                                y = a + (d - a) * w2
-
+                            else  # ADSR_filter = 4; ASR_bw = 5 (linear interpolation)
+                                y = a + (d - a) * t
                             end
 
-                            vg.line_to(bb.x+bb.w*dat[i-1].x + bb.w*(dat[k].x-dat[i-1].x)*w2,
-                                            bb.y + bb.h/2.0 * (1.0-y))
+                            # Calculate x-position (linear interpolation between segment boundaries)
+                            x_pos = bb.x + bb.w * dat[h].x + bb.w * (dat[k].x - dat[h].x) * t
+                            y_pos = bb.y + bb.h / 2.0 * (1.0 - y)
+                            vg.line_to(x_pos, y_pos)
 
                         else
-                            vg.line_to(bb.x+bb.w*dat[h].x + bb.w*(dat[k].x-dat[h].x)*w2,
-                                    bb.y + bb.h/2.0 * (1.0-(w1*w1*w1*a + 3*w1*w1*w2*b + 3*w1*w2*w2*c + w2*w2*w2*d)))
+                            # Standard Bezier interpolation using the new interface
+                            y = bezier_interpolate(a, b_offs, c_offs, d, t)
+
+                            # Calculate x-position (linear interpolation between segment boundaries)
+                            x_pos = bb.x + bb.w * dat[h].x + bb.w * (dat[k].x - dat[h].x) * t
+                            y_pos = bb.y + bb.h / 2.0 * (1.0 - y)
+                            vg.line_to(x_pos, y_pos)
                         end
                     end
-                    vg.line_to(bb.x + bb.w*dat[k].x,
-                               bb.y + bb.h/2.0*(1.0-d))
 
+                    # Ensure line reaches the exact end point
+                    vg.line_to(bb.x + bb.w * dat[k].x,
+                               bb.y + bb.h / 2.0 * (1.0 - d))
                 end
+
+                # Apply styling to the path
                 vg.line_join NVG::ROUND
                 vg.stroke_width 2.0
                 vg.stroke_color stroke
                 vg.stroke
             end
-
         end
 
         def self.env_draw_markers(vg, bb, dat, stroke, selected, emode)
             n = dat.length
-            vg.path do
-                vg.stroke_width 1.0
 
-                sel_color    = Theme::VisualSelect
-                bright       = Theme::VisualBright
-                bright2      = Theme::VisualBright2
-                (0...n).each do |i|
-                    next if([1,2].include?(i))
-                    xx = bb.x + bb.w*dat[i].x;
-                    yy = bb.y + bb.h/2*(1-dat[i].y);
-                    scale = 3
-                    if(selected == i)
-                        vg.stroke_color sel_color
-                    elsif (i % 3 == 0)
-                        vg.stroke_color bright
-                    else
-                        vg.stroke_color bright2
-                    end
-                    vg.fill_color   Theme::EnvelopePoint
-                    Draw::WaveForm::env_marker(vg, xx, yy, scale)
+            sel_color = Theme::VisualSelect
+            bright    = Theme::VisualBright
+            bright2   = Theme::VisualBright2
+
+            (0...n).each do |i|
+                # Determine if this is an anchor or a control point
+                is_anchor = (i % 3 == 0)
+
+                xx = bb.x + bb.w * dat[i].x
+                yy = bb.y + bb.h / 2 * (1 - dat[i].y)
+
+                # UI Scaling: anchors are slightly larger than CPs
+                scale = is_anchor ? 3 : 2.5
+                type  = is_anchor ? :anchor : :cp
+
+                # Color logic
+                if (selected == i)
+                    vg.stroke_color sel_color
+                elsif is_anchor
+                    vg.stroke_color bright
+                else
+                    vg.stroke_color bright2
                 end
+
+                vg.fill_color Theme::EnvelopePoint
+
+                # Draw the specific marker type
+                env_marker(vg, xx, yy, scale, type)
             end
         end
 
 
-        def self.env_marker(vg, x, y, scale)
+        # Draws a marker: Square for anchors, Rhombus for control points
+        def self.env_marker(vg, x, y, scale, type = :anchor)
+            return if x.nan? || y.nan?
             vg.path do
                 vg.translate(0.5, 0.5)
-                vg.rect((x-scale).round(),(y-scale).round(),(scale*2).round(),(scale*2).round());
+
+                if type == :anchor
+                    # Standard Square
+                    vg.rect((x - scale).round, (y - scale).round, (scale * 2).round, (scale * 2).round)
+                else
+                    # Rhombus (Diamond shape)
+                    # We define the 4 corners: Top, Right, Bottom, Left
+                    vg.move_to(x, y - scale - 1) # Top
+                    vg.line_to(x + scale + 1, y) # Right
+                    vg.line_to(x, y + scale + 1) # Bottom
+                    vg.line_to(x - scale - 1, y) # Left
+                    vg.close_path
+                end
+
                 vg.stroke_width 1.0
                 vg.fill
                 vg.stroke
@@ -778,19 +861,39 @@ module Draw
         o
     end
 
-    def self.zipToPosCP(x,y,c)
+    def self.zipToPosCP(x, y, c_offsets)
         o = []
-        n = [x.length, y.length, c.length/2].min
+        n = [x.length, y.length, c_offsets.length / 2 + 1].min
         o << Pos.new(x[0], y[0])
-        (1...n).each do |i|
-            xcp1 = (x[i]+3*x[i-1])/4
-            ycp1 = (y[i]+3*y[i-1])/4 + 1*c[i*2-1]
-            o << Pos.new(xcp1, ycp1)
-            xcp2 = (3*x[i]+x[i-1])/4
-            ycp2 = (3*y[i]+y[i-1])/4 + 1*c[i*2]
-            o << Pos.new(xcp2, ycp2)
 
-            o << Pos.new(x[i], y[i])
+        # This factor brings the diamonds closer to the linear path
+        # 1.0 = mathematical control point
+        # 0.7 = closer to the curve
+        visual_strength = 0.6
+
+        (1...n).each do |i|
+            x_start, y_start = x[i-1], y[i-1]
+            x_end, y_end     = x[i], y[i]
+
+            x_diff = x_end - x_start
+            y_diff = y_end - y_start
+
+            cp1_x = x_start + x_diff * 0.33333333
+            cp2_x = x_start + x_diff * 0.66666666
+
+            # Fetch backend offsets
+            # Use the backend indexing: (s+1)*2-1 and (s+1)*2
+            b_offs = c_offsets[i * 2 - 1] || 0.0
+            c_offs = c_offsets[i * 2] || 0.0
+
+            # Apply visual_strength to the offset part of the formula
+            # Original: (y_start + y_diff * 0.33) + (b_offs * y_diff)
+            cp1_y = (y_start + y_diff * 0.33333333) + (b_offs * y_diff * visual_strength)
+            cp2_y = (y_start + y_diff * 0.66666666) + (c_offs * y_diff * visual_strength)
+
+            o << Pos.new(cp1_x, cp1_y)
+            o << Pos.new(cp2_x, cp2_y)
+            o << Pos.new(x_end, y_end)
         end
         o
     end
