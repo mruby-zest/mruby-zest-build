@@ -160,12 +160,11 @@ Widget {
         if(env.selected)
             dy = (ev.pos.y - env.prev.y) / (env.h / 2.0)
             dx = (ev.pos.x - env.prev.x) / env.w
-
             sel = env.selected
-
+            idx = sel / 3
             if (sel % 3 == 0)
                 # ANCHOR POINT
-                idx = sel / 3
+
                 env.ypoints[idx] -= dy
                 if (idx > 0 && idx < env.points - 1)
                     segment_length = env.xpoints[idx] - env.xpoints[idx-1]
@@ -174,14 +173,13 @@ Widget {
                 end
             else
                 # CONTROL POINT
-                segment_idx = (sel / 3).floor # Segment 0, 1, 2...
                 cp_type = sel % 3             # 1 = bOffs, 2 = cOffs
 
                 is_negative_slope = false
 
-                if (segment_idx > 0 && segment_idx < env.points - 1)
-                    start_anchor_y = env.ypoints[segment_idx]
-                    end_anchor_y = env.ypoints[segment_idx+1]
+                if (idx > 0 && idx < env.points - 1)
+                    start_anchor_y = env.ypoints[idx]
+                    end_anchor_y = env.ypoints[idx+1]
                     is_negative_slope = (start_anchor_y > end_anchor_y)
                 end
                 adjusted_dy = is_negative_slope ? +dy : -dy
@@ -190,21 +188,20 @@ Widget {
                 # Segment 0 (ends at Anchor 1) -> Indices 1 & 2
                 # Segment 1 (ends at Anchor 2) -> Indices 3 & 4
                 if (cp_type == 1)
-                    array_idx = (segment_idx + 1) * 2 - 1
+                    array_idx = (idx + 1) * 2 - 1
                 else
-                    array_idx = (segment_idx + 1) * 2
+                    array_idx = (idx + 1) * 2
                 end
 
                 # Update the point
                 env.cpoints[array_idx] += adjusted_dy
-                end
-
-                send_points() if !mouse_enable
-                update_nonfree_x(env.xpoints) if !mouse_enable
-                update_nonfree_y(env.ypoints) if !mouse_enable
-                #valueRef[2].value = env.cpoints if !mouse_enable
-                env.prev = ev.pos
-                env.root.damage_item env
+            end
+            send_points() if mouse_enable
+            update_nonfree_x(env.xpoints) if !mouse_enable
+            update_nonfree_y(env.ypoints) if !mouse_enable
+            #valueRef[2].value = env.cpoints if !mouse_enable
+            env.prev = ev.pos
+            env.root.damage_item env
         end
     }
 

@@ -309,7 +309,7 @@ module Draw
                 yy = bb.y + bb.h / 2 * (1 - dat[i].y)
 
                 # UI Scaling: anchors are slightly larger than CPs
-                scale = is_anchor ? 3 : 2.5
+                scale = is_anchor ? 4 : 2.5
                 type  = is_anchor ? :anchor : :cp
 
                 # Color logic
