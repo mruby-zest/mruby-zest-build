@@ -182,7 +182,7 @@ module Draw
 
         # Bezier interpolation using the NEW backend interface
         def self.bezier_interpolate(a, b_offs, c_offs, d, t)
-            diff = d - a
+            diff = (d - a)
 
             # New base calculation (matches backend)
             b = a + diff * (0.3333333333 + b_offs)
@@ -193,22 +193,6 @@ module Draw
             t2 = t * t
 
             return mt*mt2*a + 3.0*mt2*t*b + 3.0*mt*t2*c + t*t2*d
-        end
-
-        # Convert absolute control point values to NEW backend offsets
-        def self.convert_to_offsets(a, b_abs, c_abs, d)
-            diff = d - a
-            return [0.0, 0.0] if diff.abs < 1e-10
-
-            # New base calculation
-            base1 = a + diff * 0.3333333333
-            base2 = a + diff * 0.6666666666
-
-            # Offsets are dimensionless factors now
-            b_offs = (b_abs - base1) / diff
-            c_offs = (c_abs - base2) / diff
-
-            return [b_offs, c_offs]
         end
 
         # Main plotting function for envelope visualization
@@ -262,9 +246,11 @@ module Draw
                             when 3  # ASR_freqlfo (frequency LFO with special scaling)
                                 v1 = (2.0 ** (6.0 * a.abs) - 1)
                                 v1 = -v1 if a < 0
+                                b_offs = -b_offs if a < 0
 
                                 v2 = (2.0 ** (6.0 * d.abs) - 1)
                                 v2 = -v2 if d < 0
+                                c_offs = -c_offs if d < 0
 
                                 rap = v1 + (v2 - v1) * t
 
@@ -315,6 +301,7 @@ module Draw
             bright2   = Theme::VisualBright2
 
             (0...n).each do |i|
+                next if([1,2].include?(i))
                 # Determine if this is an anchor or a control point
                 is_anchor = (i % 3 == 0)
 

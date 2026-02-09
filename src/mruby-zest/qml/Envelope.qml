@@ -38,9 +38,8 @@ Widget {
             env.damage_self
         }
         cyvalues.callback = lambda { |x|
-            # Multiply by 2.0 to convert backend scale (0..1)
-            # back to GUI scale (-1..1 diff range)
-            env.cpoints = x.map { |v| v.nil? ? 0.0 : v * 1.0 }
+
+            env.cpoints = x
             env.damage_self
         }
         pts.callback = lambda { |x|
@@ -169,13 +168,23 @@ Widget {
                 idx = sel / 3
                 env.ypoints[idx] -= dy
                 if (idx > 0 && idx < env.points - 1)
-                    env.xpoints[idx] += dx * 10.0
+                    segment_length = env.xpoints[idx] - env.xpoints[idx-1]
+                    env.xpoints[idx] += dx * segment_length * 2
+
                 end
             else
                 # CONTROL POINT
                 segment_idx = (sel / 3).floor # Segment 0, 1, 2...
                 cp_type = sel % 3             # 1 = bOffs, 2 = cOffs
 
+                is_negative_slope = false
+
+                if (segment_idx > 0 && segment_idx < env.points - 1)
+                    start_anchor_y = env.ypoints[segment_idx]
+                    end_anchor_y = env.ypoints[segment_idx+1]
+                    is_negative_slope = (start_anchor_y > end_anchor_y)
+                end
+                adjusted_dy = is_negative_slope ? +dy : -dy
 
                 # This matches the backend:
                 # Segment 0 (ends at Anchor 1) -> Indices 1 & 2
@@ -187,7 +196,7 @@ Widget {
                 end
 
                 # Update the point
-                env.cpoints[array_idx] += dy
+                env.cpoints[array_idx] += adjusted_dy
                 end
 
                 send_points() if !mouse_enable
@@ -269,16 +278,9 @@ Widget {
 
         # GUI range (-1..1) to Backend range (0..1)
         ry = ypoints.map {|y| (y + 1.0) / 2.0 }
-
-        # COMPENSATION FOR RANGE DIFFERENCE:
-        # Because the GUI diff is twice as large as the Backend diff (2.0 vs 1.0),
-        # we must halve the offsets sent to the backend so that the
-        # resulting curve shape matches perfectly.
-        scaled_cpoints = env.cpoints.map { |v| v.nil? ? 0.0 : v * 1.0 }
-
         valueRef[0].value = env.xpoints
         valueRef[1].value = ry
-        valueRef[2].value = scaled_cpoints
+        valueRef[2].value = env.cpoints
     }
 
     function class_name()
