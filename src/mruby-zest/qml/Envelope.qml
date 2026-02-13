@@ -199,7 +199,7 @@ Widget {
             send_points() if mouse_enable
             update_nonfree_x(env.xpoints) if !mouse_enable
             update_nonfree_y(env.ypoints) if !mouse_enable
-            #valueRef[2].value = env.cpoints if !mouse_enable
+            valueRef[2].value = env.cpoints if !mouse_enable
             env.prev = ev.pos
             env.root.damage_item env
         end
