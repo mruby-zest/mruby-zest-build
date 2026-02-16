@@ -25,6 +25,10 @@ Widget {
             extern: fil.extern + "Pq"
             whenValue: lambda { fil.cb }
         }
+        Knob     {
+            extern: fil.extern + "Ploud"
+            whenValue: lambda { fil.cb }
+        }
         NumEntry {
             extern: fil.extern + "Pstages"
             whenValue: lambda { fil.cb }
