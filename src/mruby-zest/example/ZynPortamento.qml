@@ -18,6 +18,7 @@ Group {
             extern: port.extern+"portamento.polyMode"
             label: "mode"
         }
+        Knob   { extern: port.extern+"portamento.glissando"}
         Knob   { extern: port.extern+"portamento.time"}
         Knob   { extern: port.extern+"portamento.updowntimestretch"}
     }

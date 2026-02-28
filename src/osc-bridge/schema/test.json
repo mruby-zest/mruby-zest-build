@@ -11937,6 +11937,16 @@
         ]
     },
     {
+        "path"     : "/part[0,15]/ctl/portamento.glissando",
+        "shortname": "gliss",
+        "name"     : "portamento.glissando",
+        "tooltip"  : "Portamento <-> Glissando",
+        "type"     : "i",
+        "range"    : [0,127],
+        "default"  : "0"
+
+    },
+    {
         "path"     : "/part[0,15]/ctl/portamento.automode",
         "name"     : "portamento.automode",
         "tooltip"  : "Portamento Auto mode",
@@ -16817,6 +16827,16 @@
             "value"  : "SMART"
         }
         ]
+    },
+    {
+        "path"     : "/ctl/portamento.glissando",
+        "shortname": "gliss",
+        "name"     : "portamento.glissando",
+        "tooltip"  : "Portamento <-> Glissando",
+        "type"     : "i",
+        "range"    : [0,127],
+        "default"  : "0"
+
     },
     {
         "path"     : "/ctl/portamento.automode",
