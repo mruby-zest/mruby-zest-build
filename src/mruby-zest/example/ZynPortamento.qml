@@ -14,6 +14,10 @@ Group {
             extern: port.extern+"portamento.portamento"
             label: "enable"
         }
+        Selector {
+            extern: port.extern+"portamento.polyMode"
+            label: "mode"
+        }
         Knob   { extern: port.extern+"portamento.time"}
         Knob   { extern: port.extern+"portamento.updowntimestretch"}
     }

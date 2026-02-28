@@ -2744,11 +2744,11 @@
         },
         {
             "id"     : 8,
-            "value"  : "G-6"
+            "value"  : "C-6"
         },
         {
             "id"     : 9,
-            "value"  : ""
+            "value"  : "G-6"
         }
         ]
     },
@@ -11625,7 +11625,9 @@
         "tooltip"  : "Number of Strings",
         "scale"    : "linear",
         "type"     : "i",
-        "range"    : [0,76]
+        "range"    : [0,76],
+        "default"  : "12"
+
     },
     {
         "path"     : "/part[0,15]/partefx[0,2]/Sympathetic/Pbasenote",
@@ -11634,7 +11636,9 @@
         "tooltip"  : "Midi Note of Lowest String",
         "scale"    : "linear",
         "type"     : "i",
-        "range"    : [0,127]
+        "range"    : [0,127],
+        "default"  : "57"
+
     },
     {
         "path"     : "/part[0,15]/partefx[0,2]/Sympathetic/freqs[0,87]",
@@ -11905,6 +11909,32 @@
         "type"     : "t",
         "default"  : "false"
 
+    },
+    {
+        "path"     : "/part[0,15]/ctl/portamento.polyMode",
+        "name"     : "portamento.polyMode",
+        "tooltip"  : "Polyphonic Mode",
+        "type"     : "i",
+        "default"  : "LEGACY"
+,
+        "options"  : [
+        {
+            "id"     : 0,
+            "value"  : "LEGACY"
+        },
+        {
+            "id"     : 1,
+            "value"  : "FIFO"
+        },
+        {
+            "id"     : 2,
+            "value"  : "LIFO"
+        },
+        {
+            "id"     : 3,
+            "value"  : "SMART"
+        }
+        ]
     },
     {
         "path"     : "/part[0,15]/ctl/portamento.automode",
@@ -14269,7 +14299,9 @@
         "tooltip"  : "Number of Strings",
         "scale"    : "linear",
         "type"     : "i",
-        "range"    : [0,76]
+        "range"    : [0,76],
+        "default"  : "12"
+
     },
     {
         "path"     : "/sysefx[0,3]/Sympathetic/Pbasenote",
@@ -14278,7 +14310,9 @@
         "tooltip"  : "Midi Note of Lowest String",
         "scale"    : "linear",
         "type"     : "i",
-        "range"    : [0,127]
+        "range"    : [0,127],
+        "default"  : "57"
+
     },
     {
         "path"     : "/sysefx[0,3]/Sympathetic/freqs[0,87]",
@@ -16333,7 +16367,9 @@
         "tooltip"  : "Number of Strings",
         "scale"    : "linear",
         "type"     : "i",
-        "range"    : [0,76]
+        "range"    : [0,76],
+        "default"  : "12"
+
     },
     {
         "path"     : "/insefx[0,7]/Sympathetic/Pbasenote",
@@ -16342,7 +16378,9 @@
         "tooltip"  : "Midi Note of Lowest String",
         "scale"    : "linear",
         "type"     : "i",
-        "range"    : [0,127]
+        "range"    : [0,127],
+        "default"  : "57"
+
     },
     {
         "path"     : "/insefx[0,7]/Sympathetic/freqs[0,87]",
@@ -16753,6 +16791,32 @@
         "type"     : "t",
         "default"  : "false"
 
+    },
+    {
+        "path"     : "/ctl/portamento.polyMode",
+        "name"     : "portamento.polyMode",
+        "tooltip"  : "Polyphonic Mode",
+        "type"     : "i",
+        "default"  : "LEGACY"
+,
+        "options"  : [
+        {
+            "id"     : 0,
+            "value"  : "LEGACY"
+        },
+        {
+            "id"     : 1,
+            "value"  : "FIFO"
+        },
+        {
+            "id"     : 2,
+            "value"  : "LIFO"
+        },
+        {
+            "id"     : 3,
+            "value"  : "SMART"
+        }
+        ]
     },
     {
         "path"     : "/ctl/portamento.automode",
