@@ -11894,6 +11894,14 @@
 
     },
     {
+        "path"     : "/part[0,15]/ctl/sustain.stopsPortamento",
+        "name"     : "sustain.stopsPortamento",
+        "tooltip"  : "Sustain finishes Portamento",
+        "type"     : "t",
+        "default"  : "false"
+
+    },
+    {
         "path"     : "/part[0,15]/ctl/portamento.receive",
         "shortname": "prt.rcv",
         "name"     : "portamento.receive",
@@ -16783,6 +16791,14 @@
         "tooltip"  : "Sustain MIDI Receive",
         "type"     : "t",
         "default"  : "true"
+
+    },
+    {
+        "path"     : "/ctl/sustain.stopsPortamento",
+        "name"     : "sustain.stopsPortamento",
+        "tooltip"  : "Sustain finishes Portamento",
+        "type"     : "t",
+        "default"  : "false"
 
     },
     {
