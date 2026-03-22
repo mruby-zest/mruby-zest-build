@@ -1,3 +1,4 @@
+build_config.rb.lock
 deps/glpk-4.52.tar.gz
 deps/glpk-4.52/
 deps/libnanovg.a
@@ -5,13 +6,14 @@ deps/librtosc.a
 deps/libuv-v1.9.1.tar.gz
 deps/libuv-v1.9.1/
 deps/libuv.a
+doc/
 libzest.so
 mruby.trace
 package/
+src/mruby-widget-lib/mrblib/fcache.rb
+zest
 zest-dist-x86.tar.bz2
 zest-dist.tar.bz2
 zest-temporary.mod
 zest-w.txt
 zynaddsubfx-3.0.0.tar.bz2
-src/mruby-widget-lib/mrblib/fcache.rb
-zest

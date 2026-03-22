@@ -747,6 +747,16 @@ remote_cb_127(const char *msg, remote_cb_data *cb)
 }
 
 static void
+remote_cb_pure_int(const char *msg, remote_cb_data *cb)
+{
+    mrb_assert(!strcmp("i",rtosc_argument_string(msg)) || !strcmp("c",rtosc_argument_string(msg)));
+
+    int cb_val = rtosc_argument(msg, 0).i;
+
+    mrb_funcall(cb->mrb, cb->cb, "call", 1, mrb_fixnum_value(cb_val));
+}
+
+static void
 remote_cb_int(const char *msg, remote_cb_data *cb)
 {
     mrb_assert(!strcmp("i",rtosc_argument_string(msg)) || !strcmp("c",rtosc_argument_string(msg)));
@@ -813,11 +823,17 @@ remote_cb(const char *msg, void *data)
         assert(valid_type(*args));
     remote_cb_data *cb = (remote_cb_data*) data;
     int nil = mrb_obj_equal(cb->mrb, mrb_nil_value(), cb->mode);
+    mrb_sym norm_sym = mrb_intern_lit(cb->mrb, "normal_int");
+    int norm_int = mrb_obj_equal(cb->mrb,
+                                 mrb_symbol_value(norm_sym),
+                                 cb->mode);
     const char *arg_str = rtosc_argument_string(msg);
     if(!strcmp("i", arg_str) && nil)
         remote_cb_127(msg, cb);
     else if(!strcmp("c", arg_str))
         remote_cb_127(msg, cb);
+    else if(!strcmp("i", arg_str) && norm_int)
+        remote_cb_pure_int(msg, cb);
     else if(!strcmp("i", arg_str))
         remote_cb_int(msg, cb);
     else if(!strcmp("f", arg_str)) {
@@ -1181,6 +1197,26 @@ mrb_remote_param_set_type(mrb_state *mrb, mrb_value self)
 }
 
 static mrb_value
+mrb_remote_param_default_value(mrb_state *mrb, mrb_value self)
+{
+    remote_param_data *param;
+    param = (remote_param_data*) mrb_data_get_ptr(mrb, self, &mrb_remote_param_type);
+    mrb_assert(param);
+
+    bridge_t *br  = param->br;
+    schema_t  sch = param->remote->sch;
+    schema_handle_t handle = sm_get(sch,param->uri);
+    if(!sm_valid(handle))
+        return mrb_nil_value();
+    if(handle.type == 'i' && handle.default_)
+        return mrb_fixnum_value(atoi(handle.default_));
+    else if(handle.type == 'f' && handle.default_)
+        return mrb_float_value(mrb, atof(handle.default_));
+
+    return mrb_nil_value();
+}
+
+static mrb_value
 mrb_remote_param_display_value(mrb_state *mrb, mrb_value self)
 {
     remote_param_data *param;
@@ -1364,6 +1400,8 @@ mrb_mruby_widget_lib_gem_init(mrb_state* mrb) {
     mrb_define_method(mrb, param, "set_value_ar", mrb_remote_param_set_value_ar, MRB_ARGS_REQ(1));
     mrb_define_method(mrb, param, "set_value_str",mrb_remote_param_set_value_str, MRB_ARGS_REQ(1));
     mrb_define_method(mrb, param, "type=",        mrb_remote_param_set_type, MRB_ARGS_REQ(1));
+    mrb_define_method(mrb, param, "default_value",
+            mrb_remote_param_default_value, MRB_ARGS_NONE());
     mrb_define_method(mrb, param, "display_value",mrb_remote_param_display_value, MRB_ARGS_NONE());
     mrb_define_method(mrb, param, "force_refresh",mrb_remote_param_force_refresh, MRB_ARGS_NONE());
     mrb_define_method(mrb, param, "refresh",      mrb_remote_param_refresh, MRB_ARGS_NONE());

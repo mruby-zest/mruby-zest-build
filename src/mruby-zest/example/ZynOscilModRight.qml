@@ -11,6 +11,13 @@ Widget {
                 id: extmod;
                 label: "external modulator";
             }
+            ToggleButton   {
+                id: sync
+                extern: base.extern+"PsyncEnabled"
+                whenValue: lambda {
+                    base.updateFMVoice
+                }
+            }
         }
         function draw(vg) {
             Draw::GradBox(vg, Rect.new(0,0,w,h))
@@ -146,14 +153,29 @@ Widget {
     function onSetup(old=nil)
     {
         vce     = root.get_view_pos(:voice)
+
+        if vce == 0
+            sync.active = false
+        else
+            sync.active = true
+        end
+
         mapper  = [-1]
+        mapper2 = [-2]
         names   = ["Normal"]
-        names2  = ["Normal"]
+        names2  = ["PartFbk"]
+        names2  << "Normal"
+        mapper2  << -1
         (0...vce).each do |i|
             mapper << i
+            mapper2 << i
             names  << "Oscil #{i+1}"
             names2 << "Mod   #{i+1}"
         end
+        mapper2 << vce
+        names2 << "Mod   #{vce+1}"
+
+
 
         extfm.opt_vals = mapper
         extfm.options  = names
@@ -161,9 +183,36 @@ Widget {
         ext.opt_vals   = mapper
         ext.options    = names
         ext.extern     = base.extern + "Pextoscil"
-        extmod.opt_vals = mapper
+        extmod.opt_vals = mapper2
         extmod.options  = names2
         extmod.extern   = base.extern + "PFMVoice"
+
+    }
+
+    function updateFMVoice(old=nil)
+    {
+        vce = root.get_view_pos(:voice)
+        if sync.value == false
+            mapper = [-1]
+            names2 = ["Normal"]
+            extmod.selected = extmod.selected + 1
+        else
+            mapper = []
+            names2 = []
+            if extmod.selected != 0
+                extmod.selected = extmod.selected - 1
+            end
+        end
+        (0...vce).each do |i|
+            mapper << i
+            names2 << "Mod   #{i+1}"
+        end
+        extmod.opt_vals = mapper
+        extmod.options  = names2
+        extmod.damage_self
+        if(extmod.valueRef && extmod.selected <= extmod.opt_vals.length)
+            extmod.valueRef.value = extmod.opt_vals[extmod.selected]
+        end
 
     }
 }

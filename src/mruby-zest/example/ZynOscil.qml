@@ -79,6 +79,7 @@ Widget {
         id: scroll
         vertical: false
         value: 0
+        unclValue: 0
         whenValue: lambda {hedit.set_scroll scroll.value}
     }
 
