@@ -24,6 +24,7 @@ Group {
         Col {
             ToggleButton { extern: ctrl.extern+"fmamp.receive"}
             ToggleButton { extern: ctrl.extern+"sustain.receive"}
+            ToggleButton { label: "stops Portamnt." extern: ctrl.extern+"sustain.stopsPortamento"}
         }
     }
 }

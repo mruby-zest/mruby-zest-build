@@ -7,7 +7,7 @@ Widget {
         return if env.selected == nil
         return if !free.value
         path = self.extern + "addPoint"
-        $remote.action(path, env.selected)
+        $remote.action(path, env.selected/3)
         env.refresh
     }
     function del_point()
@@ -16,7 +16,7 @@ Widget {
         return if env.selected == nil
         return if !free.value
         path = self.extern + "delPoint"
-        $remote.action(path, env.selected)
+        $remote.action(path, env.selected/3)
         env.refresh
     }
 
