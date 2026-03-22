@@ -38,7 +38,7 @@ Widget {
                     whenValue: lambda { dst.refresh }
                     layoutOpts: [:long_mode]
                 }
-                Knob { 
+                Knob {
                     extern: dst.extern + "Pvolume"
                     whenValue: lambda {wave.refresh};
                     }
@@ -85,6 +85,7 @@ Widget {
                     }
                 }
                 Knob {   extern: dst.extern + "Distortion/Plevel"; label: "level" }
+                Knob {   extern: dst.extern + "Distortion/Ploud"; label: "loud" }
                 Col {
                     ToggleButton { extern: dst.extern + "Distortion/Pprefiltering"}
                     ToggleButton { extern: dst.extern + "Distortion/Pstereo"}
