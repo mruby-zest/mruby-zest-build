@@ -11636,9 +11636,7 @@
         "tooltip"  : "Midi Note of Lowest String",
         "scale"    : "linear",
         "type"     : "i",
-        "range"    : [0,127],
-        "default"  : "57"
-
+        "range"    : [0,127]
     },
     {
         "path"     : "/part[0,15]/partefx[0,2]/Sympathetic/freqs[0,87]",
@@ -14462,6 +14460,14 @@
 
     },
     {
+        "path"     : "/insefx[0,7]/preset",
+        "name"     : "preset",
+        "tooltip"  : "Effect Preset Selector",
+        "type"     : "i",
+        "default"  : "0"
+
+    },
+    {
         "path"     : "/insefx[0,7]/filterpars/Pcategory",
         "shortname": "class",
         "name"     : "Pcategory",
@@ -16396,9 +16402,7 @@
         "tooltip"  : "Midi Note of Lowest String",
         "scale"    : "linear",
         "type"     : "i",
-        "range"    : [0,127],
-        "default"  : "57"
-
+        "range"    : [0,127]
     },
     {
         "path"     : "/insefx[0,7]/Sympathetic/freqs[0,87]",
