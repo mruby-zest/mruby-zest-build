@@ -47,6 +47,9 @@ Widget {
         return if main_widget.content
         @info = Hash.new
 
+        isPlugin = OSC::RemoteParam.new($remote, "/isPlugin")
+        isPlugin.callback = lambda {|enabled| isPlugin = enabled}
+
         #Assume parts are active for testing purposes
         (0...16).each do |prt|
             (0...16).each do |kit|

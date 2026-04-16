@@ -38,6 +38,11 @@ Widget {
     function file_select()
     {
         opt = file.options[file.selected]
+        if(opt == "setup record" && root.isPlugin) then
+             self.root.log(:tooltip, "Recorder not available in Plugin mode")
+             return
+        end
+
         win = window()
         wid = Qml::FileSelector.new(db)
         wid.whenValue = lambda { |x| menu.file_value(x)}
@@ -120,6 +125,7 @@ Widget {
             $remote.action("/load_xlz", val)
         elsif(opt == "setup record")
             $remote.action("/HDDRecorder/preparefile", val)
+            record.onRecordSetup()
         end
     }
     //1
@@ -130,7 +136,9 @@ Widget {
         layoutOpts: [:no_constraint]
     }
     //2
-    Record {}
+    Record {
+        id: record;
+    }
     //3
     LearnButton { 
         tooltip: "just click on a widget while in learning mode to start mapping"
