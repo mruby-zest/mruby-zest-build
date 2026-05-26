@@ -69,6 +69,14 @@ class ZRunner
         @view_pos[:subsubview] = nil
         @view_pos[:vis]        = :env
         @view_pos[:slot]       = 0
+
+        @isPlugin = false
+        @myIsPlugin = OSC::RemoteParam.new($remote, "/isPlugin")
+        @myIsPlugin.callback = lambda { |enabled| @isPlugin = enabled }
+    end
+
+    def isPlugin
+        @isPlugin
     end
 
     def search_path=(val)
