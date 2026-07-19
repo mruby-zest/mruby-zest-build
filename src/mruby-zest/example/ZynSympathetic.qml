@@ -44,12 +44,20 @@ Widget {
         Knob { extern: sym.extern + "Sympathetic/Phpf"}
     }
 
+    ParModuleRow {
+        id: inharmonicityRow
+        layoutOpts: []
+        HSlider { extern: sym.extern + "Sympathetic/Pinharmonicity"; label: "inharmonicity"}
+        HSlider { extern: sym.extern + "Sympathetic/Pbeta"; label: "beta"}
+        HSlider { extern: sym.extern + "Sympathetic/Pgamma"; label: "gamma"}
+    }
+
     function draw(vg) {
         Draw::GradBox(vg, Rect.new(0, 0, w, h))
     }
 
     function layout(l, selfBox) {
-        Draw::Layout::vfill(l, selfBox, children, [0.15,0.85])
+        Draw::Layout::vfill(l, selfBox, children, [0.15,0.55,0.30])
     }
 
     function onSetup(old=nil)

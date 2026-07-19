@@ -2744,11 +2744,11 @@
         },
         {
             "id"     : 8,
-            "value"  : "G-6"
+            "value"  : "C-6"
         },
         {
             "id"     : 9,
-            "value"  : ""
+            "value"  : "G-6"
         }
         ]
     },
@@ -11625,7 +11625,9 @@
         "tooltip"  : "Number of Strings",
         "scale"    : "linear",
         "type"     : "i",
-        "range"    : [0,76]
+        "range"    : [0,76],
+        "default"  : "12"
+
     },
     {
         "path"     : "/part[0,15]/partefx[0,2]/Sympathetic/Pbasenote",
@@ -11634,7 +11636,42 @@
         "tooltip"  : "Midi Note of Lowest String",
         "scale"    : "linear",
         "type"     : "i",
-        "range"    : [0,127]
+        "range"    : [0,127],
+        "default"  : "57"
+
+    },
+    {
+        "path"     : "/part[0,15]/partefx[0,2]/Sympathetic/Pinharmonicity",
+        "shortname": "inharmonicity",
+        "name"     : "Pinharmonicity",
+        "tooltip"  : "inharmonicity",
+        "scale"    : "linear",
+        "type"     : "i",
+        "range"    : [0,127],
+        "default"  : "0"
+
+    },
+    {
+        "path"     : "/part[0,15]/partefx[0,2]/Sympathetic/Pbeta",
+        "shortname": "beta",
+        "name"     : "Pbeta",
+        "tooltip"  : "beta",
+        "scale"    : "linear",
+        "type"     : "i",
+        "range"    : [0,127],
+        "default"  : "64"
+
+    },
+    {
+        "path"     : "/part[0,15]/partefx[0,2]/Sympathetic/Pgamma",
+        "shortname": "gamma",
+        "name"     : "Pgamma",
+        "tooltip"  : "gamma",
+        "scale"    : "linear",
+        "type"     : "i",
+        "range"    : [0,127],
+        "default"  : "64"
+
     },
     {
         "path"     : "/part[0,15]/partefx[0,2]/Sympathetic/freqs[0,87]",
@@ -14269,7 +14306,9 @@
         "tooltip"  : "Number of Strings",
         "scale"    : "linear",
         "type"     : "i",
-        "range"    : [0,76]
+        "range"    : [0,76],
+        "default"  : "12"
+
     },
     {
         "path"     : "/sysefx[0,3]/Sympathetic/Pbasenote",
@@ -14278,7 +14317,42 @@
         "tooltip"  : "Midi Note of Lowest String",
         "scale"    : "linear",
         "type"     : "i",
-        "range"    : [0,127]
+        "range"    : [0,127],
+        "default"  : "57"
+
+    },
+    {
+        "path"     : "/sysefx[0,3]/Sympathetic/Pinharmonicity",
+        "shortname": "inharmonicity",
+        "name"     : "Pinharmonicity",
+        "tooltip"  : "inharmonicity",
+        "scale"    : "linear",
+        "type"     : "i",
+        "range"    : [0,127],
+        "default"  : "0"
+
+    },
+    {
+        "path"     : "/sysefx[0,3]/Sympathetic/Pbeta",
+        "shortname": "beta",
+        "name"     : "Pbeta",
+        "tooltip"  : "beta",
+        "scale"    : "linear",
+        "type"     : "i",
+        "range"    : [0,127],
+        "default"  : "64"
+
+    },
+    {
+        "path"     : "/sysefx[0,3]/Sympathetic/Pgamma",
+        "shortname": "gamma",
+        "name"     : "Pgamma",
+        "tooltip"  : "gamma",
+        "scale"    : "linear",
+        "type"     : "i",
+        "range"    : [0,127],
+        "default"  : "64"
+
     },
     {
         "path"     : "/sysefx[0,3]/Sympathetic/freqs[0,87]",
@@ -16333,7 +16407,9 @@
         "tooltip"  : "Number of Strings",
         "scale"    : "linear",
         "type"     : "i",
-        "range"    : [0,76]
+        "range"    : [0,76],
+        "default"  : "12"
+
     },
     {
         "path"     : "/insefx[0,7]/Sympathetic/Pbasenote",
@@ -16342,7 +16418,42 @@
         "tooltip"  : "Midi Note of Lowest String",
         "scale"    : "linear",
         "type"     : "i",
-        "range"    : [0,127]
+        "range"    : [0,127],
+        "default"  : "57"
+
+    },
+    {
+        "path"     : "/insefx[0,7]/Sympathetic/Pinharmonicity",
+        "shortname": "inharmonicity",
+        "name"     : "Pinharmonicity",
+        "tooltip"  : "inharmonicity",
+        "scale"    : "linear",
+        "type"     : "i",
+        "range"    : [0,127],
+        "default"  : "0"
+
+    },
+    {
+        "path"     : "/insefx[0,7]/Sympathetic/Pbeta",
+        "shortname": "beta",
+        "name"     : "Pbeta",
+        "tooltip"  : "beta",
+        "scale"    : "linear",
+        "type"     : "i",
+        "range"    : [0,127],
+        "default"  : "64"
+
+    },
+    {
+        "path"     : "/insefx[0,7]/Sympathetic/Pgamma",
+        "shortname": "gamma",
+        "name"     : "Pgamma",
+        "tooltip"  : "gamma",
+        "scale"    : "linear",
+        "type"     : "i",
+        "range"    : [0,127],
+        "default"  : "64"
+
     },
     {
         "path"     : "/insefx[0,7]/Sympathetic/freqs[0,87]",
