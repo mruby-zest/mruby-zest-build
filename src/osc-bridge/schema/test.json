@@ -2744,11 +2744,11 @@
         },
         {
             "id"     : 8,
-            "value"  : "G-6"
+            "value"  : "C-6"
         },
         {
             "id"     : 9,
-            "value"  : ""
+            "value"  : "G-6"
         }
         ]
     },
@@ -11625,7 +11625,9 @@
         "tooltip"  : "Number of Strings",
         "scale"    : "linear",
         "type"     : "i",
-        "range"    : [0,76]
+        "range"    : [0,76],
+        "default"  : "12"
+
     },
     {
         "path"     : "/part[0,15]/partefx[0,2]/Sympathetic/Pbasenote",
@@ -11634,13 +11636,15 @@
         "tooltip"  : "Midi Note of Lowest String",
         "scale"    : "linear",
         "type"     : "i",
-        "range"    : [0,127]
+        "range"    : [0,127],
+        "default"  : "57"
+
     },
     {
         "path"     : "/part[0,15]/partefx[0,2]/Sympathetic/Pinharmonicity",
         "shortname": "inharmonicity",
         "name"     : "Pinharmonicity",
-        "tooltip"  : "Inharmonicity. 0=purely harmonic, 127=strongly inharmonic (up to 3 octaves deviation in upper registers).",
+        "tooltip"  : "inharmonicity",
         "scale"    : "linear",
         "type"     : "i",
         "range"    : [0,127],
@@ -11651,7 +11655,7 @@
         "path"     : "/part[0,15]/partefx[0,2]/Sympathetic/Pbeta",
         "shortname": "beta",
         "name"     : "Pbeta",
-        "tooltip"  : "Nonlinear semitone stretch. <64=lower strings stretched (softer), >64=upper strings stretched (metallic). Only active in Generic preset (0).",
+        "tooltip"  : "beta",
         "scale"    : "linear",
         "type"     : "i",
         "range"    : [0,127],
@@ -11662,7 +11666,7 @@
         "path"     : "/part[0,15]/partefx[0,2]/Sympathetic/Pgamma",
         "shortname": "gamma",
         "name"     : "Pgamma",
-        "tooltip"  : "Inharmonicity distribution curve. <64=spread across full range, >64=concentrated on high strings. Only active in Generic preset (0).",
+        "tooltip"  : "gamma",
         "scale"    : "linear",
         "type"     : "i",
         "range"    : [0,127],
@@ -14302,7 +14306,9 @@
         "tooltip"  : "Number of Strings",
         "scale"    : "linear",
         "type"     : "i",
-        "range"    : [0,76]
+        "range"    : [0,76],
+        "default"  : "12"
+
     },
     {
         "path"     : "/sysefx[0,3]/Sympathetic/Pbasenote",
@@ -14311,13 +14317,15 @@
         "tooltip"  : "Midi Note of Lowest String",
         "scale"    : "linear",
         "type"     : "i",
-        "range"    : [0,127]
+        "range"    : [0,127],
+        "default"  : "57"
+
     },
     {
         "path"     : "/sysefx[0,3]/Sympathetic/Pinharmonicity",
         "shortname": "inharmonicity",
         "name"     : "Pinharmonicity",
-        "tooltip"  : "Inharmonicity. 0=purely harmonic, 127=strongly inharmonic (up to 3 octaves deviation in upper registers).",
+        "tooltip"  : "inharmonicity",
         "scale"    : "linear",
         "type"     : "i",
         "range"    : [0,127],
@@ -14328,7 +14336,7 @@
         "path"     : "/sysefx[0,3]/Sympathetic/Pbeta",
         "shortname": "beta",
         "name"     : "Pbeta",
-        "tooltip"  : "Nonlinear semitone stretch. <64=lower strings stretched (softer), >64=upper strings stretched (metallic). Only active in Generic preset (0).",
+        "tooltip"  : "beta",
         "scale"    : "linear",
         "type"     : "i",
         "range"    : [0,127],
@@ -14339,7 +14347,7 @@
         "path"     : "/sysefx[0,3]/Sympathetic/Pgamma",
         "shortname": "gamma",
         "name"     : "Pgamma",
-        "tooltip"  : "Inharmonicity distribution curve. <64=spread across full range, >64=concentrated on high strings. Only active in Generic preset (0).",
+        "tooltip"  : "gamma",
         "scale"    : "linear",
         "type"     : "i",
         "range"    : [0,127],
@@ -16399,7 +16407,9 @@
         "tooltip"  : "Number of Strings",
         "scale"    : "linear",
         "type"     : "i",
-        "range"    : [0,76]
+        "range"    : [0,76],
+        "default"  : "12"
+
     },
     {
         "path"     : "/insefx[0,7]/Sympathetic/Pbasenote",
@@ -16408,13 +16418,15 @@
         "tooltip"  : "Midi Note of Lowest String",
         "scale"    : "linear",
         "type"     : "i",
-        "range"    : [0,127]
+        "range"    : [0,127],
+        "default"  : "57"
+
     },
     {
         "path"     : "/insefx[0,7]/Sympathetic/Pinharmonicity",
         "shortname": "inharmonicity",
         "name"     : "Pinharmonicity",
-        "tooltip"  : "Inharmonicity. 0=purely harmonic, 127=strongly inharmonic (up to 3 octaves deviation in upper registers).",
+        "tooltip"  : "inharmonicity",
         "scale"    : "linear",
         "type"     : "i",
         "range"    : [0,127],
@@ -16425,7 +16437,7 @@
         "path"     : "/insefx[0,7]/Sympathetic/Pbeta",
         "shortname": "beta",
         "name"     : "Pbeta",
-        "tooltip"  : "Nonlinear semitone stretch. <64=lower strings stretched (softer), >64=upper strings stretched (metallic). Only active in Generic preset (0).",
+        "tooltip"  : "beta",
         "scale"    : "linear",
         "type"     : "i",
         "range"    : [0,127],
@@ -16436,7 +16448,7 @@
         "path"     : "/insefx[0,7]/Sympathetic/Pgamma",
         "shortname": "gamma",
         "name"     : "Pgamma",
-        "tooltip"  : "Inharmonicity distribution curve. <64=spread across full range, >64=concentrated on high strings. Only active in Generic preset (0).",
+        "tooltip"  : "gamma",
         "scale"    : "linear",
         "type"     : "i",
         "range"    : [0,127],
