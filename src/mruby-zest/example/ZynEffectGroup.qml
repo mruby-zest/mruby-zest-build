@@ -227,6 +227,8 @@ Widget {
             return Qml::ZynSympathetic.new(db)
         elsif(type == :reverse)
             return Qml::ZynReverse.new(db)
+        elsif(type == :pitchdrop)
+            return Qml::ZynPitchDrop.new(db)
         else
             col = Qml::ColorBox.new(db)
             col.bg = color(:red)
@@ -246,7 +248,8 @@ Widget {
                   7=>:eq,
                   8=>:dynamicfilter,
                   9=>:sympathetic,
-                  10=>:reverse}
+                  10=>:reverse,
+                  11=>:pitchdrop}
         mapper[type]
     }
 
@@ -261,7 +264,8 @@ Widget {
                   :phaser => 2,
                   :sympathetic => 1,
                   :reverb => 1,
-                  :reverse => 1}
+                  :reverse => 1,
+                  :pitchdrop => 1}
         mapper[type]
     }
 
