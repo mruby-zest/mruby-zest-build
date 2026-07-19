@@ -11637,6 +11637,39 @@
         "range"    : [0,127]
     },
     {
+        "path"     : "/part[0,15]/partefx[0,2]/Sympathetic/Pcontact",
+        "shortname": "contact",
+        "name"     : "Pcontact",
+        "tooltip"  : "Contact distance from string. 0=no contact, 127=finger touches string (max sensitivity). Inverted internally (127-value).",
+        "scale"    : "linear",
+        "type"     : "i",
+        "range"    : [0,127],
+        "default"  : "64"
+
+    },
+    {
+        "path"     : "/part[0,15]/partefx[0,2]/Sympathetic/Pstrength",
+        "shortname": "strength",
+        "name"     : "Pstrength",
+        "tooltip"  : "Material hardness. 0=soft (no feedback), 127=hard (max energy transfer).",
+        "scale"    : "linear",
+        "type"     : "i",
+        "range"    : [0,127],
+        "default"  : "0"
+
+    },
+    {
+        "path"     : "/part[0,15]/partefx[0,2]/Sympathetic/Pcpos",
+        "shortname": "cpos",
+        "name"     : "Pcpos",
+        "tooltip"  : "Contact point position on string. 0=bridge, 127=middle of string.",
+        "scale"    : "linear",
+        "type"     : "i",
+        "range"    : [0,127],
+        "default"  : "64"
+
+    },
+    {
         "path"     : "/part[0,15]/partefx[0,2]/Sympathetic/freqs[0,87]",
         "name"     : "freqs#88",
         "tooltip"  : "String Frequencies",
@@ -14281,6 +14314,39 @@
         "range"    : [0,127]
     },
     {
+        "path"     : "/sysefx[0,3]/Sympathetic/Pcontact",
+        "shortname": "contact",
+        "name"     : "Pcontact",
+        "tooltip"  : "Contact distance from string. 0=no contact, 127=finger touches string (max sensitivity). Inverted internally (127-value).",
+        "scale"    : "linear",
+        "type"     : "i",
+        "range"    : [0,127],
+        "default"  : "64"
+
+    },
+    {
+        "path"     : "/sysefx[0,3]/Sympathetic/Pstrength",
+        "shortname": "strength",
+        "name"     : "Pstrength",
+        "tooltip"  : "Material hardness. 0=soft (no feedback), 127=hard (max energy transfer).",
+        "scale"    : "linear",
+        "type"     : "i",
+        "range"    : [0,127],
+        "default"  : "0"
+
+    },
+    {
+        "path"     : "/sysefx[0,3]/Sympathetic/Pcpos",
+        "shortname": "cpos",
+        "name"     : "Pcpos",
+        "tooltip"  : "Contact point position on string. 0=bridge, 127=middle of string.",
+        "scale"    : "linear",
+        "type"     : "i",
+        "range"    : [0,127],
+        "default"  : "64"
+
+    },
+    {
         "path"     : "/sysefx[0,3]/Sympathetic/freqs[0,87]",
         "name"     : "freqs#88",
         "tooltip"  : "String Frequencies",
@@ -16343,6 +16409,39 @@
         "scale"    : "linear",
         "type"     : "i",
         "range"    : [0,127]
+    },
+    {
+        "path"     : "/insefx[0,7]/Sympathetic/Pcontact",
+        "shortname": "contact",
+        "name"     : "Pcontact",
+        "tooltip"  : "Contact distance from string. 0=no contact, 127=finger touches string (max sensitivity). Inverted internally (127-value).",
+        "scale"    : "linear",
+        "type"     : "i",
+        "range"    : [0,127],
+        "default"  : "64"
+
+    },
+    {
+        "path"     : "/insefx[0,7]/Sympathetic/Pstrength",
+        "shortname": "strength",
+        "name"     : "Pstrength",
+        "tooltip"  : "Material hardness. 0=soft (no feedback), 127=hard (max energy transfer).",
+        "scale"    : "linear",
+        "type"     : "i",
+        "range"    : [0,127],
+        "default"  : "0"
+
+    },
+    {
+        "path"     : "/insefx[0,7]/Sympathetic/Pcpos",
+        "shortname": "cpos",
+        "name"     : "Pcpos",
+        "tooltip"  : "Contact point position on string. 0=bridge, 127=middle of string.",
+        "scale"    : "linear",
+        "type"     : "i",
+        "range"    : [0,127],
+        "default"  : "64"
+
     },
     {
         "path"     : "/insefx[0,7]/Sympathetic/freqs[0,87]",
