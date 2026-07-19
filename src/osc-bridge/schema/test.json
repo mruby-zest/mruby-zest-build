@@ -11637,9 +11637,9 @@
         "range"    : [0,127]
     },
     {
-        "path"     : "/part[0,15]/partefx[0,2]/Sympathetic/Pcontact",
+        "path"     : "/part[0,15]/partefx[0,2]/Sympathetic/PcontactDist",
         "shortname": "contact",
-        "name"     : "Pcontact",
+        "name"     : "PcontactDist",
         "tooltip"  : "Contact distance from string. 0=no contact, 127=finger touches string (max sensitivity). Inverted internally (127-value).",
         "scale"    : "linear",
         "type"     : "i",
@@ -11648,9 +11648,9 @@
 
     },
     {
-        "path"     : "/part[0,15]/partefx[0,2]/Sympathetic/Pstrength",
+        "path"     : "/part[0,15]/partefx[0,2]/Sympathetic/PcontactStrength",
         "shortname": "strength",
-        "name"     : "Pstrength",
+        "name"     : "PcontactStrength",
         "tooltip"  : "Material hardness. 0=soft (no feedback), 127=hard (max energy transfer).",
         "scale"    : "linear",
         "type"     : "i",
@@ -11659,9 +11659,9 @@
 
     },
     {
-        "path"     : "/part[0,15]/partefx[0,2]/Sympathetic/Pcpos",
+        "path"     : "/part[0,15]/partefx[0,2]/Sympathetic/PcontactPos",
         "shortname": "cpos",
-        "name"     : "Pcpos",
+        "name"     : "PcontactPos",
         "tooltip"  : "Contact point position on string. 0=bridge, 127=middle of string.",
         "scale"    : "linear",
         "type"     : "i",
@@ -14314,9 +14314,9 @@
         "range"    : [0,127]
     },
     {
-        "path"     : "/sysefx[0,3]/Sympathetic/Pcontact",
+        "path"     : "/sysefx[0,3]/Sympathetic/PcontactDist",
         "shortname": "contact",
-        "name"     : "Pcontact",
+        "name"     : "PcontactDist",
         "tooltip"  : "Contact distance from string. 0=no contact, 127=finger touches string (max sensitivity). Inverted internally (127-value).",
         "scale"    : "linear",
         "type"     : "i",
@@ -14325,9 +14325,9 @@
 
     },
     {
-        "path"     : "/sysefx[0,3]/Sympathetic/Pstrength",
+        "path"     : "/sysefx[0,3]/Sympathetic/PcontactStrength",
         "shortname": "strength",
-        "name"     : "Pstrength",
+        "name"     : "PcontactStrength",
         "tooltip"  : "Material hardness. 0=soft (no feedback), 127=hard (max energy transfer).",
         "scale"    : "linear",
         "type"     : "i",
@@ -14336,9 +14336,9 @@
 
     },
     {
-        "path"     : "/sysefx[0,3]/Sympathetic/Pcpos",
+        "path"     : "/sysefx[0,3]/Sympathetic/PcontactPos",
         "shortname": "cpos",
-        "name"     : "Pcpos",
+        "name"     : "PcontactPos",
         "tooltip"  : "Contact point position on string. 0=bridge, 127=middle of string.",
         "scale"    : "linear",
         "type"     : "i",
@@ -16411,9 +16411,9 @@
         "range"    : [0,127]
     },
     {
-        "path"     : "/insefx[0,7]/Sympathetic/Pcontact",
+        "path"     : "/insefx[0,7]/Sympathetic/PcontactDist",
         "shortname": "contact",
-        "name"     : "Pcontact",
+        "name"     : "PcontactDist",
         "tooltip"  : "Contact distance from string. 0=no contact, 127=finger touches string (max sensitivity). Inverted internally (127-value).",
         "scale"    : "linear",
         "type"     : "i",
@@ -16422,9 +16422,9 @@
 
     },
     {
-        "path"     : "/insefx[0,7]/Sympathetic/Pstrength",
+        "path"     : "/insefx[0,7]/Sympathetic/PcontactStrength",
         "shortname": "strength",
-        "name"     : "Pstrength",
+        "name"     : "PcontactStrength",
         "tooltip"  : "Material hardness. 0=soft (no feedback), 127=hard (max energy transfer).",
         "scale"    : "linear",
         "type"     : "i",
@@ -16433,9 +16433,9 @@
 
     },
     {
-        "path"     : "/insefx[0,7]/Sympathetic/Pcpos",
+        "path"     : "/insefx[0,7]/Sympathetic/PcontactPos",
         "shortname": "cpos",
-        "name"     : "Pcpos",
+        "name"     : "PcontactPos",
         "tooltip"  : "Contact point position on string. 0=bridge, 127=middle of string.",
         "scale"    : "linear",
         "type"     : "i",

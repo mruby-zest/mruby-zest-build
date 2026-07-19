@@ -47,9 +47,9 @@ Widget {
     ParModuleRow {
         id: contactRow
         layoutOpts: []
-        HSlider { extern: sym.extern + "Sympathetic/Pcontact"; label: "contact"}
-        HSlider { extern: sym.extern + "Sympathetic/Pstrength"; label: "strength"}
-        HSlider { extern: sym.extern + "Sympathetic/Pcpos"; label: "cpos"}
+        HSlider { extern: sym.extern + "Sympathetic/PcontactDist"; label: "contact"}
+        HSlider { extern: sym.extern + "Sympathetic/PcontactStrength"; label: "strength"}
+        HSlider { extern: sym.extern + "Sympathetic/PcontactPos"; label: "cpos"}
     }
 
     function draw(vg) {
