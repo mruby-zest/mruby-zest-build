@@ -11637,6 +11637,39 @@
         "range"    : [0,127]
     },
     {
+        "path"     : "/part[0,15]/partefx[0,2]/Sympathetic/Pinharmonicity",
+        "shortname": "inharmonicity",
+        "name"     : "Pinharmonicity",
+        "tooltip"  : "Inharmonicity. 0=purely harmonic, 127=strongly inharmonic (up to 3 octaves deviation in upper registers).",
+        "scale"    : "linear",
+        "type"     : "i",
+        "range"    : [0,127],
+        "default"  : "0"
+
+    },
+    {
+        "path"     : "/part[0,15]/partefx[0,2]/Sympathetic/Pbeta",
+        "shortname": "beta",
+        "name"     : "Pbeta",
+        "tooltip"  : "Nonlinear semitone stretch. <64=lower strings stretched (softer), >64=upper strings stretched (metallic). Only active in Generic preset (0).",
+        "scale"    : "linear",
+        "type"     : "i",
+        "range"    : [0,127],
+        "default"  : "64"
+
+    },
+    {
+        "path"     : "/part[0,15]/partefx[0,2]/Sympathetic/Pgamma",
+        "shortname": "gamma",
+        "name"     : "Pgamma",
+        "tooltip"  : "Inharmonicity distribution curve. <64=spread across full range, >64=concentrated on high strings. Only active in Generic preset (0).",
+        "scale"    : "linear",
+        "type"     : "i",
+        "range"    : [0,127],
+        "default"  : "64"
+
+    },
+    {
         "path"     : "/part[0,15]/partefx[0,2]/Sympathetic/freqs[0,87]",
         "name"     : "freqs#88",
         "tooltip"  : "String Frequencies",
@@ -14281,6 +14314,39 @@
         "range"    : [0,127]
     },
     {
+        "path"     : "/sysefx[0,3]/Sympathetic/Pinharmonicity",
+        "shortname": "inharmonicity",
+        "name"     : "Pinharmonicity",
+        "tooltip"  : "Inharmonicity. 0=purely harmonic, 127=strongly inharmonic (up to 3 octaves deviation in upper registers).",
+        "scale"    : "linear",
+        "type"     : "i",
+        "range"    : [0,127],
+        "default"  : "0"
+
+    },
+    {
+        "path"     : "/sysefx[0,3]/Sympathetic/Pbeta",
+        "shortname": "beta",
+        "name"     : "Pbeta",
+        "tooltip"  : "Nonlinear semitone stretch. <64=lower strings stretched (softer), >64=upper strings stretched (metallic). Only active in Generic preset (0).",
+        "scale"    : "linear",
+        "type"     : "i",
+        "range"    : [0,127],
+        "default"  : "64"
+
+    },
+    {
+        "path"     : "/sysefx[0,3]/Sympathetic/Pgamma",
+        "shortname": "gamma",
+        "name"     : "Pgamma",
+        "tooltip"  : "Inharmonicity distribution curve. <64=spread across full range, >64=concentrated on high strings. Only active in Generic preset (0).",
+        "scale"    : "linear",
+        "type"     : "i",
+        "range"    : [0,127],
+        "default"  : "64"
+
+    },
+    {
         "path"     : "/sysefx[0,3]/Sympathetic/freqs[0,87]",
         "name"     : "freqs#88",
         "tooltip"  : "String Frequencies",
@@ -16343,6 +16409,39 @@
         "scale"    : "linear",
         "type"     : "i",
         "range"    : [0,127]
+    },
+    {
+        "path"     : "/insefx[0,7]/Sympathetic/Pinharmonicity",
+        "shortname": "inharmonicity",
+        "name"     : "Pinharmonicity",
+        "tooltip"  : "Inharmonicity. 0=purely harmonic, 127=strongly inharmonic (up to 3 octaves deviation in upper registers).",
+        "scale"    : "linear",
+        "type"     : "i",
+        "range"    : [0,127],
+        "default"  : "0"
+
+    },
+    {
+        "path"     : "/insefx[0,7]/Sympathetic/Pbeta",
+        "shortname": "beta",
+        "name"     : "Pbeta",
+        "tooltip"  : "Nonlinear semitone stretch. <64=lower strings stretched (softer), >64=upper strings stretched (metallic). Only active in Generic preset (0).",
+        "scale"    : "linear",
+        "type"     : "i",
+        "range"    : [0,127],
+        "default"  : "64"
+
+    },
+    {
+        "path"     : "/insefx[0,7]/Sympathetic/Pgamma",
+        "shortname": "gamma",
+        "name"     : "Pgamma",
+        "tooltip"  : "Inharmonicity distribution curve. <64=spread across full range, >64=concentrated on high strings. Only active in Generic preset (0).",
+        "scale"    : "linear",
+        "type"     : "i",
+        "range"    : [0,127],
+        "default"  : "64"
+
     },
     {
         "path"     : "/insefx[0,7]/Sympathetic/freqs[0,87]",
