@@ -6,7 +6,7 @@ Widget {
     property Float fixedpad: 0
     property Float phase: 0
     property Bool  ignore_phase: false
-    property Bool under_highlight: false
+    property Float under_highlight: Draw::PlotHighlight::NONE
 
     function class_name() { "DataView" }
 
@@ -26,11 +26,11 @@ Widget {
             Draw::WaveForm::plot(vg, self.data, box, normal, vphase, under_highlight)
 
         elsif(data.class == Array && data[0] == 0 && data[5] == 0)
-            Draw::WaveForm::plot(vg, self.data, box, false, vphase)
+            Draw::WaveForm::plot(vg, self.data, box, false, vphase, under_highlight)
 
         elsif(data.class == Array && data[0].class == Array)
-            Draw::WaveForm::plot(vg, self.data[0], box, normal, vphase)
-            Draw::WaveForm::plot(vg, self.data[1], box, normal, vphase)
+            Draw::WaveForm::plot(vg, self.data[0], box, normal, vphase, under_highlight)
+            Draw::WaveForm::plot(vg, self.data[1], box, normal, vphase, under_highlight)
 
         else
             Draw::WaveForm::sin(vg, box)
