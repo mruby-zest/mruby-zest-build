@@ -1,5 +1,11 @@
 
 module Draw
+    module PlotHighlight
+        NONE = 0
+        UNIDIRECTIONAL = 1
+        BIDIRECTIONAL = 2
+    end
+
     module WaveForm
         def self.sin(vg, bb, pts=128)
             xpts = Draw::DSP::linspace(0,1,pts)
@@ -15,8 +21,8 @@ module Draw
             end
         end
 
-        def self.plot(vg, ypts, bb, do_norm=true, phase=0, under_highlight=false)
-            Draw::opt_plot(vg, ypts, bb, do_norm, phase, under_highlight)
+        def self.plot(vg, ypts, bb, do_norm=true, phase=0, plot_highlight=Draw::PlotHighlight::NONE)
+            Draw::opt_plot(vg, ypts, bb, do_norm, phase, plot_highlight)
             return
             ypts = DSP::normalize(ypts) if do_norm
             #xpts = Draw::DSP::linspace(0,1,ypts.length)

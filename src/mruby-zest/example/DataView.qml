@@ -6,7 +6,7 @@ Widget {
     property Float fixedpad: 0
     property Float phase: 0
     property Bool  ignore_phase: false
-    property Bool under_highlight: false
+    property Float under_highlight: Draw::PlotHighlight::NONE
 
     function class_name() { "DataView" }
 
