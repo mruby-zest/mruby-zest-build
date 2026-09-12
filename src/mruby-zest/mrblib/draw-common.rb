@@ -798,8 +798,8 @@ module Theme
     HighlightGrad1      = NVG.rgba(16, 59, 79, 0)
     HighlightGrad2      = NVG.rgba(16, 59, 79, 255)
 
-    FilterHighlight1    = color("0ac5ff", 85)
-    FilterHighlight2    = color("0ac5ff", 165)
+    FilterHighlight1    = color("0a4d70", 0)
+    FilterHighlight2    = color("0a4d70", 200)
 
     GridLine            = color("253743")
 
