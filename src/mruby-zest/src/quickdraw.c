@@ -151,7 +151,7 @@ draw_oscil_plot_unidirectional_highlight(mrb_state *mrb, mrb_value *nvg, const f
             mrb_float_value(mrb, bound->x),
             mrb_float_value(mrb, bound->bottom),
             mrb_float_value(mrb, bound->x),
-            mrb_float_value(mrb, bound->center_y),
+            mrb_float_value(mrb, bound->y),
             highlight_grad_1,
             highlight_grad_2);
 
