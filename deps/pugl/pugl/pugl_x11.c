@@ -1633,6 +1633,7 @@ puglProcessEvents(PuglView* view)
 		expose_event.expose.y          = 0;
 		expose_event.expose.width      = view->width;
 		expose_event.expose.height     = view->height;
+		expose_event.expose.count      = 0;
 		view->redisplay                = false;
 	}
 
