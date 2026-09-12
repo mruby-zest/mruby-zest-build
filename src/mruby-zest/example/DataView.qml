@@ -26,11 +26,11 @@ Widget {
             Draw::WaveForm::plot(vg, self.data, box, normal, vphase, under_highlight)
 
         elsif(data.class == Array && data[0] == 0 && data[5] == 0)
-            Draw::WaveForm::plot(vg, self.data, box, false, vphase, under_highlight)
+            Draw::WaveForm::plot(vg, self.data, box, false, vphase)
 
         elsif(data.class == Array && data[0].class == Array)
-            Draw::WaveForm::plot(vg, self.data[0], box, normal, vphase, under_highlight)
-            Draw::WaveForm::plot(vg, self.data[1], box, normal, vphase, under_highlight)
+            Draw::WaveForm::plot(vg, self.data[0], box, normal, vphase)
+            Draw::WaveForm::plot(vg, self.data[1], box, normal, vphase)
 
         else
             Draw::WaveForm::sin(vg, box)
