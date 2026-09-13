@@ -51,32 +51,31 @@ Widget {
             ypoints = xpoints.map {|x| 2*Math.exp(-x**2/0.1)-1 }
         end
 
-        Draw::WaveForm::plot(vg, ypoints, box)
+        ypoints = ypoints.map {|x| if x < -0.9925 then -0.9925 else x end}
 
-        vg.path do |v|
-            v.move_to(0.5*w+vline*w, h*pad)
-            v.line_to(0.5*w+vline*w, h*pad2)
-            v.move_to(0.5*w-vline*w, h*pad)
-            v.line_to(0.5*w-vline*w, h*pad2)
-            v.stroke_color Theme::VisualStroke
-            v.stroke
-        end
+        paint = vg.linear_gradient(0.5*w-vline*w, h*pad2 - h*pad, 0.5*w-vline*w, h*pad, Theme::HighlightGrad1, Theme::HighlightGrad2)
 
+        # Rectangle between the vertical lines
         vg.path do |v|
             v.rect(0.5*w-vline*w, h*pad, 2*vline*w, h*pad2)
-            v.fill_color Theme::VisualLightFill
+            v.fill_paint paint
             v.fill
         end
+
+        # Plot
+        Draw::WaveForm::plot(vg, ypoints, box, true, 0, 1)
+
+        # Vertical lines
         vg.path do |v|
-            v.move_to(pad*w, h*(pad+pad2))
-            n = ypoints.length
-            ypoints.each_with_index do |y, i|
-                v.line_to(pad*w+pad2*w*i*1.0/n, (1.0-y)/2*h)
-            end
-            v.line_to((pad+pad2)*w,(pad+pad2)*h)
-            v.close_path
-            v.fill_color Theme::VisualLightFill
-            v.fill
+            v.translate(0.5, 0.5)
+            v.move_to(0.5*w+vline*w, box.y)
+            v.line_to(0.5*w+vline*w, box.y + box.h)
+            v.move_to(0.5*w-vline*w, box.y)
+            v.line_to(0.5*w-vline*w, box.y + box.h)
+            v.stroke_color Theme::HarmonicColor
+            v.stroke_width 1
+            v.stroke
+            v.translate(-0.5, -0.5)
         end
     }
 }
