@@ -68,13 +68,14 @@ Widget {
         # Vertical lines
         vg.path do |v|
             v.translate(0.5, 0.5)
-            v.move_to(0.5*w+vline*w, box.y)
-            v.line_to(0.5*w+vline*w, box.y + box.h)
-            v.move_to(0.5*w-vline*w, box.y)
-            v.line_to(0.5*w-vline*w, box.y + box.h)
+            v.move_to((0.5*w+vline*w).round(), box.y)
+            v.line_to((0.5*w+vline*w).round(), box.y + box.h - 2)
+            v.move_to((0.5*w-vline*w).round(), box.y)
+            v.line_to((0.5*w-vline*w).round(), box.y + box.h - 2)
             v.stroke_color Theme::HarmonicColor
             v.stroke_width 1
             v.stroke
+            v.line_cap(NVG::SQUARE);
             v.translate(-0.5, -0.5)
         end
     }
